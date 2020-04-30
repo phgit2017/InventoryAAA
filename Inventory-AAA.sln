@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventory-AAA", "Inventory-AAA\Inventory-AAA.csproj", "{D6190F8F-28E7-4981-9BFC-3401B9BD4B60}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 AAA-DataAccess", "01 AAA-DataAccess", "{A5F64CB2-BBE3-4AC1-92A5-E73D2CB12066}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 AAA-Implementation", "02 AAA-Implementation", "{94B4653D-047D-4454-9513-3CBBC199C222}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Database.InventoryAAA", "DataAccess.Database.InventoryAAA\DataAccess.Database.InventoryAAA.csproj", "{37CBCD82-84A7-4386-9A9F-49C067CC8C82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Entities.Context", "DataAccess.Entities.Context\DataAccess.Entities.Context.csproj", "{109588D8-35B9-46E9-902F-DE2B25C450F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Repository.InventoryAAA", "DataAccess.Repository.InventoryAAA\DataAccess.Repository.InventoryAAA.csproj", "{6A40D41B-B3A9-4743-B652-06DD85AB2576}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.AAA.Core", "Business.AAA.Core\Business.AAA.Core.csproj", "{91607DA9-8FF5-45F7-B44B-17050BB23D93}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6190F8F-28E7-4981-9BFC-3401B9BD4B60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6190F8F-28E7-4981-9BFC-3401B9BD4B60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6190F8F-28E7-4981-9BFC-3401B9BD4B60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6190F8F-28E7-4981-9BFC-3401B9BD4B60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37CBCD82-84A7-4386-9A9F-49C067CC8C82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37CBCD82-84A7-4386-9A9F-49C067CC8C82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37CBCD82-84A7-4386-9A9F-49C067CC8C82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37CBCD82-84A7-4386-9A9F-49C067CC8C82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{109588D8-35B9-46E9-902F-DE2B25C450F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{109588D8-35B9-46E9-902F-DE2B25C450F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{109588D8-35B9-46E9-902F-DE2B25C450F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{109588D8-35B9-46E9-902F-DE2B25C450F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A40D41B-B3A9-4743-B652-06DD85AB2576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A40D41B-B3A9-4743-B652-06DD85AB2576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A40D41B-B3A9-4743-B652-06DD85AB2576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A40D41B-B3A9-4743-B652-06DD85AB2576}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91607DA9-8FF5-45F7-B44B-17050BB23D93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91607DA9-8FF5-45F7-B44B-17050BB23D93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91607DA9-8FF5-45F7-B44B-17050BB23D93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91607DA9-8FF5-45F7-B44B-17050BB23D93}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{37CBCD82-84A7-4386-9A9F-49C067CC8C82} = {A5F64CB2-BBE3-4AC1-92A5-E73D2CB12066}
+		{109588D8-35B9-46E9-902F-DE2B25C450F0} = {A5F64CB2-BBE3-4AC1-92A5-E73D2CB12066}
+		{6A40D41B-B3A9-4743-B652-06DD85AB2576} = {A5F64CB2-BBE3-4AC1-92A5-E73D2CB12066}
+		{91607DA9-8FF5-45F7-B44B-17050BB23D93} = {94B4653D-047D-4454-9513-3CBBC199C222}
+	EndGlobalSection
+EndGlobal
