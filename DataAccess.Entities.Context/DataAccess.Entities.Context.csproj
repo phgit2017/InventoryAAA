@@ -58,6 +58,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess.Database.InventoryAAA\DataAccess.Database.InventoryAAA.csproj">
+      <Project>{37CBCD82-84A7-4386-9A9F-49C067CC8C82}</Project>
+      <Name>DataAccess.Database.InventoryAAA</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
