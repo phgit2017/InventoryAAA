@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Repository.Inven
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business.AAA.Core", "Business.AAA.Core\Business.AAA.Core.csproj", "{91607DA9-8FF5-45F7-B44B-17050BB23D93}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 Tools", "03 Tools", "{C5A950EA-C067-40C7-A27A-6B20CAB3ED79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Utilities", "Infrastructure.Utilities\Infrastructure.Utilities.csproj", "{D2D994D1-CB60-448F-9E0B-237FB3A4ACDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,10 @@ Global
 		{91607DA9-8FF5-45F7-B44B-17050BB23D93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91607DA9-8FF5-45F7-B44B-17050BB23D93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91607DA9-8FF5-45F7-B44B-17050BB23D93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2D994D1-CB60-448F-9E0B-237FB3A4ACDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2D994D1-CB60-448F-9E0B-237FB3A4ACDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2D994D1-CB60-448F-9E0B-237FB3A4ACDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2D994D1-CB60-448F-9E0B-237FB3A4ACDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,5 +60,9 @@ Global
 		{109588D8-35B9-46E9-902F-DE2B25C450F0} = {A5F64CB2-BBE3-4AC1-92A5-E73D2CB12066}
 		{6A40D41B-B3A9-4743-B652-06DD85AB2576} = {A5F64CB2-BBE3-4AC1-92A5-E73D2CB12066}
 		{91607DA9-8FF5-45F7-B44B-17050BB23D93} = {94B4653D-047D-4454-9513-3CBBC199C222}
+		{D2D994D1-CB60-448F-9E0B-237FB3A4ACDE} = {C5A950EA-C067-40C7-A27A-6B20CAB3ED79}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {95066AE8-C323-4E4F-975D-3744F46FD526}
 	EndGlobalSection
 EndGlobal

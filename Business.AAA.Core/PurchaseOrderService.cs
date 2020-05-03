@@ -51,7 +51,9 @@ namespace Business.AAA.Core
                 PurchaseOrderId = 0,
                 PurchaseOrderTypeId = LookupKey.OrderType.Single,
                 TotalAmount = orderTransactionRequest.TotalAmount,
-                TotalQuantity = orderTransactionRequest.TotalQuantity
+                TotalQuantity = orderTransactionRequest.TotalQuantity,
+                CreatedBy = orderTransactionRequest.CreatedBy,
+                CreatedTime = DateTime.Now
             };
 
             purchaseOrderId = _orderServices.SavePurchaseOrder(purchaseOrderRequest);
@@ -98,7 +100,7 @@ namespace Business.AAA.Core
                         IsActive = productDetailResult.IsActive,
                         CreatedBy = productDetailResult.CreatedBy,
                         CreatedTime = productDetailResult.CreatedTime,
-                        ModifiedBy = orderDetail.ModifiedBy,
+                        ModifiedBy = orderDetail.CreatedBy,
                         ModifiedTime = DateTime.Now
                     };
 

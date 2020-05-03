@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+using Business.AAA.Core;
+using Business.AAA.Core.Dto;
+using Business.AAA.Core.Interface;
+
+namespace Inventory_AAA.Controllers
+{
+    public class ReportController : Controller
+    {
+        // GET: Report
+        public ActionResult Index()
+        {
+            return View();
+        }
+    }
+}

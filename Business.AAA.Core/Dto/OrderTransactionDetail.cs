@@ -1,24 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Business.AAA.Core.Dto
 {
-    public class OrderTransactionDetail
+    public class OrderRequest
     {
+        public long ProductId { get; set; }
+
+        [Required]
+        public string ProductCode { get; set; }
+
+        public string ProductDescription { get; set; }
+
+        public decimal Stocks { get; set; }
+
+        public decimal UnitPrice { get; set; }
+
+        public int OrderTransactionType { get; set; }
+
+        public bool IsActive { get; set; }
+
     }
 
     public class OrderTransactionRequest : BaseDetail
     {
-        public long OrderID { get; set; }
+        public long OrderId { get; set; }
 
         public decimal TotalQuantity { get; set; }
 
         public decimal TotalAmount { get; set; }
 
-        public int OrderTypeID { get; set; }
+        public int OrderTypeId { get; set; }
     }
 
     public class OrderTransactionDetailRequest : BaseDetail

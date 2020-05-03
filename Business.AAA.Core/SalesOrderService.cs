@@ -50,7 +50,9 @@ namespace Business.AAA.Core
                 SalesOrderId = 0,
                 SalesOrderTypeId = LookupKey.OrderType.Single,
                 TotalAmount = orderTransactionRequest.TotalAmount,
-                TotalQuantity = orderTransactionRequest.TotalQuantity
+                TotalQuantity = orderTransactionRequest.TotalQuantity,
+                CreatedBy = orderTransactionRequest.CreatedBy,
+                CreatedTime = DateTime.Now
             };
 
             salesOrderId = _orderServices.SaveSalesOrder(salesOrderRequest);
@@ -76,7 +78,7 @@ namespace Business.AAA.Core
                     IsActive = productDetailResult.IsActive,
                     CreatedBy = productDetailResult.CreatedBy,
                     CreatedTime = productDetailResult.CreatedTime,
-                    ModifiedBy = orderDetail.ModifiedBy,
+                    ModifiedBy = orderDetail.CreatedBy,
                     ModifiedTime = DateTime.Now
                 };
                 var isProductUpdated = _productServices.UpdateDetails(productDetailRequest);

@@ -12,7 +12,7 @@ namespace DataAccess.Entities.Context
     public class AAAInventoryEntities : System.Data.Entity.DbContext, IAAAInventoryEntities
     {
         public AAAInventoryEntities()
-            : base("name=")
+            : base("name=AAAInventoryEntities")
         { }
 
         public virtual DbSet<OrderType> OrderTypes { get; set; }

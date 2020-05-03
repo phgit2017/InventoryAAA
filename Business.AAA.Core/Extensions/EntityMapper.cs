@@ -67,7 +67,7 @@ namespace Business.AAA.Core.Extensions
                 entity = new dbentities.PurchaseOrder
                 {
                     PurchaseOrderID = request.PurchaseOrderId,
-                    PurchaseOrderTypeID = request.PurchaseOrderTypeId,
+                    OrderTypeID = request.PurchaseOrderTypeId,
                     TotalQuantity = request.TotalQuantity,
                     TotalAmount = request.TotalAmount,
                     CreatedBy = request.CreatedBy,
@@ -133,7 +133,7 @@ namespace Business.AAA.Core.Extensions
                 entity = new dbentities.SalesOrder
                 {
                     SalesOrderID = request.SalesOrderId,
-                    SalesOrderTypeID = request.SalesOrderTypeId,
+                    OrderTypeID = request.SalesOrderTypeId,
                     TotalQuantity = request.TotalQuantity,
                     TotalAmount = request.TotalAmount,
                     CreatedBy = request.CreatedBy,

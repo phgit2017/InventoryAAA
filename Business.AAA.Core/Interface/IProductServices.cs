@@ -14,5 +14,7 @@ namespace Business.AAA.Core.Interface
         long SaveDetails(ProductDetailRequest request);
         bool UpdateDetails(ProductDetailRequest request);
         long SaveProductLogs(ProductLogDetailRequest request);
+        List<StocksSummary> RetrieveInventorySummary();
+        List<StocksDetails> RetrieveInventoryDetails(StocksDetailsRequest request);
     }
 }

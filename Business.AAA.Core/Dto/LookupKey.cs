@@ -13,5 +13,11 @@ namespace Business.AAA.Core.Dto
             public const int Single = 1;
             public const int Batch = 2;
         }
+
+        public static class OrderTransactionType
+        {
+            public const int PurchaseOrder = 0;
+            public const int SalesOrder = 1;
+        }
     }
 }

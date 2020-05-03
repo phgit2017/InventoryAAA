@@ -86,7 +86,7 @@ namespace Business.AAA.Core
                          select new PurchaseOrders()
                          {
                              PurchaseOrderId = det.PurchaseOrderID,
-                             PurchaseOrderTypeId = det.PurchaseOrderTypeID,
+                             PurchaseOrderTypeId = det.OrderTypeID,
                              TotalQuantity = det.TotalQuantity,
                              TotalAmount = det.TotalAmount,
                              CreatedBy = det.CreatedBy,
@@ -94,7 +94,7 @@ namespace Business.AAA.Core
                              ModifiedBy = det.ModifiedBy,
                              ModifiedTime = det.ModifiedTime,
 
-                             OrderTypes = orderTypeResult.Where(ot => ot.OrderTypeId == det.PurchaseOrderTypeID).FirstOrDefault()
+                             OrderTypes = orderTypeResult.Where(ot => ot.OrderTypeId == det.OrderTypeID).FirstOrDefault()
                          };
 
             return result;
@@ -132,7 +132,7 @@ namespace Business.AAA.Core
                          select new SalesOrders()
                          {
                              SalesOrderId = det.SalesOrderID,
-                             SalesOrderTypeId = det.SalesOrderTypeID,
+                             SalesOrderTypeId = det.OrderTypeID,
                              TotalQuantity = det.TotalQuantity,
                              TotalAmount = det.TotalAmount,
                              CreatedBy = det.CreatedBy,
@@ -140,7 +140,7 @@ namespace Business.AAA.Core
                              ModifiedBy = det.ModifiedBy,
                              ModifiedTime = det.ModifiedTime,
 
-                             OrderTypes = orderTypeResult.Where(ot => ot.OrderTypeId == det.SalesOrderTypeID).FirstOrDefault()
+                             OrderTypes = orderTypeResult.Where(ot => ot.OrderTypeId == det.OrderTypeID).FirstOrDefault()
                          };
 
             return result;

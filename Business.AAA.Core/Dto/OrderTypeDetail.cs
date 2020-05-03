@@ -15,4 +15,11 @@ namespace Business.AAA.Core.Dto
         [StringLength(16)]
         public string OrderTypeName { get; set; }
     }
+
+    public class OrderTypeActionDetail
+    {
+        public int OrderId { get; set; }
+
+        public string OrderActionName { get; set; }
+    }
 }

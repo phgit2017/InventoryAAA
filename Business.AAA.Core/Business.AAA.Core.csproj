@@ -10,10 +10,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Business.AAA.Core</RootNamespace>
     <AssemblyName>Business.AAA.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,11 +52,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dto\BaseDetail.cs" />
+    <Compile Include="Dto\InventoryDetail.cs" />
     <Compile Include="Dto\LookupKey.cs" />
     <Compile Include="Dto\OrderDetail.cs" />
     <Compile Include="Dto\OrderTransactionDetail.cs" />
     <Compile Include="Dto\OrderTypeDetail.cs" />
     <Compile Include="Dto\ProductDetail.cs" />
+    <Compile Include="Dto\ReportDetail.cs" />
     <Compile Include="Extensions\EntityMapper.cs" />
     <Compile Include="Interface\IOrderServices.cs" />
     <Compile Include="Interface\IOrderTransactionalServices.cs" />
@@ -81,6 +84,10 @@
     <ProjectReference Include="..\DataAccess.Repository.InventoryAAA\DataAccess.Repository.InventoryAAA.csproj">
       <Project>{6A40D41B-B3A9-4743-B652-06DD85AB2576}</Project>
       <Name>DataAccess.Repository.InventoryAAA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Utilities\Infrastructure.Utilities.csproj">
+      <Project>{d2d994d1-cb60-448f-9e0b-237fb3a4acde}</Project>
+      <Name>Infrastructure.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

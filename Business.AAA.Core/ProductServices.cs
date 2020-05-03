@@ -10,12 +10,15 @@ using Business.AAA.Core.Interface;
 using dbentities = DataAccess.Database.InventoryAAA;
 using DataAccess.Database.InventoryAAA;
 using DataAccess.Repository.InventoryAAA.Interface;
+using Infrastructure.Utilities;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Business.AAA.Core
 {
     public partial class ProductServices
     {
-        IInventoryAAARepository<dbentities. Product> _productServices;
+        IInventoryAAARepository<dbentities.Product> _productServices;
         IInventoryAAARepository<dbentities.ProductLog> _productLogServices;
 
         private dbentities.Product products;
@@ -50,6 +53,34 @@ namespace Business.AAA.Core
                              ModifiedBy = det.ModifiedBy,
                              ModifiedTime = det.ModifiedTime
                          };
+
+            return result;
+        }
+
+        public List<StocksSummary> RetrieveInventorySummary()
+        {
+            
+            var result = CommonExtensions.ConvertDataTable<StocksSummary>(
+                (this._productServices.ExecuteSPReturnTable("INV_InventorySummary",
+                true,
+                new SqlParameter[] { })));
+
+
+            return result;
+        }
+
+        public List<StocksDetails> RetrieveInventoryDetails(StocksDetailsRequest request)
+        {
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@ProductID", SqlDbType.BigInt) { Value = request.ProductId }
+            };
+
+            var result = CommonExtensions.ConvertDataTable<StocksDetails>(
+                (this._productServices.ExecuteSPReturnTable("INV_InventoryListDetails",
+                true,
+                parameters)));
+
 
             return result;
         }

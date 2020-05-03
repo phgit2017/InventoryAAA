@@ -19,7 +19,7 @@
 
         public decimal TotalAmount { get; set; }
 
-        public int PurchaseOrderTypeID { get; set; }
+        public int OrderTypeID { get; set; }
 
         public long? CreatedBy { get; set; }
 
