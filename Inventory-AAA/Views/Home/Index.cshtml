@@ -11,8 +11,37 @@
                 </li>
             </ul>
         </nav>
-        <a href="#/Home">Test</a>
-        <div ng-view></div>
+        <div class="container">
+            <div class="card">
+                <div class="card-header-primary">
+                    <h5>STOCK LIST</h5>
+                </div>
+                <div class="card-body">
+                    <div ng-controller="WithOptionsCtrl as showCase">
+                        <table datatable="ng" dt-options="showCase.dtOptions" dt-column-defs="showCase.dtColumnDefs" class="table table-striped hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>CODE</th>
+                                    <th>DESCRIPTION</th>
+                                    <th>QUANTITY</th>
+                                    <th>SOLD</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="pl in homeCtrl.ProductList">
+                                    <td> {{ pl.Id }} </td>
+                                    <td> {{ pl.Code }} </td>
+                                    <td> {{ pl.Description }} </td>
+                                    <td> {{ pl.CurrentStock }} </td>
+                                    <td> {{ pl.Sold }} </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -37,6 +66,14 @@
 
     .navbar-nav {
         list-style-type: none;
+    }
+
+    th {
+        font-family: 'Roboto-Light';
+    }
+
+    td {
+        font-family: 'Roboto-Medium' 
     }
 
 </style>
