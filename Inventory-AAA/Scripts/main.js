@@ -1,6 +1,6 @@
 ﻿var app =
     angular
-        .module("InventoryApp", ["ngRoute"])
+        .module("InventoryApp", ["ngRoute", "datatables"])
         .config(function ($routeProvider, $locationProvider) {
             $locationProvider.hashPrefix('');
             $routeProvider
@@ -21,3 +21,18 @@
                 $rootScope.title = current.$$route.title;
             });
         }]);
+
+app.controller('WithOptionsCtrl', WithOptionsCtrl);
+
+function WithOptionsCtrl(DTOptionsBuilder, DTColumnDefBuilder) {
+    var vm = this;
+    vm.dtOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('simple_numbers')
+        .withDisplayLength(10)
+        .withDOM("<'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>t>p");
+    vm.dtColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0),
+        //DTColumnDefBuilder.newColumnDef(1).notVisible(),
+        DTColumnDefBuilder.newColumnDef(1).notSortable()
+    ];
+}
