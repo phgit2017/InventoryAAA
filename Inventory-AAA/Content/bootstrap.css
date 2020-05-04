@@ -313,7 +313,6 @@ html {
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
-  line-height: 1.428571429;
   color: #333333;
   background-color: #ffffff;
 }
@@ -4272,10 +4271,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 @media (min-width: 768px) {
-  .navbar-nav {
-    float: left;
-    margin: 0;
-  }
   .navbar-nav > li {
     float: left;
   }
@@ -4502,7 +4497,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .navbar-inverse {
   background-color: #222222;
-  border-color: #080808;
 }
 
 .navbar-inverse .navbar-brand {
