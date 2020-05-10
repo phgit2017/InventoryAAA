@@ -1,9 +1,4 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-}
-
-/* Set padding to keep content from hitting the edges */
+﻿/* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
@@ -21,4 +16,25 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url('fonts/Roboto-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto-Medium';
+    src: url('fonts/Roboto-Medium.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto-Bold';
+    src: url('fonts/Roboto-Bold.ttf');
+}
+
+@font-face {
+    font-family: 'Roboto-Light';
+    src: url('fonts/Roboto-Light.ttf');
 }

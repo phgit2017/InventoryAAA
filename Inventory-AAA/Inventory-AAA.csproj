@@ -176,18 +176,48 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="angular-app\home\home-controller.js" />
+    <Content Include="angular-app\home\home.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\datatables.css" />
+    <Content Include="Content\fonts\Glyphter.eot" />
+    <Content Include="Content\fonts\Glyphter.svg" />
+    <Content Include="Content\fonts\Glyphter.ttf" />
+    <Content Include="Content\fonts\Glyphter.woff" />
+    <Content Include="Content\Glyphter.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\angular-datatables.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\fonts\Montserrat-Black.ttf" />
+    <Content Include="Content\fonts\Montserrat-Bold.ttf" />
+    <Content Include="Content\fonts\Montserrat-Italic.ttf" />
+    <Content Include="Content\fonts\Montserrat-Light.ttf" />
+    <Content Include="Content\fonts\Montserrat-Medium.ttf" />
+    <Content Include="Content\fonts\Montserrat-Regular.ttf" />
+    <Content Include="Content\fonts\Montserrat-Thin.ttf" />
+    <Content Include="Content\fonts\Montserrat-ThinItalic.ttf" />
+    <Content Include="Content\fonts\Roboto-Black.ttf" />
+    <Content Include="Content\fonts\Roboto-Bold.ttf" />
+    <Content Include="Content\fonts\Roboto-BoldItalic.ttf" />
+    <Content Include="Content\fonts\Roboto-Italic.ttf" />
+    <Content Include="Content\fonts\Roboto-Light.ttf" />
+    <Content Include="Content\fonts\Roboto-LightItalic.ttf" />
+    <Content Include="Content\fonts\Roboto-Medium.ttf" />
+    <Content Include="Content\fonts\Roboto-MediumItalic.ttf" />
+    <Content Include="Content\fonts\Roboto-Regular.ttf" />
+    <Content Include="Content\fonts\Roboto-Thin.ttf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\datatables.js" />
+    <Content Include="Scripts\datatables.min.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
