@@ -289,6 +289,10 @@
       <Project>{6A40D41B-B3A9-4743-B652-06DD85AB2576}</Project>
       <Name>DataAccess.Repository.InventoryAAA</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Utilities\Infrastructure.Utilities.csproj">
+      <Project>{D2D994D1-CB60-448F-9E0B-237FB3A4ACDE}</Project>
+      <Name>Infrastructure.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

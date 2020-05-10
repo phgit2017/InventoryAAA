@@ -10,9 +10,9 @@ namespace Business.AAA.Core.Dto
     public class UserDetail : BaseDetail
     {
         public long UserId { get; set; }
-        
+
         public string UserName { get; set; }
-        
+
         public string Password { get; set; }
 
         public int UserRoleId { get; set; }
@@ -20,6 +20,18 @@ namespace Business.AAA.Core.Dto
         public bool IsActive { get; set; }
 
         public UserRoleDetail UserRoleDetails { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string FullName
+        {
+            get
+            {
+                return FirstName + " " + LastName;
+            }
+        }
 
     }
 
@@ -68,7 +80,7 @@ namespace Business.AAA.Core.Dto
     public class UserRoleDetail : BaseDetail
     {
         public int UserRoleId { get; set; }
-        
+
         public string UserRoleName { get; set; }
     }
 

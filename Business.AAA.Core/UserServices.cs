@@ -57,8 +57,12 @@ namespace Business.AAA.Core
                              CreatedTime = det.CreatedTime,
                              ModifiedBy = det.ModifiedBy,
                              ModifiedTime = det.ModifiedTime,
+                             FirstName = det.UserInformationDetail.FirstName,
+                             LastName = det.UserInformationDetail.LastName,
+                             
 
-                             UserRoleDetails = userRoleResult.Where(m => m.UserRoleId == det.UserRoleID).FirstOrDefault()
+                             UserRoleDetails = userRoleResult.Where(m => m.UserRoleId == det.UserRoleID).FirstOrDefault(),
+                             
                          };
 
             return result;
@@ -123,7 +127,7 @@ namespace Business.AAA.Core
                 LastName = request.LastName
             };
             this.userInformationDetails = userInformationDetailRequest.DtoToEntity();
-            var itemUserInformation = this._userInformationDetailServices.Insert(this.userInformationDetails);
+            var itemUserInformation = this._userInformationDetailServices.Update2(this.userInformationDetails);
 
             if (itemUserInformation == null)
             {

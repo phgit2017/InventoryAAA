@@ -6,9 +6,11 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("UserInformationDetails")]
     public partial class UserInformationDetail
     {
         [Key]
+        [ForeignKey("UserDetail")]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int UserID { get; set; }
 
@@ -17,8 +19,7 @@
 
         [StringLength(32)]
         public string LastName { get; set; }
-
-        [ForeignKey("UserID")]
+        
         public virtual UserDetail UserDetail { get; set; }
     }
 }

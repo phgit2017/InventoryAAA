@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Business.AAA.Core;
 using Business.AAA.Core.Dto;
 using Business.AAA.Core.Interface;
+using Infrastructure.Utilities;
 
 namespace Inventory_AAA.Controllers
 {
@@ -23,8 +24,7 @@ namespace Inventory_AAA.Controllers
         [HttpPost]
         public JsonResult UserList(UserDetailSearchRequest request)
         {
-            //TODO:(LEP)Users put session
-            var currentUserId = 0;
+            var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
             var userDetailsResult = _userServices.GetAllUserDetails().Where(m => m.UserId != currentUserId).ToList();
             var response = new
             {
@@ -41,9 +41,13 @@ namespace Inventory_AAA.Controllers
             string messageAlert = string.Empty;
             long userIdResult = 0;
 
+            var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+
+            request.CreatedBy = currentUserId;
+            request.CreatedTime = DateTime.Now;
             userIdResult = _userServices.SaveUserDetails(request);
 
-            if (userIdResult != 0)
+            if (userIdResult == 0)
             {
                 return Json(new
                 {
@@ -70,9 +74,14 @@ namespace Inventory_AAA.Controllers
             string messageAlert = string.Empty;
             bool userIdResult = false;
 
+            var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+
+            request.ModifiedBy = currentUserId;
+            request.ModifiedTime = DateTime.Now;
+            
             userIdResult = _userServices.UpdateUserDetails(request);
 
-            if (userIdResult)
+            if (!userIdResult)
             {
                 return Json(new
                 {
@@ -81,6 +90,7 @@ namespace Inventory_AAA.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
+            isSucess = true;
             var response = new
             {
                 isSuccess = isSucess,
@@ -95,7 +105,7 @@ namespace Inventory_AAA.Controllers
         {
             bool isSuccess = false;
             var authenticateLoginResult = _userServices.AuthenticateLogin(request);
-            
+
             if (authenticateLoginResult != null)
             {
                 isSuccess = true;

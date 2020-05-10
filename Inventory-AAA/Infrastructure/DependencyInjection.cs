@@ -28,6 +28,7 @@ namespace Inventory_AAA.Infrastructure
             builder.RegisterType<ProductServices>().As<IProductServices>().InstancePerLifetimeScope();
             builder.RegisterType<PurchaseOrderService>().As<IOrderTransactionalServices>().InstancePerLifetimeScope();
             builder.RegisterType<SalesOrderService>().As<IOrderTransactionalServices>().InstancePerLifetimeScope();
+            builder.RegisterType<UserServices>().As<IUserServices>().InstancePerLifetimeScope();
 
             return builder;
         }

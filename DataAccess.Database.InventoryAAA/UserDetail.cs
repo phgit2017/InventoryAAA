@@ -6,6 +6,7 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("UserDetails")]
     public partial class UserDetail
     {
         [Key]
@@ -33,8 +34,7 @@
 
         [ForeignKey("UserRoleID")]
         public virtual UserRoleDetail UserRoleDetail { get; set; }
-
-        [ForeignKey("UserID")]
+        
         public virtual UserInformationDetail UserInformationDetail { get; set; }
     }
 }
