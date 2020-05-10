@@ -39,8 +39,7 @@
                             <td> {{ i.Sold }} </td>
                             <td>
                                 <button class="btn btn-sm btn-primary"
-                                        ng-click="inventoryCtrl.SelectedProduct = i;
-                                                  inventoryCtrl.ToggleManageModal();">
+                                        ng-click="inventoryCtrl.GetProductDetails(i.ProductID, true);">
                                     Manage
                                 </button>
                             </td>

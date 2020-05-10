@@ -49,8 +49,8 @@ namespace Inventory_AAA.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public JsonResult InventoryDetails(StocksDetailsSearchRequest request)
+        [HttpPost]
+        public JsonResult InventoryDetails(StocksDetailsRequest request)
         {
 
             //Product Details
