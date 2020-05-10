@@ -117,6 +117,11 @@ namespace Inventory_AAA.Controllers
             //var type = Type.GetType("Business.AAA.Core.PurchaseOrderService, Business.AAA.Core");
             //updateOrderTransactionResult = x.UpdateOrderTransaction(orderTransactionRequest, orderTransactionDetailRequest);
 
+            if (updateOrderTransactionResult == 0)
+            {
+                isSucess = true;
+            }
+
             var response = new
             {
                 isSucess = isSucess,
@@ -173,7 +178,7 @@ namespace Inventory_AAA.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
-
+            isSucess = true;
             var response = new
             {
                 isSucess = isSucess,
