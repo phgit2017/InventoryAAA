@@ -12,6 +12,13 @@ namespace Inventory_AAA.Controllers
 {
     public class ReportController : Controller
     {
+        private readonly IProductServices _productServices;
+        public ReportController(
+            IProductServices productServices)
+        {
+            this._productServices = productServices;
+        }
+
         // GET: Report
         public ActionResult Index()
         {
