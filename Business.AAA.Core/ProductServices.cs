@@ -69,7 +69,7 @@ namespace Business.AAA.Core
             return result;
         }
 
-        public List<StocksDetails> RetrieveInventoryDetails(StocksDetailsRequest request)
+        public List<StocksDetails> RetrieveInventoryDetails(StocksDetailsSearchRequest request)
         {
             SqlParameter[] parameters =
             {

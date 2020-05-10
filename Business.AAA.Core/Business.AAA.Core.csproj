@@ -59,17 +59,20 @@
     <Compile Include="Dto\OrderTypeDetail.cs" />
     <Compile Include="Dto\ProductDetail.cs" />
     <Compile Include="Dto\ReportDetail.cs" />
+    <Compile Include="Dto\UserDetail.cs" />
     <Compile Include="Extensions\EntityMapper.cs" />
     <Compile Include="Interface\IOrderServices.cs" />
     <Compile Include="Interface\IOrderTransactionalServices.cs" />
     <Compile Include="Interface\IOrderTypeServices.cs" />
     <Compile Include="Interface\IProductServices.cs" />
+    <Compile Include="Interface\IUserServices.cs" />
     <Compile Include="OrderServices.cs" />
     <Compile Include="OrderTypeServices.cs" />
     <Compile Include="ProductServices.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseOrderService.cs" />
     <Compile Include="SalesOrderService.cs" />
+    <Compile Include="UserServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

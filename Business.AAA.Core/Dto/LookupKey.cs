@@ -19,5 +19,10 @@ namespace Business.AAA.Core.Dto
             public const int PurchaseOrder = 0;
             public const int SalesOrder = 1;
         }
+
+        public static class SessionVariables
+        {
+            public const string UserId = "UserId";
+        }
     }
 }

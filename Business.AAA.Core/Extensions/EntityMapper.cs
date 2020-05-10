@@ -145,5 +145,45 @@ namespace Business.AAA.Core.Extensions
 
             return entity;
         }
+
+        public static dbentities.UserDetail DtoToEntity(this UserDetailRequest request)
+        {
+            dbentities.UserDetail entity = null;
+
+            if (request != null)
+            {
+                entity = new dbentities.UserDetail
+                {
+                    UserID = request.UserId,
+                    UserName = request.UserName,
+                    Password = request.Password,
+                    UserRoleID = request.UserRoleId,
+                    IsActive = request.IsActive,
+                    CreatedBy = request.CreatedBy,
+                    CreatedTime = request.CreatedTime,
+                    ModifiedBy = request.ModifiedBy,
+                    ModifiedTime = request.ModifiedTime,
+                };
+            }
+
+            return entity;
+        }
+
+        public static dbentities.UserInformationDetail DtoToEntity(this UserInformationDetailRequest request)
+        {
+            dbentities.UserInformationDetail entity = null;
+
+            if (request != null)
+            {
+                entity = new dbentities.UserInformationDetail
+                {
+                    UserID = request.UserId,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                };
+            }
+
+            return entity;
+        }
     }
 }

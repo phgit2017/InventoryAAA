@@ -29,7 +29,7 @@ namespace Business.AAA.Core.Dto
         public DateTime TransactionDate { get; set; }
     }
 
-    public class StocksDetailsRequest
+    public class StocksDetailsSearchRequest
     {
         public long ProductId { get; set; }
     }

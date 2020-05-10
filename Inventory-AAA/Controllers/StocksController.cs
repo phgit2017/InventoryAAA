@@ -50,7 +50,7 @@ namespace Inventory_AAA.Controllers
         }
 
         [HttpGet]
-        public JsonResult InventoryDetails(StocksDetailsRequest request)
+        public JsonResult InventoryDetails(StocksDetailsSearchRequest request)
         {
 
             //Product Details
@@ -79,7 +79,9 @@ namespace Inventory_AAA.Controllers
             OrderTransactionRequest orderTransactionRequest = new OrderTransactionRequest();
             List<ProductDetailRequest> orderTransactionDetailRequest = new List<ProductDetailRequest>();
 
+            #region Set Order Transaction Type
 
+            
             if (request.OrderTransactionType == LookupKey.OrderTransactionType.PurchaseOrder)
             {
                 orderTransactionTypeService = "PurchaseOrderService";
@@ -89,7 +91,11 @@ namespace Inventory_AAA.Controllers
                 orderTransactionTypeService = "SalesOrderService";
             }
 
+            #endregion
 
+            #region Service implementation
+
+            
             //TODO:(LEP)Users put session
             orderTransactionRequest.CreatedBy = 0;
 
@@ -112,6 +118,7 @@ namespace Inventory_AAA.Controllers
                 orderTransactionRequest,
                 orderTransactionDetailRequest);
 
+            #endregion
 
             //IOrderTransactionalServices x = new PurchaseOrderService(_productServices, _orderServices);
             //var type = Type.GetType("Business.AAA.Core.PurchaseOrderService, Business.AAA.Core");

@@ -58,6 +58,9 @@
     <Compile Include="PurchaseOrderDetail.cs" />
     <Compile Include="SalesOrder.cs" />
     <Compile Include="SalesOrderDetail.cs" />
+    <Compile Include="UserDetail.cs" />
+    <Compile Include="UserInformationDetail.cs" />
+    <Compile Include="UserRoleDetail.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
