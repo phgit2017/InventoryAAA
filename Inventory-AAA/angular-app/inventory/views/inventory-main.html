@@ -1,0 +1,53 @@
+﻿<div ng-include src="'angular-app/inventory/views/_manage-stocks-modal.html'"></div>
+<div ng-include src="'angular-app/inventory/views/_add-stock-modal.html'"></div>
+
+<div class="container-fluid" ng-init="inventoryCtrl.Initialize();">
+    <div class="card">
+        <div class="card-header bg-primary">
+            <div class="d-flex justify-content-between">
+                <h5>STOCK LIST</h5>
+                <button class="btn btn-sm btn-primary-inverse"
+                        ng-click="inventoryCtrl.ToggleAddStockModal();">
+                    + Add New
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <loading showme="inventoryCtrl.IsLoading" showerror="true" errormessage="inventoryCtrl.LoaderErrorMessage"></loading>
+            <div ng-show="!inventoryCtrl.IsLoading">
+                <table datatable="ng" 
+                       dt-options="inventoryCtrl.dtInventorySummaryOptions"
+                       class="table table-striped hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>CODE</th>
+                            <th>DESCRIPTION</th>
+                            <th>INVENTORY STOCKS</th>
+                            <th>CURRENT STOCKS</th>
+                            <th>SOLD</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="i in inventoryCtrl.InventorySummary">
+                            <td> {{ i.ProductID }} </td>
+                            <td> {{ i.ProductCode }} </td>
+                            <td> {{ i.ProductDescription }} </td>
+                            <td> {{ i.InventoryStocks }} </td>
+                            <td> {{ i.CurrentStocks }} </td>
+                            <td> {{ i.Sold }} </td>
+                            <td>
+                                <button class="btn btn-sm btn-primary"
+                                        ng-click="inventoryCtrl.SelectedProduct = i;
+                                                  inventoryCtrl.ToggleManageModal();">
+                                    Manage
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

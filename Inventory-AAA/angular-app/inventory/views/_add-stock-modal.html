@@ -1,0 +1,50 @@
+﻿<modal-window show="inventoryCtrl.AddStockModalShown">
+    <div class="modal-sm">
+        <div class="modal-header bg-primary" style="border-bottom: none">
+            <div class="modal-close">
+                <button class="btn btn-sm btn-light"
+                        ng-click="inventoryCtrl.ToggleAddStockModal();">
+                    Close
+                </button>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row">
+                        <div class="col-md-6">
+                                <span style="font-size: 0.8rem; font-weight: bold">QUANTITY</span>
+                                <input type="text" class="form-control" id="quantity" aria-describedby="emailHelp" placeholder="Enter quantity..."
+                                        ng-model="inventoryCtrl.OrderRequestQuantity">
+
+                                <br />      
+                        </div>
+                        <div class="col-md-6">
+                            <span style="font-size: 0.8rem; font-weight: bold">QUANTITY</span>
+                            <input type="text" class="form-control" id="quantity" aria-describedby="emailHelp" placeholder="Enter quantity..."
+                                   ng-model="inventoryCtrl.OrderRequestQuantity">
+
+                            <br />
+                        </div>
+                        <div class="col-md-6">
+                            <span style="font-size: 0.8rem; font-weight: bold">QUANTITY</span>
+                            <input type="text" class="form-control" id="quantity" aria-describedby="emailHelp" placeholder="Enter quantity..."
+                                   ng-model="inventoryCtrl.OrderRequestQuantity">
+
+                            <br />
+                        </div>
+                        <div class="col-md-6">
+                            <span style="font-size: 0.8rem; font-weight: bold">QUANTITY</span>
+                            <input type="text" class="form-control" id="quantity" aria-describedby="emailHelp" placeholder="Enter quantity..."
+                                   ng-model="inventoryCtrl.OrderRequestQuantity">
+
+                            <br />
+                        </div>
+                        <div class="col-md-12">
+                            <span style="font-size: 0.8rem; font-weight: bold">REMARKS</span>
+                            <textarea class="form-control" id="quantity" aria-describedby="emailHelp" placeholder="Input optional remarks..." rows="3"></textarea>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</modal-window>

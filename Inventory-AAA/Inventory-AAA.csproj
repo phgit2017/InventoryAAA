@@ -176,8 +176,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="angular-app\home\home-controller.js" />
+    <Content Include="angular-app\home\controllers\home-controller.js" />
     <Content Include="angular-app\home\home.html" />
+    <Content Include="angular-app\inventory\controllers\inventory-controller.js" />
+    <Content Include="angular-app\inventory\services\inventory-service.js" />
+    <Content Include="angular-app\inventory\views\inventory-main.html" />
+    <Content Include="angular-app\inventory\views\_add-stock-modal.html" />
+    <Content Include="angular-app\inventory\views\_manage-stocks-modal.html" />
+    <Content Include="angular-app\shared\views\loader-directive.html" />
+    <Content Include="angular-app\shared\views\modal-directive.html" />
+    <Content Include="Content\assets\crescent-loader.gif" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datatables.css" />
@@ -244,6 +252,7 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="angular-app\shared\directives\" />
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Common\" />

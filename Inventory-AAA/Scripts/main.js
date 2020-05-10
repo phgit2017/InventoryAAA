@@ -1,19 +1,25 @@
 ﻿var app =
     angular
-        .module("InventoryApp", ["ngRoute", "datatables"])
+        .module("InventoryApp", ["ngRoute", "datatables", "datatables.options"])
         .config(function ($routeProvider, $locationProvider) {
             $locationProvider.hashPrefix('');
             $routeProvider
                 .when("/", {
-                    title: "Login",
-                    controller: "HomeController",
-                    controllerAs: "homeCtrl"
+                    title: "Inventory Summary",
+                    controller: "InventoryController",
+                    controllerAs: "inventoryCtrl"
                 })
                 .when("/Home", {
                     title: "Home",
                     templateUrl: "angular-app/home/home.html",
                     controller: "HomeController",
                     controllerAs: "homeCtrl"
+                })
+                .when("/Inventory", {
+                    title: "Inventory Summary",
+                    templateUrl: "angular-app/inventory/views/inventory-main.html",
+                    controller: "InventoryController",
+                    controllerAs: "inventoryCtrl"
                 })
         })
         .run(['$rootScope', function ($rootScope) {
@@ -22,17 +28,48 @@
             });
         }]);
 
-app.controller('WithOptionsCtrl', WithOptionsCtrl);
+// Loader Directive
 
-function WithOptionsCtrl(DTOptionsBuilder, DTColumnDefBuilder) {
-    var vm = this;
-    vm.dtOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('simple_numbers')
-        .withDisplayLength(10)
-        .withDOM("<'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'l>t>p");
-    vm.dtColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(0),
-        //DTColumnDefBuilder.newColumnDef(1).notVisible(),
-        DTColumnDefBuilder.newColumnDef(1).notSortable()
-    ];
-}
+app.directive('loading', function () {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            showme: '=',
+            showerror: '=',
+            errormessage: '='
+        },
+
+        templateUrl: 'angular-app/shared/views/loader-directive.html',
+    }
+});
+
+
+// Modal Directive
+
+app.directive('modalWindow', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            show: '='
+        },
+        replace: true, // Replace with template
+        transclude: true, // To use custom content
+        link: function (scope, element, attrs) {
+
+            scope.windowStyle = {};
+
+            if (attrs.width) {
+                scope.windowStyle.width = attrs.width;
+            }
+            if (attrs.height) {
+                scope.windowStyle.height = attrs.height;
+            }
+
+            scope.hideModal = function () {
+                scope.show = false;
+            };
+        },
+        template: "<div ng-show='show'><div class='modal-overlay' ng-click='hideModal()'></div><div class='modal-container'><div class='modal-box' ng-transclude></div></div></div>"
+    };
+});

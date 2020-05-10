@@ -1,4 +1,13 @@
-﻿/* Set padding to keep content from hitting the edges */
+﻿/**Root Properties**/
+:root {
+    font-size: 16px;
+    --bg-primary: #23967F;
+    --bg-primary-muted: #147662;
+    --shadow-color: rgba(0, 0, 0, 0.25);
+    --bg-muted: #F5F5F5;
+}
+
+/* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
@@ -18,7 +27,6 @@ textarea {
     max-width: 280px;
 }
 
-
 @font-face {
     font-family: 'Roboto-Regular';
     src: url('fonts/Roboto-Regular.ttf');
@@ -37,4 +45,138 @@ textarea {
 @font-face {
     font-family: 'Roboto-Light';
     src: url('fonts/Roboto-Light.ttf');
+}
+
+.loader-design {
+    display: flex;
+    justify-content: center;
+}
+
+.loader-design img {
+    margin: 5em 0;
+    max-width: 3em;
+    max-height: 3em;
+}
+
+.table-details table {
+    width: 100% !important;
+    display: table !important;
+    padding: 5px;
+}
+
+.btn {
+    box-shadow: 0px 2px 2px var(--shadow-color);
+    font-family: 'Roboto-Medium';
+}
+
+.btn.btn-primary {
+    background-color: var(--bg-primary);
+    border-color: var(--bg-primary);
+}
+
+.btn.btn-primary-inverse {
+    background-color: var(--bg-muted);
+    border-color: var(--bg-muted);
+    color: var(--bg-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+    background-color: var(--bg-primary-muted) !important;
+    border-color: var(--bg-primary-muted) !important;
+}
+
+.btn-sm {
+    font-size: 0.8rem;
+}
+
+.modal-overlay {
+    z-index: 10000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-container {
+    z-index: 10000;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+
+.modal-sm {
+    max-width: 770px;
+    min-width: 770px;
+    min-height: 400px;
+}
+
+.modal-md {
+    max-width: 900px !important;
+    min-width: 500px;
+    min-height: 400px;
+}
+
+.modal-lg {
+    max-width: 1024px;
+    min-width: 500px;
+    min-height: 400px;
+}
+
+.modal-close {
+    margin-left: auto;
+}
+
+.card .card-sm {
+    max-width: 500px;
+}
+
+.card-sm .card-body {
+    padding: 0.3rem !important;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: flex-start;
+    background: white;
+}
+
+span strong {
+    letter-spacing: 1.5px;
+}
+
+.btn.btn-muted {
+    background-color: #ddd;
+}
+
+.btn.btn-transparent {
+    background-color: transparent !important;
+    color: var(--bg-primary) !important;
+    box-shadow: none !important;
+}
+
+.btn-transparent:hover,
+.btn-primary-inverse:hover{
+    background-color: var(--bg-primary) !important;
+    color: white !important;
+}
+
+.product-details {
+    background: #EDEDED;
+    box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.25);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.sale-purchase {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }

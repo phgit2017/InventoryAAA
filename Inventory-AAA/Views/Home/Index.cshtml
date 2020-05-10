@@ -1,6 +1,6 @@
 ﻿
 <div>
-    <div ng-controller="HomeController as homeCtrl">
+    <div>
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <ul class="navbar-nav">
                 <li class="nav-item brand-logo">
@@ -11,37 +11,9 @@
                 </li>
             </ul>
         </nav>
-        <div class="container">
-            <div class="card">
-                <div class="card-header-primary">
-                    <h5>STOCK LIST</h5>
-                </div>
-                <div class="card-body">
-                    <div ng-controller="WithOptionsCtrl as showCase">
-                        <table datatable="ng" dt-options="showCase.dtOptions" dt-column-defs="showCase.dtColumnDefs" class="table table-striped hover">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>CODE</th>
-                                    <th>DESCRIPTION</th>
-                                    <th>QUANTITY</th>
-                                    <th>SOLD</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="pl in homeCtrl.ProductList">
-                                    <td> {{ pl.Id }} </td>
-                                    <td> {{ pl.Code }} </td>
-                                    <td> {{ pl.Description }} </td>
-                                    <td> {{ pl.CurrentStock }} </td>
-                                    <td> {{ pl.Sold }} </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+        <div ng-view></div>
+
     </div>
 </div>
 
@@ -72,8 +44,15 @@
         font-family: 'Roboto-Light';
     }
 
+    th.sorting,
+    th.sorting_asc,
+    th.sorting_desc {
+        padding: 0.75rem;
+        vertical-align: middle !important;
+    }
+
     td {
-        font-family: 'Roboto-Medium' 
+        font-family: 'Roboto-Medium'
     }
 
 </style>
