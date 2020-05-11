@@ -10,17 +10,26 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     // View Items
     vm.InventorySummary = [];
     vm.SelectedProduct = [];
-    vm.OrderRequestQuantity = '';
-    vm.OrderRequestTransactionType = 0;
-    vm.OrderRequestUnitPrice = 0;
-    vm.OrderRequest = {
-        ProductID: 0,
-        ProductCode: '',
-        ProductDescription: '',
-        Stocks: 0,
-        UnitPrice: 0,
-        OrderTransactionType: 0,
-        IsActive: 1
+    vm.OrderRequestQuantity = 0;
+    vm.OrderRequestTransactionType = 1;
+
+
+    // Object Declarations
+    //vm.OrderRequest = {
+    //    ProductId: 0,
+    //    ProductCode: '',
+    //    ProductDescription: '',
+    //    Stocks: 0,
+    //    UnitPrice: 0,
+    //    OrderTransactionType: 0,
+    //    IsActive: 1
+    //};
+
+    vm.OrderRequest = {};
+
+
+    vm.ProductDetailRequest = {
+        ProductId: 0
     };
 
     // Misc Items
@@ -36,14 +45,15 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.Initialize = _initialize;
     vm.ToggleManageModal = _toggleManageModal;
     vm.ToggleAddStockModal = _toggleAddStockModal;
-    vm.ToggleEditDetailsShown = _toggleEditDetails;
+    vm.ToggleEditDetails = _toggleEditDetails;
 
     // API methods
     vm.GetInventorySummary = _getInventorySummary;
     vm.SaveOrderRequest = _saveOrderRequest;
-    // vm.GetProductDetails = _getProductDetails; (TODO KEIGA: For Manage Modal)
+    vm.GetProductDetails = _getProductDetails; 
 
     function _initialize() {
+        resetAllFields();
         _getInventorySummary();
     }
 
@@ -62,6 +72,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     );
 
     function _toggleManageModal() {
+        console.log(vm.SelectedProduct);
         vm.ManageModalShown = !vm.ManageModalShown
     }
 
@@ -85,25 +96,48 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             });
     }
 
-    function _saveOrderRequest() {
-        vm.OrderRequest.ProductID = vm.SelectedProduct.ProductID;
-        vm.OrderRequest.ProductCode = vm.SelectedProduct.ProductCode;
-        vm.OrderRequest.ProductDescription = vm.SelectedProduct.ProductDescription;
-        vm.OrderRequest.UnitPrice = vm.OrderRequestUnitPrice;
-        vm.OrderRequest.Stocks = vm.OrderRequestQuantity;
-        vm.OrderRequest.OrderTransactionType = vm.OrderRequestTransactionType;
-        vm.IsActive = true;
-
-        debugger;
-
-        InventoryService.SaveOrderRequest(vm.OrderRequest).then(
+    function _getProductDetails(productId, showManageModal) {
+        vm.ProductDetailRequest.ProductId = productId;
+        InventoryService.GetProductDetails(vm.ProductDetailRequest).then(
             function (data) {
-                debugger;
-                vm.IsLoading = false;
+                vm.SelectedProduct = data.ProductResult;
+
+                if (showManageModal) {
+                    _toggleManageModal();
+                }
             }, function (error) {
                 vm.isLoading = false;
                 vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
                 console.log(error);
             });
+    }
+
+    function _saveOrderRequest() {
+        vm.OrderRequest.ProductId = vm.SelectedProduct.ProductId;
+        vm.OrderRequest.ProductCode = vm.SelectedProduct.ProductCode;
+        vm.OrderRequest.ProductDescription = vm.SelectedProduct.ProductDescription;
+        vm.OrderRequest.UnitPrice = vm.SelectedProduct.UnitPrice;
+        vm.OrderRequest.Stocks = parseInt(vm.OrderRequestQuantity);
+        vm.OrderRequest.OrderTransactionType = vm.OrderRequestTransactionType;
+        vm.OrderRequest.IsActive = true;
+
+        debugger;
+
+        InventoryService.SaveOrderRequest(vm.OrderRequest).then(
+            function (isSuccess) {
+                if (isSuccess) {
+                    alert("Data has been saved!");
+                }
+            }, function (error) {
+                vm.isLoading = false;
+                vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
+                alert(error);
+        });
+    }
+
+    function resetAllFields() {
+        vm.OrderRequest = [];
+        vm.OrderRequestTransactionType = 1;
+        vm.Quantity = '';
     }
 }

@@ -27,28 +27,14 @@ function InventoryService($http, $q) {
         return defer.promise;
     }
 
-    function _getProductDetails() {
+    function _getProductDetails(productId) {
         var defer = $q.defer(),
             url = baseUrl + '/InventoryDetails';
-
-        $http.get(url)
+        $http.post(url, productId)
             .then(function (response) {
-                defer.resolve(response.data.result);
+                defer.resolve(response.data);
             }, function (err) {
                     defer.reject(err);
-            });
-        return defer.promise;
-    }
-
-    function _getProductDetails() {
-        var defer = $q.defer(),
-            url = baseUrl + '/InventoryDetails';
-
-        $http.get(url)
-            .then(function (response) {
-                defer.resolve(response.data.result);
-            }, function (err) {
-                defer.reject(err);
             });
         return defer.promise;
     }
@@ -56,11 +42,10 @@ function InventoryService($http, $q) {
     function _saveOrderRequest(data) {
         var defer = $q.defer(),
             url = baseUrl + '/UpdateInventoryOrder';
-
         $http.post(url, data)
             .then(function (response) {
                 debugger;
-                defer.resolve(response.data.result);
+                defer.resolve(response.data.isSuccess);
             }, function (err) {
                 defer.reject(err);
             });

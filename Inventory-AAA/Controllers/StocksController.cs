@@ -49,7 +49,7 @@ namespace Inventory_AAA.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
+        [HttpPost]
         public JsonResult InventoryDetails(StocksDetailsRequest request)
         {
 
