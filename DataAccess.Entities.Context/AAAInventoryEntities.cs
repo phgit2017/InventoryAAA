@@ -22,6 +22,9 @@ namespace DataAccess.Entities.Context
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public virtual DbSet<SalesOrderDetail> SalesOrderDetails { get; set; }
         public virtual DbSet<SalesOrder> SalesOrders { get; set; }
+        public virtual DbSet<UserDetail> UserDetails { get; set; }
+        public virtual DbSet<UserRoleDetail> UserRoleDetails { get; set; }
+        public virtual DbSet<UserInformationDetail> UserInformationDetails { get; set; }
 
     }
 }

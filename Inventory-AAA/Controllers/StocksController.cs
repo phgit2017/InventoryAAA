@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using Business.AAA.Core;
 using Business.AAA.Core.Dto;
 using Business.AAA.Core.Interface;
+using Infrastructure.Utilities;
 
 namespace Inventory_AAA.Controllers
 {
@@ -50,7 +51,7 @@ namespace Inventory_AAA.Controllers
         }
 
         [HttpPost]
-        public JsonResult InventoryDetails(StocksDetailsRequest request)
+        public JsonResult InventoryDetails(StocksDetailsSearchRequest request)
         {
 
             //Product Details
@@ -79,6 +80,10 @@ namespace Inventory_AAA.Controllers
             OrderTransactionRequest orderTransactionRequest = new OrderTransactionRequest();
             List<ProductDetailRequest> orderTransactionDetailRequest = new List<ProductDetailRequest>();
 
+            var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+
+            #region Set Order Transaction Type
+
 
             if (request.OrderTransactionType == LookupKey.OrderTransactionType.PurchaseOrder)
             {
@@ -89,9 +94,11 @@ namespace Inventory_AAA.Controllers
                 orderTransactionTypeService = "SalesOrderService";
             }
 
+            #endregion
 
-            //TODO:(LEP)Users put session
-            orderTransactionRequest.CreatedBy = 0;
+            #region Service implementation
+
+            orderTransactionRequest.CreatedBy = currentUserId;
 
             orderTransactionDetailRequest.Add(new ProductDetailRequest()
             {
@@ -101,7 +108,7 @@ namespace Inventory_AAA.Controllers
                 Quantity = request.Stocks,
                 UnitPrice = request.UnitPrice,
                 IsActive = request.IsActive,
-                CreatedBy = 0 //TODO:(LEP)Users put session
+                CreatedBy = currentUserId
 
             });
             var type = Type.GetType(string.Format("{0}.{1}, {0}", "Business.AAA.Core", orderTransactionTypeService));
@@ -112,6 +119,7 @@ namespace Inventory_AAA.Controllers
                 orderTransactionRequest,
                 orderTransactionDetailRequest);
 
+            #endregion
 
             //IOrderTransactionalServices x = new PurchaseOrderService(_productServices, _orderServices);
             //var type = Type.GetType("Business.AAA.Core.PurchaseOrderService, Business.AAA.Core");
@@ -137,8 +145,8 @@ namespace Inventory_AAA.Controllers
             string messageAlert = string.Empty;
             bool productUpdateResult = false;
 
-            //TODO:(LEP)Users put session
-            request.CreatedBy = 0;
+            var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+            request.CreatedBy = currentUserId;
 
             //Update Product Details
             productUpdateResult = _productServices.UpdateDetails(request);

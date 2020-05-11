@@ -169,6 +169,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\StocksController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -258,6 +259,7 @@
     <Folder Include="Views\Common\" />
     <Folder Include="Views\Report\" />
     <Folder Include="Views\Stocks\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -286,6 +288,10 @@
     <ProjectReference Include="..\DataAccess.Repository.InventoryAAA\DataAccess.Repository.InventoryAAA.csproj">
       <Project>{6A40D41B-B3A9-4743-B652-06DD85AB2576}</Project>
       <Name>DataAccess.Repository.InventoryAAA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Utilities\Infrastructure.Utilities.csproj">
+      <Project>{D2D994D1-CB60-448F-9E0B-237FB3A4ACDE}</Project>
+      <Name>Infrastructure.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
