@@ -65,13 +65,14 @@
                             <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.ProductID }}</div>
                             <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" value="">-->
 
+                            <span style="font-size: 0.8rem; font-weight: bold">UNIT PRICE</span>
+                            <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.UnitPrice }}</div>
+                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control"  aria-describedby="emailHelp" value="{{ inventoryCtrl.SelectedProduct.UnitPrice }}">
+
                             <span style="font-size: 0.8rem; font-weight: bold">CURRENT STOCK</span>
                             <div style="margin-bottom: 0.4rem">{{ inventoryCtrl.SelectedProduct.Quantity }}</div>
                             <!--<input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" value="{{ inventoryCtrl.SelectedProduct.Quantity }}">-->
 
-                            <span style="font-size: 0.8rem; font-weight: bold">UNIT PRICE</span>
-                            <div style="margin-bottom: 0.4rem">{{ inventoryCtrl.SelectedProduct.UnitPrice }}</div>
-                            <!--<input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control"  aria-describedby="emailHelp" value="{{ inventoryCtrl.SelectedProduct.UnitPrice }}">-->
                         </div>
                     </div>
                 </div>

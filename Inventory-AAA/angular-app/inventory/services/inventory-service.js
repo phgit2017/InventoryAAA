@@ -44,8 +44,7 @@ function InventoryService($http, $q) {
             url = baseUrl + '/UpdateInventoryOrder';
         $http.post(url, data)
             .then(function (response) {
-                debugger;
-                defer.resolve(response.data.isSuccess);
+                defer.resolve(response.data);
             }, function (err) {
                 defer.reject(err);
             });

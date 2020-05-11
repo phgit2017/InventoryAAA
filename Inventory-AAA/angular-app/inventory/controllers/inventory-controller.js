@@ -15,18 +15,15 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
 
 
     // Object Declarations
-    //vm.OrderRequest = {
-    //    ProductId: 0,
-    //    ProductCode: '',
-    //    ProductDescription: '',
-    //    Stocks: 0,
-    //    UnitPrice: 0,
-    //    OrderTransactionType: 0,
-    //    IsActive: 1
-    //};
-
-    vm.OrderRequest = {};
-
+    vm.OrderRequest = {
+        ProductId: 0,
+        ProductCode: '',
+        ProductDescription: '',
+        Stocks: 0,
+        UnitPrice: 0,
+        OrderTransactionType: 0,
+        IsActive: 1
+    };
 
     vm.ProductDetailRequest = {
         ProductId: 0
@@ -51,9 +48,9 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.GetInventorySummary = _getInventorySummary;
     vm.SaveOrderRequest = _saveOrderRequest;
     vm.GetProductDetails = _getProductDetails; 
+    vm.ResetManageFields = _resetManageFields;
 
     function _initialize() {
-        resetAllFields();
         _getInventorySummary();
     }
 
@@ -96,7 +93,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             });
     }
 
-    function _getProductDetails(productId, showManageModal) {
+    function _getProductDetails(productId, showManageModal = false) {
         vm.ProductDetailRequest.ProductId = productId;
         InventoryService.GetProductDetails(vm.ProductDetailRequest).then(
             function (data) {
@@ -113,20 +110,19 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     }
 
     function _saveOrderRequest() {
-        vm.OrderRequest.ProductId = vm.SelectedProduct.ProductId;
-        vm.OrderRequest.ProductCode = vm.SelectedProduct.ProductCode;
-        vm.OrderRequest.ProductDescription = vm.SelectedProduct.ProductDescription;
-        vm.OrderRequest.UnitPrice = vm.SelectedProduct.UnitPrice;
-        vm.OrderRequest.Stocks = parseInt(vm.OrderRequestQuantity);
-        vm.OrderRequest.OrderTransactionType = vm.OrderRequestTransactionType;
-        vm.OrderRequest.IsActive = true;
-
-        debugger;
+        vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId;
+        vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
+        vm.OrderRequest["ProductDescription"] = vm.SelectedProduct.ProductDescription;
+        vm.OrderRequest["UnitPrice"] = vm.SelectedProduct.UnitPrice;
+        vm.OrderRequest["Stocks"] = parseInt(vm.OrderRequestQuantity);
+        vm.OrderRequest["OrderTransactionType"] = vm.OrderRequestTransactionType;
+        vm.OrderRequest["IsActive"] = 1;
 
         InventoryService.SaveOrderRequest(vm.OrderRequest).then(
-            function (isSuccess) {
-                if (isSuccess) {
+            function (data) {
+                if (data.isSucess) {
                     alert("Data has been saved!");
+                    vm.ResetManageFields();
                 }
             }, function (error) {
                 vm.isLoading = false;
@@ -135,9 +131,11 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         });
     }
 
-    function resetAllFields() {
-        vm.OrderRequest = [];
+    function _resetManageFields() {
+        _getProductDetails(vm.OrderRequest.ProductId);
+        vm.OrderRequest = {};
         vm.OrderRequestTransactionType = 1;
-        vm.Quantity = '';
+        vm.OrderRequestQuantity = 0;
+        
     }
 }
