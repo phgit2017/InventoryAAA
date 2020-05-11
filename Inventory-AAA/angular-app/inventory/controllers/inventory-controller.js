@@ -11,7 +11,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.InventorySummary = [];
     vm.SelectedProduct = [];
     vm.OrderRequestQuantity = 0;
-    vm.OrderRequestTransactionType = 1;
+    vm.OrderRequestTransactionType = 0;
 
 
     // Object Declarations
@@ -114,7 +114,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     }
 
     function _saveOrderRequest() {
-        vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId;
+        vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId == undefined ? 0 : vm.SelectedProduct.ProductId;
         vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
         vm.OrderRequest["ProductDescription"] = vm.SelectedProduct.ProductDescription;
         vm.OrderRequest["UnitPrice"] = vm.SelectedProduct.UnitPrice;
@@ -164,7 +164,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
 
     function _resetManageFields() {
         vm.OrderRequest = {};
-        vm.OrderRequestTransactionType = 1;
+        vm.OrderRequestTransactionType = 0;
         vm.OrderRequestQuantity = 0;
     }
 
