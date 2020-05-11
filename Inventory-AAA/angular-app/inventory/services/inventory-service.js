@@ -11,6 +11,7 @@ function InventoryService($http, $q) {
     InventoryServiceFactory.GetInventorySummary = _getInventorySummary;
     InventoryServiceFactory.GetProductDetails = _getProductDetails;
     InventoryServiceFactory.SaveOrderRequest = _saveOrderRequest;
+    InventoryServiceFactory.UpdateProductDetails = _updateProductDetails;
 
     return InventoryServiceFactory;
 
@@ -42,6 +43,18 @@ function InventoryService($http, $q) {
     function _saveOrderRequest(data) {
         var defer = $q.defer(),
             url = baseUrl + '/UpdateInventoryOrder';
+        $http.post(url, data)
+            .then(function (response) {
+                defer.resolve(response.data);
+            }, function (err) {
+                defer.reject(err);
+            });
+        return defer.promise;
+    }
+
+    function _updateProductDetails(data) {
+        var defer = $q.defer(),
+            url = baseUrl + '/UpdateProductDetails';
         $http.post(url, data)
             .then(function (response) {
                 defer.resolve(response.data);

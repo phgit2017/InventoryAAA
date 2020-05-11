@@ -13,6 +13,53 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
+
+                        <div class="col-md-5 product-details">
+                            <div class="d-flex justify-content-start">
+                                <h5 class="align-self-center">PRODUCT DETAILS</h5>
+                            </div>
+                            <hr style="margin-top: 12px;" />
+                            <span style="font-size: 0.8rem; font-weight: bold">PRODUCT CODE</span>
+                            <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.ProductCode }}</div>
+                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" placeholder="{{ inventoryCtrl.SelectedProduct.ProductCode }}"
+                                   ng-model="inventoryCtrl.SelectedProductEdit.ProductCode"
+                                   maxlength="32">
+
+                            <span style="font-size: 0.8rem; font-weight: bold">PRODUCT DESCRIPTION</span>
+                            <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.ProductDescription }}</div>
+                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" placeholder="{{ inventoryCtrl.SelectedProduct.ProductDescription }}"
+                                   ng-model="inventoryCtrl.SelectedProductEdit.ProductDescription"
+                                   maxlength="32">
+
+                            <span style="font-size: 0.8rem; font-weight: bold">UNIT PRICE</span>
+                            <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.UnitPrice }}</div>
+                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" placeholder="{{ inventoryCtrl.SelectedProduct.UnitPrice }}"
+                                   ng-model="inventoryCtrl.SelectedProductEdit.UnitPrice"
+                                   >
+
+                            <span style="font-size: 0.8rem; font-weight: bold">CURRENT STOCK</span>
+                            <div style="margin-bottom: 0.4rem">{{ inventoryCtrl.SelectedProduct.Quantity }}</div>
+                            <!--<input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" value="{{ inventoryCtrl.SelectedProduct.Quantity }}">-->
+
+                        <div class="d-flex justify-content-end">
+                            <button class="btn btn-transparent btn-sm align-self-center"
+                                    ng-if="!inventoryCtrl.EditDetailsShown"
+                                    ng-click="inventoryCtrl.ToggleEditDetails();">
+                                <span>EDIT</span>
+                            </button>
+                            <button class="btn btn-sm btn-transparent btn-danger align-self-center"
+                                    ng-if="inventoryCtrl.EditDetailsShown"
+                                    ng-click="inventoryCtrl.ToggleEditDetails();">
+                                <span>CANCEL</span>
+                            </button>
+                            <button class="btn btn-transparent btn-sm align-self-center"
+                                    ng-if="inventoryCtrl.EditDetailsShown"
+                                    ng-click="inventoryCtrl.UpdateProductDetails();">
+                                <span>SAVE</span>
+                            </button>
+                        </div>
+                            
+                        </div>
                         <div class="col-md-7 sale-purchase">
                             <h5>ADD SALE/PURCHASE</h5>
                             <hr />
@@ -38,41 +85,11 @@
                             </form>
                             <div class="d-flex flex-row-reverse mt-5">
                                 <button class="btn btn-sm btn-transparent"
+                                        ng-if="!inventoryCtrl.EditDetailsShown"
                                         ng-click="inventoryCtrl.SaveOrderRequest();">
                                     SAVE
                                 </button>
                             </div>
-                        </div>
-                        <div class="col-md-5 product-details">
-                            <div class="d-flex justify-content-between">
-                                <h5 class="align-self-center">PRODUCT DETAILS</h5>
-                                <button class="btn btn-transparent btn-sm align-self-center"
-                                        ng-click="inventoryCtrl.ToggleEditDetails();">
-                                    <span ng-if="!inventoryCtrl.EditDetailsShown">EDIT</span>
-                                    <span ng-if="inventoryCtrl.EditDetailsShown">SAVE</span>
-                                </button>
-                            </div>
-                            <hr style="margin-top: 12px;" />
-                            <span style="font-size: 0.8rem; font-weight: bold">PRODUCT CODE</span>
-                            <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.ProductCode }}</div>
-                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" value="{{ inventoryCtrl.SelectedProduct.ProductCode }}">
-
-                            <span style="font-size: 0.8rem; font-weight: bold">PRODUCT DESCRIPTION</span>
-                            <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.ProductDescription }}</div>
-                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" value="{{ inventoryCtrl.SelectedProduct.ProductDescription }}">
-
-                            <!--<span style="font-size: 0.8rem; font-weight: bold">STOCK DATE</span>
-                            <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.ProductID }}</div>
-                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" value="">-->
-
-                            <span style="font-size: 0.8rem; font-weight: bold">UNIT PRICE</span>
-                            <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.UnitPrice }}</div>
-                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control"  aria-describedby="emailHelp" value="{{ inventoryCtrl.SelectedProduct.UnitPrice }}">
-
-                            <span style="font-size: 0.8rem; font-weight: bold">CURRENT STOCK</span>
-                            <div style="margin-bottom: 0.4rem">{{ inventoryCtrl.SelectedProduct.Quantity }}</div>
-                            <!--<input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" value="{{ inventoryCtrl.SelectedProduct.Quantity }}">-->
-
                         </div>
                     </div>
                 </div>
