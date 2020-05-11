@@ -54,7 +54,7 @@ namespace Inventory_AAA.Controllers
         {
 
             //Product Details
-            var productResult = _productServices.GetAll().Where(p => p.ProductId == p.ProductId).FirstOrDefault();
+            var productResult = _productServices.GetAll().Where(p => p.ProductId == request.ProductId).FirstOrDefault();
 
             //Purchase order and Sales order Details
             var inventoryDetailsResult = _productServices.RetrieveInventoryDetails(request);

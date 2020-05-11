@@ -33,14 +33,13 @@
 
                             <span style="font-size: 0.8rem; font-weight: bold">UNIT PRICE</span>
                             <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.UnitPrice }}</div>
-                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" placeholder="{{ inventoryCtrl.SelectedProduct.UnitPrice }}"
+                            <input type="number" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" placeholder="{{ inventoryCtrl.SelectedProduct.UnitPrice }}"
                                    ng-model="inventoryCtrl.SelectedProductEdit.UnitPrice"
                                    >
 
                             <span style="font-size: 0.8rem; font-weight: bold">CURRENT STOCK</span>
                             <div style="margin-bottom: 0.4rem">{{ inventoryCtrl.SelectedProduct.Quantity }}</div>
-                            <!--<input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" value="{{ inventoryCtrl.SelectedProduct.Quantity }}">-->
-
+                            
                         <div class="d-flex justify-content-end">
                             <button class="btn btn-transparent btn-sm align-self-center"
                                     ng-if="!inventoryCtrl.EditDetailsShown"
@@ -79,7 +78,7 @@
                                 </div>
                                 <br />
                                 <span style="font-size: 0.8rem; font-weight: bold">QUANTITY</span>
-                                <input type="text" class="form-control" id="quantity" aria-describedby="emailHelp" placeholder="Enter quantity..."
+                                <input type="number" class="form-control" id="quantity" aria-describedby="emailHelp" placeholder="Enter quantity..."
                                        ng-model="inventoryCtrl.OrderRequestQuantity">
                                 <small class="form-text text-muted">This will affect your Current Stock.</small>
                             </form>
