@@ -21,19 +21,19 @@
                             <hr style="margin-top: 12px;" />
                             <span style="font-size: 0.8rem; font-weight: bold">PRODUCT CODE</span>
                             <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.ProductCode }}</div>
-                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" placeholder="{{ inventoryCtrl.SelectedProduct.ProductCode }}"
+                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control"  placeholder="{{ inventoryCtrl.SelectedProduct.ProductCode }}"
                                    ng-model="inventoryCtrl.SelectedProductEdit.ProductCode"
                                    maxlength="32">
 
                             <span style="font-size: 0.8rem; font-weight: bold">PRODUCT DESCRIPTION</span>
                             <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.ProductDescription }}</div>
-                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" placeholder="{{ inventoryCtrl.SelectedProduct.ProductDescription }}"
+                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control"  placeholder="{{ inventoryCtrl.SelectedProduct.ProductDescription }}"
                                    ng-model="inventoryCtrl.SelectedProductEdit.ProductDescription"
                                    maxlength="32">
 
                             <span style="font-size: 0.8rem; font-weight: bold">UNIT PRICE</span>
                             <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.UnitPrice }}</div>
-                            <input type="number" ng-if="inventoryCtrl.EditDetailsShown" class="form-control" aria-describedby="emailHelp" placeholder="{{ inventoryCtrl.SelectedProduct.UnitPrice }}"
+                            <input type="number" ng-if="inventoryCtrl.EditDetailsShown" class="form-control"  placeholder="{{ inventoryCtrl.SelectedProduct.UnitPrice }}"
                                    ng-model="inventoryCtrl.SelectedProductEdit.UnitPrice"
                                    >
 
@@ -78,7 +78,7 @@
                                 </div>
                                 <br />
                                 <span style="font-size: 0.8rem; font-weight: bold">QUANTITY</span>
-                                <input type="number" class="form-control" id="quantity" aria-describedby="emailHelp" placeholder="Enter quantity..."
+                                <input type="number" class="form-control" id="quantity"  placeholder="Enter quantity..."
                                        ng-model="inventoryCtrl.OrderRequestQuantity">
                                 <small class="form-text text-muted">This will affect your Current Stock.</small>
                             </form>

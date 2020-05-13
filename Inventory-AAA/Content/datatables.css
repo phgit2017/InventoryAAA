@@ -64,14 +64,16 @@ div.dataTables_wrapper div.dataTables_info {
   white-space: nowrap;
 }
 div.dataTables_wrapper div.dataTables_paginate {
-  margin: 5px;
+  margin: 5px 0;
   white-space: nowrap;
   text-align: right;
 }
 div.dataTables_wrapper div.dataTables_paginate ul.pagination {
-  margin: 2px;
-  white-space: nowrap;
-  justify-content: flex-end;
+    margin: 2px 0;
+    white-space: nowrap;
+    position: relative;
+    left: 15px;
+    justify-content: flex-end;
 }
 
 .paginate_button.page-item {

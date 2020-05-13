@@ -1,0 +1,94 @@
+﻿<div class="d-flex flex-row" ng-init="userCtrl.Initialize();">
+    <div class="card user-details-section ">
+        <div class="card-header bg-primary">
+            <div>
+                <h5>ADD/EDIT USER</h5>
+            </div>
+        </div>
+        <div class="card-body d-flex flex-column">
+            <div class="flex-grow-1">
+                <form>
+                    <span class="input-label">FIRST NAME</span>
+                    <input type="text" class="form-control form-control-sm mb-2"
+                           ng-model="userCtrl.SelectedUser.FirstName" required>
+
+                    <span class="input-label">LAST NAME</span>
+                    <input type="text" class="form-control form-control-sm mb-2"
+                           ng-model="userCtrl.SelectedUser.LastName" required>
+
+                    <span class="input-label">USER NAME</span>
+                    <input type="text" class="form-control form-control-sm mb-2"
+                           ng-model="userCtrl.SelectedUser.UserName" required>
+
+                    <span class="input-label">PASSWORD</span>
+                    <input type="text" class="form-control form-control-sm mb-2"
+                           ng-model="userCtrl.SelectedUser.Password" required>
+
+                    <span class="input-label">ROLE</span>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input"
+                               ng-model="userCtrl.SelectedUser.UserRoleId"
+                               ng-value="1"
+                               >
+                        <label class="custom-control-label" for="customRadio2">Admin</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"
+                               ng-model="userCtrl.SelectedUser.UserRoleId"
+                               ng-value="2"
+                               >
+                        <label class="custom-control-label" for="customRadio1">Secretary</label>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="d-flex justify-content-end align-self-auto">
+                <button class="btn btn-sm btn-transparent btn-default"
+                        ng-click="userCtrl.ClearUserDetails();">
+                    CLEAR
+                </button>
+                <button class="ml-2 btn btn-sm btn-transparent"
+                        ng-click="userCtrl.SaveUser();">
+                    SAVE
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card" style="max-width: 650px;">
+        <div class="card-body">
+            <loading showme="userCtrl.UserListLoading" showerror="false" errormessage=""></loading>
+            <div ng-show="!userCtrl.UserListLoading">
+                <table datatable="ng"
+                       dt-options="userCtrl.dtUserListOptions"
+                       class="table table-striped hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>NAME</th>
+                            <th>USERNAME</th>
+                            <th>PASSWORD</th>
+                            <th>ROLE</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="ul in userCtrl.UserList">
+                            <td> {{ ul.UserId }} </td>
+                            <td> {{ ul.FullName }} </td>
+                            <td> {{ ul.UserName }} </td>
+                            <td> {{ ul.Password }} </td>
+                            <td> {{ ul.UserRoleDetails.UserRoleName }} </td>
+                            <td>
+                                <button class="btn btn-sm btn-primary"
+                                        ng-click="userCtrl.SelectUser(ul);">
+                                    SELECT
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

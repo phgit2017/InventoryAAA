@@ -2031,7 +2031,7 @@ pre code {
 
 .form-control {
     display: block;
-    width: 100%;
+    width: 250px;
     padding: 0.2rem 0.2rem;
     font-size: 0.9rem;
     font-weight: 400;
@@ -2058,14 +2058,6 @@ pre code {
 .form-control:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #495057;
-}
-
-.form-control:focus {
-  color: #495057;
-  background-color: #fff;
-  border-color: #80bdff;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
 .form-control::-webkit-input-placeholder {
@@ -4755,7 +4747,7 @@ input[type="button"].btn-block {
 }
 
 .card-body {
-    padding: 1.25rem;
+    padding: 1rem;
 }
 
 .card-body-dt {
