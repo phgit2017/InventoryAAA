@@ -5,7 +5,7 @@
 InventoryController.$inject = ['InventoryService', 'DTOptionsBuilder', 'DTDefaultOptions', '$scope'];
 
 function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOptions, $scope) {
-    var vm = this, controllerName = 'InventoryCtrl';
+    var vm = this, controllerName = 'inventoryCtrl';
 
     // View Items
     vm.InventorySummary = [];

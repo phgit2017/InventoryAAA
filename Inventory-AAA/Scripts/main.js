@@ -5,26 +5,45 @@
             $locationProvider.hashPrefix('');
             $routeProvider
                 .when("/", {
-                    title: "Inventory Summary",
-                    controller: "InventoryController",
-                    controllerAs: "inventoryCtrl"
+                    redirectToUrl: "/Login"
                 })
                 .when("/Home", {
                     title: "Home",
                     templateUrl: "angular-app/home/home.html",
                     controller: "HomeController",
-                    controllerAs: "homeCtrl"
+                    controllerAs: "homeCtrl",
+                    showNavbar: true
+                })
+                .when("/Login", {
+                    title: "Login",
+                    templateUrl: "angular-app/login/views/login.html",
+                    controller: "LoginController",
+                    controllerAs: "loginCtrl",
+                    showNavbar: false
                 })
                 .when("/Inventory", {
                     title: "Inventory Summary",
                     templateUrl: "angular-app/inventory/views/inventory-main.html",
                     controller: "InventoryController",
-                    controllerAs: "inventoryCtrl"
+                    controllerAs: "inventoryCtrl",
+                    showNavbar: true
+                })
+                .when("/Users", {
+                    title: "Users",
+                    templateUrl: "angular-app/user/views/user.html",
+                    controller: "UserController",
+                    controllerAs: "userCtrl",
+                    showNavbar: true
                 })
         })
-        .run(['$rootScope', function ($rootScope) {
+        .run(['$rootScope', '$location', function ($rootScope, $location) {
             $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
                 $rootScope.title = current.$$route.title;
+                $rootScope.showNavbar = current.$$route.showNavbar;
+
+                if (current.$$route.redirectToUrl != undefined) {
+                    $location.url(current.$$route.redirectToUrl);
+                }
             });
         }]);
 
