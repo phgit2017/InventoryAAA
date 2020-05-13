@@ -154,6 +154,49 @@ namespace DataAccess.Repository.InventoryAAA
             return dt;
         }
 
+        public DataSet ExecuteSPReturnSet(string commandString, bool IsStoredProc, params object[] param)
+        {
+
+            DataSet ds = new DataSet();
+
+            using (SqlConnection conn =
+                    new SqlConnection((Db as System.Data.Entity.DbContext).Database.Connection.ConnectionString))
+            {
+                conn.Open();
+                // Create an EntityCommand.
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = commandString;
+
+                    if (IsStoredProc)
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                    }
+                    else
+                    {
+                        cmd.CommandType = CommandType.Text;
+                    }
+
+                    foreach (var p in param)
+                    {
+                        cmd.Parameters.Add(p);
+                    }
+
+                    // Execute the command.
+                    using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                    {
+                        // Read the results returned by the stored procedure.
+                        da.Fill(ds);
+                    }
+                }
+
+                conn.Close();
+            }
+
+
+            return ds;
+        }
+
         #endregion
     }
 }

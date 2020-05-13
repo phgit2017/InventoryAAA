@@ -24,5 +24,10 @@ namespace Business.AAA.Core.Dto
         {
             public const string UserId = "UserId";
         }
+
+        public static class ReportFileName
+        {
+            public const string SalesReport = "SalesReport";
+        }
     }
 }
