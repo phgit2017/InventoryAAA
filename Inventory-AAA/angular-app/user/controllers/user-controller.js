@@ -4,6 +4,10 @@
 
 UserController.$inject = ['UserService', 'DTOptionsBuilder', 'DTDefaultOptions' ,'$scope'];
 
+let UserController = (UserService, DTOptionsBuilder, DTDefaultOptions, $scope) => {
+
+}
+
 function UserController(UserService, DTOptionsBuilder, DTDefaultOptions, $scope) {
 
     var vm = this, controllerName = 'userCtrl';

@@ -2,20 +2,30 @@
     .module('InventoryApp')
     .controller('LoginController', LoginController)
 
-LoginController.$inject = ['$scope', '$location']
+LoginController.$inject = ['LoginService','$scope', '$location']
 
-function LoginController($scope, $location) {
+function LoginController(LoginService, $scope, $location) {
     
     let vm = this, controllerName = 'loginCtrl';
 
-    vm.Username = "Test";
-    vm.Password = "TestPW";
+    vm.LoginDetails = {
+        UserName: "",
+        Password: ""
+    }
 
     vm.Login = _login;
     vm.Logout = _logout;
 
     function _login() {
-        $location.url('/Users')
+        LoginService.Login(vm.LoginDetails).then(
+            function (data) {
+                $location.url('/Login');
+            },
+            function (err) {
+                console.log(err);
+                alert("login failed. invalid username/password.")
+            });
+        //$location.url('/Users')
     };
 
     function _logout() {
