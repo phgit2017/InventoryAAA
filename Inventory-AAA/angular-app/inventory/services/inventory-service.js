@@ -28,10 +28,10 @@ function InventoryService($http, $q) {
         return defer.promise;
     }
 
-    function _getProductDetails(productId) {
+    function _getProductDetails(data) {
         var defer = $q.defer(),
             url = baseUrl + '/InventoryDetails';
-        $http.post(url, productId)
+        $http.post(url, data)
             .then(function (response) {
                 defer.resolve(response.data);
             }, function (err) {

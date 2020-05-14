@@ -22,7 +22,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         ProductCode: "",
         ProductDescription: "",
         Quantity: 0,
-        UnitPrice: 0,
+        UnitPrice: "",
         IsActive: true
     };
 
@@ -117,7 +117,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         vm.OrderRequest["ProductId"] = isAddNew ? 0 : vm.SelectedProduct.ProductId;
         vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
         vm.OrderRequest["ProductDescription"] = vm.SelectedProduct.ProductDescription;
-        vm.OrderRequest["UnitPrice"] = vm.SelectedProduct.UnitPrice;
+        vm.OrderRequest["UnitPrice"] = parseInt(vm.SelectedProduct.UnitPrice);
         vm.OrderRequest["Stocks"] = parseInt(vm.OrderRequestQuantity);
         vm.OrderRequest["OrderTransactionType"] = vm.OrderRequestTransactionType;
         vm.OrderRequest["IsActive"] = 1;
@@ -143,24 +143,28 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     }
 
     function _updateProductDetails() {
-        vm.SelectedProductEdit["ProductId"] = vm.SelectedProduct.ProductId;
-        vm.SelectedProductEdit["ProductCode"] = vm.SelectedProductEdit.ProductCode === "" ? vm.SelectedProduct.ProductCode : vm.SelectedProductEdit.ProductCode;
-        vm.SelectedProductEdit["ProductDescription"] = vm.SelectedProductEdit.ProductDescription === "" ? vm.SelectedProduct.ProductDescription : vm.SelectedProductEdit.ProductDescription;
-        vm.SelectedProductEdit["UnitPrice"] = vm.SelectedProductEdit.UnitPrice === 0 ? vm.SelectedProduct.UnitPrice : vm.SelectedProductEdit.UnitPrice;
-        vm.SelectedProductEdit["Quantity"] = vm.SelectedProduct.Quantity;
-        vm.SelectedProductEdit["IsActive"] = 1;
+        if (validUnitPrice()) {
+            vm.SelectedProductEdit["ProductId"] = vm.SelectedProduct.ProductId;
+            vm.SelectedProductEdit["ProductCode"] = vm.SelectedProductEdit.ProductCode === "" ? vm.SelectedProduct.ProductCode : vm.SelectedProductEdit.ProductCode;
+            vm.SelectedProductEdit["ProductDescription"] = vm.SelectedProductEdit.ProductDescription === "" ? vm.SelectedProduct.ProductDescription : vm.SelectedProductEdit.ProductDescription;
+            vm.SelectedProductEdit["UnitPrice"] = vm.SelectedProductEdit.UnitPrice === "" ? parseInt(vm.SelectedProduct.UnitPrice) : parseInt(vm.SelectedProductEdit.UnitPrice);
+            vm.SelectedProductEdit["Quantity"] = vm.SelectedProduct.Quantity;
+            vm.SelectedProductEdit["IsActive"] = 1;
 
-        InventoryService.UpdateProductDetails(vm.SelectedProductEdit).then(
-            function (data) {
-                if (data.isSucess) {
-                    alert("The product has been successfully edited!");
-                    _getProductDetails(vm.SelectedProductEdit.ProductId);
-                    _resetEditDetails();
-                }
-            }, function (error) {
-                vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
-                alert(error);
-            });
+            InventoryService.UpdateProductDetails(vm.SelectedProductEdit).then(
+                function (data) {
+                    if (data.isSucess) {
+                        alert("The product has been successfully edited!");
+                        _getProductDetails(vm.SelectedProductEdit.ProductId);
+                        _resetEditDetails();
+                    }
+                }, function (error) {
+                    vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
+                    alert(error);
+                });
+        } else {
+            alert("Please enter a valid Unit Price value.")
+        }
     }
 
     function _resetManageFields() {
@@ -176,7 +180,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             ProductCode: "",
             ProductDescription: "",
             Quantity: 0,
-            UnitPrice: 0,
+            UnitPrice: "",
             IsActive: true
         };
     }
@@ -185,5 +189,21 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         vm.SelectedProduct = {};
         vm.OrderRequestQuantity = 0;
         vm.OrderTransactionType = 0;
+    }
+
+    function validUnitPrice() {
+        var unitPrice = vm.SelectedProductEdit.UnitPrice === "" ? vm.SelectedProduct.UnitPrice : vm.SelectedProductEdit.UnitPrice;
+
+        unitPrice = unitPrice.toString();
+
+        if (unitPrice !== null) {
+            if (unitPrice.length > 0) {
+                if (!isNaN(unitPrice)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

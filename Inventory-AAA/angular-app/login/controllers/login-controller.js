@@ -19,16 +19,24 @@ function LoginController(LoginService, $scope, $location) {
     function _login() {
         LoginService.Login(vm.LoginDetails).then(
             function (data) {
-                $location.url('/Login');
+                if (data.isSuccess) {
+                    $location.url('/Users');
+                } else {
+                    alert(data.messageAlert);
+                }
             },
             function (err) {
-                console.log(err);
-                alert("login failed. invalid username/password.")
+                alert(err);
             });
-        //$location.url('/Users')
     };
 
     function _logout() {
-        $location.url('/Login')
+        LoginService.Logout().then(
+            function (data) {
+                $location.url("/Login");
+            }, function (err) {
+                alert(err);
+            }
+        );
     }
 }

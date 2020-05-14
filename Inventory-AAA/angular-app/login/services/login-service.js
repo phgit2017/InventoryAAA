@@ -5,7 +5,6 @@
 LoginService.$inject = ['$http', '$q'];
 
 function LoginService($http, $q) {
-
     var LoginServiceFactory = {},
         baseUrl = "/User"
 
@@ -20,7 +19,6 @@ function LoginService($http, $q) {
         debugger;
         $http.post(url, data)
             .then(function (response) {
-                debugger;
                 defer.resolve(response.data);
             }), function (err) {
                 defer.reject(err);
@@ -29,7 +27,15 @@ function LoginService($http, $q) {
     }
 
     function _logout() {
+        var defer = $q.defer(),
+            url = baseUrl + "/Logout";
 
+        $http.post(url)
+            .then(function (response) {
+                defer.resolve(response.data);
+            }), function (err) {
+                defer.reject(err);
+            };
+        return defer.promise;
     }
-
 }
