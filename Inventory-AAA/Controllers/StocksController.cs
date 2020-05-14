@@ -38,7 +38,7 @@ namespace Inventory_AAA.Controllers
             return View();
         }
 
-        
+        //[InventoryAAAAuthorizeUser(Roles = "Admin")]
         [HttpGet]
         public JsonResult InventorySummary()
         {

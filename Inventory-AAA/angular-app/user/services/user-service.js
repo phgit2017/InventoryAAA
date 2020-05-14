@@ -6,7 +6,7 @@ UserService.$inject = ['$q', '$http'];
 
 function UserService($q, $http) {
     var UserServiceFactory = {},
-        baseUrl = "/User";
+        baseUrl = "/Inventory-AAA/User";
 
     UserServiceFactory.GetUserList = _getUserList;
     UserServiceFactory.AddNewUser = _addNewUser;

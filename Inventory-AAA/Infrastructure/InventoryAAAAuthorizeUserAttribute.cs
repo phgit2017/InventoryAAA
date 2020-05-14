@@ -7,40 +7,58 @@ using System.Web.Mvc;
 
 namespace Inventory_AAA.Infrastructure
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class InventoryAAAAuthorizeUserAttribute : AuthorizeAttribute
+    //[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class InventoryAAAAuthorizeUserAttribute
     {
-        
+        //public override void OnAuthorization(AuthorizationContext filterContext)
+        //{
 
-        protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
-        {
-            //filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary
-            //{
-            //    {"action","Index" },
-            //    {"controller","Home" }
-            //});
+        //    filterContext.action
+        //    base.OnAuthorization(filterContext);
+        //}
+        //protected override bool AuthorizeCore(HttpContextBase httpContext)
+        //{
+            
+        //    var authorized = base.AuthorizeCore(httpContext);
+        //    if (!authorized)
+        //    {
+        //        // The user is not authenticated
+        //        return false;
+        //    }
+        //    return true;
+        //    //return base.AuthorizeCore(httpContext);
+        //}
 
-            //filterContext.Result = new ViewResult
-            //{
-            //    ViewName = "~/Views/Unauthorized.cshtml"
-            //};
+        //protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+        //{
+        //    //filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary
+        //    //{
+        //    //    {"action","Index" },
+        //    //    {"controller","Home" }
+        //    //});
 
-            filterContext.Result = new RedirectResult("~/Views/Unauthorized.cshtml");
-            //filterContext.Result = new RedirectResult("~/#/Login");
-        }
+        //    //filterContext.Result = new ViewResult
+        //    //{
+        //    //    ViewName = "~/Views/Unauthorized.cshtml"
+        //    //};
 
-        public override void OnAuthorization(AuthorizationContext filterContext)
-        {
-            if (this.AuthorizeCore(filterContext.HttpContext))
-            {
-                base.OnAuthorization(filterContext);
-            }
-            else
-            {
-                this.HandleUnauthorizedRequest(filterContext);
-            }
+        //    filterContext.Result = new RedirectResult("~/Views/Unauthorized.cshtml");
+        //    //filterContext.Result = new RedirectResult("~/#/Login");
+        //}
 
-            //filterContext.RequestContext.HttpContext.Response.Redirect("/#/Login", true);
-        }
+        //public override void OnAuthorization(AuthorizationContext filterContext)
+        //{
+        //    if (this.AuthorizeCore(filterContext.HttpContext))
+        //    {
+        //        base.OnAuthorization(filterContext);
+        //    }
+        //    else
+        //    {
+        //        this.HandleUnauthorizedRequest(filterContext);
+        //    }
+
+        //    //filterContext.RequestContext.HttpContext.Response.Redirect("/#/Login", true);
+        //}
+
     }
 }
