@@ -33,7 +33,7 @@
 
                             <span style="font-size: 0.8rem; font-weight: bold">UNIT PRICE</span>
                             <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.UnitPrice }}</div>
-                            <input type="number" ng-if="inventoryCtrl.EditDetailsShown" class="form-control"  placeholder="{{ inventoryCtrl.SelectedProduct.UnitPrice }}"
+                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control"  placeholder="{{ inventoryCtrl.SelectedProduct.UnitPrice }}"
                                    ng-model="inventoryCtrl.SelectedProductEdit.UnitPrice"
                                    >
 
@@ -51,7 +51,7 @@
                                     ng-click="inventoryCtrl.ToggleEditDetails();">
                                 <span>CANCEL</span>
                             </button>
-                            <button class="btn btn-transparent btn-sm align-self-center"
+                            <button class="btn btn-transparent btn-sm align-self-center ml-2"
                                     ng-if="inventoryCtrl.EditDetailsShown"
                                     ng-click="inventoryCtrl.UpdateProductDetails();">
                                 <span>SAVE</span>

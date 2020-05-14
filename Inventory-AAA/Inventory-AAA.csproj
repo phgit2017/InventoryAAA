@@ -192,6 +192,7 @@
     <Content Include="angular-app\inventory\views\_add-stock-modal.html" />
     <Content Include="angular-app\inventory\views\_manage-stocks-modal.html" />
     <Content Include="angular-app\login\controllers\login-controller.js" />
+    <Content Include="angular-app\login\services\login-service.js" />
     <Content Include="angular-app\login\views\login.html" />
     <Content Include="angular-app\shared\views\loader-directive.html" />
     <Content Include="angular-app\shared\views\modal-directive.html" />
@@ -200,6 +201,17 @@
     <Content Include="angular-app\user\views\user.html" />
     <Content Include="Content\assets\crescent-loader.gif" />
     <Content Include="Content\assets\double-bubble-outline.png" />
+    <Content Include="Content\assets\svg\arrow-left.svg" />
+    <Content Include="Content\assets\svg\arrow-right.svg" />
+    <Content Include="Content\assets\svg\chart.svg" />
+    <Content Include="Content\assets\svg\close.svg" />
+    <Content Include="Content\assets\svg\dashboard.svg" />
+    <Content Include="Content\assets\svg\graph-up.svg" />
+    <Content Include="Content\assets\svg\home.svg" />
+    <Content Include="Content\assets\svg\plus.svg" />
+    <Content Include="Content\assets\svg\save.svg" />
+    <Content Include="Content\assets\svg\user.svg" />
+    <Content Include="Content\assets\svg\users.svg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datatables.css" />
@@ -266,7 +278,6 @@
     <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="angular-app\login\services\" />
     <Folder Include="angular-app\shared\directives\" />
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />

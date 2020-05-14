@@ -2,23 +2,46 @@
     .module('InventoryApp')
     .controller('LoginController', LoginController)
 
-LoginController.$inject = ['$scope', '$location']
+LoginController.$inject = ['LoginService', '$scope', '$location', '$rootScope']
 
-function LoginController($scope, $location) {
+function LoginController(LoginService, $scope, $location, $rootScope) {
     
     let vm = this, controllerName = 'loginCtrl';
 
-    vm.Username = "Test";
-    vm.Password = "TestPW";
+    vm.LoginDetails = {
+        UserName: "",
+        Password: ""
+    }
 
     vm.Login = _login;
     vm.Logout = _logout;
+    vm.ChangeRoute = _changeRoute;
 
     function _login() {
-        $location.url('/Users')
+        LoginService.Login(vm.LoginDetails).then(
+            function (data) {
+                if (data.isSuccess) {
+                    $location.url('/Users');
+                } else {
+                    alert(data.messageAlert);
+                }
+            },
+            function (err) {
+                alert(err);
+            });
     };
 
     function _logout() {
-        $location.url('/Login')
+        LoginService.Logout().then(
+            function (data) {
+                $location.url("/Login");
+            }, function (err) {
+                alert(err);
+            }
+        );
+    }
+
+    function _changeRoute(route) {
+        $location.url('/' + route);
     }
 }
