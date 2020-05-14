@@ -106,11 +106,16 @@ namespace Inventory_AAA.Controllers
             bool isSuccess = false;
             var authenticateLoginResult = _userServices.AuthenticateLogin(request);
 
-            if (authenticateLoginResult != null)
+            if (authenticateLoginResult == null)
             {
-                isSuccess = true;
+                return Json(new
+                {
+                    isSucess = isSuccess,
+                    messageAlert = "Invalid User Details"
+                }, JsonRequestBehavior.AllowGet);
             }
 
+            isSuccess = true;
             Session[LookupKey.SessionVariables.UserId] = authenticateLoginResult.UserId;
 
             var response = new

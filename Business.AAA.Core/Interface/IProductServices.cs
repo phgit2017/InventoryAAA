@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,5 +17,8 @@ namespace Business.AAA.Core.Interface
         long SaveProductLogs(ProductLogDetailRequest request);
         List<StocksSummary> RetrieveInventorySummary();
         List<StocksDetails> RetrieveInventoryDetails(StocksDetailsSearchRequest request);
+
+        //Reporting
+        DataSet SalesReport(DateTime startDate, DateTime endDate);
     }
 }

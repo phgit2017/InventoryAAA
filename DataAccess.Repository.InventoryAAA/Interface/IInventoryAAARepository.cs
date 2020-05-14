@@ -19,5 +19,6 @@ namespace DataAccess.Repository.InventoryAAA.Interface
         IEnumerable<T> ExecuteQuery(string commandString, params object[] param);
         DataTable ExecuteSPReturnTable(string commandString, bool IsStoredProc, params object[] param);
         bool RemoveRange(Expression<Func<T, bool>> predicate);
+        DataSet ExecuteSPReturnSet(string commandString, bool IsStoredProc, params object[] param);
     }
 }

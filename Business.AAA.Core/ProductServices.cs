@@ -59,7 +59,7 @@ namespace Business.AAA.Core
 
         public List<StocksSummary> RetrieveInventorySummary()
         {
-            
+
             var result = CommonExtensions.ConvertDataTable<StocksSummary>(
                 (this._productServices.ExecuteSPReturnTable("INV_InventorySummary",
                 true,
@@ -121,6 +121,26 @@ namespace Business.AAA.Core
             }
 
             return true;
+        }
+    }
+
+    /// <summary>
+    /// Reports go over here
+    /// </summary>
+    public partial class ProductServices : IProductServices
+    {
+        public DataSet SalesReport(DateTime startDate, DateTime endDate)
+        {
+            DataSet ds = new DataSet();
+            SqlParameter[] sqlParams = new SqlParameter[]
+            {
+                new SqlParameter() { ParameterName = "StartDate", Value = startDate, SqlDbType=  SqlDbType.DateTime },
+                new SqlParameter() { ParameterName = "StartDate", Value = startDate, SqlDbType = SqlDbType.DateTime },
+            };
+
+            ds = this._productServices.ExecuteSPReturnSet("INV_SalesReport", true, sqlParams);
+
+            return ds;
         }
     }
 }
