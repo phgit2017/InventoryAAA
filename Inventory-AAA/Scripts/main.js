@@ -26,20 +26,23 @@
                     templateUrl: "angular-app/inventory/views/inventory-main.html",
                     controller: "InventoryController",
                     controllerAs: "inventoryCtrl",
-                    showNavbar: true
+                    showNavbar: true,
+                    navItem: "Inventory"
                 })
                 .when("/Users", {
                     title: "Users",
                     templateUrl: "angular-app/user/views/user.html",
                     controller: "UserController",
                     controllerAs: "userCtrl",
-                    showNavbar: true
+                    showNavbar: true,
+                    navItem: "Users"
                 })
         })
         .run(['$rootScope', '$location', function ($rootScope, $location) {
             $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
                 $rootScope.title = current.$$route.title;
                 $rootScope.showNavbar = current.$$route.showNavbar;
+                $rootScope.navItem = current.$$route.navItem;
 
                 if (current.$$route.redirectToUrl != undefined) {
                     $location.url(current.$$route.redirectToUrl);

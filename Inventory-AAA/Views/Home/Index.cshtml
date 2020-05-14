@@ -1,29 +1,78 @@
 ﻿
-<div>
-    <div> 
-        <div ng-controller="LoginController as loginCtrl">
+<div class="main-container" ng-controller="LoginController as loginCtrl">
+    <div class="sidebar">
+        <nav class="navbar d-flex justify-content-end">
+            <span><img src="~/Content/assets/svg/home.svg" class="menu-img img-invert"/></span>
+        </nav>
+        <div class="sidebar-main">
+            <div class="user-info">
+                <div class="user-info__img">test</div>
+                <div class="user-info__labels">
+                    <div class="user-info__name">
+                        Wood,
+                        <br />
+                        Evan Rachel
+                    </div>
+                    <span class="user-info__role">Secretary</span>
+                </div>
+            </div>
+            <div class="sidebar-main__nav">
+                <ul class="sidebar-main__nav-list">
+                    <li class="sidebar-main__nav-item">
+                        <span class="nav-item__img">
+                            <img src="~/Content/assets/svg/home.svg" class="img-invert" />
+                        </span>
+                        <span class="nav-item__label">Home</span>
+                    </li>
+                    <li class="sidebar-main__nav-item"
+                        ng-class="{'active-item': $root.navItem == 'Inventory'} "
+                        ng-click="loginCtrl.ChangeRoute('Inventory');">
+                        <span class="nav-item__img">
+                            <img src="~/Content/assets/svg/graph-up.svg" class="img-invert" />
+                        </span>
+                        <span class="nav-item__label">Inventory</span>
+                    </li>
+                    <li class="sidebar-main__nav-item"
+                        ng-class=" {'active-item': $root.navItem == 'Users'}"
+                        ng-click="loginCtrl.ChangeRoute('Users');">
+                        <span class="nav-item__img">
+                            <img src="~/Content/assets/svg/users.svg" class="img-invert" />
+                        </span>
+                        <span class="nav-item__label">Users</span>
+                    </li>
+                    <li class="sidebar-main__nav-item">
+                        <span class="nav-item__img">
+                            <img src="~/Content/assets/svg/chart.svg" class="img-invert" />
+                        </span>
+                        <span class="nav-item__label">Reports</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="flex-grow-1">
+        <div>
             <nav class="d-flex justify-content-between navbar navbar-inverse navbar-fixed-top" ng-if="showNavbar">
-                    <div>
-                        <ul class="navbar-nav">
-                            <li class="nav-item brand-logo">
-                                <span><i class="icon-circle"></i></span>
-                            </li>
-                            <li class="nav-item">
-                                <span class="brand-name">COMPANY NAME</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <button class="btn btn-sm btn-primary"
-                                ng-click="loginCtrl.Logout();">
-                            Logout
-                        </button>
-                    </div>
+                <div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item brand-logo">
+                            <span><i class="icon-circle"></i></span>
+                        </li>
+                        <li class="nav-item">
+                            <span class="brand-name">COMPANY NAME</span>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-primary"
+                            ng-click="loginCtrl.Logout();">
+                        Logout
+                    </button>
+                </div>
             </nav>
         </div>
 
         <div ng-view></div>
-
     </div>
 </div>
 

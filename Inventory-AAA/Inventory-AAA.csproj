@@ -200,6 +200,17 @@
     <Content Include="angular-app\user\views\user.html" />
     <Content Include="Content\assets\crescent-loader.gif" />
     <Content Include="Content\assets\double-bubble-outline.png" />
+    <Content Include="Content\assets\svg\arrow-left.svg" />
+    <Content Include="Content\assets\svg\arrow-right.svg" />
+    <Content Include="Content\assets\svg\chart.svg" />
+    <Content Include="Content\assets\svg\close.svg" />
+    <Content Include="Content\assets\svg\dashboard.svg" />
+    <Content Include="Content\assets\svg\graph-up.svg" />
+    <Content Include="Content\assets\svg\home.svg" />
+    <Content Include="Content\assets\svg\plus.svg" />
+    <Content Include="Content\assets\svg\save.svg" />
+    <Content Include="Content\assets\svg\user.svg" />
+    <Content Include="Content\assets\svg\users.svg" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datatables.css" />

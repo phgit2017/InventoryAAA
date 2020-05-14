@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('LoginController', LoginController)
 
-LoginController.$inject = ['LoginService','$scope', '$location']
+LoginController.$inject = ['LoginService', '$scope', '$location', '$rootScope']
 
-function LoginController(LoginService, $scope, $location) {
+function LoginController(LoginService, $scope, $location, $rootScope) {
     
     let vm = this, controllerName = 'loginCtrl';
 
@@ -15,6 +15,7 @@ function LoginController(LoginService, $scope, $location) {
 
     vm.Login = _login;
     vm.Logout = _logout;
+    vm.ChangeRoute = _changeRoute;
 
     function _login() {
         LoginService.Login(vm.LoginDetails).then(
@@ -38,5 +39,9 @@ function LoginController(LoginService, $scope, $location) {
                 alert(err);
             }
         );
+    }
+
+    function _changeRoute(route) {
+        $location.url('/' + route);
     }
 }
