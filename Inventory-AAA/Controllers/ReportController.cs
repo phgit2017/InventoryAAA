@@ -28,9 +28,10 @@ namespace Inventory_AAA.Controllers
             return View();
         }
 
-        public ActionResult GenerateSalesReport()
+        public ActionResult GenerateSalesReport(DateTime startDate, DateTime endDate)
         {
-            return View();
+            var salesReportGenerationFile = SalesReportGeneration(startDate, endDate);
+            return salesReportGenerationFile;
         }
 
         #region Private methods
@@ -38,49 +39,53 @@ namespace Inventory_AAA.Controllers
         {
             DataTable dt = new DataTable();
             DataSet ds = new DataSet();
-            
+
             ds = _productServices.SalesReport(startDate, endDate);
 
             int rowId = 0;
             int colId = 0;
             int maxColCount = 0;
-            var fileNameGenerated = string.Format("{0}_{1}{2}", LookupKey.ReportFileName.SalesReport, "MMddyyyy", ".xlsx");
-            
+            var fileNameGenerated = string.Format("{0}_{1}{2}", LookupKey.ReportFileName.SalesReport, DateTime.Now.ToString("MMddyyyy"), ".xlsx");
+
             var contentType = "application/vnd.ms-excel";
 
             //var templateFile = new FileInfo(path);
             //var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
-
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             var package = new ExcelPackage();
             var workSheet = package.Workbook.Worksheets.Add(LookupKey.ReportFileName.SalesReport);
 
-            workSheet.Cells["A1"].Value = ds.Tables[0];
-            workSheet.Cells["A2"].Value = ds.Tables[1];
-            workSheet.Cells["A3"].Value = ds.Tables[2];
-            
+            workSheet.Cells["A1"].Value = ds.Tables[0].Rows[0][0].ToString();
+            workSheet.Cells["B1"].Value = ds.Tables[0].Rows[0][1].ToString();
 
-            colId = 5;
+            workSheet.Cells["A2"].Value = ds.Tables[1].Rows[0][0].ToString();
+            workSheet.Cells["B2"].Value = ds.Tables[1].Rows[0][1].ToString();
+
+            workSheet.Cells["A3"].Value = ds.Tables[2].Rows[0][0].ToString();
+            workSheet.Cells["B3"].Value = ds.Tables[2].Rows[0][1].ToString();
+
+
+            rowId = 5;
             DataTable dtReportColumns = new DataTable();
             dtReportColumns = ds.Tables[4];
-            //var char = ((char)65).ToString();
-            for (int i = 0; i < dtReportColumns.Columns.Count - 1; i++)
+            for (int i = 0; i <= dtReportColumns.Columns.Count - 1; i++)
             {
-
-                workSheet.Cells[((char)i).ToString() + colId].Value = dtReportColumns.Rows[0][i].ToString();
-                workSheet.Cells["A" + colId].Value = dtReportColumns.Rows[0][i].ToString();
+                colId = i + 1;
+                workSheet.Cells[rowId, colId].Value = dtReportColumns.Rows[0][i].ToString();
             }
 
 
             rowId = 6;
-            for (int i = 0; i <= dt.Rows.Count - 1; i++)
+            DataTable dtReportRows = new DataTable();
+            dtReportRows = ds.Tables[5];
+            for (int i = 0; i <= dtReportRows.Rows.Count - 1; i++)
             {
-
-                //workSheet.Cells["A" + rowId].Value = dt.Rows[i][Constants.DateValue].ToString();
-                //workSheet.Cells["B" + rowId].Value = dt.Rows[i][Constants.TotalAmount].ToString();
-
-
+                for (int iCol = 0; iCol <= dtReportRows.Columns.Count - 1; iCol++)
+                {
+                    colId = iCol + 1;
+                    workSheet.Cells[rowId, colId].Value = dtReportRows.Rows[i][iCol].ToString();
+                }
                 rowId++;
-
             }
 
 

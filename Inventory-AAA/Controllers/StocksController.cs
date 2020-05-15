@@ -9,6 +9,7 @@ using Business.AAA.Core;
 using Business.AAA.Core.Dto;
 using Business.AAA.Core.Interface;
 using Infrastructure.Utilities;
+using Inventory_AAA.Infrastructure;
 
 namespace Inventory_AAA.Controllers
 {
@@ -37,6 +38,7 @@ namespace Inventory_AAA.Controllers
             return View();
         }
 
+        //[InventoryAAAAuthorizeUser(Roles = "Admin")]
         [HttpGet]
         public JsonResult InventorySummary()
         {

@@ -135,7 +135,7 @@ namespace Business.AAA.Core
             SqlParameter[] sqlParams = new SqlParameter[]
             {
                 new SqlParameter() { ParameterName = "StartDate", Value = startDate, SqlDbType=  SqlDbType.DateTime },
-                new SqlParameter() { ParameterName = "StartDate", Value = startDate, SqlDbType = SqlDbType.DateTime },
+                new SqlParameter() { ParameterName = "EndDate", Value = endDate, SqlDbType = SqlDbType.DateTime },
             };
 
             ds = this._productServices.ExecuteSPReturnSet("INV_SalesReport", true, sqlParams);
