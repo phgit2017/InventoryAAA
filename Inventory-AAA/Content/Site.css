@@ -51,6 +51,11 @@ textarea {
     src: url('fonts/Roboto-Light.ttf');
 }
 
+.bg-primary {
+    background-color: var(--bg-primary) !important;
+    color: white;
+}
+
 .loader-design {
     display: flex;
     justify-content: center;

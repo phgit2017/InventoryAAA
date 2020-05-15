@@ -183,6 +183,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="angular-app\authentication\services\authentication-service.js" />
     <Content Include="angular-app\home\controllers\home-controller.js" />
     <Content Include="angular-app\home\home.html" />
     <Content Include="angular-app\inventory\controllers\inventory-controller.js" />

@@ -37,12 +37,25 @@
                     showNavbar: true,
                     navItem: "Users"
                 })
+                .otherwise({
+                    redirectTo: "/"
+                })
         })
-        .run(['$rootScope', '$location', function ($rootScope, $location) {
+        .run(['$rootScope', '$location', 'AuthService', function ($rootScope, $location, AuthService) {
             $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
                 $rootScope.title = current.$$route.title;
                 $rootScope.showNavbar = current.$$route.showNavbar;
                 $rootScope.navItem = current.$$route.navItem;
+
+                //if (!AuthService.IsLoggedIn()) {
+                //    debugger;
+                //    console.log('UNAUTHORIZED');
+                //    event.preventDefault();
+                //    $location.url('/Login')
+                //} else {
+                //    console.log('AUTHORIZED');
+                //    $location.url(current.$$route.originalPath)
+                //}
 
                 if (current.$$route.redirectToUrl != undefined) {
                     $location.url(current.$$route.redirectToUrl);
