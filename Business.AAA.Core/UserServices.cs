@@ -88,6 +88,18 @@ namespace Business.AAA.Core
         {
             request.UserId = 0;
             this.userDetails = request.DtoToEntity();
+
+            
+            var codeUserDetailResult = GetAllUserDetails().Where(u => u.UserName == request.UserName
+                                                                                && u.IsActive).FirstOrDefault();
+
+            #region Validate same username
+            if (!codeUserDetailResult.IsNull())
+            {
+                return -100;
+            }
+            #endregion
+
             var item = this._userDetailServices.Insert(this.userDetails);
             if (item == null)
             {
@@ -114,6 +126,7 @@ namespace Business.AAA.Core
         public bool UpdateUserDetails(UserDetailRequest request)
         {
             this.userDetails = request.DtoToEntity();
+
             var item = _userDetailServices.Update2(this.userDetails);
             if (item == null)
             {

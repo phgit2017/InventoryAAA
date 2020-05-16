@@ -57,11 +57,15 @@ namespace Business.AAA.Core.Dto
     public class UserDetailRequest : BaseDetail
     {
         public int UserId { get; set; }
-
-        [Required]
+        
+        [Display(Name = "User Name")]
+        [Required(ErrorMessage = "UserName is required")]
+        [StringLength(64, ErrorMessage = "Up to 64 characters only.")]
         public string UserName { get; set; }
 
-        [Required]
+        [Display(Name = "Password")]
+        [Required(ErrorMessage = "Password is required")]
+        [StringLength(64, ErrorMessage = "Up to 64 characters only.")]
         public string Password { get; set; }
 
         [Required]
@@ -69,10 +73,14 @@ namespace Business.AAA.Core.Dto
 
         public bool IsActive { get; set; }
 
-        [StringLength(32)]
+        [Display(Name = "First Name")]
+        [Required(ErrorMessage = "First Name is required")]
+        [StringLength(32, ErrorMessage = "Up to 32 characters only.")]
         public string FirstName { get; set; }
 
-        [StringLength(32)]
+        [Display(Name = "Last Name")]
+        [Required(ErrorMessage = "Last Name is required")]
+        [StringLength(32, ErrorMessage = "Up to 32 characters only.")]
         public string LastName { get; set; }
 
     }

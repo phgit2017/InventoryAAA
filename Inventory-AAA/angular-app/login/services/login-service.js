@@ -6,7 +6,8 @@ LoginService.$inject = ['$http', '$q'];
 
 function LoginService($http, $q) {
     var LoginServiceFactory = {},
-        baseUrl = "/Inventory-AAA/User"
+        //baseUrl = "/Inventory-AAA/User";
+        baseUrl = "/User";
 
     LoginServiceFactory.Login = _login;
     LoginServiceFactory.Logout = _logout;

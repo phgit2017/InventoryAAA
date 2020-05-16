@@ -84,60 +84,72 @@ namespace Inventory_AAA.Controllers
 
             var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
 
-            #region Set Order Transaction Type
-
-
-            if (request.OrderTransactionType == LookupKey.OrderTransactionType.PurchaseOrder)
+            if (ModelState.IsValid)
             {
-                orderTransactionTypeService = "PurchaseOrderService";
+                #region Set Order Transaction Type
+
+
+                if (request.OrderTransactionType == LookupKey.OrderTransactionType.PurchaseOrder)
+                {
+                    orderTransactionTypeService = "PurchaseOrderService";
+                }
+                else if (request.OrderTransactionType == LookupKey.OrderTransactionType.SalesOrder)
+                {
+                    orderTransactionTypeService = "SalesOrderService";
+                }
+
+                #endregion
+
+                #region Service implementation
+
+                orderTransactionRequest.CreatedBy = currentUserId;
+
+                orderTransactionDetailRequest.Add(new ProductDetailRequest()
+                {
+                    ProductId = request.ProductId,
+                    ProductCode = request.ProductCode,
+                    ProductDescription = request.ProductDescription,
+                    Quantity = request.Stocks,
+                    UnitPrice = request.UnitPrice,
+                    IsActive = request.IsActive,
+                    CreatedBy = currentUserId
+
+                });
+                var type = Type.GetType(string.Format("{0}.{1}, {0}", "Business.AAA.Core", orderTransactionTypeService));
+                IOrderTransactionalServices order = (IOrderTransactionalServices)Activator.CreateInstance(type,
+                    _productServices,
+                    _orderServices);
+                updateOrderTransactionResult = order.UpdateOrderTransaction(
+                    orderTransactionRequest,
+                    orderTransactionDetailRequest);
+
+                #endregion
+
+                //IOrderTransactionalServices x = new PurchaseOrderService(_productServices, _orderServices);
+                //var type = Type.GetType("Business.AAA.Core.PurchaseOrderService, Business.AAA.Core");
+                //updateOrderTransactionResult = x.UpdateOrderTransaction(orderTransactionRequest, orderTransactionDetailRequest);
+
+                if (updateOrderTransactionResult == -100)
+                {
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.ProductCodeValidation }, JsonRequestBehavior.AllowGet);
+                }
+                else if (updateOrderTransactionResult == 0)
+                {
+                    isSucess = true;
+                }
+
+                var response = new
+                {
+                    isSucess = isSucess,
+                    messageAlert = messageAlert
+                };
+                return Json(response, JsonRequestBehavior.AllowGet);
             }
-            else if (request.OrderTransactionType == LookupKey.OrderTransactionType.SalesOrder)
+            else
             {
-                orderTransactionTypeService = "SalesOrderService";
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
             }
 
-            #endregion
-
-            #region Service implementation
-
-            orderTransactionRequest.CreatedBy = currentUserId;
-
-            orderTransactionDetailRequest.Add(new ProductDetailRequest()
-            {
-                ProductId = request.ProductId,
-                ProductCode = request.ProductCode,
-                ProductDescription = request.ProductDescription,
-                Quantity = request.Stocks,
-                UnitPrice = request.UnitPrice,
-                IsActive = request.IsActive,
-                CreatedBy = currentUserId
-
-            });
-            var type = Type.GetType(string.Format("{0}.{1}, {0}", "Business.AAA.Core", orderTransactionTypeService));
-            IOrderTransactionalServices order = (IOrderTransactionalServices)Activator.CreateInstance(type,
-                _productServices,
-                _orderServices);
-            updateOrderTransactionResult = order.UpdateOrderTransaction(
-                orderTransactionRequest,
-                orderTransactionDetailRequest);
-
-            #endregion
-
-            //IOrderTransactionalServices x = new PurchaseOrderService(_productServices, _orderServices);
-            //var type = Type.GetType("Business.AAA.Core.PurchaseOrderService, Business.AAA.Core");
-            //updateOrderTransactionResult = x.UpdateOrderTransaction(orderTransactionRequest, orderTransactionDetailRequest);
-
-            if (updateOrderTransactionResult == 0)
-            {
-                isSucess = true;
-            }
-
-            var response = new
-            {
-                isSucess = isSucess,
-                messageAlert = messageAlert
-            };
-            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -150,52 +162,64 @@ namespace Inventory_AAA.Controllers
             var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
             request.CreatedBy = currentUserId;
 
-            //Update Product Details
-            productUpdateResult = _productServices.UpdateDetails(request);
-
-            if (!productUpdateResult)
+            if (ModelState.IsValid)
             {
-                return Json(new
+                var codeProductDetailResult = _productServices.GetAll().Where(p => p.ProductCode == request.ProductCode
+                                                                                && p.IsActive
+                                                                                && p.ProductId != request.ProductId).FirstOrDefault();
+
+                #region Validate same product code
+                if (!codeProductDetailResult.IsNull())
+                {
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.ProductCodeValidation }, JsonRequestBehavior.AllowGet);
+                }
+                #endregion
+
+
+                //Update Product Details
+                productUpdateResult = _productServices.UpdateDetails(request);
+
+                if (!productUpdateResult)
+                {
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
+                }
+
+                var productLogDetailRequest = new ProductLogDetailRequest()
+                {
+                    ProductLogsId = 0,
+                    ProductId = request.ProductId,
+                    ProductCode = request.ProductCode,
+                    ProductDescription = request.ProductDescription,
+                    Quantity = request.Quantity,
+                    UnitPrice = request.UnitPrice,
+                    IsActive = request.IsActive,
+                    CreatedBy = request.CreatedBy,
+                    CreatedTime = request.CreatedTime,
+                    ModifiedBy = request.ModifiedBy,
+                    ModifiedTime = DateTime.Now
+                };
+                var productLogResult = _productServices.SaveProductLogs(productLogDetailRequest);
+
+                if (productLogResult <= 0)
+                {
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
+                }
+
+                isSucess = true;
+                var response = new
                 {
                     isSucess = isSucess,
-                    messageAlert = "Server Error"
-                }, JsonRequestBehavior.AllowGet);
+                    messageAlert = messageAlert
+                };
+                return Json(response, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
             }
 
 
-            var productLogDetailRequest = new ProductLogDetailRequest()
-            {
-                ProductLogsId = 0,
-                ProductId = request.ProductId,
-                ProductCode = request.ProductCode,
-                ProductDescription = request.ProductDescription,
-                Quantity = request.Quantity,
-                UnitPrice = request.UnitPrice,
-                IsActive = request.IsActive,
-                CreatedBy = request.CreatedBy,
-                CreatedTime = request.CreatedTime,
-                ModifiedBy = request.ModifiedBy,
-                ModifiedTime = DateTime.Now
-            };
-            var productLogResult = _productServices.SaveProductLogs(productLogDetailRequest);
 
-            if (productLogResult <= 0)
-            {
-                return Json(new
-                {
-                    isSucess = isSucess,
-                    messageAlert = "Server Error"
-                }, JsonRequestBehavior.AllowGet);
-            }
-
-            isSucess = true;
-            var response = new
-            {
-                isSucess = isSucess,
-                messageAlert = messageAlert
-            };
-
-            return Json(response, JsonRequestBehavior.AllowGet);
         }
     }
 }

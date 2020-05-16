@@ -11,13 +11,19 @@ namespace Business.AAA.Core.Dto
     {
         public long ProductId { get; set; }
 
-        [Required]
+        [Display(Name = "Product Code")]
+        [Required(ErrorMessage = "Product Code is required")]
+        [StringLength(64, ErrorMessage = "Up to 64 characters only.")]
         public string ProductCode { get; set; }
 
         public string ProductDescription { get; set; }
 
+        [Display(Name = "Stocks")]
+        [Required(ErrorMessage = "Stocks is required")]
         public decimal Stocks { get; set; }
 
+        [Display(Name = "Unit Price")]
+        [Required(ErrorMessage = "Unit Price is required")]
         public decimal UnitPrice { get; set; }
 
         public int OrderTransactionType { get; set; }

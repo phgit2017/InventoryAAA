@@ -30,4 +30,12 @@ namespace Business.AAA.Core.Dto
             public const string SalesReport = "SalesReport";
         }
     }
+
+    public static class Messages
+    {
+        public const string ProductCodeValidation = "Duplicate product code.";
+        public const string UserNameValidation = "Duplicate username.";
+        public const string ErrorOccuredDuringProcessing = "An error occured during the process. Please check the details, refresh the page, and try again.";
+        public const string ServerError = "Server Error";
+    }
 }

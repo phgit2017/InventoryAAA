@@ -45,26 +45,35 @@ namespace Inventory_AAA.Controllers
 
             request.CreatedBy = currentUserId;
             request.CreatedTime = DateTime.Now;
-            userIdResult = _userServices.SaveUserDetails(request);
 
-            if (userIdResult == 0)
+            if (ModelState.IsValid)
             {
-                return Json(new
-                {
-                    isSucess = isSucess,
-                    messageAlert = "Server Error"
-                }, JsonRequestBehavior.AllowGet);
 
+                userIdResult = _userServices.SaveUserDetails(request);
+
+                if (userIdResult == -100)
+                {
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.UserNameValidation }, JsonRequestBehavior.AllowGet);
+                }
+                if (userIdResult == 0)
+                {
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
+                }
+
+                isSucess = true;
+                var response = new
+                {
+                    isSuccess = isSucess,
+                    messageAlert = messageAlert
+                };
+
+                return Json(response, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
             }
 
-            isSucess = true;
-            var response = new
-            {
-                isSuccess = isSucess,
-                messageAlert = messageAlert
-            };
-
-            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -78,26 +87,41 @@ namespace Inventory_AAA.Controllers
 
             request.ModifiedBy = currentUserId;
             request.ModifiedTime = DateTime.Now;
-            
-            userIdResult = _userServices.UpdateUserDetails(request);
 
-            if (!userIdResult)
+            if (ModelState.IsValid)
             {
-                return Json(new
+                var codeUserDetailResult = _userServices.GetAllUserDetails().Where(u => u.UserName == request.UserName
+                                                                     && u.UserId != request.UserId
+                                                                               && u.IsActive).FirstOrDefault();
+
+                #region Validate same username
+                if (!codeUserDetailResult.IsNull())
                 {
-                    isSucess = isSucess,
-                    messageAlert = "Server Error"
-                }, JsonRequestBehavior.AllowGet);
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.UserNameValidation }, JsonRequestBehavior.AllowGet);
+                }
+                #endregion
+
+                userIdResult = _userServices.UpdateUserDetails(request);
+
+                if (!userIdResult)
+                {
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
+                }
+
+                isSucess = true;
+                var response = new
+                {
+                    isSuccess = isSucess,
+                    messageAlert = messageAlert
+                };
+
+                return Json(response, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
             }
 
-            isSucess = true;
-            var response = new
-            {
-                isSuccess = isSucess,
-                messageAlert = messageAlert
-            };
-
-            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
