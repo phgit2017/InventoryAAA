@@ -21,7 +21,6 @@ function UserController(UserService, DTOptionsBuilder, $scope, $rootScope) {
         UserRoleId: 1,
         IsActive: true
     };
-    vm.ConfirmPassword = "";
 
     vm.Initialize = _initialize;
     vm.ClearUserDetails = _clearUserDetails;
@@ -54,14 +53,10 @@ function UserController(UserService, DTOptionsBuilder, $scope, $rootScope) {
 
     function _saveUser() {
         if (ValidUserDetails()) {
-            if (vm.ConfirmPassword != vm.SelectedUser.Password) {
-                if (vm.SelectedUser.UserId === 0) {
-                    _addNewUser();
-                } else {
-                    _updateUser();
-                }
+            if (vm.SelectedUser.UserId === 0) {
+                _addNewUser();
             } else {
-                alert("Passwords do not match!");
+                _updateUser();
             }
         } else {
             alert("Please fill up all fields!");
@@ -69,12 +64,14 @@ function UserController(UserService, DTOptionsBuilder, $scope, $rootScope) {
     }
 
     function _addNewUser() {
+        $rootScope.IsLoading = true;
         UserService.AddNewUser(vm.SelectedUser).then(
             function (data) {
                 if (data.isSuccess) {
                     alert("User has been successfully added.");
                     vm.UserListLoading = true;
                     _initialize();
+                    $rootScope.IsLoading = false;
                 }
             }, function (err) {
                 console.log(err);

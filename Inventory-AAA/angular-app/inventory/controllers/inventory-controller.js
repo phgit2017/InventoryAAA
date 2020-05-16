@@ -109,7 +109,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
             vm.OrderRequest["ProductDescription"] = vm.SelectedProduct.ProductDescription;
             vm.OrderRequest["UnitPrice"] = parseInt(vm.SelectedProduct.UnitPrice);
-            vm.OrderRequest["Stocks"] = parseInt(vm.SelectedProduct.Quantity);
+            vm.OrderRequest["Stocks"] = parseInt(vm.OrderRequestQuantity !== 0 ? vm.OrderRequestQuantity : vm.SelectedProduct.Quantity);
             vm.OrderRequest["OrderTransactionType"] = vm.OrderRequestTransactionType;
             vm.OrderRequest["IsActive"] = 1;
             vm.OrderRequest["CreatedBy"] = 1;
@@ -117,6 +117,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
 
             InventoryService.SaveOrderRequest(vm.OrderRequest).then(
                 function (data) {
+                    debugger;
                     if (data.isSucess) {
                         alert("Transaction has been saved!");
                         if (isAddNew) {
@@ -171,6 +172,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         vm.OrderRequest = {};
         vm.OrderRequestTransactionType = 0;
         vm.OrderRequestQuantity = 0;
+        _resetFields();
     }
 
     function _resetFields() {
@@ -200,7 +202,6 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     }
 
     function validProductDetails() {
-        debugger;
         if (vm.SelectedProduct.ProductCode.trim() !== ""
             && vm.SelectedProduct.ProductCode.trim() !== null
             && validUnitPrice()) {

@@ -5,7 +5,7 @@
             <div class="modal-close">
                 <button class="btn btn-sm btn-light"
                         ng-click="inventoryCtrl.Initialize();
-                                    inventoryCtrl.ToggleManageModal();">
+                                  inventoryCtrl.ToggleManageModal();">
                     Close
                 </button>
             </div>
@@ -26,6 +26,10 @@
                             <span class="input-label">UNIT PRICE:</span>
                             <br />
                             <div class="item-label">{{ inventoryCtrl.SelectedProduct.UnitPrice }}</div>
+                            <br />
+                            <span class="input-label">CURRENT STOCK:</span>
+                            <br />
+                            <div class="item-label">{{ inventoryCtrl.SelectedProduct.Quantity }}</div>
                         </div>
                     </div>
                     <div class="card">
