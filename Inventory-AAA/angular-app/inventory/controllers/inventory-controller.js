@@ -66,7 +66,8 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.dtProductHistoryOptions = DTOptionsBuilder.newOptions()
         .withPaginationType('simple_numbers')
         .withDisplayLength(10)
-        .withDOM("<'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'p><'table-details't>>");
+        .withDOM("<'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'p><'table-details't>>")
+        .withOption('order', [0, 'desc']);
 
     DTDefaultOptions.setLoadingTemplate(
         '<div class="loader-design"><img src="Content/assets/crescent-loader.gif" ></div>'
@@ -92,6 +93,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         $rootScope.IsLoading = true;
         InventoryService.GetProductDetails(vm.ProductDetailRequest).then(
             function (data) {
+                debugger;
                 vm.SelectedProduct = {
                     ProductId: data.ProductResult.ProductId,
                     ProductCode: data.ProductResult.ProductCode,

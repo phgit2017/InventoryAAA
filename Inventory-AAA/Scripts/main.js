@@ -1,6 +1,6 @@
 ﻿var app =
     angular
-        .module("InventoryApp", ["ngRoute", "datatables", "datatables.options"])
+        .module("InventoryApp", ["ngRoute", "datatables", "datatables.options", "ngCookies"])
         .config(function ($routeProvider, $locationProvider) {
             $locationProvider.hashPrefix('');
             $routeProvider
