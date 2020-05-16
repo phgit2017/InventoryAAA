@@ -72,6 +72,20 @@ namespace Inventory_AAA.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpGet]
+        public JsonResult ProductDetails(long productId)
+        {
+            //Product Details
+            var productResult = _productServices.GetAll().Where(p => p.ProductId == productId).FirstOrDefault();
+
+            var response = new
+            {
+                ProductResult = productResult,
+                isSuccess = true
+            };
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public JsonResult UpdateInventoryOrder(OrderRequest request)
         {
