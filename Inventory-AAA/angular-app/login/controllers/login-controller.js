@@ -22,12 +22,7 @@ function LoginController(LoginService, $scope, $location, $rootScope, $cookies) 
         LoginService.Login(vm.LoginDetails).then(
             function (data) {
                 if (data.isSuccess) {
-                    $rootScope.FirstName = data.userDetailResult.FirstName;
-                    $rootScope.LastName = data.userDetailResult.LastName;
-                    $rootScope.RoleName = data.userDetailResult.UserRoleDetails.UserRoleName;
-                    $rootScope.Cookie = $cookies.get('AuthenticateLoginDetails');
                     $rootScope.IsLoading = false;
-                    debugger;
                     $location.url('/Inventory');
                 } else {
                     alert(data.messageAlert);

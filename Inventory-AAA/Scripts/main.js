@@ -49,12 +49,16 @@
                     redirectTo: "/"
                 })
         })
-        .run(['$rootScope', '$location', function ($rootScope, $location) {
+        .run(['$rootScope', '$location', '$cookies', function ($rootScope, $location, $cookies) {
             $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
                 $rootScope.title = current.$$route.title;
                 $rootScope.showNavbar = current.$$route.showNavbar;
                 $rootScope.navItem = current.$$route.navItem;
                 $rootScope.IsLoading = false;
+
+                $rootScope.FullName = $cookies.get('UserFullName');
+                $rootScope.RoleName = $cookies.get('UserRoleName');
+
                 //if (!AuthService.IsLoggedIn()) {
                 //    console.log('UNAUTHORIZED');
                 //    event.preventDefault();
