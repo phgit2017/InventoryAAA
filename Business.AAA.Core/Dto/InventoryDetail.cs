@@ -27,6 +27,36 @@ namespace Business.AAA.Core.Dto
         public decimal SalesQty { get; set; }
         public decimal CurrentStocks { get; set; }
         public DateTime TransactionDate { get; set; }
+
+        public string TransactionDateTimeFormat
+        {
+            get
+            {
+                if (TransactionDate != null)
+                {
+                    return TransactionDate.ToString("MM/dd/yyyy HH:mm:ss");
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+
+        public string TransactionDateFormat
+        {
+            get
+            {
+                if (TransactionDate != null)
+                {
+                    return TransactionDate.ToString("MM/dd/yyyy");
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
     }
 
     public class StocksDetailsSearchRequest
