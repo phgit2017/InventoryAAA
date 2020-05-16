@@ -16,7 +16,7 @@ namespace Business.AAA.Core.Dto
         [StringLength(64, ErrorMessage = "Up to 64 characters only.")]
         public string ProductCode { get; set; }
 
-        public string ProductDescription { get; set; }
+        public string ProductDescription { get; set; } = string.Empty;
 
         [Display(Name = "Stocks")]
         [Required(ErrorMessage = "Stocks is required")]

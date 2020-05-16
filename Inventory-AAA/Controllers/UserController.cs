@@ -8,12 +8,13 @@ using Business.AAA.Core;
 using Business.AAA.Core.Dto;
 using Business.AAA.Core.Interface;
 using Infrastructure.Utilities;
+using Inventory_AAA.Infrastructure;
 
 namespace Inventory_AAA.Controllers
 {
     public class UserController : Controller
     {
-        private readonly IUserServices _userServices;
+        private IUserServices _userServices;
 
         public UserController(
             IUserServices userServices)
@@ -21,6 +22,7 @@ namespace Inventory_AAA.Controllers
             this._userServices = userServices;
         }
 
+        //[InventoryAAAAuthorizeUser("Admin")]
         [HttpPost]
         public JsonResult UserList(UserDetailSearchRequest request)
         {
@@ -90,11 +92,12 @@ namespace Inventory_AAA.Controllers
 
             if (ModelState.IsValid)
             {
+                #region Validate same username
                 var codeUserDetailResult = _userServices.GetAllUserDetails().Where(u => u.UserName == request.UserName
                                                                      && u.UserId != request.UserId
                                                                                && u.IsActive).FirstOrDefault();
 
-                #region Validate same username
+                
                 if (!codeUserDetailResult.IsNull())
                 {
                     return Json(new { isSucess = isSucess, messageAlert = Messages.UserNameValidation }, JsonRequestBehavior.AllowGet);
@@ -142,8 +145,8 @@ namespace Inventory_AAA.Controllers
             isSuccess = true;
             Session[LookupKey.SessionVariables.UserId] = authenticateLoginResult.UserId;
 
-            HttpCookie userFullName = new HttpCookie("UserFullName",authenticateLoginResult.FullName);
-            HttpCookie userRoleName = new HttpCookie("UserRoleName", authenticateLoginResult.UserRoleDetails.UserRoleName);
+            HttpCookie userFullName = new HttpCookie(LookupKey.SessionVariables.UserFullName, authenticateLoginResult.FullName);
+            HttpCookie userRoleName = new HttpCookie(LookupKey.SessionVariables.UserRoleName, authenticateLoginResult.UserRoleDetails.UserRoleName);
             Response.Cookies.Add(userFullName);
             Response.Cookies.Add(userRoleName);
 
@@ -158,17 +161,12 @@ namespace Inventory_AAA.Controllers
         [HttpPost]
         public JsonResult Logout()
         {
-            Response.Cookies.Remove("UserFullName");
-            Response.Cookies.Remove("UserRoleName");
-            
-            Session.Abandon();
-            
-            var response = new
-            {
-                isSuccess = true,
-                messageAlert = string.Empty
+            Response.Cookies.Remove(LookupKey.SessionVariables.UserFullName);
+            Response.Cookies.Remove(LookupKey.SessionVariables.UserRoleName);
 
-            };
+            Session.Abandon();
+
+            var response = new { isSuccess = true, messageAlert = string.Empty };
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
