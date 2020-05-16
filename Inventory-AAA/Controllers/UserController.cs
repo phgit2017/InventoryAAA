@@ -142,12 +142,10 @@ namespace Inventory_AAA.Controllers
             isSuccess = true;
             Session[LookupKey.SessionVariables.UserId] = authenticateLoginResult.UserId;
 
-            HttpCookie userDetails = new HttpCookie("AuthenticateLoginDetails");
-            Response.Cookies.Remove("AuthenticateLoginDetails");
-            userDetails["UserId"] = authenticateLoginResult.UserId.ToString();
-            userDetails["UserName"] = authenticateLoginResult.UserName;
-            userDetails["FullName"] = authenticateLoginResult.FullName;
-            Response.Cookies.Add(userDetails);
+            HttpCookie userFullName = new HttpCookie("UserFullName",authenticateLoginResult.FullName);
+            HttpCookie userRoleName = new HttpCookie("UserRoleName", authenticateLoginResult.UserRoleDetails.UserRoleName);
+            Response.Cookies.Add(userFullName);
+            Response.Cookies.Add(userRoleName);
 
             var response = new
             {
@@ -160,7 +158,9 @@ namespace Inventory_AAA.Controllers
         [HttpPost]
         public JsonResult Logout()
         {
-            Response.Cookies.Remove("AuthenticateLoginDetails");
+            Response.Cookies.Remove("UserFullName");
+            Response.Cookies.Remove("UserRoleName");
+            
             Session.Abandon();
             
             var response = new
