@@ -14,15 +14,18 @@
                     <div class="login-input-section mr-md-5 mr-4 mt-4 mb-4">
                         <h4 class="mb-4 ml-0">LOGIN</h4>
                         <span class="input-label">USERNAME</span>
-                        <input type="text" class="form-control mb-3" ng-model="loginCtrl.LoginDetails.UserName" />
+                        <input type="text" class="form-control mb-3" ng-model="loginCtrl.LoginDetails.UserName" 
+                               ng-keydown="$event.keyCode === 13 && loginCtrl.Login();"/>
 
                         <span class="input-label">PASSWORD</span>
-                        <input type="password" class="form-control" ng-model="loginCtrl.LoginDetails.Password" />
+                        <input type="password" class="form-control" ng-model="loginCtrl.LoginDetails.Password" 
+                               ng-keydown="$event.keyCode === 13 && loginCtrl.Login();"/>
 
                         <br />
 
                         <button class="btn btn-block btn-primary mb-2"
-                                ng-click="loginCtrl.Login();">
+                                ng-click="loginCtrl.Login();"
+                                ng-keydown="$event.keyCode === 13 && loginCtrl.Login();">
                             LOGIN
                         </button>
                         <div class="d-flex justify-content-center">

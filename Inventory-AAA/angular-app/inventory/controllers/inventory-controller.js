@@ -92,6 +92,14 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         $rootScope.IsLoading = true;
         InventoryService.GetProductDetails(vm.ProductDetailRequest).then(
             function (data) {
+                vm.SelectedProduct = {
+                    ProductId: data.ProductResult.ProductId,
+                    ProductCode: data.ProductResult.ProductCode,
+                    ProductDescription: data.ProductResult.ProductDescription,
+                    Quantity: data.ProductResult.Quantity,
+                    UnitPrice: data.ProductResult.UnitPrice,
+                    IsActive: data.ProductResult.IsActive
+                };
                 vm.ProductHistory = data.InventoryDetailsResult;
                 $rootScope.IsLoading = false;
                 if (showManageModal) {

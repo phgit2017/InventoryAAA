@@ -16,11 +16,9 @@ function LoginController(LoginService, $scope, $location, $rootScope) {
     vm.Login = _login;
     vm.Logout = _logout;
     vm.ChangeRoute = _changeRoute;
-    vm.TestQuickAlert = _testQuickAlert;
 
     function _login() {
         $rootScope.IsLoading = true;
-        debugger;
         LoginService.Login(vm.LoginDetails).then(
             function (data) {
                 if (data.isSuccess) {
@@ -51,9 +49,5 @@ function LoginController(LoginService, $scope, $location, $rootScope) {
 
     function _changeRoute(route) {
         $location.url('/' + route);
-    }
-
-    function _testQuickAlert() {
-
     }
 }
