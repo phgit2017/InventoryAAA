@@ -9,6 +9,7 @@ using Business.AAA.Core.Dto;
 using Business.AAA.Core.Interface;
 using dbentities = DataAccess.Database.InventoryAAA;
 using DataAccess.Repository.InventoryAAA.Interface;
+using Infrastructure.Utilities;
 
 namespace Business.AAA.Core
 {
@@ -45,6 +46,40 @@ namespace Business.AAA.Core
             orderTransactionRequest.TotalQuantity = totalQuantity;
             orderTransactionRequest.TotalAmount = totalAmount;
 
+            #region Validate if Product Code is existing
+
+            foreach (var orderDetail in orderTransactionDetailRequest)
+            {
+                if (orderDetail.ProductId == 0)
+                {
+                    var codeProductDetailResult = _productServices.GetAll().Where(p => p.ProductCode == orderDetail.ProductCode
+                                                                                                    && p.IsActive).FirstOrDefault();
+
+                    #region Validate same product code
+                    if (!codeProductDetailResult.IsNull())
+                    {
+                        return successReturn = -100;
+                    }
+                    #endregion
+                }
+                else
+                {
+                    var codeProductDetailResult = _productServices.GetAll().Where(p => p.ProductCode == orderDetail.ProductCode
+                                                                                && p.IsActive
+                                                                                && p.ProductId != orderDetail.ProductId).FirstOrDefault();
+
+                    #region Validate same product code
+                    if (!codeProductDetailResult.IsNull())
+                    {
+                        return successReturn = -100;
+                    }
+                    #endregion
+                }
+
+            }
+
+            #endregion
+
             #region Purchase Order
             var purchaseOrderRequest = new PurchaseOrdersRequest()
             {
@@ -68,6 +103,7 @@ namespace Business.AAA.Core
             foreach (var orderDetail in orderTransactionDetailRequest)
             {
                 long productId = 0;
+
                 #region Product
                 var productDetailRequest = new ProductDetailRequest()
                 {
@@ -90,12 +126,13 @@ namespace Business.AAA.Core
                 else
                 {
                     var productDetailResult = _productServices.GetAll().Where(p => p.ProductId == orderDetail.ProductId).FirstOrDefault();
+
                     productDetailRequest = new ProductDetailRequest()
                     {
                         ProductId = productDetailResult.ProductId,
                         ProductCode = productDetailResult.ProductCode,
                         ProductDescription = productDetailResult.ProductDescription,
-                        Quantity =(productDetailResult.Quantity + orderDetail.Quantity),
+                        Quantity = (productDetailResult.Quantity + orderDetail.Quantity),
                         UnitPrice = productDetailResult.UnitPrice,
                         IsActive = productDetailResult.IsActive,
                         CreatedBy = productDetailResult.CreatedBy,
@@ -104,10 +141,12 @@ namespace Business.AAA.Core
                         ModifiedTime = DateTime.Now
                     };
 
+                    
+
                     _productServices.UpdateDetails(productDetailRequest);
                     productId = productDetailResult.ProductId;
                 }
-                
+
 
                 if (productId <= 0)
                 {
@@ -149,7 +188,7 @@ namespace Business.AAA.Core
                     ModifiedBy = null,
                     ModifiedTime = null
                 };
-                
+
                 var purchaseOrderDetailId = _orderServices.SavePurchaseOrderDetails(purchaseOrderDetailRequest);
 
                 if (purchaseOrderDetailId <= 0)

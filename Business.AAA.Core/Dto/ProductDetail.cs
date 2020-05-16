@@ -28,10 +28,13 @@ namespace Business.AAA.Core.Dto
     {
         public long ProductId { get; set; }
 
-        [StringLength(32)]
+        [Display(Name = "Product Code")]
+        [Required(ErrorMessage = "Product Code is required")]
+        [StringLength(64, ErrorMessage = "Up to 64 characters only.")]
         public string ProductCode { get; set; }
 
-        [StringLength(32)]
+        [Display(Name = "Product Description")]
+        [StringLength(64, ErrorMessage = "Up to 64 characters only.")]
         public string ProductDescription { get; set; }
 
         public decimal Quantity { get; set; }
