@@ -137,6 +137,8 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
                             _getProductDetails(vm.OrderRequest.ProductId);
                             _resetManageFields();
                         }
+                    } else {
+                        alert(data.messageAlert);
                     }
                 }, function (error) {
                     vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
