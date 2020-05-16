@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('UserController', UserController);
 
-UserController.$inject = ['UserService', 'DTOptionsBuilder', 'DTDefaultOptions' ,'$scope'];
+UserController.$inject = ['UserService', 'DTOptionsBuilder' ,'$scope', '$rootScope'];
 
-function UserController(UserService, DTOptionsBuilder, DTDefaultOptions, $scope) {
+function UserController(UserService, DTOptionsBuilder, $scope, $rootScope) {
 
     var vm = this, controllerName = 'userCtrl';
 
@@ -39,13 +39,15 @@ function UserController(UserService, DTOptionsBuilder, DTDefaultOptions, $scope)
     }
 
     function _getUserList() {
+        $rootScope.IsLoading = true;
         UserService.GetUserList().then(
             function (data) {
                 vm.UserList = data.UserDetailsResult;
-                console.log(vm.UserList);
                 vm.UserListLoading = false;
+                $rootScope.IsLoading = false;
             }, function (error) {
-                console.log(error);
+                alert(error);
+                $rootScope.IsLoading = false;
             }
         );
     }

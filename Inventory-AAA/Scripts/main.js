@@ -37,6 +37,14 @@
                     showNavbar: true,
                     navItem: "Users"
                 })
+                .when("/Reports", {
+                    title: "Reports",
+                    templateUrl: "angular-app/report/views/report.html",
+                    controller: "ReportController",
+                    controllerAs: "reportCtrl",
+                    showNavbar: true,
+                    navItem: "Reports"
+                })
                 .otherwise({
                     redirectTo: "/"
                 })
@@ -87,6 +95,26 @@ app.directive('pageLoading', function () {
         },
 
         templateUrl: 'angular-app/shared/views/page-loader-directive.html',
+    }
+});
+
+// Quick Alerts
+
+app.directive('quickAlert', function () {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            showme: '=',
+            message: '='
+        },
+        replace: true, // Replace with template
+        transclude: true, // To use custom content
+        link: function (scope, element, attrs) {
+            scope.showQuickAlert = false;
+            scope.message = "";
+        },
+        templateUrl: 'angular-app/shared/views/quick-alert-directive.html',
     }
 });
 

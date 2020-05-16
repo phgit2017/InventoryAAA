@@ -1,5 +1,4 @@
-﻿
-    <div class="main-container" ng-controller="LoginController as loginCtrl">
+﻿    <div class="main-container" ng-controller="LoginController as loginCtrl">
         <page-loading showme="$root.IsLoading"></page-loading>
         <div class="sidebar">
             <nav class="navbar d-flex justify-content-end">
@@ -41,7 +40,9 @@
                             </span>
                             <span class="nav-item__label">Users</span>
                         </li>
-                        <li class="sidebar-main__nav-item">
+                        <li class="sidebar-main__nav-item"
+                            ng-class=" {'active-item': $root.navItem == 'Reports'}"
+                            ng-click="loginCtrl.ChangeRoute('Reports');">
                             <span class="nav-item__img">
                                 <img src="~/Content/assets/svg/chart.svg" class="img-invert" />
                             </span>

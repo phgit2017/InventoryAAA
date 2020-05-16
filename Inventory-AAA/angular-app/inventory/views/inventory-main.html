@@ -10,27 +10,27 @@
             <div class="card-body d-flex flex-column justify-content-between">
                 <div class="d-flex flex-column">
                     <div ng-show="inventoryCtrl.SelectedProduct.ProductId != 0">
-                        <span style="font-size: 0.8rem; font-weight: bold">PRODUCT ID</span>
+                        <span class="input-label" >PRODUCT ID</span>
                         <input type="text" class="form-control"
                                ng-model="inventoryCtrl.SelectedProduct.ProductId"
                                disabled>
                         <br />
                     </div>
 
-                    <span style="font-size: 0.8rem; font-weight: bold">PRODUCT CODE</span>
+                    <span class="input-label required" >PRODUCT CODE</span>
                     <input type="text" class="form-control"
                            ng-model="inventoryCtrl.SelectedProduct.ProductCode">
                     <br />
-                    <span style="font-size: 0.8rem; font-weight: bold">PRODUCT DESCRIPTION</span>
+                    <span class="input-label" >PRODUCT DESCRIPTION</span>
                     <input type="text" class="form-control"
                            ng-model="inventoryCtrl.SelectedProduct.ProductDescription">
 
                     <br />
-                    <span style="font-size: 0.8rem; font-weight: bold">UNIT PRICE</span>
+                    <span class="input-label required" >UNIT PRICE</span>
                     <input type="number" class="form-control"
                            ng-model="inventoryCtrl.SelectedProduct.UnitPrice">
                     <br />
-                    <span style="font-size: 0.8rem; font-weight: bold">INITIAL STOCK</span>
+                    <span class="input-label" >INITIAL STOCK</span>
                     <input type="number" class="form-control"
                            ng-model="inventoryCtrl.SelectedProduct.Quantity"
                            ng-disabled="inventoryCtrl.SelectedProduct.ProductId != 0">

@@ -104,49 +104,58 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     }
 
     function _saveOrderRequest(isAddNew = false) {
-        vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId;
-        vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
-        vm.OrderRequest["ProductDescription"] = vm.SelectedProduct.ProductDescription;
-        vm.OrderRequest["UnitPrice"] = parseInt(vm.SelectedProduct.UnitPrice);
-        vm.OrderRequest["Stocks"] = parseInt(vm.SelectedProduct.Quantity);
-        vm.OrderRequest["OrderTransactionType"] = vm.OrderRequestTransactionType;
-        vm.OrderRequest["IsActive"] = 1;
-        vm.OrderRequest["CreatedBy"] = 1;
-        vm.OrderRequest["CreatedDate"] = new Date();
+        if (validProductDetails()) {
+            vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId;
+            vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
+            vm.OrderRequest["ProductDescription"] = vm.SelectedProduct.ProductDescription;
+            vm.OrderRequest["UnitPrice"] = parseInt(vm.SelectedProduct.UnitPrice);
+            vm.OrderRequest["Stocks"] = parseInt(vm.SelectedProduct.Quantity);
+            vm.OrderRequest["OrderTransactionType"] = vm.OrderRequestTransactionType;
+            vm.OrderRequest["IsActive"] = 1;
+            vm.OrderRequest["CreatedBy"] = 1;
+            vm.OrderRequest["CreatedDate"] = new Date();
 
-        InventoryService.SaveOrderRequest(vm.OrderRequest).then(
-            function (data) {
-                if (data.isSucess) {
-                    alert("Transaction has been saved!");
-                    if (isAddNew) {
-                        _getInventorySummary();
-                        _resetFields();
-                    } else {
-                        _getProductDetails(vm.OrderRequest.ProductId);
-                        _resetManageFields();
-                    }
-                }
-            }, function (error) {
-                vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
-                alert(error);
-        });
-    }
-
-    function _updateProductDetails() {
-        if (validUnitPrice()) {
-            InventoryService.UpdateProductDetails(vm.SelectedProduct).then(
+            InventoryService.SaveOrderRequest(vm.OrderRequest).then(
                 function (data) {
                     if (data.isSucess) {
-                        alert("The product has been successfully edited!");
-                        _getInventorySummary();
-                        _resetFields();
+                        alert("Transaction has been saved!");
+                        if (isAddNew) {
+                            _getInventorySummary();
+                            _resetFields();
+                        } else {
+                            _getProductDetails(vm.OrderRequest.ProductId);
+                            _resetManageFields();
+                        }
                     }
                 }, function (error) {
                     vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
                     alert(error);
                 });
         } else {
-            alert("Please enter a valid Unit Price value.")
+            alert('Please fill in the required fields!');
+        }
+        
+    }
+
+    function _updateProductDetails() {
+        $rootScope.IsLoading = true;
+        if (validProductDetails()) {
+            InventoryService.UpdateProductDetails(vm.SelectedProduct).then(
+                function (data) {
+                    if (data.isSucess) {
+                        alert("The product has been successfully edited!");
+                        _getInventorySummary();
+                        _resetFields();
+                        $rootScope.IsLoading = false;
+                    }
+                }, function (error) {
+                    vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
+                    alert(error);
+                    $rootScope.IsLoading = false;
+                });
+        } else {
+            alert('Please fill in the required fields!');
+            $rootScope.IsLoading = false;
         }
     }
 
@@ -187,7 +196,17 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
                 }
             }
         }
-
         return false;
+    }
+
+    function validProductDetails() {
+        debugger;
+        if (vm.SelectedProduct.ProductCode.trim() !== ""
+            && vm.SelectedProduct.ProductCode.trim() !== null
+            && validUnitPrice()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -344,6 +344,11 @@ span.input-label {
     font-weight: bold;
 }
 
+span.input-label.required::after {
+    content: " *";
+    color: var(--bg-danger);
+}
+
 i.login-logo {
     font-size: 9rem;
     color: var(--bg-primary);
