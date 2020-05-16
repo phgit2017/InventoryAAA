@@ -197,6 +197,7 @@
     <Content Include="angular-app\login\views\login.html" />
     <Content Include="angular-app\shared\views\loader-directive.html" />
     <Content Include="angular-app\shared\views\modal-directive.html" />
+    <Content Include="angular-app\shared\views\page-loader-directive.html" />
     <Content Include="angular-app\user\controllers\user-controller.js" />
     <Content Include="angular-app\user\services\user-service.js" />
     <Content Include="angular-app\user\views\user.html" />

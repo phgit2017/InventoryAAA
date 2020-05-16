@@ -1,85 +1,56 @@
 ﻿<modal-window show="inventoryCtrl.ManageModalShown">
-        <div class="modal-sm">
-            <div class="modal-header bg-primary" style="border-bottom: none">
-                <h5>Manage Stock</h5>
-                <div class="modal-close">
-                    <button class="btn btn-sm btn-light"
-                            ng-click="inventoryCtrl.Initialize();
-                                      inventoryCtrl.ToggleManageModal();">
-                        Close
-                    </button>
-                </div>
+    <div class="modal-lg">
+        <div class="modal-header bg-primary" style="border-bottom: none">
+            <h5>MANAGE STOCK</h5>
+            <div class="modal-close">
+                <button class="btn btn-sm btn-light"
+                        ng-click="inventoryCtrl.Initialize();
+                                    inventoryCtrl.ToggleManageModal();">
+                    Close
+                </button>
             </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-
-                        <div class="col-md-5 product-details">
-                            <div class="d-flex justify-content-start">
-                                <h5 class="align-self-center">PRODUCT DETAILS</h5>
-                            </div>
-                            <hr style="margin-top: 12px;" />
-                            <span style="font-size: 0.8rem; font-weight: bold">PRODUCT CODE</span>
-                            <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.ProductCode }}</div>
-                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control"  placeholder="{{ inventoryCtrl.SelectedProduct.ProductCode }}"
-                                   ng-model="inventoryCtrl.SelectedProductEdit.ProductCode"
-                                   maxlength="32">
-
-                            <span style="font-size: 0.8rem; font-weight: bold">PRODUCT DESCRIPTION</span>
-                            <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.ProductDescription }}</div>
-                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control"  placeholder="{{ inventoryCtrl.SelectedProduct.ProductDescription }}"
-                                   ng-model="inventoryCtrl.SelectedProductEdit.ProductDescription"
-                                   maxlength="32">
-
-                            <span style="font-size: 0.8rem; font-weight: bold">UNIT PRICE</span>
-                            <div style="margin-bottom: 0.4rem" ng-if="!inventoryCtrl.EditDetailsShown">{{ inventoryCtrl.SelectedProduct.UnitPrice }}</div>
-                            <input type="text" ng-if="inventoryCtrl.EditDetailsShown" class="form-control"  placeholder="{{ inventoryCtrl.SelectedProduct.UnitPrice }}"
-                                   ng-model="inventoryCtrl.SelectedProductEdit.UnitPrice"
-                                   >
-
-                            <span style="font-size: 0.8rem; font-weight: bold">CURRENT STOCK</span>
-                            <div style="margin-bottom: 0.4rem">{{ inventoryCtrl.SelectedProduct.Quantity }}</div>
-                            
-                        <div class="d-flex justify-content-end">
-                            <button class="btn btn-transparent btn-sm align-self-center"
-                                    ng-if="!inventoryCtrl.EditDetailsShown"
-                                    ng-click="inventoryCtrl.ToggleEditDetails();">
-                                <span>EDIT</span>
-                            </button>
-                            <button class="btn btn-sm btn-transparent btn-danger align-self-center"
-                                    ng-if="inventoryCtrl.EditDetailsShown"
-                                    ng-click="inventoryCtrl.ToggleEditDetails();">
-                                <span>CANCEL</span>
-                            </button>
-                            <button class="btn btn-transparent btn-sm align-self-center ml-2"
-                                    ng-if="inventoryCtrl.EditDetailsShown"
-                                    ng-click="inventoryCtrl.UpdateProductDetails();">
-                                <span>SAVE</span>
-                            </button>
+        </div>
+        <div class="modal-body">
+            <div class="d-flex">
+                <div class="d-flex flex-column">
+                    <div class="card" style="border-top: 3px solid var(--bg-primary);">
+                        <div class="card-body">
+                            <span class="input-label">PRODUCT CODE:</span>
+                            <br />
+                            <div class="item-label">{{ inventoryCtrl.SelectedProduct.ProductCode }}</div>
+                            <br />
+                            <span class="input-label">PRODUCT DESCRIPTION:</span>
+                            <br />
+                            <div class="item-label"> {{ inventoryCtrl.SelectedProduct.ProductDescription }}</div>
+                            <br />
+                            <span class="input-label">UNIT PRICE:</span>
+                            <br />
+                            <div class="item-label">{{ inventoryCtrl.SelectedProduct.UnitPrice }}</div>
                         </div>
-                            
-                        </div>
-                        <div class="col-md-7 sale-purchase">
+                    </div>
+                    <div class="card">
+                        <div class="card-header bg-primary">
                             <h5>ADD SALE/PURCHASE</h5>
-                            <hr />
+                        </div>
+                        <div class="card-body d-flex flex-column">
                             <form>
-                                <span style="font-size: 0.8rem; font-weight: bold">TRANSACTION TYPE</span>
+                                <span class="input-label">TRANSACTION TYPE</span>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input"
-                                           ng-model="inventoryCtrl.OrderRequestTransactionType"
-                                           ng-value="0">
+                                            ng-model="inventoryCtrl.OrderRequestTransactionType"
+                                            ng-value="0">
                                     <label class="custom-control-label" for="customRadio2">Purchase</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"
-                                           ng-model="inventoryCtrl.OrderRequestTransactionType"
-                                           ng-value="1">
+                                            ng-model="inventoryCtrl.OrderRequestTransactionType"
+                                            ng-value="1">
                                     <label class="custom-control-label" for="customRadio1">Sale</label>
                                 </div>
                                 <br />
-                                <span style="font-size: 0.8rem; font-weight: bold">QUANTITY</span>
-                                <input type="number" class="form-control" id="quantity"  placeholder="Enter quantity..."
-                                       ng-model="inventoryCtrl.OrderRequestQuantity">
+                                <span class="input-label" font-weight: bold">QUANTITY</span>
+                                <input type="number" class="form-control" id="quantity" placeholder="Enter quantity..."
+                                        ng-model="inventoryCtrl.OrderRequestQuantity">
                                 <small class="form-text text-muted">This will affect your Current Stock.</small>
                             </form>
                             <div class="d-flex flex-row-reverse mt-5">
@@ -92,6 +63,34 @@
                         </div>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-body" style="max-width: 680px;">
+                        <loading showme="inventoryCtrl.IsLoading" showerror="true" errormessage="inventoryCtrl.LoaderErrorMessage"></loading>
+                        <div ng-show="!inventoryCtrl.IsLoading">
+                            <table datatable="ng"
+                                    dt-options="inventoryCtrl.dtProductHistoryOptions"
+                                    class="table table-striped hover table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th class="cell-no-wrap">TRANSACTION DATE</th>
+                                        <th class="cell-no-wrap">PURCHASE QTY</th>
+                                        <th class="cell-no-wrap">SALES QTY</th>
+                                        <th class="cell-no-wrap">CURRENT STOCK</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="ph in inventoryCtrl.ProductHistory">
+                                        <td class="cell-no-wrap"> {{ ph.TransactionDate }} </td>
+                                        <td class="cell-no-wrap"> {{ ph.PurchaseQty }} </td>
+                                        <td class="cell-no-wrap"> {{ ph.SalesQty }} </td>
+                                        <td class="cell-no-wrap"> {{ ph.CurrentStocks }} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 </modal-window>

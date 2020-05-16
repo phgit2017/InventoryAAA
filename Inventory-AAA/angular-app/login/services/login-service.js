@@ -6,7 +6,8 @@ LoginService.$inject = ['$http', '$q'];
 
 function LoginService($http, $q) {
     var LoginServiceFactory = {},
-        baseUrl = "/Inventory-AAA/User"
+        baseUrl = "/User"
+        //baseUrl = "/Inventory-AAA/User"
 
     LoginServiceFactory.Login = _login;
     LoginServiceFactory.Logout = _logout;
@@ -16,7 +17,6 @@ function LoginService($http, $q) {
     function _login(data) {
         var defer = $q.defer(),
             url = baseUrl + "/AuthenticateLogin";
-        debugger;
         $http.post(url, data)
             .then(function (response) {
                 defer.resolve(response.data);

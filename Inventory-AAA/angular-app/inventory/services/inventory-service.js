@@ -6,7 +6,8 @@ InventoryService.$inject = ['$http', '$q'];
 
 function InventoryService($http, $q) {
     var InventoryServiceFactory = {},
-        baseUrl = '/Inventory-AAA/Stocks'
+        baseUrl = '/Stocks'
+        //baseUrl = '/Inventory-AAA/Stocks'
 
     InventoryServiceFactory.GetInventorySummary = _getInventorySummary;
     InventoryServiceFactory.GetProductDetails = _getProductDetails;

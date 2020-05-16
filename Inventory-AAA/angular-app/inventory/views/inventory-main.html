@@ -2,50 +2,102 @@
 <div ng-include src="'angular-app/inventory/views/_add-stock-modal.html'"></div>
 
 <div class="container-fluid" ng-init="inventoryCtrl.Initialize();">
-    <div class="card">
-        <div class="card-header bg-primary">
-            <div class="d-flex justify-content-between">
-                <h5>STOCK LIST</h5>
-                <button class="btn btn-sm btn-primary-inverse"
-                        ng-click="inventoryCtrl.ToggleAddStockModal();">
-                    + Add New
-                </button>
+    <div class="d-flex ml-2">
+        <div class="card" style="max-height: 490px;">
+            <div class="card-header bg-primary">
+                <h5>ADD/EDIT STOCKS</h5>
+            </div>
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div class="d-flex flex-column">
+                    <div ng-show="inventoryCtrl.SelectedProduct.ProductId != 0">
+                        <span style="font-size: 0.8rem; font-weight: bold">PRODUCT ID</span>
+                        <input type="text" class="form-control"
+                               ng-model="inventoryCtrl.SelectedProduct.ProductId"
+                               disabled>
+                        <br />
+                    </div>
+
+                    <span style="font-size: 0.8rem; font-weight: bold">PRODUCT CODE</span>
+                    <input type="text" class="form-control"
+                           ng-model="inventoryCtrl.SelectedProduct.ProductCode">
+                    <br />
+                    <span style="font-size: 0.8rem; font-weight: bold">PRODUCT DESCRIPTION</span>
+                    <input type="text" class="form-control"
+                           ng-model="inventoryCtrl.SelectedProduct.ProductDescription">
+
+                    <br />
+                    <span style="font-size: 0.8rem; font-weight: bold">UNIT PRICE</span>
+                    <input type="number" class="form-control"
+                           ng-model="inventoryCtrl.SelectedProduct.UnitPrice">
+                    <br />
+                    <span style="font-size: 0.8rem; font-weight: bold">INITIAL STOCK</span>
+                    <input type="number" class="form-control"
+                           ng-model="inventoryCtrl.SelectedProduct.Quantity"
+                           ng-disabled="inventoryCtrl.SelectedProduct.ProductId != 0">
+                    <br />
+                </div>
+                <div class="d-flex flex-row-reverse">
+                    <button class="btn btn-sm btn-transparent ml-2"
+                            ng-if="inventoryCtrl.SelectedProduct.ProductId == 0"
+                            ng-click="inventoryCtrl.SaveOrderRequest(true);">
+                        SAVE
+                    </button>
+                    <button class="btn btn-sm btn-transparent ml-2"
+                            ng-if="inventoryCtrl.SelectedProduct.ProductId != 0"
+                            ng-click="inventoryCtrl.UpdateProductDetails(true);">
+                        UPDATE
+                    </button>
+                    <button class="btn btn-sm btn-transparent btn-default"
+                            ng-click="inventoryCtrl.ResetFields();">
+                        <text ng-if="inventoryCtrl.SelectedProduct.ProductId == 0">CLEAR</text>
+                        <text ng-if="inventoryCtrl.SelectedProduct.ProductId != 0">CANCEL</text>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="card-body">
-            <loading showme="inventoryCtrl.IsLoading" showerror="true" errormessage="inventoryCtrl.LoaderErrorMessage"></loading>
-            <div ng-show="!inventoryCtrl.IsLoading">
-                <table datatable="ng" 
-                       dt-options="inventoryCtrl.dtInventorySummaryOptions"
-                       class="table table-striped hover table-responsive">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>CODE</th>
-                            <th>DESCRIPTION</th>
-                            <th>INVENTORY STOCKS</th>
-                            <th>CURRENT STOCKS</th>
-                            <th>SOLD</th>
-                            <th>ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="i in inventoryCtrl.InventorySummary">
-                            <td> {{ i.ProductID }} </td>
-                            <td> {{ i.ProductCode }} </td>
-                            <td> {{ i.ProductDescription }} </td>
-                            <td> {{ i.InventoryStocks }} </td>
-                            <td> {{ i.CurrentStocks }} </td>
-                            <td> {{ i.Sold }} </td>
-                            <td>
-                                <button class="btn btn-sm btn-primary"
-                                        ng-click="inventoryCtrl.GetProductDetails(i.ProductID, true);">
-                                    Manage
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="card" style="max-width:910px">
+            <div class="card-body">
+                <loading showme="inventoryCtrl.IsLoading" showerror="true" errormessage="inventoryCtrl.LoaderErrorMessage"></loading>
+                <div ng-show="!inventoryCtrl.IsLoading">
+                    <table datatable="ng"
+                           dt-options="inventoryCtrl.dtInventorySummaryOptions"
+                           dt-column-defs="inventoryCtrl.dtInventorySummaryColumnDefs"
+                           class="table table-striped hover table-responsive">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>CODE</th>
+                                <th>DESCRIPTION</th>
+                                <th class="cell-no-wrap">INVENTORY STOCKS</th>
+                                <th class="cell-no-wrap">CURRENT STOCKS</th>
+                                <th>SOLD</th>
+                                <th class="cell-center">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="i in inventoryCtrl.InventorySummary">
+                                <td> {{ i.ProductID }} </td>
+                                <td> {{ i.ProductCode }} </td>
+                                <td> {{ i.ProductDescription }} </td>
+                                <td> {{ i.InventoryStocks }} </td>
+                                <td> {{ i.CurrentStocks }} </td>
+                                <td> {{ i.Sold }} </td>
+                                <td>
+                                    <div class="d-flex flex-row">
+                                        <button class="btn btn-sm btn-primary"
+                                                ng-click="inventoryCtrl.SelectProduct(i); inventoryCtrl.GetProductDetails(i.ProductID, true);">
+                                            Manage
+                                        </button>
+                                        <button class="btn btn-sm btn-default ml-3"
+                                                ng-click="inventoryCtrl.SelectProduct(i)">
+                                            Edit
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

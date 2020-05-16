@@ -24,19 +24,21 @@
                     <input type="text" class="form-control form-control-sm mb-2"
                            ng-model="userCtrl.SelectedUser.Password" required>
 
+                    <span class="input-label">CONFIRM PASSWORD</span>
+                    <input type="text" class="form-control form-control-sm mb-2"
+                           ng-model="userCtrl.ConfirmPassword" required>
+
                     <span class="input-label">ROLE</span>
                     <div class="custom-control custom-radio">
                         <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input"
                                ng-model="userCtrl.SelectedUser.UserRoleId"
-                               ng-value="1"
-                               >
+                               ng-value="1">
                         <label class="custom-control-label" for="customRadio2">Admin</label>
                     </div>
                     <div class="custom-control custom-radio">
                         <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"
                                ng-model="userCtrl.SelectedUser.UserRoleId"
-                               ng-value="2"
-                               >
+                               ng-value="2">
                         <label class="custom-control-label" for="customRadio1">Secretary</label>
                     </div>
 
@@ -82,7 +84,7 @@
                             <td>
                                 <button class="btn btn-sm btn-primary"
                                         ng-click="userCtrl.SelectUser(ul);">
-                                    SELECT
+                                    Select
                                 </button>
                             </td>
                         </tr>

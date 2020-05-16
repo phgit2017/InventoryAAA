@@ -18,10 +18,15 @@ function LoginController(LoginService, $scope, $location, $rootScope) {
     vm.ChangeRoute = _changeRoute;
 
     function _login() {
+        $rootScope.IsLoading = true;
         LoginService.Login(vm.LoginDetails).then(
             function (data) {
                 if (data.isSuccess) {
-                    $location.url('/Users');
+                    $rootScope.FirstName = data.userDetailResult.FirstName;
+                    $rootScope.LastName = data.userDetailResult.LastName;
+                    $rootScope.RoleName = data.userDetailResult.UserRoleDetails.UserRoleName;
+                    $rootScope.IsLoading = false;
+                    $location.url('/Inventory');
                 } else {
                     alert(data.messageAlert);
                 }

@@ -41,14 +41,13 @@
                     redirectTo: "/"
                 })
         })
-        .run(['$rootScope', '$location', 'AuthService', function ($rootScope, $location, AuthService) {
+        .run(['$rootScope', '$location', function ($rootScope, $location) {
             $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
                 $rootScope.title = current.$$route.title;
                 $rootScope.showNavbar = current.$$route.showNavbar;
                 $rootScope.navItem = current.$$route.navItem;
-
+                $rootScope.IsLoading = false;
                 //if (!AuthService.IsLoggedIn()) {
-                //    debugger;
                 //    console.log('UNAUTHORIZED');
                 //    event.preventDefault();
                 //    $location.url('/Login')
@@ -76,6 +75,18 @@ app.directive('loading', function () {
         },
 
         templateUrl: 'angular-app/shared/views/loader-directive.html',
+    }
+});
+
+app.directive('pageLoading', function () {
+    return {
+        restrict: 'E',
+        replace: true,
+        scope: {
+            showme: '=',
+        },
+
+        templateUrl: 'angular-app/shared/views/page-loader-directive.html',
     }
 });
 
