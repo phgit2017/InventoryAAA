@@ -175,7 +175,8 @@ namespace Inventory_AAA.Controllers
             bool productUpdateResult = false;
 
             var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
-            request.CreatedBy = currentUserId;
+            request.ModifiedBy = currentUserId;
+            request.ModifiedTime = DateTime.Now;
 
             if (ModelState.IsValid)
             {
@@ -208,10 +209,10 @@ namespace Inventory_AAA.Controllers
                     Quantity = request.Quantity,
                     UnitPrice = request.UnitPrice,
                     IsActive = request.IsActive,
-                    CreatedBy = request.CreatedBy,
-                    CreatedTime = request.CreatedTime,
-                    ModifiedBy = request.ModifiedBy,
-                    ModifiedTime = DateTime.Now
+                    CreatedBy = request.ModifiedBy,
+                    CreatedTime = DateTime.Now,
+                    ModifiedBy = null,
+                    ModifiedTime = null
                 };
                 var productLogResult = _productServices.SaveProductLogs(productLogDetailRequest);
 

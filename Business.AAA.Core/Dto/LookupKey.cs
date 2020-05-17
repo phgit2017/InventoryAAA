@@ -23,6 +23,8 @@ namespace Business.AAA.Core.Dto
         public static class SessionVariables
         {
             public const string UserId = "UserId";
+            public const string UserFullName = "UserFullName";
+            public const string UserRoleName = "UserRoleName";
         }
 
         public static class ReportFileName

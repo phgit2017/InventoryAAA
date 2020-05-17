@@ -54,7 +54,7 @@ namespace Business.AAA.Core.Dto
         public string ProductCode { get; set; }
 
         [StringLength(32)]
-        public string ProductDescription { get; set; }
+        public string ProductDescription { get; set; } = string.Empty;
 
         public decimal? Quantity { get; set; }
 
