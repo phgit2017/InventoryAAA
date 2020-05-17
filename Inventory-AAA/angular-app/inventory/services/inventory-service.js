@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .factory('InventoryService', InventoryService);
 
-InventoryService.$inject = ['$http', '$q'];
+InventoryService.$inject = ['$http', '$q', '$location'];
 
-function InventoryService($http, $q) {
+function InventoryService($http, $q, $location) {
     var InventoryServiceFactory = {},
         baseUrl = '/Stocks'
         //baseUrl = '/Inventory-AAA/Stocks'
@@ -23,10 +23,11 @@ function InventoryService($http, $q) {
 
         $http.get(url)
             .then(function (response) {
-                debugger;
+                if (!response.data.isSuccess) {
+                    $location.url('/Unauthorized');
+                }
                 defer.resolve(response.data.result);
             }, function (err) {
-                    debugger;
                 defer.reject(err);
             });
         return defer.promise;

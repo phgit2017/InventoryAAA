@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .factory('UserService', UserService)
 
-UserService.$inject = ['$q', '$http'];
+UserService.$inject = ['$q', '$http', '$location'];
 
-function UserService($q, $http) {
+function UserService($q, $http, $location) {
     var UserServiceFactory = {},
         baseUrl = "/User";
         //baseUrl = "/Inventory-AAA/User";
@@ -20,6 +20,9 @@ function UserService($q, $http) {
             url = baseUrl + '/UserList';
         $http.post(url)
             .then(function (response) {
+                if (!response.data.isSuccess) {
+                    $location.url('/Unauthorized');
+                }
                 defer.resolve(response.data)
             }), function (err) {
                 
