@@ -16,7 +16,6 @@ function LoginController(LoginService, $scope, $location, $rootScope, $cookies, 
     vm.Login = _login;
     vm.Logout = _logout;
     vm.ChangeRoute = _changeRoute;
-    vm.TestAlert = _testAlert;
 
     function _login() {
         $rootScope.IsLoading = true;
@@ -26,12 +25,18 @@ function LoginController(LoginService, $scope, $location, $rootScope, $cookies, 
                     $rootScope.IsLoading = false;
                     $location.url('/Inventory');
                 } else {
-                    alert(data.messageAlert);
+                    QuickAlert.Show({
+                        type: "error",
+                        message: "Invalid User Details"
+                    })
                     $rootScope.IsLoading = false;
                 }
             },
             function (err) {
-                alert(err);
+                QuickAlert.Show({
+                    type: 'error',
+                    message: err
+                });
             });
     };
 
@@ -40,20 +45,15 @@ function LoginController(LoginService, $scope, $location, $rootScope, $cookies, 
             function (data) {
                 $location.url("/Login");
             }, function (err) {
-                alert(err);
+                QuickAlert.Show({
+                    type: 'error',
+                    message: err
+                });
             }
         );
     }
 
     function _changeRoute(route) {
         $location.url('/' + route);
-    }
-
-
-    function _testAlert() {
-        QuickAlert.Show({
-            type: "success",
-            message: "TEST ALERT"
-        })
     }
 }

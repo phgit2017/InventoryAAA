@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('InventoryController', InventoryController);
 
-InventoryController.$inject = ['InventoryService', 'DTOptionsBuilder', 'DTDefaultOptions', '$scope', 'DTColumnDefBuilder', '$rootScope'];
+InventoryController.$inject = ['InventoryService', 'DTOptionsBuilder', 'DTDefaultOptions', '$scope', 'DTColumnDefBuilder', '$rootScope', 'QuickAlert'];
 
-function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOptions, $scope, DTColumnDefBuilder, $rootScope ) {
+function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOptions, $scope, DTColumnDefBuilder, $rootScope, QuickAlert ) {
     var vm = this, controllerName = 'inventoryCtrl';
 
     // View Items
@@ -15,7 +15,9 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         ProductDescription: "",
         Quantity: 0,
         UnitPrice: "",
-        IsActive: true
+        IsActive: true,
+        CreatedBy: 0,
+        CreatedTime: "",
     };
     vm.OrderRequestQuantity = 0;
     vm.OrderRequestTransactionType = 0;
@@ -41,8 +43,8 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.GetInventorySummary = _getInventorySummary;
     vm.SaveOrderRequest = _saveOrderRequest;
     vm.GetProductDetails = _getProductDetails; 
+    vm.GetProductDetailsBasic = _getProductDetailsBasic; 
     vm.UpdateProductDetails = _updateProductDetails;
-    vm.SelectProduct = _selectProduct;
 
     //Watches
 
@@ -94,19 +96,23 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         InventoryService.GetProductDetails(vm.ProductDetailRequest).then(
             
             function (data) {
-                debugger;
-                vm.SelectedProduct = {
-                    ProductId: data.ProductResult.ProductId,
-                    ProductCode: data.ProductResult.ProductCode,
-                    ProductDescription: data.ProductResult.ProductDescription,
-                    Quantity: data.ProductResult.Quantity,
-                    UnitPrice: data.ProductResult.UnitPrice,
-                    IsActive: data.ProductResult.IsActive
-                };
+                setProduct(data.ProductResult);
                 vm.ProductHistory = data.InventoryDetailsResult;
                 if (showManageModal) {
                     _toggleManageModal();
                 }
+                $rootScope.IsLoading = false;
+            }, function (error) {
+                vm.isLoading = false;
+                vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
+            });
+    }
+
+    function _getProductDetailsBasic(productId) {
+        $rootScope.IsLoading = true;
+        InventoryService.GetProductDetailsBasic(productId).then(
+            function (data) {
+                setProduct(data.ProductResult);
                 $rootScope.IsLoading = false;
             }, function (error) {
                 vm.isLoading = false;
@@ -129,7 +135,10 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             InventoryService.SaveOrderRequest(vm.OrderRequest).then(
                 function (data) {
                     if (data.isSucess) {
-                        alert("Transaction has been saved!");
+                        QuickAlert.Show({
+                            type: 'success',
+                            message: 'Transaction has been saved.'
+                        });
                         if (isAddNew) {
                             _getInventorySummary();
                             _resetFields();
@@ -138,14 +147,22 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
                             _resetManageFields();
                         }
                     } else {
-                        alert(data.messageAlert);
+                        QuickAlert.Show({
+                            type: 'error',
+                            message: data.message
+                        })
                     }
                 }, function (error) {
-                    vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
-                    alert(error);
+                    QuickAlert.Show({
+                        type: 'error',
+                        message: 'Error while fetching data from server.'
+                    })
                 });
         } else {
-            alert('Please fill in the required fields!');
+            QuickAlert.Show({
+                type: 'error',
+                message: 'Please fill in the required fields!'
+            });
         }
         
     }
@@ -156,39 +173,25 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             InventoryService.UpdateProductDetails(vm.SelectedProduct).then(
                 function (data) {
                     if (data.isSucess) {
-                        alert("The product has been successfully edited!");
+                        QuickAlert.Show({
+                            type: 'success',
+                            message: 'The product has been successfully edited.'
+                        })
                         _getInventorySummary();
                         _resetFields();
                         $rootScope.IsLoading = false;
                     }
                 }, function (error) {
-                    vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
-                    alert(error);
+                    QuickAlert.Show({
+                        type: 'error',
+                        message: 'Error while fetching data from the service.'
+                    })
                     $rootScope.IsLoading = false;
                 });
         } else {
             alert('Please fill in the required fields!');
             $rootScope.IsLoading = false;
         }
-    }
-
-    function _selectProduct(productID) {
-        $rootScope.IsLoading = true;
-        InventoryService.GetProductDetailsBasic(productID).then(
-            function (data) {
-                if (data.isSucess) {
-                    vm.SelectedProduct.ProductId = data.ProductID;
-                    vm.SelectedProduct.ProductCode = data.ProductCode;
-                    vm.SelectedProduct.ProductDescription = data.ProductDescription;
-                    vm.SelectedProduct.UnitPrice = data.UnitPrice;
-                    vm.SelectedProduct.Quantity = data.CurrentStocks;
-                    $rootScope.IsLoading = false;
-                }
-            }, function (error) {
-                vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
-                alert(error);
-                $rootScope.IsLoading = false;
-            });
     }
 
     function _resetManageFields() {
@@ -207,6 +210,18 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             UnitPrice: "",
             IsActive: true
         };
+    }
+
+    // Private Methods
+
+    function setProduct(data) {
+        vm.SelectedProduct.ProductId = data.ProductId;
+        vm.SelectedProduct.ProductCode = data.ProductCode;
+        vm.SelectedProduct.ProductDescription = data.ProductDescription;
+        vm.SelectedProduct.UnitPrice = data.UnitPrice;
+        vm.SelectedProduct.Quantity = data.Quantity;
+        vm.SelectedProduct.CreatedBy = data.CreatedBy,
+        vm.SelectedProduct.CreatedTime = data.CreatedDateTimeFormat
     }
 
     function validUnitPrice() {

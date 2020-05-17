@@ -4,7 +4,9 @@
     --bg-primary: #23967F;
     --bg-primary-muted: #147662;
     --bg-danger: #B44343;
+    --bg-danger: #CD3939;
     --bg-default: #23AAD4;
+    --bg-success: #00BFB3;
     --shadow-color: rgba(0, 0, 0, 0.25);
     --bg-muted: #F5F5F5;
     --bg-primary-dark: #037971;
@@ -515,19 +517,25 @@ i.login-logo {
 .quick-alert {
     position: fixed;
     z-index: 100000;
-    width: 10rem;
-    height: 1rem;
-    top: 0;
+    min-width: 10rem;
+    top: 20px;
+    margin: 0 auto;
+    display: block;
+    left: 45vw;
+    text-align: center;
+    padding: 0.3em 1em;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
 }
 
 .quick-alert-success {
     color: white;
-    background: green;
+    background: var(--bg-success);
 }
 
 .quick-alert-error {
     color: white;
-    background: red;
+    background: var(--bg-danger);
 }
 
 .fade-in {
@@ -535,8 +543,7 @@ i.login-logo {
     animation-name: fadeIn;
 }
 
-bounce-out-up {
-    position: absolute;
+.bounce-out-up {
     animation-duration: 0.5s;
     animation-name: bounceOutUp;
 }
@@ -552,12 +559,16 @@ bounce-out-up {
 }
 
 @keyframes bounceOutUp {
-    0%, 50%, 100% {
-        top: 0;
+    0% {
+        top: 20px;
     }
 
-    25%, 75% {
-        top: 100px;
+    50% {
+        top: 35px;
+    }
+
+    100% {
+        top: -50px;
     }
 }
 

@@ -44,7 +44,7 @@ function InventoryService($http, $q) {
 
     function _getProductDetailsBasic(productId) {
         var defer = $q.defer(),
-            url = baseUrl + '/ProductDetails/' + productId;
+            url = baseUrl + '/ProductDetails?productId=' + productId;
         $http.get(url)
             .then(function (response) {
                 defer.resolve(response.data);

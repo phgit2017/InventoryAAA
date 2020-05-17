@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('UserController', UserController);
 
-UserController.$inject = ['UserService', 'DTOptionsBuilder' ,'$scope', '$rootScope'];
+UserController.$inject = ['UserService', 'DTOptionsBuilder' ,'$scope', '$rootScope', 'QuickAlert'];
 
-function UserController(UserService, DTOptionsBuilder, $scope, $rootScope) {
+function UserController(UserService, DTOptionsBuilder, $scope, $rootScope, QuickAlert) {
 
     var vm = this, controllerName = 'userCtrl';
 
@@ -59,7 +59,10 @@ function UserController(UserService, DTOptionsBuilder, $scope, $rootScope) {
                 _updateUser();
             }
         } else {
-            alert("Please fill up all fields!");
+            QuickAlert.Show({
+                type: 'error',
+                message: 'Please fill up all the fields!'
+            });
         }
     }
 
@@ -68,7 +71,10 @@ function UserController(UserService, DTOptionsBuilder, $scope, $rootScope) {
         UserService.AddNewUser(vm.SelectedUser).then(
             function (data) {
                 if (data.isSuccess) {
-                    alert("User has been successfully added.");
+                    QuickAlert.Show({
+                        type: 'success',
+                        message: 'User has been successfully added.'
+                    });
                     vm.UserListLoading = true;
                     _initialize();
                     $rootScope.IsLoading = false;
@@ -83,7 +89,10 @@ function UserController(UserService, DTOptionsBuilder, $scope, $rootScope) {
         UserService.UpdateUser(vm.SelectedUser).then(
             function (data) {
                 if (data.isSuccess) {
-                    alert("User has been successfully updated.");
+                    QuickAlert.Show({
+                        type: 'success',
+                        message: 'User has been successfully updated.'
+                    });
                     vm.UserListLoading = true;
                     _initialize();
                 }

@@ -43,8 +43,6 @@
                     break;
             }
 
-            debugger;
-
             quickAlert = "<div class='quick-alert " + options.type + "'>";
             quickAlert += "<span>";
             quickAlert += options.message;
@@ -57,7 +55,6 @@
             $body.find(quickAlertClass).addClass('fade-in');
 
             setTimeout(function () {
-                debugger;
                 $body.find(quickAlertClass).addClass('bounce-out-up').removeClass('fade-in');
 
                 if (options.callback !== null && typeof options.callback == "function") {

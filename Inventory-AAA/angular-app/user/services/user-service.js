@@ -18,7 +18,6 @@ function UserService($q, $http) {
     function _getUserList() {
         var defer = $q.defer(),
             url = baseUrl + '/UserList';
-        debugger;
         $http.post(url)
             .then(function (response) {
                 defer.resolve(response.data)
