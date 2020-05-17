@@ -196,13 +196,18 @@ namespace Inventory_AAA.Controllers
             try
             {
                 userSessionId = Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+
+                if (userSessionId == 0)
+                {
+                    response.MessageAlert = Messages.SessionUnavailable;
+                    return response;
+                }
             }
             catch (Exception)
             {
                 response.MessageAlert = Messages.SessionUnavailable;
                 return response;
             }
-
             
             var userId = userSessionId;
             var userResult = _userServices.GetAllUserDetails().Where(m => m.UserId == userId).FirstOrDefault();
