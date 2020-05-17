@@ -9,32 +9,41 @@
             </div>
             <div class="card-body d-flex flex-column justify-content-between">
                 <div class="d-flex flex-column">
-                    <div ng-show="inventoryCtrl.SelectedProduct.ProductId != 0">
-                        <span class="input-label" >PRODUCT ID</span>
-                        <input type="text" class="form-control"
-                               ng-model="inventoryCtrl.SelectedProduct.ProductId"
-                               disabled>
-                        <br />
-                    </div>
+                    <form novalidate name="inventoryForm">
+                        <div ng-show="inventoryCtrl.SelectedProduct.ProductId != 0">
+                            <span class="input-label">PRODUCT ID</span>
+                            <input type="text" class="form-control"
+                                   ng-model="inventoryCtrl.SelectedProduct.ProductId"
+                                   disabled>
+                            <br />
+                        </div>
 
-                    <span class="input-label required" >PRODUCT CODE</span>
-                    <input type="text" class="form-control"
-                           ng-model="inventoryCtrl.SelectedProduct.ProductCode">
-                    <br />
-                    <span class="input-label required" >PRODUCT DESCRIPTION</span>
-                    <input type="text" class="form-control"
-                           ng-model="inventoryCtrl.SelectedProduct.ProductDescription">
+                        <div class="d-flex justify-content-between">
+                            <span class="input-label required">PRODUCT CODE</span>
+                            <span ng-if="inventoryForm.productCode.$error.required && !inventoryForm.productCode.$pristine" class="form-validation-msg">This field is required.</span>
+                        </div>
+                        <input name="productCode" type="text" class="form-control mb-4" required
+                               ng-model="inventoryCtrl.SelectedProduct.ProductCode">
 
-                    <br />
-                    <span class="input-label required" >UNIT PRICE</span>
-                    <input type="number" class="form-control"
-                           ng-model="inventoryCtrl.SelectedProduct.UnitPrice">
-                    <br />
-                    <span class="input-label" >INITIAL STOCK</span>
-                    <input type="number" class="form-control"
-                           ng-model="inventoryCtrl.SelectedProduct.Quantity"
-                           ng-disabled="inventoryCtrl.SelectedProduct.ProductId != 0">
-                    <br />
+                        <div class="d-flex justify-content-between">
+                            <span class="input-label required">DESCRIPTION</span>
+                            <span ng-if="inventoryForm.productDesc.$error.required && !inventoryForm.productDesc.$pristine" class="form-validation-msg">This field is required.</span>
+                        </div>
+                        <input name="productDesc" type="text" class="form-control mb-4" required
+                               ng-model="inventoryCtrl.SelectedProduct.ProductDescription">
+
+                        <div class="d-flex justify-content-between">
+                            <span class="input-label required">UNIT PRICE</span>
+                            <span ng-if="inventoryForm.unitPrice.$error.required && !inventoryForm.unitPrice.$pristine" class="form-validation-msg">This field is required.</span>
+                        </div>
+                        <input name="unitPrice" type="number" class="form-control mb-4" required
+                               ng-model="inventoryCtrl.SelectedProduct.UnitPrice">
+
+                        <span class="input-label">INITIAL STOCK</span>
+                        <input type="number" class="form-control mb-4"
+                               ng-model="inventoryCtrl.SelectedProduct.Quantity"
+                               ng-disabled="inventoryCtrl.SelectedProduct.ProductId != 0">
+                    </form>
                 </div>
                 <div class="d-flex flex-row-reverse">
                     <button class="btn btn-sm btn-transparent ml-2"

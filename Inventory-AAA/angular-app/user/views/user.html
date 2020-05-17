@@ -7,21 +7,33 @@
         </div>
         <div class="card-body d-flex flex-column">
             <div class="flex-grow-1">
-                <form>
-                    <span class="input-label">FIRST NAME</span>
-                    <input type="text" class="form-control form-control-sm mb-2"
+                <form novalidate name="userForm">
+                    <div class="d-flex justify-content-between">
+                        <span class="input-label required">FIRST NAME</span>
+                        <span ng-if="userForm.firstName.$error.required && !userForm.firstName.$pristine" class="form-validation-msg">This field is required.</span>
+                    </div>
+                    <input type="text" name="firstName" class="form-control form-control-sm mb-2"
                            ng-model="userCtrl.SelectedUser.FirstName" required>
 
-                    <span class="input-label">LAST NAME</span>
-                    <input type="text" class="form-control form-control-sm mb-2"
+                    <div class="d-flex justify-content-between">
+                        <span class="input-label required">LAST NAME</span>
+                        <span ng-if="userForm.lastName.$error.required && !userForm.lastName.$pristine" class="form-validation-msg">This field is required.</span>
+                    </div>
+                    <input type="text" name="lastName" class="form-control form-control-sm mb-2"
                            ng-model="userCtrl.SelectedUser.LastName" required>
 
-                    <span class="input-label">USER NAME</span>
-                    <input type="text" class="form-control form-control-sm mb-2"
+                    <div class="d-flex justify-content-between">
+                        <span class="input-label required">USERNAME</span>
+                        <span ng-if="userForm.userName.$error.required && !userForm.userName.$pristine" class="form-validation-msg">This field is required.</span>
+                    </div>
+                    <input type="text" name="userName" class="form-control form-control-sm mb-2"
                            ng-model="userCtrl.SelectedUser.UserName" required>
 
-                    <span class="input-label">PASSWORD</span>
-                    <input type="text" class="form-control form-control-sm mb-2"
+                    <div class="d-flex justify-content-between">
+                        <span class="input-label required">PASSWORD</span>
+                        <span ng-if="userForm.password.$error.required && !userForm.password.$pristine" class="form-validation-msg">This field is required.</span>
+                    </div>
+                    <input type="text" name="password" class="form-control form-control-sm mb-2"
                            ng-model="userCtrl.SelectedUser.Password" required>
 
                     <span class="input-label">ROLE</span>

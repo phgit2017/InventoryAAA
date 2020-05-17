@@ -158,6 +158,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
                             _getProductDetails(vm.OrderRequest.ProductId);
                             _resetManageFields();
                         }
+                        $scope.inventoryForm.$setPristine();
                     } else {
                         QuickAlert.Show({
                             type: 'error',
@@ -191,6 +192,13 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
                         })
                         _getInventorySummary();
                         _resetFields();
+                        $scope.inventoryForm.$setPristine();
+                        $rootScope.IsLoading = false;
+                    } else {
+                        QuickAlert.Show({
+                            type: 'error',
+                            message: data.messageAlert
+                        })
                         $rootScope.IsLoading = false;
                     }
                 }, function (error) {

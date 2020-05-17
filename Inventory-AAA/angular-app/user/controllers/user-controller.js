@@ -58,6 +58,8 @@ function UserController(UserService, DTOptionsBuilder, $scope, $rootScope, Quick
             } else {
                 _updateUser();
             }
+
+            $scope.userForm.$setPristine();
         } else {
             QuickAlert.Show({
                 type: 'error',
