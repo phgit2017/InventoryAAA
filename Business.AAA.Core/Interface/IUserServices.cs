@@ -15,5 +15,7 @@ namespace Business.AAA.Core.Interface
         long SaveUserDetails(UserDetailRequest request);
         bool UpdateUserDetails(UserDetailRequest request);
         UserDetail AuthenticateLogin(AuthenticateUserRequest request);
+        IQueryable<Dto.UserMenuRoleDetail> GetAllUserMenuRoleDetails();
+        IQueryable<Dto.MenuDetail> GetAllMenuDetails();
     }
 }

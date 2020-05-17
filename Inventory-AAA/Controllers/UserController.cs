@@ -26,12 +26,29 @@ namespace Inventory_AAA.Controllers
         [HttpPost]
         public JsonResult UserList(UserDetailSearchRequest request)
         {
+            List<UserDetail> userDetailsResult = new List<UserDetail>();
+
+            #region Authorize
+            var authorizeMenuAccessResult = AuthorizeMenuAccess(LookupKey.Menu.UserMenuId);
+            if (!authorizeMenuAccessResult.IsSuccess)
+            {
+
+                return Json(new
+                {
+                    isSuccess = authorizeMenuAccessResult.IsSuccess,
+                    messageAlert = authorizeMenuAccessResult.MessageAlert,
+                    UserDetailsResult = userDetailsResult
+                }, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
             var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
-            var userDetailsResult = _userServices.GetAllUserDetails().Where(m => m.UserId != currentUserId).ToList();
+            userDetailsResult = _userServices.GetAllUserDetails().Where(m => m.UserId != currentUserId).ToList();
             var response = new
             {
                 UserDetailsResult = userDetailsResult,
-                isSuccess = true
+                isSuccess = true,
+                messageAlert = ""
             };
             return Json(response, JsonRequestBehavior.AllowGet);
         }
@@ -97,7 +114,7 @@ namespace Inventory_AAA.Controllers
                                                                      && u.UserId != request.UserId
                                                                                && u.IsActive).FirstOrDefault();
 
-                
+
                 if (!codeUserDetailResult.IsNull())
                 {
                     return Json(new { isSucess = isSucess, messageAlert = Messages.UserNameValidation }, JsonRequestBehavior.AllowGet);
@@ -168,6 +185,45 @@ namespace Inventory_AAA.Controllers
 
             var response = new { isSuccess = true, messageAlert = string.Empty };
             return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        public AuthorizationDetail AuthorizeMenuAccess(int menuId)
+        {
+
+            AuthorizationDetail response = new AuthorizationDetail();
+            long userSessionId = 0;
+
+            try
+            {
+                userSessionId = Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+            }
+            catch (Exception)
+            {
+                response.MessageAlert = Messages.SessionUnavailable;
+                return response;
+            }
+
+            
+            var userId = userSessionId;
+            var userResult = _userServices.GetAllUserDetails().Where(m => m.UserId == userId).FirstOrDefault();
+
+            #region Menu Role
+            var userMenuRoleResult = _userServices.GetAllUserMenuRoleDetails().Where(m => m.MenuId == menuId
+                                                        && m.RoleId == userResult.UserRoleId).FirstOrDefault();
+
+            if (userMenuRoleResult.IsNull())
+            {
+                response.MessageAlert = Messages.UnauthorizeAccess;
+            }
+            #endregion
+
+
+            if (string.IsNullOrEmpty(response.MessageAlert))
+                response.IsSuccess = true;
+
+
+            return response;
+
         }
 
     }

@@ -31,6 +31,13 @@ namespace Business.AAA.Core.Dto
         {
             public const string SalesReport = "SalesReport";
         }
+
+        public static class Menu
+        {
+            public const int InventoryMenuId = 1;
+            public const int UserMenuId= 2;
+            public const int ReportMenuId = 3;
+        }
     }
 
     public static class Messages
@@ -39,5 +46,7 @@ namespace Business.AAA.Core.Dto
         public const string UserNameValidation = "Duplicate username.";
         public const string ErrorOccuredDuringProcessing = "An error occured during the process. Please check the details, refresh the page, and try again.";
         public const string ServerError = "Server Error";
+        public const string SessionUnavailable = "Session is unavailable";
+        public const string UnauthorizeAccess = "Unauthorized access";
     }
 }

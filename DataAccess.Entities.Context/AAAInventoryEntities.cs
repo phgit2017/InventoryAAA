@@ -25,6 +25,8 @@ namespace DataAccess.Entities.Context
         public virtual DbSet<UserDetail> UserDetails { get; set; }
         public virtual DbSet<UserRoleDetail> UserRoleDetails { get; set; }
         public virtual DbSet<UserInformationDetail> UserInformationDetails { get; set; }
+        public virtual DbSet<MenuDetail> MenuDetails { get; set; }
+        public virtual DbSet<UserMenuRoleDetail> UserMenuRoleDetails { get; set; }
 
     }
 }

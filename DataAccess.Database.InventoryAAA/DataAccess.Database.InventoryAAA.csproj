@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MenuDetail.cs" />
     <Compile Include="OrderType.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="ProductLog.cs" />
@@ -60,6 +61,7 @@
     <Compile Include="SalesOrderDetail.cs" />
     <Compile Include="UserDetail.cs" />
     <Compile Include="UserInformationDetail.cs" />
+    <Compile Include="UserMenuRoleDetail.cs" />
     <Compile Include="UserRoleDetail.cs" />
   </ItemGroup>
   <ItemGroup>

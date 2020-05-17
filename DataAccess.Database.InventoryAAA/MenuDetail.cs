@@ -6,31 +6,20 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class UserRoleDetail
+    public partial class MenuDetail
     {
-        public UserRoleDetail()
+        public MenuDetail()
         {
-            UserDetails = new HashSet<UserDetail>();
             UserMenuRoleDetails = new HashSet<UserMenuRoleDetail>();
         }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int UserRoleID { get; set; }
+        public int MenuID { get; set; }
 
         [Required]
-        [StringLength(32)]
-        public string UserRoleName { get; set; }
-
-        public long? CreatedBy { get; set; }
-
-        public DateTime? CreatedTime { get; set; }
-
-        public long? ModifiedBy { get; set; }
-
-        public DateTime? ModifiedTime { get; set; }
-
-        public virtual ICollection<UserDetail> UserDetails { get; set; }
+        [StringLength(16)]
+        public string MenuName { get; set; }
 
         public virtual ICollection<UserMenuRoleDetail> UserMenuRoleDetails { get; set; }
     }

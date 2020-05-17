@@ -35,6 +35,26 @@ namespace Business.AAA.Core.Dto
 
     }
 
+    public class UserMenuRoleDetail
+    {
+        public int MenuId { get; set; }
+
+        public int RoleId { get; set; }
+
+    }
+
+    public class MenuDetail
+    {
+        public int MenuId { get; set; }
+        public string MenuName { get; set; }
+    }
+
+    public class AuthorizationDetail
+    {
+        public bool IsSuccess { get; set; } = false;
+        public string MessageAlert { get; set; } = string.Empty;
+    }
+
     public class AuthenticateUserRequest
     {
         [Required]
@@ -57,7 +77,7 @@ namespace Business.AAA.Core.Dto
     public class UserDetailRequest : BaseDetail
     {
         public int UserId { get; set; }
-        
+
         [Display(Name = "User Name")]
         [Required(ErrorMessage = "UserName is required")]
         [StringLength(64, ErrorMessage = "Up to 64 characters only.")]

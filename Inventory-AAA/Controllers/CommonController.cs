@@ -14,12 +14,16 @@ namespace Inventory_AAA.Controllers
     {
         private readonly IProductServices _productServices;
         private readonly IOrderTypeServices _orderTypeServices;
+        private readonly IUserServices _userServices;
+
         public CommonController(
             IProductServices productServices,
-            IOrderTypeServices orderTypeServices)
+            IOrderTypeServices orderTypeServices,
+            IUserServices userServices)
         {
             this._productServices = productServices;
             this._orderTypeServices = orderTypeServices;
+            this._userServices = userServices;
         }
 
         // GET: Common
@@ -48,6 +52,19 @@ namespace Inventory_AAA.Controllers
             result.Add(new OrderTypeActionDetail() { OrderId = 0, OrderActionName = "Purchase Order" });
             result.Add(new OrderTypeActionDetail() { OrderId = 1, OrderActionName = "Sales Order" });
 
+            var response = new
+            {
+                result = result,
+                isSuccess = true
+            };
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult MenuList()
+        {
+            
+            var result = _userServices.GetAllMenuDetails().ToList();
             var response = new
             {
                 result = result,
