@@ -21,6 +21,8 @@ namespace Business.AAA.Core
         IInventoryAAARepository<dbentities.UserDetail> _userDetailServices;
         IInventoryAAARepository<dbentities.UserRoleDetail> _userRoleDetailServices;
         IInventoryAAARepository<dbentities.UserInformationDetail> _userInformationDetailServices;
+        IInventoryAAARepository<dbentities.UserMenuRoleDetail> _userMenuRoleServices;
+        IInventoryAAARepository<dbentities.MenuDetail> _menuServices;
 
         private dbentities.UserDetail userDetails;
         private dbentities.UserRoleDetail userRoleDetails;
@@ -28,11 +30,15 @@ namespace Business.AAA.Core
 
         public UserServices(IInventoryAAARepository<dbentities.UserDetail> userDetailServices,
             IInventoryAAARepository<dbentities.UserRoleDetail> userRoleDetailServices,
-            IInventoryAAARepository<dbentities.UserInformationDetail> userInformationDetailServices)
+            IInventoryAAARepository<dbentities.UserInformationDetail> userInformationDetailServices,
+            IInventoryAAARepository<dbentities.UserMenuRoleDetail> userMenuRoleServices,
+            IInventoryAAARepository<dbentities.MenuDetail> menuServices)
         {
             this._userDetailServices = userDetailServices;
             this._userRoleDetailServices = userRoleDetailServices;
             this._userInformationDetailServices = userInformationDetailServices;
+            this._userMenuRoleServices = userMenuRoleServices;
+            this._menuServices = menuServices;
 
             this.userDetails = new dbentities.UserDetail();
             this.userRoleDetails = new dbentities.UserRoleDetail();
@@ -67,6 +73,31 @@ namespace Business.AAA.Core
 
             return result;
         }
+
+        public IQueryable<Dto.UserMenuRoleDetail> GetAllUserMenuRoleDetails()
+        {
+            var result = from det in this._userMenuRoleServices.GetAll()
+                         select new Dto.UserMenuRoleDetail()
+                         {
+                             MenuId = det.MenuID,
+                             RoleId = det.RoleID
+                         };
+
+            return result;
+        }
+
+        public IQueryable<Dto.MenuDetail> GetAllMenuDetails()
+        {
+            var result = from det in this._menuServices.GetAll()
+                         select new Dto.MenuDetail()
+                         {
+                             MenuId = det.MenuID,
+                             MenuName = det.MenuName
+                         };
+
+            return result;
+        }
+
 
         public IQueryable<Dto.UserRoleDetail> GetAllUserRoleDetails()
         {

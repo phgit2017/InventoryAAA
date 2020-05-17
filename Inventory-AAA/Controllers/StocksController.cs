@@ -19,17 +19,20 @@ namespace Inventory_AAA.Controllers
         private readonly IOrderTransactionalServices _orderTransactionalServices;
         private readonly IProductServices _productServices;
         private readonly IOrderServices _orderServices;
+        private readonly IUserServices _userServices;
 
         public StocksController(
             IOrderTypeServices orderTypeServices,
             IOrderTransactionalServices orderTransactionalServices,
             IProductServices productServices,
-            IOrderServices orderServices)
+            IOrderServices orderServices,
+            IUserServices userServices)
         {
             this._orderTypeServices = orderTypeServices;
             this._orderTransactionalServices = orderTransactionalServices;
             this._productServices = productServices;
             this._orderServices = orderServices;
+            this._userServices = userServices;
         }
 
         // GET: Stocks
@@ -42,7 +45,23 @@ namespace Inventory_AAA.Controllers
         [HttpGet]
         public JsonResult InventorySummary()
         {
-            var result = this._productServices.RetrieveInventorySummary();
+            List<StocksSummary> result = new List<StocksSummary>();
+            
+            #region Authorize
+            var authorizeMenuAccessResult = AuthorizeMenuAccess(LookupKey.Menu.InventoryMenuId);
+            if (!authorizeMenuAccessResult.IsSuccess)
+            {
+
+                return Json(new
+                {
+                    isSuccess = authorizeMenuAccessResult.IsSuccess,
+                    messageAlert = authorizeMenuAccessResult.MessageAlert,
+                    result = result
+                }, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+            result = this._productServices.RetrieveInventorySummary();
 
             var response = new
             {
@@ -234,6 +253,45 @@ namespace Inventory_AAA.Controllers
             }
 
 
+
+        }
+
+        public AuthorizationDetail AuthorizeMenuAccess(int menuId)
+        {
+
+            AuthorizationDetail response = new AuthorizationDetail();
+            long userSessionId = 0;
+
+            try
+            {
+                userSessionId = Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+            }
+            catch (Exception)
+            {
+                response.MessageAlert = Messages.SessionUnavailable;
+                return response;
+            }
+
+
+            var userId = userSessionId;
+            var userResult = _userServices.GetAllUserDetails().Where(m => m.UserId == userId).FirstOrDefault();
+
+            #region Menu Role
+            var userMenuRoleResult = _userServices.GetAllUserMenuRoleDetails().Where(m => m.MenuId == menuId
+                                                        && m.RoleId == userResult.UserRoleId).FirstOrDefault();
+
+            if (userMenuRoleResult.IsNull())
+            {
+                response.MessageAlert = Messages.UnauthorizeAccess;
+            }
+            #endregion
+
+
+            if (string.IsNullOrEmpty(response.MessageAlert))
+                response.IsSuccess = true;
+
+
+            return response;
 
         }
     }

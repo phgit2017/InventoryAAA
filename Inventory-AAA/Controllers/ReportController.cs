@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Business.AAA.Core;
 using Business.AAA.Core.Dto;
 using Business.AAA.Core.Interface;
+using Infrastructure.Utilities;
 using OfficeOpenXml;
 
 namespace Inventory_AAA.Controllers
@@ -16,10 +17,13 @@ namespace Inventory_AAA.Controllers
     public class ReportController : Controller
     {
         private readonly IProductServices _productServices;
+        private readonly IUserServices _userServices;
         public ReportController(
-            IProductServices productServices)
+            IProductServices productServices,
+            IUserServices userServices)
         {
             this._productServices = productServices;
+            this._userServices = userServices;
         }
 
         // GET: Report
@@ -32,6 +36,45 @@ namespace Inventory_AAA.Controllers
         {
             var salesReportGenerationFile = SalesReportGeneration(startDate, endDate);
             return salesReportGenerationFile;
+        }
+
+        public AuthorizationDetail AuthorizeMenuAccess(int menuId)
+        {
+
+            AuthorizationDetail response = new AuthorizationDetail();
+            long userSessionId = 0;
+
+            try
+            {
+                userSessionId = Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+            }
+            catch (Exception)
+            {
+                response.MessageAlert = Messages.SessionUnavailable;
+                return response;
+            }
+
+
+            var userId = userSessionId;
+            var userResult = _userServices.GetAllUserDetails().Where(m => m.UserId == userId).FirstOrDefault();
+
+            #region Menu Role
+            var userMenuRoleResult = _userServices.GetAllUserMenuRoleDetails().Where(m => m.MenuId == menuId
+                                                        && m.RoleId == userResult.UserRoleId).FirstOrDefault();
+
+            if (userMenuRoleResult.IsNull())
+            {
+                response.MessageAlert = Messages.UnauthorizeAccess;
+            }
+            #endregion
+
+
+            if (string.IsNullOrEmpty(response.MessageAlert))
+                response.IsSuccess = true;
+
+
+            return response;
+
         }
 
         #region Private methods
