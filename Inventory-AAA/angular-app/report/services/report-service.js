@@ -9,7 +9,7 @@ function ReportService($http, $q) {
         baseUrl = "/Report"
         //baseUrl = "/Inventory-AAA/Report"
 
-    ReportServiceFactory.GenerateSalesReport = _generateSalesReport();
+    ReportServiceFactory.GenerateSalesReport = _generateSalesReport;
 
     return ReportServiceFactory;
 

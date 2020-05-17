@@ -23,8 +23,10 @@ function InventoryService($http, $q) {
 
         $http.get(url)
             .then(function (response) {
+                debugger;
                 defer.resolve(response.data.result);
             }, function (err) {
+                    debugger;
                 defer.reject(err);
             });
         return defer.promise;

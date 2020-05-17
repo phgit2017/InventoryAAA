@@ -7,7 +7,7 @@ ReportController.$inject = ['ReportService', '$scope'];
 function ReportController(ReportService, $scope) {
     var vm = this, controllerName = "reportCtrl";
 
-    vm.StartDate = "123";
+    vm.StartDate = "";
     vm.EndDate = "";
     vm.ReportType = 0; // 0 - SalesReport; 1 - InventorySummary;
     vm.Report = {};

@@ -1,0 +1,25 @@
+﻿<div class="container-full bg-primary d-flex justify-content-center">
+    <div class="align-self-center">
+        <div class="card">
+            <div class="card-body unauthorized-body">
+                <div>
+                    <span>
+                        <img src="/Content/assets/svg/error.svg" class="error-img" />
+                    </span>
+                </div>
+                <div>
+                    <h1>You are <strong style="color: var(--bg-danger)">unauthorized</strong> to access this page.</h1>
+
+                </div>
+                <br />
+                <br />
+                <button class="btn btn-block btn-primary mb-2"
+                        ng-click="loginCtrl.Logout();"
+                        ng-keydown="$event.keyCode === 13 && loginCtrl.Logout();">
+                    RETURN TO LOGIN
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

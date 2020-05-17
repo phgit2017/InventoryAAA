@@ -45,6 +45,13 @@
                     showNavbar: true,
                     navItem: "Reports"
                 })
+                .when("/Unauthorized", {
+                    title: "Unauthorized",
+                    templateUrl: "angular-app/shared/views/unauthorized.html",
+                    controller: "LoginController",
+                    controllerAs: "loginCtrl",
+                    showNavbar: false,
+                })
                 .otherwise({
                     redirectTo: "/"
                 })
