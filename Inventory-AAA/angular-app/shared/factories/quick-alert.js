@@ -64,7 +64,7 @@
                 setTimeout(function () {
                     $body.find(quickAlertClass).remove();
                 }, 500)
-            }, 4000)
+            }, 3000)
 
         }
 

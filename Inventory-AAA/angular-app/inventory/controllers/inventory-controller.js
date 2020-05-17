@@ -121,6 +121,18 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     }
 
     function _saveOrderRequest(isAddNew = false) {
+        // On Purchase/Sale Order, check if Quantity != 0
+        if (!isAddNew) {
+            if (vm.OrderRequestQuantity == 0) {
+                QuickAlert.Show({
+                    type: 'error',
+                    message: 'Please input a valid Quantity.'
+                });
+
+                return;
+            }
+        }
+
         if (validProductDetails()) {
             vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId;
             vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
@@ -149,7 +161,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
                     } else {
                         QuickAlert.Show({
                             type: 'error',
-                            message: data.message
+                            message: data.messageAlert
                         })
                     }
                 }, function (error) {
@@ -240,12 +252,19 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     }
 
     function validProductDetails() {
-        if (vm.SelectedProduct.ProductCode.trim() !== ""
-            && vm.SelectedProduct.ProductCode.trim() !== null
+        if (!(isNullOrEmpty(vm.SelectedProduct.ProductCode))
+            && !(isNullOrEmpty(vm.SelectedProduct.ProductDescription))
             && validUnitPrice()) {
             return true;
         } else {
             return false;
         }
+    }
+
+    function isNullOrEmpty(data) {
+        if (data.trim() === "" || data.trim() === null) {
+            return true;
+        }
+        return false;
     }
 }

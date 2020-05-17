@@ -78,9 +78,18 @@ function UserController(UserService, DTOptionsBuilder, $scope, $rootScope, Quick
                     vm.UserListLoading = true;
                     _initialize();
                     $rootScope.IsLoading = false;
+                } else {
+                    QuickAlert.Show({
+                        type: 'error',
+                        message: data.messageAlert
+                    });
+                    $rootScope.IsLoading = false;
                 }
             }, function (err) {
-                console.log(err);
+                QuickAlert.Show({
+                    type: 'error',
+                    message: err
+                });
             }
         );
     }
@@ -97,7 +106,10 @@ function UserController(UserService, DTOptionsBuilder, $scope, $rootScope, Quick
                     _initialize();
                 }
             }, function (err) {
-                console.log(err);
+                QuickAlert.Show({
+                    type: 'error',
+                    message: err
+                });
             }
         );
     }
