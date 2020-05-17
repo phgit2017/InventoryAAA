@@ -70,6 +70,7 @@ namespace Business.AAA.Core
                              CreatedTime = det.CreatedTime,
                              ModifiedBy = det.ModifiedBy,
                              ModifiedTime = det.ModifiedTime,
+                             PreviousQuantity = det.PreviousQuantity,
 
                              ProductDetails = productResult.Where(p => p.ProductId == det.ProductID).FirstOrDefault(),
                              PurchaseOrders = purchaseOrderResult.Where(po => po.PurchaseOrderId == det.PurchaseOrderID).FirstOrDefault()
@@ -116,6 +117,7 @@ namespace Business.AAA.Core
                              CreatedTime = det.CreatedTime,
                              ModifiedBy = det.ModifiedBy,
                              ModifiedTime = det.ModifiedTime,
+                             PreviousQuantity = det.PreviousQuantity,
 
                              ProductDetails = productResult.Where(p => p.ProductId == det.ProductID).FirstOrDefault(),
                              SalesOrders = salesOrderResult.Where(so => so.SalesOrderId == det.SalesOrderID).FirstOrDefault()

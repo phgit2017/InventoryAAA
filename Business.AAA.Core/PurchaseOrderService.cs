@@ -36,6 +36,7 @@ namespace Business.AAA.Core
 
             decimal totalAmount = 0.00m, totalQuantity = 0.00m;
             long purchaseOrderId = 0, successReturn = 0;
+            ProductDetail productDetailResult = new ProductDetail();
 
             foreach (var orderDetail in orderTransactionDetailRequest)
             {
@@ -125,7 +126,7 @@ namespace Business.AAA.Core
                 }
                 else
                 {
-                    var productDetailResult = _productServices.GetAll().Where(p => p.ProductId == orderDetail.ProductId).FirstOrDefault();
+                    productDetailResult = _productServices.GetAll().Where(p => p.ProductId == orderDetail.ProductId).FirstOrDefault();
 
                     productDetailRequest = new ProductDetailRequest()
                     {
@@ -141,7 +142,7 @@ namespace Business.AAA.Core
                         ModifiedTime = DateTime.Now
                     };
 
-                    
+
 
                     _productServices.UpdateDetails(productDetailRequest);
                     productId = productDetailResult.ProductId;
@@ -186,7 +187,8 @@ namespace Business.AAA.Core
                     CreatedBy = orderDetail.CreatedBy,
                     CreatedTime = DateTime.Now,
                     ModifiedBy = null,
-                    ModifiedTime = null
+                    ModifiedTime = null,
+                    PreviousQuantity = (orderDetail.ProductId == 0) ? 0 : productDetailResult.Quantity
                 };
 
                 var purchaseOrderDetailId = _orderServices.SavePurchaseOrderDetails(purchaseOrderDetailRequest);

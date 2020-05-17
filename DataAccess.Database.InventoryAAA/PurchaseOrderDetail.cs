@@ -18,6 +18,8 @@
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long ProductID { get; set; }
 
+        public decimal? PreviousQuantity { get; set; }
+
         public decimal Quantity { get; set; }
 
         public decimal UnitPrice { get; set; }

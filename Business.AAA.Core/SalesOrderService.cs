@@ -121,7 +121,8 @@ namespace Business.AAA.Core
                     CreatedBy = orderDetail.CreatedBy,
                     CreatedTime = DateTime.Now,
                     ModifiedBy = null,
-                    ModifiedTime = null
+                    ModifiedTime = null,
+                    PreviousQuantity = productDetailResult.Quantity,
                 };
 
                 var salesOrderDetailId = _orderServices.SaveSalesOrderDetails(salesOrderDetailsRequest);

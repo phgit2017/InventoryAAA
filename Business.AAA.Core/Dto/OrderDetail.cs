@@ -86,6 +86,8 @@ namespace Business.AAA.Core.Dto
     {
         public long ProductId { get; set; }
 
+        public decimal? PreviousQuantity { get; set; }
+
         public decimal Quantity { get; set; }
 
         public decimal UnitPrice { get; set; }
@@ -110,6 +112,8 @@ namespace Business.AAA.Core.Dto
     public class BaseOrderRequestDetails : BaseDetail
     {
         public long ProductId { get; set; }
+
+        public decimal? PreviousQuantity { get; set; }
 
         public decimal Quantity { get; set; }
 
