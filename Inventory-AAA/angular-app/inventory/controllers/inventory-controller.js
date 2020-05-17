@@ -92,6 +92,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         vm.ProductDetailRequest["ProductId"] = productId;
         $rootScope.IsLoading = true;
         InventoryService.GetProductDetails(vm.ProductDetailRequest).then(
+            
             function (data) {
                 debugger;
                 vm.SelectedProduct = {
@@ -103,10 +104,10 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
                     IsActive: data.ProductResult.IsActive
                 };
                 vm.ProductHistory = data.InventoryDetailsResult;
-                $rootScope.IsLoading = false;
                 if (showManageModal) {
                     _toggleManageModal();
                 }
+                $rootScope.IsLoading = false;
             }, function (error) {
                 vm.isLoading = false;
                 vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
@@ -127,7 +128,6 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
 
             InventoryService.SaveOrderRequest(vm.OrderRequest).then(
                 function (data) {
-                    debugger;
                     if (data.isSucess) {
                         alert("Transaction has been saved!");
                         if (isAddNew) {
@@ -172,12 +172,23 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         }
     }
 
-    function _selectProduct(data) {
-        vm.SelectedProduct.ProductId = data.ProductID;
-        vm.SelectedProduct.ProductCode = data.ProductCode;
-        vm.SelectedProduct.ProductDescription = data.ProductDescription;
-        vm.SelectedProduct.UnitPrice = 100; //PLACEHOLDER: KEIGA
-        vm.SelectedProduct.Quantity = data.CurrentStocks;
+    function _selectProduct(productID) {
+        $rootScope.IsLoading = true;
+        InventoryService.GetProductDetailsBasic(productID).then(
+            function (data) {
+                if (data.isSucess) {
+                    vm.SelectedProduct.ProductId = data.ProductID;
+                    vm.SelectedProduct.ProductCode = data.ProductCode;
+                    vm.SelectedProduct.ProductDescription = data.ProductDescription;
+                    vm.SelectedProduct.UnitPrice = data.UnitPrice;
+                    vm.SelectedProduct.Quantity = data.CurrentStocks;
+                    $rootScope.IsLoading = false;
+                }
+            }, function (error) {
+                vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
+                alert(error);
+                $rootScope.IsLoading = false;
+            });
     }
 
     function _resetManageFields() {

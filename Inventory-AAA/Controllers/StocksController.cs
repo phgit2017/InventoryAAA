@@ -73,7 +73,8 @@ namespace Inventory_AAA.Controllers
         }
 
         [HttpGet]
-        public JsonResult ProductDetails(long productId)
+        [Route("ProductDetails/{productId:int}")]
+        public JsonResult ProductDetails(int productId)
         {
             //Product Details
             var productResult = _productServices.GetAll().Where(p => p.ProductId == productId).FirstOrDefault();

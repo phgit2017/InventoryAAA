@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('LoginController', LoginController)
 
-LoginController.$inject = ['LoginService', '$scope', '$location', '$rootScope', '$cookies']
+LoginController.$inject = ['LoginService', '$scope', '$location', '$rootScope', '$cookies', 'QuickAlert']
 
-function LoginController(LoginService, $scope, $location, $rootScope, $cookies) {
+function LoginController(LoginService, $scope, $location, $rootScope, $cookies, QuickAlert) {
     
     let vm = this, controllerName = 'loginCtrl';
 
@@ -16,6 +16,7 @@ function LoginController(LoginService, $scope, $location, $rootScope, $cookies) 
     vm.Login = _login;
     vm.Logout = _logout;
     vm.ChangeRoute = _changeRoute;
+    vm.TestAlert = _testAlert;
 
     function _login() {
         $rootScope.IsLoading = true;
@@ -46,5 +47,13 @@ function LoginController(LoginService, $scope, $location, $rootScope, $cookies) 
 
     function _changeRoute(route) {
         $location.url('/' + route);
+    }
+
+
+    function _testAlert() {
+        QuickAlert.Show({
+            type: "success",
+            message: "TEST ALERT"
+        })
     }
 }

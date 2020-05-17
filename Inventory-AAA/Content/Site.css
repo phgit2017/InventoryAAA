@@ -512,6 +512,55 @@ i.login-logo {
     padding: 0.1em 0 0.1em 0.5em;
 }
 
+.quick-alert {
+    position: fixed;
+    z-index: 100000;
+    width: 10rem;
+    height: 1rem;
+    top: 0;
+}
+
+.quick-alert-success {
+    color: white;
+    background: green;
+}
+
+.quick-alert-error {
+    color: white;
+    background: red;
+}
+
+.fade-in {
+    animation-duration: 1s;
+    animation-name: fadeIn;
+}
+
+bounce-out-up {
+    position: absolute;
+    animation-duration: 0.5s;
+    animation-name: bounceOutUp;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes bounceOutUp {
+    0%, 50%, 100% {
+        top: 0;
+    }
+
+    25%, 75% {
+        top: 100px;
+    }
+}
+
 @media (max-width: 576px) {
     .form-control {
         width: 200px
