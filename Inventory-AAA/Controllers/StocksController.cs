@@ -92,7 +92,6 @@ namespace Inventory_AAA.Controllers
         }
 
         [HttpGet]
-        [Route("ProductDetails/{productId:int}")]
         public JsonResult ProductDetails(int productId)
         {
             //Product Details

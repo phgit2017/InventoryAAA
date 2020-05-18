@@ -6,22 +6,20 @@
         <span class="input-label">REPORT TYPE</span>
         <div class="custom-control custom-radio">
             <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input"
-                   ng-model="reportCtrl.StartDate"
                    ng-value="1">
             <label class="custom-control-label" for="customRadio2">Sales Report</label>
         </div>
         <div class="custom-control custom-radio">
             <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"
-                   ng-model="reportCtrl.EndDate"
                    ng-value="2">
             <label class="custom-control-label" for="customRadio1">Inventory Summary</label>
         </div>
         <br />
         <span class="input-label">DATE FROM</span>
-        <input type="datetime-local" class="form-control" />
+        <input type="datetime-local" class="form-control" ng-model="reportCtrl.StartDate"/>
         <br />
         <span class="input-label">DATE TO</span>
-        <input type="datetime-local" class="form-control" />
+        <input type="datetime" class="form-control" ng-model="reportCtrl.EndDate"/>
         <br />
         <br />
         <div class="d-flex justify-content-end">

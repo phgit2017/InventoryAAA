@@ -158,3 +158,45 @@ app.directive('modalWindow', function () {
         template: "<div ng-show='show'><div class='modal-overlay' ng-click='hideModal()'></div><div class='modal-container'><div class='modal-box' ng-transclude></div></div></div>"
     };
 });
+
+// Confirm Directive 
+
+app.directive('confirmAlert', function ($rootScope) {
+    return {
+        restrict: 'E',
+        scope: {
+            show: '=',
+            alertMsg: '=',
+            okFunction: '&'
+        },
+        replace: true, // Replace with template
+        transclude: true, // To use custom content
+        link: function (scope, element, attrs) {
+
+            scope.hideModal = function () {
+                scope.show = false;
+            };
+
+            scope.okClicked = function () {
+                $rootScope.IsLoading = true;
+                scope.hideModal();
+                scope.okFunction({ result: true });
+            }
+        },
+        template:
+            `<div ng-show='show'>
+             <div class='modal-overlay'> </div>
+             <div class='modal-container'>
+             <div class='modal-box' ng-transclude>
+              <div class='card p-2'>
+                  <div class='card-body' style='color: black;'>
+                      <p>{{ alertMsg }}</p>
+                      <div class='d-flex justify-content-end mt-4'>
+                          <button class='btn btn-alert btn-sm btn-primary mr-2' ng-click='okClicked()'>Yes</button>
+                          <button class='btn btn-alert btn-sm btn-danger' ng-click='hideModal();'>No</button>
+                      </div>
+                  </div>
+              </div>
+             </div></div></div>`
+    };
+});

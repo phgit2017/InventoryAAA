@@ -32,6 +32,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.IsLoading = true;
     vm.LoaderErrorMessage = '';
     vm.ManageModalShown = false;
+    vm.ShowConfirmAlert = false;
 
     // Bindable methods
     vm.Initialize = _initialize;
@@ -45,6 +46,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.GetProductDetails = _getProductDetails; 
     vm.GetProductDetailsBasic = _getProductDetailsBasic; 
     vm.UpdateProductDetails = _updateProductDetails;
+    vm.DeleteProduct = _deleteProduct;
 
     //Watches
 
@@ -123,7 +125,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     function _saveOrderRequest(isAddNew = false) {
         // On Purchase/Sale Order, check if Quantity != 0
         if (!isAddNew) {
-            if (vm.OrderRequestQuantity == 0) {
+            if (vm.OrderRequestQuantity === 0 || vm.OrderRequestQuantity < 0) {
                 QuickAlert.Show({
                     type: 'error',
                     message: 'Please input a valid Quantity.'
@@ -180,7 +182,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         
     }
 
-    function _updateProductDetails() {
+    function _updateProductDetails(isDelete = false) {
         $rootScope.IsLoading = true;
         if (validProductDetails()) {
             InventoryService.UpdateProductDetails(vm.SelectedProduct).then(
@@ -188,7 +190,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
                     if (data.isSucess) {
                         QuickAlert.Show({
                             type: 'success',
-                            message: 'The product has been successfully edited.'
+                            message: isDelete ? 'The product has been deleted.' :'The product has been successfully edited.'
                         })
                         _getInventorySummary();
                         _resetFields();
@@ -212,6 +214,13 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             alert('Please fill in the required fields!');
             $rootScope.IsLoading = false;
         }
+    }
+
+    function _deleteProduct(result) {
+        vm.SelectedProduct.IsActive = false;
+        $rootScope.IsLoading = false;
+        _updateProductDetails(true);
+        vm.ShowConfirmAlert = false;
     }
 
     function _resetManageFields() {

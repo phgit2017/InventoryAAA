@@ -193,13 +193,21 @@ h1, h2, h3, h4, h5, h6 {
     color: white;
 }
 
+    .btn.btn-danger {
+        background-color: var(--bg-danger);
+        border-color: var(--bg-danger);
+        color: white;
+    }
+
 .btn.btn-primary-inverse {
     background-color: var(--bg-muted);
     border-color: var(--bg-muted);
     color: var(--bg-primary);
 }
 
-
+btn.btn-alert {
+    min-width: 5rem !important;
+}
 
 .btn-primary:hover,
 .btn-primary:active,
@@ -403,7 +411,7 @@ i.login-logo {
 }
 
 .user-details-section {
-    max-height: 520px;
+    max-height: 480px;
 }
 
 .sidebar {
@@ -513,8 +521,29 @@ i.login-logo {
     white-space: nowrap;
 }
 
+.cell-wrap {
+    word-wrap: break-word;
+}
+
+    .cell-wrap.sorting::before,
+    .cell-wrap.sorting_asc::before,
+    .cell-wrap.sorting_desc::before {
+        top: 1.5rem !important;
+    }
+
+    .cell-wrap.sorting::after,
+    .cell-wrap.sorting_desc::after,
+    .cell-wrap.sorting_asc::after {
+        bottom: 1.5rem !important;
+    }
+
 .cell-center {
     text-align: center;
+}
+
+.cell-center span {
+    position: relative;
+    bottom: 10px;
 }
 
 .item-label {

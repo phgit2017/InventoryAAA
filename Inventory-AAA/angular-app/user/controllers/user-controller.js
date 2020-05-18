@@ -2,14 +2,15 @@
     .module('InventoryApp')
     .controller('UserController', UserController);
 
-UserController.$inject = ['UserService', 'DTOptionsBuilder' ,'$scope', '$rootScope', 'QuickAlert'];
+UserController.$inject = ['UserService', 'DTOptionsBuilder', 'DTColumnDefBuilder' ,'$scope', '$rootScope', 'QuickAlert'];
 
-function UserController(UserService, DTOptionsBuilder, $scope, $rootScope, QuickAlert) {
+function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scope, $rootScope, QuickAlert) {
 
     var vm = this, controllerName = 'userCtrl';
 
     vm.dtUserListOptions = "";
     vm.UserListLoading = true;
+    vm.dtUserListColumnDefs = "";
 
     vm.UserList = [];
     vm.SelectedUser = {
@@ -19,18 +20,26 @@ function UserController(UserService, DTOptionsBuilder, $scope, $rootScope, Quick
         UserName: "",
         Password: "",
         UserRoleId: 1,
-        IsActive: true
+        IsActive: true,
+        CreatedBy: 0,
+        CreatedTime: ""
     };
+    vm.ShowConfirmAlert = false;
 
     vm.Initialize = _initialize;
     vm.ClearUserDetails = _clearUserDetails;
     vm.SelectUser = _selectUser;
     vm.SaveUser = _saveUser;
+    vm.DeleteUser = _deleteUser;
 
     vm.dtUserListOptions = DTOptionsBuilder.newOptions()
         .withPaginationType('simple_numbers')
         .withDisplayLength(10)
         .withDOM("<'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'p><'table-details't>>");
+
+    vm.dtUserListColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(5).notSortable(),
+    ];
 
     function _initialize() {
         _getUserList();
@@ -96,13 +105,13 @@ function UserController(UserService, DTOptionsBuilder, $scope, $rootScope, Quick
         );
     }
 
-    function _updateUser() {
+    function _updateUser(isDelete = false) {
         UserService.UpdateUser(vm.SelectedUser).then(
             function (data) {
                 if (data.isSuccess) {
                     QuickAlert.Show({
                         type: 'success',
-                        message: 'User has been successfully updated.'
+                        message: isDelete ? 'User has been deleted.' : 'User has been successfully updated.'
                     });
                     vm.UserListLoading = true;
                     _initialize();
@@ -125,7 +134,15 @@ function UserController(UserService, DTOptionsBuilder, $scope, $rootScope, Quick
             Password: data.Password,
             UserRoleId: data.UserRoleId,
             IsActive: data.IsActive,
+            CreatedBy: data.CreatedBy,
+            CreatedTime: data.CreatedDateTimeFormat
         };
+    }
+
+    function _deleteUser(result) {
+        vm.SelectedUser.IsActive = false;
+        _updateUser(true);
+        $rootScope.IsLoading = false;
     }
 
     function ValidUserDetails() {
@@ -147,7 +164,9 @@ function UserController(UserService, DTOptionsBuilder, $scope, $rootScope, Quick
             UserName: "",
             Password: "",
             UserRoleId: 1,
-            IsActive: true
+            IsActive: true,
+            CreatedBy: 0,
+            CreatedTime: ""
         };
     }
 

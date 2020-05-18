@@ -1,36 +1,37 @@
-﻿<div class="container-full bg-primary d-flex justify-content-center">
-    <div class="align-self-center">
-        <div class="card login-card">
-            <div class="card-body p-0">
-                <div class="d-flex flex-row">
-                    <div class="pt-4 pb-4">
-                        <div class="pl-5 pt-4 pb-4 mr-4 border-right login-banner-section">
-                            <div class="pr-5" style="height: 230px !important;">
-                                <span><i class="icon-circle login-logo"></i></span>
-                                <div class="login-banner">COMPANY <br /> NAME</div>
+﻿
+    <div class="container-full bg-primary d-flex justify-content-center">
+        <div class="align-self-center">
+            <div class="card login-card">
+                <div class="card-body p-0">
+                    <div class="d-flex flex-row">
+                        <div class="pt-4 pb-4">
+                            <div class="pl-5 pt-4 pb-4 mr-4 border-right login-banner-section">
+                                <div class="pr-5" style="height: 230px !important;">
+                                    <span><i class="icon-circle login-logo"></i></span>
+                                    <div class="login-banner">COMPANY <br /> NAME</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="login-input-section mr-md-5 mr-4 mt-4 mb-4">
-                        <h4 class="mb-4 ml-0">LOGIN</h4>
-                        <span class="input-label">USERNAME</span>
-                        <input type="text" class="form-control mb-3" ng-model="loginCtrl.LoginDetails.UserName" 
-                               ng-keydown="$event.keyCode === 13 && loginCtrl.Login();"/>
+                        <div class="login-input-section mr-md-5 mr-4 mt-4 mb-4">
+                            <h4 class="mb-4 ml-0">LOGIN</h4>
+                            <span class="input-label">USERNAME</span>
+                            <input type="text" class="form-control mb-3" ng-model="loginCtrl.LoginDetails.UserName"
+                                   ng-keydown="$event.keyCode === 13 && loginCtrl.Login();" />
 
-                        <span class="input-label">PASSWORD</span>
-                        <input type="password" class="form-control" ng-model="loginCtrl.LoginDetails.Password" 
-                               ng-keydown="$event.keyCode === 13 && loginCtrl.Login();"/>
+                            <span class="input-label">PASSWORD</span>
+                            <input type="password" class="form-control" ng-model="loginCtrl.LoginDetails.Password"
+                                   ng-keydown="$event.keyCode === 13 && loginCtrl.Login();" />
 
-                        <br />
+                            <br />
 
-                        <button class="btn btn-block btn-primary mb-2"
-                                ng-click="loginCtrl.Login();"
-                                ng-keydown="$event.keyCode === 13 && loginCtrl.Login();">
-                            LOGIN
-                        </button>
+                            <button class="btn btn-block btn-primary mb-2"
+                                    ng-click="loginCtrl.Login();"
+                                    ng-keydown="$event.keyCode === 13 && loginCtrl.Login();">
+                                LOGIN
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

@@ -5,7 +5,7 @@
 LoginController.$inject = ['LoginService', '$scope', '$location', '$rootScope', '$cookies', 'QuickAlert']
 
 function LoginController(LoginService, $scope, $location, $rootScope, $cookies, QuickAlert) {
-    
+
     let vm = this, controllerName = 'loginCtrl';
 
     vm.LoginDetails = {
