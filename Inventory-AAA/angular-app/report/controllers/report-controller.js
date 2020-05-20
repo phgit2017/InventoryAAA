@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('ReportController', ReportController)
 
-ReportController.$inject = ['ReportService', '$scope', '$window'];
+ReportController.$inject = ['ReportService', '$scope', '$window', '$http', 'QuickAlert'];
 
-function ReportController(ReportService, $scope, $window) {
+function ReportController(ReportService, $scope, $window, $http, QuickAlert) {
     var vm = this, controllerName = "reportCtrl";
 
     vm.StartDate = "";
@@ -15,16 +15,33 @@ function ReportController(ReportService, $scope, $window) {
     vm.GenerateSalesReport = _generateSalesReport;
 
     function _generateSalesReport() {
-        var test = vm.StartDate
-        var date = getDateTimeFromLocal(vm.StartDate);
-        //$window.location.assign("/Report/GenerateSalesReport?startDate=" + vm.StartDate + '&endDate=' + vm.EndDate);
-        //ReportService.GenerateSalesReport(vm.StartDate, vm.EndDate).then(
-        //    function (data) {
-        //        vm.Report = data;
-        //    }, function (err) {
-        //        alert(err);
-        //    }
-        //);
+
+        var startDateString = getDateTimeFromLocal(vm.StartDate)
+            , endDateString = getDateTimeFromLocal(vm.EndDate)
+            , startDate = new Date(startDateString)
+            , endDate = new Date(endDateString);
+
+
+        if (dateDiffDays(startDate, endDate) > 30) {
+            QuickAlert.Show({
+                type: 'error',
+                message: 'Date range can only be a maximum of 30 days.'
+            });
+        } else if ((startDate - endDate) > 0) {
+            QuickAlert.Show({
+                type: 'error',
+                message: 'End date should be after Start Date'
+            });
+        } else {
+            var url = '/Report/GenerateSalesReport/?startDate=' + startDateString + '&endDate=' + endDateString;
+
+            var a = document.createElement('a');
+            a.href = url;
+            a.target = '_blank';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
     }
 
     // Private Functions
@@ -43,4 +60,12 @@ function ReportController(ReportService, $scope, $window) {
         var test = YYYY + '-' + MM + '-' + DD + 'T' + HH + ':' + II + ':' + SS;
         return YYYY + '-' + MM + '-' + DD + 'T' + HH + ':' + II + ':' + SS;
     }
+
+    function dateDiffDays (dt1, dt2) {
+        return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
+    }
+
+    //function dateDiffSeconds(date1, date2) {
+    
+    //}
 }
