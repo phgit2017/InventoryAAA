@@ -65,8 +65,9 @@ namespace Inventory_AAA.Controllers
 
             var response = new
             {
+                isSuccess = true,
+                messageAlert = string.Empty,
                 result = result,
-                isSuccess = true
             };
             return Json(response, JsonRequestBehavior.AllowGet);
         }

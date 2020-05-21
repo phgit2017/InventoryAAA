@@ -32,6 +32,30 @@ namespace Inventory_AAA.Controllers
             return View();
         }
 
+        [HttpGet]
+        public JsonResult ReportIndex()
+        {
+            #region Authorize
+            var authorizeMenuAccessResult = AuthorizeMenuAccess(LookupKey.Menu.ReportMenuId);
+            if (!authorizeMenuAccessResult.IsSuccess)
+            {
+
+                return Json(new
+                {
+                    isSuccess = authorizeMenuAccessResult.IsSuccess,
+                    messageAlert = authorizeMenuAccessResult.MessageAlert
+                }, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+            var response = new
+            {
+                isSuccess = true,
+                messageAlert = string.Empty
+            };
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult GenerateSalesReport(DateTime startDate, DateTime endDate)
         {
             var salesReportGenerationFile = SalesReportGeneration(startDate, endDate);
