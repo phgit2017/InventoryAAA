@@ -2,24 +2,27 @@
     .module('InventoryApp')
     .factory('ReportService', ReportService)
 
-ReportService.$inject = ['$http', '$q'];
+ReportService.$inject = ['$http', '$q', '$location'];
 
-function ReportService($http, $q) {
+function ReportService($http, $q, $location) {
     var ReportServiceFactory = {},
         baseUrl = "/Report"
         //baseUrl = "/Inventory-AAA/Report"
 
-    ReportServiceFactory.GenerateSalesReport = _generateSalesReport;
+    ReportServiceFactory.InitializeReportPage = _initializeReportPage;
 
     return ReportServiceFactory;
 
-    function _generateSalesReport(startDate, endDate) {
-        var url = "/GenerateSalesReport",
-            defer = $q.defer;
+    function _initializeReportPage() {
+        var url = baseUrl + "/ReportIndex",
+            defer = $q.defer();
 
-        $http.post(url, startDate, endDate).then(
-            function (result) {
-                defer.resolve(result);
+        $http.get(url).then(
+            function (response) {
+                if (!response.data.isSuccess) {
+                    $location.url('/Unauthorized');
+                }
+                defer.resolve(response);
             }, function (err) {
                 defer.reject(err);
             });

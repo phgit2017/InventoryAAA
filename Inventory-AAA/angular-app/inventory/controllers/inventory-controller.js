@@ -123,8 +123,8 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     }
 
     function _saveOrderRequest(isAddNew = false) {
-        // On Purchase/Sale Order, check if Quantity != 0
         if (!isAddNew) {
+            // On Purchase/Sale Order, check if Quantity != 0
             if (vm.OrderRequestQuantity === 0 || vm.OrderRequestQuantity < 0) {
                 QuickAlert.Show({
                     type: 'error',
@@ -139,7 +139,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId;
             vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
             vm.OrderRequest["ProductDescription"] = vm.SelectedProduct.ProductDescription;
-            vm.OrderRequest["UnitPrice"] = parseInt(vm.SelectedProduct.UnitPrice);
+            vm.OrderRequest["UnitPrice"] = parseFloat(vm.SelectedProduct.UnitPrice.toFixed(2));
             vm.OrderRequest["Stocks"] = parseInt(vm.OrderRequestQuantity !== 0 ? vm.OrderRequestQuantity : vm.SelectedProduct.Quantity);
             vm.OrderRequest["OrderTransactionType"] = vm.OrderRequestTransactionType;
             vm.OrderRequest["IsActive"] = 1;

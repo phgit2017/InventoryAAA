@@ -200,3 +200,21 @@ app.directive('confirmAlert', function ($rootScope) {
              </div></div></div>`
     };
 });
+
+app.directive('datePicker', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            elementId: '='
+        },
+        link: function (scope, element, attrs) {
+            $(function () {
+                $("#dp_" + scope.elementId).datepicker();
+            });
+
+            scope.show_dp = function () {
+                $("#dp_" + scope.elementId).datepicker('show'); //Show on click of button
+            }
+        }
+    };
+});

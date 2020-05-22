@@ -1,53 +1,61 @@
 ﻿    <div class="main-container" ng-controller="LoginController as loginCtrl">
         <page-loading showme="$root.IsLoading"></page-loading>
         <div class="sidebar">
-            <nav class="navbar d-flex justify-content-end">
-                <span><img src="~/Content/assets/svg/home.svg" class="menu-img img-invert" /></span>
-            </nav>
-            <div class="sidebar-main">
-                <div class="user-info">
-                    <div class="user-info__img">test</div>
-                    <div class="user-info__labels">
-                        <div class="user-info__name">
-                            {{ $root.FullName }}
+            <div>
+                <nav class="navbar d-flex justify-content-end">
+                    <span><img src="~/Content/assets/svg/home.svg" class="menu-img img-invert" /></span>
+                </nav>
+                <div class="sidebar-main">
+                    <div class="user-info">
+                        <span><i class="icon-person avatar-icon"></i></span>
+                        <div class="user-info__labels">
+                            <div class="user-info__name">
+                                {{ $root.FullName }}
+                            </div>
+                            <span class="user-info__role">{{ $root.RoleName }}</span>
                         </div>
-                        <span class="user-info__role">{{ $root.RoleName }}</span>
+                    </div>
+                    <div class="sidebar-main__nav">
+                        <ul class="sidebar-main__nav-list">
+                            @*<li class="sidebar-main__nav-item">
+                        <span class="nav-item__img">
+                            <img src="~/Content/assets/svg/home.svg" class="img-invert" />
+                        </span>
+                        <span class="nav-item__label">Home</span>
+                    </li>*@
+                            <li class="sidebar-main__nav-item"
+                                ng-class="{'active-item': $root.navItem == 'Inventory'} "
+                                ng-click="loginCtrl.ChangeRoute('Inventory');">
+                                <span class="nav-item__img">
+                                    <img src="~/Content/assets/svg/graph-up.svg" class="img-invert" />
+                                </span>
+                                <span class="nav-item__label">Inventory</span>
+                            </li>
+                            <li class="sidebar-main__nav-item"
+                                ng-class=" {'active-item': $root.navItem == 'Users'}"
+                                ng-click="loginCtrl.ChangeRoute('Users');"
+                                ng-if="$root.RoleName === 'Admin'">
+                                <span class="nav-item__img">
+                                    <img src="~/Content/assets/svg/users.svg" class="img-invert" />
+                                </span>
+                                <span class="nav-item__label">Users</span>
+                            </li>
+                            <li class="sidebar-main__nav-item"
+                                ng-class=" {'active-item': $root.navItem == 'Reports'}"
+                                ng-click="loginCtrl.ChangeRoute('Reports');">
+                                <span class="nav-item__img">
+                                    <img src="~/Content/assets/svg/chart.svg" class="img-invert" />
+                                </span>
+                                <span class="nav-item__label">Reports</span>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="sidebar-main__nav">
-                    <ul class="sidebar-main__nav-list">
-                        @*<li class="sidebar-main__nav-item">
-                            <span class="nav-item__img">
-                                <img src="~/Content/assets/svg/home.svg" class="img-invert" />
-                            </span>
-                            <span class="nav-item__label">Home</span>
-                        </li>*@
-                        <li class="sidebar-main__nav-item"
-                            ng-class="{'active-item': $root.navItem == 'Inventory'} "
-                            ng-click="loginCtrl.ChangeRoute('Inventory');">
-                            <span class="nav-item__img">
-                                <img src="~/Content/assets/svg/graph-up.svg" class="img-invert" />
-                            </span>
-                            <span class="nav-item__label">Inventory</span>
-                        </li>
-                        <li class="sidebar-main__nav-item"
-                            ng-class=" {'active-item': $root.navItem == 'Users'}"
-                            ng-click="loginCtrl.ChangeRoute('Users');"
-                            ng-if="$root.RoleName === 'Admin'">
-                            <span class="nav-item__img">
-                                <img src="~/Content/assets/svg/users.svg" class="img-invert" />
-                            </span>
-                            <span class="nav-item__label">Users</span>
-                        </li>
-                        <li class="sidebar-main__nav-item"
-                            ng-class=" {'active-item': $root.navItem == 'Reports'}"
-                            ng-click="loginCtrl.ChangeRoute('Reports');">
-                            <span class="nav-item__img">
-                                <img src="~/Content/assets/svg/chart.svg" class="img-invert" />
-                            </span>
-                            <span class="nav-item__label">Reports</span>
-                        </li>
-                    </ul>
+            </div>
+            <div class="credits align-self-end">
+                <div>
+                    Icons made by <a href="https://www.flaticon.com/free-icon/user_181549" target="_blank" title="Chanut">Chanut</a> and
+                    <a href="https://www.flaticon.com/authors/freepik" target="_blank" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" target="_blank" title="Flaticon">www.flaticon.com</a>
                 </div>
             </div>
         </div>
@@ -76,7 +84,6 @@
             <div ng-view></div>
         </div>
     </div>
-
 <style>
     .navbar {
         background-color: #F1F1F1;

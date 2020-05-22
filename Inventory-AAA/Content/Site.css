@@ -11,6 +11,7 @@
     --bg-muted: #F5F5F5;
     --bg-primary-dark: #037971;
     --bg-dark: #023436;
+    --bg-warning: #FCBF49;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -421,10 +422,12 @@ i.login-logo {
     background: var(--bg-primary-dark);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
-    .sidebar > .navbar {
+    .sidebar > div > .navbar {
         background: var(--bg-dark);
+        max-height: 58px;
     }
 
         .sidebar > .navbar > .btn-sm {
@@ -591,6 +594,11 @@ i.login-logo {
     animation-name: bounceOutUp;
 }
 
+.form-control[readonly] {
+    background: white !important;
+    cursor: pointer;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -627,6 +635,33 @@ i.login-logo {
     height: 50px;
     color: red;
 }
+
+.avatar-icon {
+    line-height: 0 !important;
+    font-size: 5rem;
+}
+
+.unauthorized-icon {
+    line-height: 0 !important;
+    font-size: 3rem;
+    color: var(--bg-warning);
+}
+
+.credits {
+    padding: 1rem;
+    color: white;
+    opacity: 0.7;
+    background: var(--bg-dark);
+    box-shadow: 0px -3px 3px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+    .credits a {
+        color: white !important;
+        font-weight: bold;
+        text-decoration: underline;
+    }
 
 @media (max-width: 576px) {
     .form-control {

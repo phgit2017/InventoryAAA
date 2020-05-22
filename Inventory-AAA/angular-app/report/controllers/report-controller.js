@@ -13,14 +13,26 @@ function ReportController(ReportService, $scope, $window, $http, QuickAlert) {
     vm.Report = {};
 
     vm.GenerateSalesReport = _generateSalesReport;
+    vm.ResetFields = _resetFields;
+    vm.Initialize = _initialize;
+
+    function _initialize() {
+        ReportService.InitializeReportPage().then(
+            function (data) {
+            }, function (err) {
+                QuickAlert.Show({
+                    type: 'error',
+                    message: err
+                })
+            });
+    }
 
     function _generateSalesReport() {
 
-        var startDateString = getDateTimeFromLocal(vm.StartDate)
-            , endDateString = getDateTimeFromLocal(vm.EndDate)
+        var startDateString = vm.StartDate
+            , endDateString = vm.EndDate
             , startDate = new Date(startDateString)
             , endDate = new Date(endDateString);
-
 
         if (dateDiffDays(startDate, endDate) > 30) {
             QuickAlert.Show({
@@ -30,7 +42,7 @@ function ReportController(ReportService, $scope, $window, $http, QuickAlert) {
         } else if ((startDate - endDate) > 0) {
             QuickAlert.Show({
                 type: 'error',
-                message: 'End date should be after Start Date'
+                message: 'End date should be after Start Date.'
             });
         } else {
             var url = '/Report/GenerateSalesReport/?startDate=' + startDateString + '&endDate=' + endDateString;
@@ -61,11 +73,13 @@ function ReportController(ReportService, $scope, $window, $http, QuickAlert) {
         return YYYY + '-' + MM + '-' + DD + 'T' + HH + ':' + II + ':' + SS;
     }
 
-    function dateDiffDays (dt1, dt2) {
+    function dateDiffDays(dt1, dt2) {
         return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
     }
 
-    //function dateDiffSeconds(date1, date2) {
-    
-    //}
+    function _resetFields() {
+        vm.StartDate = "";
+        vm.EndDate = "";
+    }
+
 }

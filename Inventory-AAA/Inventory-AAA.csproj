@@ -227,6 +227,7 @@
     <Content Include="Content\fonts\Glyphter.ttf" />
     <Content Include="Content\fonts\Glyphter.woff" />
     <Content Include="Content\Glyphter.css" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -262,6 +263,7 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\datatables.js" />
     <Content Include="Scripts\datatables.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
