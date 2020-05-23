@@ -142,5 +142,19 @@ namespace Business.AAA.Core
 
             return ds;
         }
+
+        public DataTable PurchaseandSalesReport(DateTime startDate, DateTime endDate)
+        {
+            DataTable dt = new DataTable();
+            SqlParameter[] sqlParams = new SqlParameter[]
+            {
+                new SqlParameter() { ParameterName = "StartDate", Value = startDate, SqlDbType=  SqlDbType.DateTime },
+                new SqlParameter() { ParameterName = "EndDate", Value = endDate, SqlDbType = SqlDbType.DateTime },
+            };
+
+            dt = this._productServices.ExecuteSPReturnTable("INV_PurchaseAndSalesReport", true, sqlParams);
+
+            return dt;
+        }
     }
 }

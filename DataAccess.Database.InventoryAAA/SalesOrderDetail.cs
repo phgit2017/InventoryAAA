@@ -24,6 +24,8 @@
 
         public decimal UnitPrice { get; set; }
 
+        public string Remarks { get; set; }
+
         public long? CreatedBy { get; set; }
 
         public DateTime? CreatedTime { get; set; }

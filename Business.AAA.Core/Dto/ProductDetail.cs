@@ -42,6 +42,8 @@ namespace Business.AAA.Core.Dto
         public decimal UnitPrice { get; set; }
 
         public bool IsActive { get; set; }
+
+        public string Remarks { get; set; } = string.Empty;
     }
     
     public class ProductLogDetailRequest : BaseDetail

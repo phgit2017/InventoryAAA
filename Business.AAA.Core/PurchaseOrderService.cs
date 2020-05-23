@@ -188,7 +188,8 @@ namespace Business.AAA.Core
                     CreatedTime = DateTime.Now,
                     ModifiedBy = null,
                     ModifiedTime = null,
-                    PreviousQuantity = (orderDetail.ProductId == 0) ? 0 : productDetailResult.Quantity
+                    PreviousQuantity = (orderDetail.ProductId == 0) ? 0 : productDetailResult.Quantity,
+                    Remarks = orderDetail.Remarks
                 };
 
                 var purchaseOrderDetailId = _orderServices.SavePurchaseOrderDetails(purchaseOrderDetailRequest);

@@ -118,6 +118,8 @@ namespace Business.AAA.Core.Dto
         public decimal Quantity { get; set; }
 
         public decimal UnitPrice { get; set; }
+
+        public string Remarks { get; set; } = string.Empty;
     }
     #endregion
 

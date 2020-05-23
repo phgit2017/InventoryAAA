@@ -20,5 +20,6 @@ namespace Business.AAA.Core.Interface
 
         //Reporting
         DataSet SalesReport(DateTime startDate, DateTime endDate);
+        DataTable PurchaseandSalesReport(DateTime startDate, DateTime endDate);
     }
 }

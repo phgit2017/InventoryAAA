@@ -30,6 +30,7 @@ namespace Business.AAA.Core.Dto
         public static class ReportFileName
         {
             public const string SalesReport = "SalesReport";
+            public const string PurchaseAndSalesReport = "PurchaseAndSalesReport";
         }
 
         public static class Menu

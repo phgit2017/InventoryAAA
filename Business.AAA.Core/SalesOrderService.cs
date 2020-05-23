@@ -123,6 +123,7 @@ namespace Business.AAA.Core
                     ModifiedBy = null,
                     ModifiedTime = null,
                     PreviousQuantity = productDetailResult.Quantity,
+                    Remarks = orderDetail.Remarks
                 };
 
                 var salesOrderDetailId = _orderServices.SaveSalesOrderDetails(salesOrderDetailsRequest);

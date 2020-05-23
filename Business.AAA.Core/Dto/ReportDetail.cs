@@ -17,5 +17,18 @@ namespace Business.AAA.Core.Dto
         public long? ProductId { get; set; }
     }
 
+    public class PurchaseAndReportDetail
+    {
+        public long ProductID { get; set; }
+        public decimal PreviousPurchaseQty { get; set; }
+        public decimal PurchaseQty { get; set; }
+        public decimal PreviousSalesQty { get; set; }
+        public decimal SalesQty { get; set; }
+        public string TransactionType { get; set; }
+        public DateTime TransactionDate { get; set; }
+        public string CreatedBy { get; set; }
+        public string Remarks { get; set; }
+    }
+
     
 }

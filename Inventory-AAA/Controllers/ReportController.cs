@@ -62,6 +62,12 @@ namespace Inventory_AAA.Controllers
             return salesReportGenerationFile;
         }
 
+        public ActionResult GeneratePurchaseAndSalesReport(DateTime startDate, DateTime endDate)
+        {
+            var purchaseAndSalesReportGenerationFile = PurchaseAndSalesReportGeneration(startDate, endDate);
+            return purchaseAndSalesReportGenerationFile;
+        }
+
         public AuthorizationDetail AuthorizeMenuAccess(int menuId)
         {
 
@@ -162,6 +168,78 @@ namespace Inventory_AAA.Controllers
             }
 
 
+            var memoryStream = new MemoryStream();
+            //package.Save();
+            package.SaveAs(memoryStream);
+            memoryStream.Position = 0;
+
+            return File(memoryStream, contentType, fileNameGenerated);
+        }
+
+        private FileResult PurchaseAndSalesReportGeneration(DateTime startDate, DateTime endDate)
+        {
+            List<PurchaseAndReportDetail> purchaseAndReportDetails = new List<PurchaseAndReportDetail>();
+            List<ProductDetail> productDetails = new List<ProductDetail>();
+            
+            productDetails = _productServices.GetAll().Where(p => p.IsActive).ToList();
+
+            if (productDetails.Count > 0)
+            {
+                purchaseAndReportDetails = CommonExtensions.ConvertDataTable<PurchaseAndReportDetail>
+                                                        (_productServices.PurchaseandSalesReport(startDate, endDate));
+                
+            }
+            
+
+            int rowId = 0;
+            var fileNameGenerated = string.Format("{0}_{1}{2}", LookupKey.ReportFileName.PurchaseAndSalesReport, 
+                                                                DateTime.Now.ToString("MMddyyyy"), 
+                                                                ".xlsx");
+
+            var contentType = "application/vnd.ms-excel";
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var package = new ExcelPackage();
+            var workSheet = package.Workbook.Worksheets.Add(LookupKey.ReportFileName.PurchaseAndSalesReport);
+
+            rowId = 0;
+            if (productDetails.Count > 0)
+            {
+                foreach (var detail in productDetails)
+                {
+                    rowId = rowId + 1;
+                    workSheet.Cells[rowId, 1].Value = detail.ProductCode.ToUpper() + " " + detail.ProductDescription.ToString();
+                    workSheet.Cells[rowId, 1].Style.Font.Bold = true;
+
+                    rowId = rowId + 1;
+                    workSheet.Cells[rowId, 1].Value = "PREVIOUS PURCHASE QTY";
+                    workSheet.Cells[rowId, 2].Value = "PURCHASE QTY";
+                    workSheet.Cells[rowId, 3].Value = "PREVIOUS SALES QTY";
+                    workSheet.Cells[rowId, 4].Value = "SALES QTY";
+                    workSheet.Cells[rowId, 5].Value = "TRANSACTION TYPE";
+                    workSheet.Cells[rowId, 6].Value = "TRANSACTION DATE";
+                    workSheet.Cells[rowId, 7].Value = "CREATED BY";
+                    workSheet.Cells[rowId, 8].Value = "REMARKS";
+
+                    var purchaseAndReportResult = purchaseAndReportDetails.Where(m => m.ProductID == detail.ProductId);
+                    foreach (var item in purchaseAndReportResult)
+                    {
+                        rowId = rowId + 1;
+                        workSheet.Cells[rowId, 1].Value = item.PreviousPurchaseQty.ToString("N");
+                        workSheet.Cells[rowId, 2].Value = item.PurchaseQty.ToString("N");
+                        workSheet.Cells[rowId, 3].Value = item.PreviousSalesQty.ToString("N");
+                        workSheet.Cells[rowId, 4].Value = item.SalesQty.ToString("N");
+                        workSheet.Cells[rowId, 5].Value = item.TransactionType;
+                        workSheet.Cells[rowId, 6].Value = item.TransactionDate.ToString("MM/dd/yyyy HH:mm");
+                        workSheet.Cells[rowId, 7].Value = item.CreatedBy;
+                        workSheet.Cells[rowId, 8].Value = item.Remarks;
+                    }
+                }
+            }
+
+            workSheet.Cells["A:H"].AutoFitColumns();
+
+            
             var memoryStream = new MemoryStream();
             //package.Save();
             package.SaveAs(memoryStream);

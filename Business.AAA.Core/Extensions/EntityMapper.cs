@@ -97,6 +97,8 @@ namespace Business.AAA.Core.Extensions
                     ModifiedBy = request.ModifiedBy,
                     ModifiedTime = request.ModifiedTime,
                     PreviousQuantity = request.PreviousQuantity,
+                    Remarks = request.Remarks
+                    
                 };
             }
 
@@ -119,7 +121,8 @@ namespace Business.AAA.Core.Extensions
                     CreatedTime = request.CreatedTime,
                     ModifiedBy = request.ModifiedBy,
                     ModifiedTime = request.ModifiedTime,
-                    PreviousQuantity = request.PreviousQuantity
+                    PreviousQuantity = request.PreviousQuantity,
+                    Remarks = request.Remarks
                 };
             }
 
