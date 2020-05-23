@@ -20,7 +20,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         CreatedTime: "",
     };
     vm.OrderRequestQuantity = 0;
-    vm.OrderRequestTransactionType = 0;
+    vm.OrderRequestTransactionType = 1;
     vm.OrderRequest = {};
     vm.ProductDetailRequest = {};
     vm.ProductHistory = {};
@@ -69,7 +69,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
 
     vm.dtProductHistoryOptions = DTOptionsBuilder.newOptions()
         .withPaginationType('simple_numbers')
-        .withDisplayLength(10)
+        .withDisplayLength(11)
         .withDOM("<'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'p><'table-details't>>")
         .withOption('order', [0, 'desc']);
 
@@ -141,7 +141,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             vm.OrderRequest["ProductDescription"] = vm.SelectedProduct.ProductDescription;
             vm.OrderRequest["UnitPrice"] = parseFloat(vm.SelectedProduct.UnitPrice.toFixed(2));
             vm.OrderRequest["Stocks"] = parseInt(vm.OrderRequestQuantity !== 0 ? vm.OrderRequestQuantity : vm.SelectedProduct.Quantity);
-            vm.OrderRequest["OrderTransactionType"] = vm.OrderRequestTransactionType;
+            vm.OrderRequest["OrderTransactionType"] = isAddNew ? 0 : vm.OrderRequestTransactionType;
             vm.OrderRequest["IsActive"] = 1;
             vm.OrderRequest["CreatedBy"] = 1;
             vm.OrderRequest["CreatedDate"] = new Date();
@@ -225,7 +225,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
 
     function _resetManageFields() {
         vm.OrderRequest = {};
-        vm.OrderRequestTransactionType = 0;
+        vm.OrderRequestTransactionType = 1;
         vm.OrderRequestQuantity = 0;
         _resetFields();
     }

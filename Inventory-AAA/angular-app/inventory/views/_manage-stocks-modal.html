@@ -37,27 +37,39 @@
                             <h5>ADD SALE/PURCHASE</h5>
                         </div>
                         <div class="card-body d-flex flex-column">
-                            <form>
+                            <form name="orderRequestForm">
                                 <span class="input-label">TRANSACTION TYPE</span>
-                                <div class="custom-control custom-radio">
+                                <div class="custom-control custom-radio"
+                                     ng-if="$root.RoleName === 'Admin'">
                                     <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input"
-                                            ng-model="inventoryCtrl.OrderRequestTransactionType"
-                                            ng-value="0">
+                                           ng-model="inventoryCtrl.OrderRequestTransactionType"
+                                           ng-value="0">
                                     <label class="custom-control-label" for="customRadio2">Purchase</label>
                                 </div>
                                 <div class="custom-control custom-radio">
                                     <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"
-                                            ng-model="inventoryCtrl.OrderRequestTransactionType"
-                                            ng-value="1">
+                                           ng-model="inventoryCtrl.OrderRequestTransactionType"
+                                           ng-value="1">
                                     <label class="custom-control-label" for="customRadio1">Sale</label>
                                 </div>
                                 <br />
-                                <span class="input-label" font-weight: bold">QUANTITY</span>
-                                <input type="number" class="form-control" id="quantity" placeholder="Enter quantity..."
-                                        ng-model="inventoryCtrl.OrderRequestQuantity">
+
+                                <div class="d-flex justify-content-between">
+                                    <span class="input-label required">QUANTITY</span>
+                                    <span ng-if="orderRequestForm.quantity.$error.required && !orderRequestForm.quantity.$pristine" class="form-validation-msg">This field is required.</span>
+                                </div>
+                                <input type="number" class="form-control" name="quantity" placeholder="Enter quantity..." required
+                                       ng-model="inventoryCtrl.OrderRequestQuantity">
                                 <small class="form-text text-muted">This will affect your Current Stock.</small>
+                                <br />
+                                <div ng-if="inventoryCtrl.OrderRequestTransactionType === 1">
+                                    <span class="input-label">REMARKS</span>
+                                    <br />
+                                    <textarea maxlength="200" style="width: 250px; font-size: 0.8rem"></textarea>
+                                </div>
+                                
                             </form>
-                            <div class="d-flex flex-row-reverse mt-5">
+                            <div class="d-flex flex-row-reverse mt-1">
                                 <button class="btn btn-sm btn-transparent"
                                         ng-click="inventoryCtrl.SaveOrderRequest();">
                                     SAVE
