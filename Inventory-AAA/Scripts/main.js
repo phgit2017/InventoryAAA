@@ -167,7 +167,8 @@ app.directive('confirmAlert', function ($rootScope) {
         scope: {
             show: '=',
             alertMsg: '=',
-            okFunction: '&'
+            okFunction: '&',
+            cancelFunction: '&'
         },
         replace: true, // Replace with template
         transclude: true, // To use custom content
@@ -176,6 +177,11 @@ app.directive('confirmAlert', function ($rootScope) {
             scope.hideModal = function () {
                 scope.show = false;
             };
+
+            scope.cancelClicked = function () {
+                scope.hideModal();
+                scope.cancelFunction();
+            }
 
             scope.okClicked = function () {
                 $rootScope.IsLoading = true;
@@ -193,7 +199,7 @@ app.directive('confirmAlert', function ($rootScope) {
                       <p>{{ alertMsg }}</p>
                       <div class='d-flex justify-content-end mt-4'>
                           <button class='btn btn-alert btn-sm btn-primary mr-2' ng-click='okClicked()'>Yes</button>
-                          <button class='btn btn-alert btn-sm btn-danger' ng-click='hideModal();'>No</button>
+                          <button class='btn btn-alert btn-sm btn-danger' ng-click='cancelClicked();'>No</button>
                       </div>
                   </div>
               </div>

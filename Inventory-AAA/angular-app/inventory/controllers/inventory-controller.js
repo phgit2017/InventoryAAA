@@ -279,7 +279,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     }
 
     function isNullOrEmpty(data) {
-        if (data.trim() === "" || data.trim() === null) {
+        if (data.trim() === "" || data.trim() === null || data === undefined) {
             return true;
         }
         return false;

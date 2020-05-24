@@ -9,10 +9,10 @@ function ReportController(ReportService, $scope, $window, $http, QuickAlert) {
 
     vm.StartDate = "";
     vm.EndDate = "";
-    vm.ReportType = 0; // 0 - SalesReport; 1 - InventorySummary;
+    vm.ReportType = 0; // 0 - SalesReport; 1 - InventoryReport;
     vm.Report = {};
 
-    vm.GenerateSalesReport = _generateSalesReport;
+    vm.GenerateReport = _generateReport;
     vm.ResetFields = _resetFields;
     vm.Initialize = _initialize;
 
@@ -27,7 +27,7 @@ function ReportController(ReportService, $scope, $window, $http, QuickAlert) {
             });
     }
 
-    function _generateSalesReport() {
+    function _generateReport() {
 
         var startDateString = vm.StartDate
             , endDateString = vm.EndDate
@@ -45,7 +45,8 @@ function ReportController(ReportService, $scope, $window, $http, QuickAlert) {
                 message: 'End date should be after Start Date.'
             });
         } else {
-            var url = '/Report/GenerateSalesReport/?startDate=' + startDateString + '&endDate=' + endDateString;
+            var reportUrl = vm.ReportType === 0 ? 'GenerateSalesReport' : 'GeneratePurchaseAndSalesReport'
+            , url = '/Report/' + reportUrl + '/?startDate=' + startDateString + '&endDate=' + endDateString;
 
             var a = document.createElement('a');
             a.href = url;

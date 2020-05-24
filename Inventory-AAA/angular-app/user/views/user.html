@@ -1,5 +1,6 @@
 ﻿<div class="d-flex flex-row" ng-init="userCtrl.Initialize();">
-    <confirm-alert show="userCtrl.ShowConfirmAlert" alert-msg="'Are you sure you want to delete this user?'" ok-function="userCtrl.DeleteUser(result)"></confirm-alert>
+    <confirm-alert show="userCtrl.ShowConfirmAlert" alert-msg="'Are you sure you want to delete this user?'" ok-function="userCtrl.DeleteUser(result)"
+                   cancel-function="userCtrl.ClearUserDetails();"></confirm-alert>
     <div class="card user-details-section">
         <div class="card-header bg-primary">
             <div>
@@ -57,16 +58,19 @@
             <div class="d-flex justify-content-end align-self-auto">
                 <button class="btn btn-sm btn-transparent btn-default"
                         ng-click="userCtrl.ClearUserDetails();">
-                    CLEAR
+                    <span ng-if="userCtrl.SelectedUser.UserId === 0">CLEAR</span>
+                    <span ng-if="userCtrl.SelectedUser.UserId !== 0">CANCEL</span>
                 </button>
                 <button class="ml-2 btn btn-sm btn-transparent"
+                        ng-if="userForm.$valid"
                         ng-click="userCtrl.SaveUser();">
-                    SAVE
+                    <span ng-if="userCtrl.SelectedUser.UserId === 0">SAVE</span>
+                    <span ng-if="userCtrl.SelectedUser.UserId !== 0">UPDATE</span>
                 </button>
             </div>
         </div>
     </div>
-    <div class="card" style="max-width: 700px;">
+    <div class="card" style="max-width: 800px;">
         <div class="card-body">
             <loading showme="userCtrl.UserListLoading" showerror="false" errormessage=""></loading>
             <div ng-show="!userCtrl.UserListLoading">
@@ -77,8 +81,8 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>NAME</th>
-                            <th style="width: 120px !important">USERNAME</th>
+                            <th class="cell-no-wrap">NAME</th>
+                            <th class="cell-no-wrap">USERNAME</th>
                             <th>PASSWORD</th>
                             <th>ROLE</th>
                             <th class="cell-center">ACTION</th>
@@ -87,8 +91,8 @@
                     <tbody>
                         <tr ng-repeat="ul in userCtrl.UserList">
                             <td> {{ ul.UserId }} </td>
-                            <td> {{ ul.FullName }} </td>
-                            <td style="width: 120px !important"> {{ ul.UserName }} </td>
+                            <td class="cell-no-wrap"> {{ ul.FullName }} </td>
+                            <td class="cell-no-wrap"> {{ ul.UserName }} </td>
                             <td> {{ ul.Password }} </td>
                             <td> {{ ul.UserRoleDetails.UserRoleName }} </td>
                             <td  class="cell-no-wrap">
