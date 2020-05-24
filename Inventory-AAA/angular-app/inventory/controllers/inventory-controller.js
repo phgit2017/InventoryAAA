@@ -24,6 +24,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.OrderRequest = {};
     vm.ProductDetailRequest = {};
     vm.ProductHistory = {};
+    vm.OrderRequestRemarks = null;
 
     // Misc Items
     vm.dtInventorySummaryOptions = "";
@@ -143,6 +144,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             vm.OrderRequest["Stocks"] = parseInt(vm.OrderRequestQuantity !== 0 ? vm.OrderRequestQuantity : vm.SelectedProduct.Quantity);
             vm.OrderRequest["OrderTransactionType"] = isAddNew ? 0 : vm.OrderRequestTransactionType;
             vm.OrderRequest["IsActive"] = 1;
+            vm.OrderRequest["Remarks"] = vm.OrderRequestTransactionType === 0 ? null : vm.OrderRequestRemarks;
             vm.OrderRequest["CreatedBy"] = 1;
             vm.OrderRequest["CreatedDate"] = new Date();
 
@@ -227,6 +229,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         vm.OrderRequest = {};
         vm.OrderRequestTransactionType = 1;
         vm.OrderRequestQuantity = 0;
+        vm.OrderRequestRemarks = null;
         _resetFields();
     }
 
