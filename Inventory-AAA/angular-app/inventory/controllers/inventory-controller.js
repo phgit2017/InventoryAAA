@@ -26,6 +26,8 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.ProductHistory = {};
     vm.OrderRequestRemarks = null;
 
+    vm.CriticalStock = 100;
+
     // Misc Items
     vm.dtInventorySummaryOptions = "";
     vm.dtInventorySummaryColumnDefs = "";

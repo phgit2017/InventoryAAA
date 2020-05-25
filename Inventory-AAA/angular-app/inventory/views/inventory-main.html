@@ -19,7 +19,6 @@
                                    disabled>
                             <br />
                         </div>
-
                         <div class="d-flex justify-content-between">
                             <span class="input-label required">PRODUCT CODE</span>
                             <span ng-if="inventoryForm.productCode.$error.required && !inventoryForm.productCode.$pristine" class="form-validation-msg">This field is required.</span>
@@ -59,7 +58,7 @@
                         UPDATE
                     </button>
                     <button class="btn btn-sm btn-transparent btn-default"
-                            ng-click="inventoryCtrl.ResetFields();">
+                            ng-click="inventoryCtrl.ResetFields(); inventoryForm.$setPristine();">
                         <text ng-if="inventoryCtrl.SelectedProduct.ProductId == 0">CLEAR</text>
                         <text ng-if="inventoryCtrl.SelectedProduct.ProductId != 0">CANCEL</text>
                     </button>
@@ -91,7 +90,12 @@
                                 <td> {{ i.ProductCode }} </td>
                                 <td> {{ i.ProductDescription }} </td>
                                 <td> {{ i.InventoryStocks }} </td>
-                                <td> {{ i.CurrentStocks }} </td>
+                                <td> {{ i.CurrentStocks }} 
+                                    <div class="icon-critical-stock" ng-if="i.CurrentStocks <= inventoryCtrl.CriticalStock">
+                                        <i class="icon-warning"></i>
+                                        <span class="tooltip-text">Low on stocks.</span>
+                                    </div>
+                                </td>
                                 <td> {{ i.Sold }} </td>
                                 <td>
                                     <div class="d-flex flex-row">

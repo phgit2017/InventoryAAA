@@ -10,6 +10,13 @@
         <div class="card-body d-flex flex-column">
             <div class="flex-grow-1">
                 <form novalidate name="userForm">
+                    <div ng-show="userCtrl.SelectedUser.UserId != 0">
+                        <span class="input-label">USER ID</span>
+                        <input type="text" class="form-control mb-3"
+                               ng-model="userCtrl.SelectedUser.UserId"
+                               disabled>
+                    </div>
+
                     <div class="d-flex justify-content-between">
                         <span class="input-label required">FIRST NAME</span>
                         <span ng-if="userForm.firstName.$error.required && !userForm.firstName.$pristine" class="form-validation-msg">This field is required.</span>
@@ -57,7 +64,7 @@
 
             <div class="d-flex justify-content-end align-self-auto">
                 <button class="btn btn-sm btn-transparent btn-default"
-                        ng-click="userCtrl.ClearUserDetails();">
+                        ng-click="userCtrl.ClearUserDetails(); userForm.$setPristine();">
                     <span ng-if="userCtrl.SelectedUser.UserId === 0">CLEAR</span>
                     <span ng-if="userCtrl.SelectedUser.UserId !== 0">CANCEL</span>
                 </button>

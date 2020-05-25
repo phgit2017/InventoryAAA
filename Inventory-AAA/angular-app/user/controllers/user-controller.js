@@ -115,6 +115,11 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
                     });
                     vm.UserListLoading = true;
                     _initialize();
+                } else {
+                    QuickAlert.Show({
+                        type: 'error',
+                        message: data.messageAlert
+                    });
                 }
             }, function (err) {
                 QuickAlert.Show({
@@ -126,6 +131,7 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
     }
 
     function _selectUser(data) {
+        debugger;
         vm.SelectedUser = {
             UserId: data.UserId,
             FirstName: data.FirstName,
