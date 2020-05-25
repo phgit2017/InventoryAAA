@@ -9,6 +9,7 @@ using Business.AAA.Core.Dto;
 using Business.AAA.Core.Interface;
 using Infrastructure.Utilities;
 using Inventory_AAA.Infrastructure;
+using Newtonsoft.Json;
 
 namespace Inventory_AAA.Controllers
 {
@@ -22,7 +23,6 @@ namespace Inventory_AAA.Controllers
             this._userServices = userServices;
         }
 
-        //[InventoryAAAAuthorizeUser("Admin")]
         [HttpPost]
         public JsonResult UserList(UserDetailSearchRequest request)
         {
@@ -43,7 +43,7 @@ namespace Inventory_AAA.Controllers
             #endregion
 
             var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
-            userDetailsResult = _userServices.GetAllUserDetails().Where(m => m.UserId != currentUserId).ToList();
+            userDetailsResult = _userServices.GetAllUserDetails().Where(m => m.UserId != currentUserId && m.IsActive).ToList();
             var response = new
             {
                 UserDetailsResult = userDetailsResult,
@@ -106,6 +106,8 @@ namespace Inventory_AAA.Controllers
 
             request.ModifiedBy = currentUserId;
             request.ModifiedTime = DateTime.Now;
+
+            Logging.Information("(Request) UpdateUserDetails : " + JsonConvert.SerializeObject(request));
 
             if (ModelState.IsValid)
             {

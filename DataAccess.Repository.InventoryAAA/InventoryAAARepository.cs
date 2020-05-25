@@ -1,6 +1,4 @@
-﻿using DataAccess.Entities.Context.Interface;
-using DataAccess.Repository.InventoryAAA.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -8,6 +6,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+
+using DataAccess.Entities.Context.Interface;
+using DataAccess.Repository.InventoryAAA.Interface;
+using Infrastructure.Utilities;
 
 namespace DataAccess.Repository.InventoryAAA
 {
@@ -24,26 +26,43 @@ namespace DataAccess.Repository.InventoryAAA
 
         public T Insert(T item)
         {
-            Db.Set<T>().Add(item);
-            Db.SaveChanges();
-            return item;
+            try
+            {
+                Db.Set<T>().Add(item);
+                Db.SaveChanges();
+                return item;
+            }
+            catch (Exception ex)
+            {
+                Logging.Information("REPOSITORY_INSERT : " + ex.Message);
+                return null;
+            }
         }
 
         public bool Delete(Expression<Func<T, bool>> predicate)
         {
-            var list = SearchFor(predicate).ToList();
-            if (list != null)
+            try
             {
-                foreach (T ctr in list)
+                var list = SearchFor(predicate).ToList();
+                if (list != null)
                 {
-                    Db.Entry<T>(ctr).State = System.Data.Entity.EntityState.Deleted;
-                }
+                    foreach (T ctr in list)
+                    {
+                        Db.Entry<T>(ctr).State = System.Data.Entity.EntityState.Deleted;
+                    }
 
-                Db.SaveChanges();
-                return true;
+                    Db.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.Information("REPOSITORY_DELETE : " + ex.Message);
+                return false;
             }
 
             return false;
+            
         }
 
         public T Update(T item, Expression<Func<T, bool>> predicate)
@@ -69,8 +88,9 @@ namespace DataAccess.Repository.InventoryAAA
 
                 return item;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logging.Information("REPOSITORY_UPDATE : " + ex.Message);
                 return null;
             }
 

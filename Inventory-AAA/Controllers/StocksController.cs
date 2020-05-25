@@ -10,6 +10,7 @@ using Business.AAA.Core.Dto;
 using Business.AAA.Core.Interface;
 using Infrastructure.Utilities;
 using Inventory_AAA.Infrastructure;
+using Newtonsoft.Json;
 
 namespace Inventory_AAA.Controllers
 {
@@ -40,8 +41,7 @@ namespace Inventory_AAA.Controllers
         {
             return View();
         }
-
-        //[InventoryAAAAuthorizeUser(Roles = "Admin")]
+        
         [HttpGet]
         public JsonResult InventorySummary()
         {
@@ -146,7 +146,8 @@ namespace Inventory_AAA.Controllers
                     Quantity = request.Stocks,
                     UnitPrice = request.UnitPrice,
                     IsActive = request.IsActive,
-                    CreatedBy = currentUserId
+                    CreatedBy = currentUserId,
+                    Remarks = request.Remarks
 
                 });
                 var type = Type.GetType(string.Format("{0}.{1}, {0}", "Business.AAA.Core", orderTransactionTypeService));
@@ -196,6 +197,8 @@ namespace Inventory_AAA.Controllers
             var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
             request.ModifiedBy = currentUserId;
             request.ModifiedTime = DateTime.Now;
+
+            Logging.Information("(Request) UpdateProductDetails : " + JsonConvert.SerializeObject(request));
 
             if (ModelState.IsValid)
             {
