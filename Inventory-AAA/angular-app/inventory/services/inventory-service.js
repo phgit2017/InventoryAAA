@@ -2,12 +2,11 @@
     .module('InventoryApp')
     .factory('InventoryService', InventoryService);
 
-InventoryService.$inject = ['$http', '$q', '$location'];
+InventoryService.$inject = ['$http', '$q', '$location', 'globalBaseUrl'];
 
-function InventoryService($http, $q, $location) {
+function InventoryService($http, $q, $location, globalBaseUrl) {
     var InventoryServiceFactory = {},
-        baseUrl = '/Stocks'
-        //baseUrl = '/Inventory-AAA/Stocks'
+        baseUrl = globalBaseUrl + '/Stocks'
 
     InventoryServiceFactory.GetInventorySummary = _getInventorySummary;
     InventoryServiceFactory.GetProductDetails = _getProductDetails;

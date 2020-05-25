@@ -2,12 +2,11 @@
     .module('InventoryApp')
     .factory('ReportService', ReportService)
 
-ReportService.$inject = ['$http', '$q', '$location'];
+ReportService.$inject = ['$http', '$q', '$location', 'globalBaseUrl'];
 
-function ReportService($http, $q, $location) {
+function ReportService($http, $q, $location, globalBaseUrl) {
     var ReportServiceFactory = {},
-        baseUrl = "/Report"
-        //baseUrl = "/Inventory-AAA/Report"
+        baseUrl = globalBaseUrl + "/Report"
 
     ReportServiceFactory.InitializeReportPage = _initializeReportPage;
 

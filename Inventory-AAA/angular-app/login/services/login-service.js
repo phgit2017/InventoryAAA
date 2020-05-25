@@ -2,12 +2,11 @@
     .module('InventoryApp')
     .factory('LoginService', LoginService)
 
-LoginService.$inject = ['$http', '$q'];
+LoginService.$inject = ['$http', '$q', 'globalBaseUrl'];
 
-function LoginService($http, $q) {
+function LoginService($http, $q, globalBaseUrl) {
     var LoginServiceFactory = {},
-        baseUrl = "/User";
-        //baseUrl = "/Inventory-AAA/User";
+        baseUrl = globalBaseUrl + "/User";
 
     LoginServiceFactory.Login = _login;
     LoginServiceFactory.Logout = _logout;

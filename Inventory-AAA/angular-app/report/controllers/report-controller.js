@@ -46,7 +46,7 @@ function ReportController(ReportService, $scope, $window, $http, QuickAlert) {
             });
         } else {
             var reportUrl = vm.ReportType === 0 ? 'GenerateSalesReport' : 'GeneratePurchaseAndSalesReport'
-            , url = '/Report/' + reportUrl + '/?startDate=' + startDateString + '&endDate=' + endDateString;
+            , url = '/Report/' + reportUrl + '?startDate=' + startDateString + '&endDate=' + endDateString;
 
             var a = document.createElement('a');
             a.href = url;
@@ -81,6 +81,7 @@ function ReportController(ReportService, $scope, $window, $http, QuickAlert) {
     function _resetFields() {
         vm.StartDate = "";
         vm.EndDate = "";
+        vm.ReportType = 0;
     }
 
 }

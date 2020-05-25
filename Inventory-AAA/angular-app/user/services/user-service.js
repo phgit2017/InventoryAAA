@@ -2,12 +2,11 @@
     .module('InventoryApp')
     .factory('UserService', UserService)
 
-UserService.$inject = ['$q', '$http', '$location'];
+UserService.$inject = ['$q', '$http', '$location', 'globalBaseUrl'];
 
-function UserService($q, $http, $location) {
+function UserService($q, $http, $location, globalBaseUrl) {
     var UserServiceFactory = {},
-        baseUrl = "/User";
-        //baseUrl = "/Inventory-AAA/User";
+        baseUrl = globalBaseUrl +  "/User";
 
     UserServiceFactory.GetUserList = _getUserList;
     UserServiceFactory.AddNewUser = _addNewUser;
