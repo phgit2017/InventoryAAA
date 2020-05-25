@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('ReportController', ReportController)
 
-ReportController.$inject = ['ReportService', '$scope', '$window', '$http', 'QuickAlert'];
+ReportController.$inject = ['ReportService', '$scope', '$window', '$http', 'QuickAlert', 'globalBaseUrl'];
 
-function ReportController(ReportService, $scope, $window, $http, QuickAlert) {
+function ReportController(ReportService, $scope, $window, $http, QuickAlert, globalBaseUrl) {
     var vm = this, controllerName = "reportCtrl";
 
     vm.StartDate = "";
@@ -45,8 +45,8 @@ function ReportController(ReportService, $scope, $window, $http, QuickAlert) {
                 message: 'End date should be after Start Date.'
             });
         } else {
-            var reportUrl = vm.ReportType === 0 ? 'GenerateSalesReport' : 'GeneratePurchaseAndSalesReport'
-            , url = '/Report/' + reportUrl + '?startDate=' + startDateString + '&endDate=' + endDateString;
+            var reportUrl =  vm.ReportType === 0 ? 'GenerateSalesReport' : 'GeneratePurchaseAndSalesReport'
+                , url = globalBaseUrl + '/Report/' + reportUrl + '?startDate=' + startDateString + '&endDate=' + endDateString;
 
             var a = document.createElement('a');
             a.href = url;
