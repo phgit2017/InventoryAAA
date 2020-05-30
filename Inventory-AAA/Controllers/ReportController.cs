@@ -18,12 +18,15 @@ namespace Inventory_AAA.Controllers
     {
         private readonly IProductServices _productServices;
         private readonly IUserServices _userServices;
+        private readonly IOrderServices _orderServices;
         public ReportController(
             IProductServices productServices,
-            IUserServices userServices)
+            IUserServices userServices,
+            IOrderServices orderServices)
         {
             this._productServices = productServices;
             this._userServices = userServices;
+            this._orderServices = orderServices;
         }
 
         // GET: Report
@@ -56,8 +59,14 @@ namespace Inventory_AAA.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GenerateSalesReport(DateTime startDate, DateTime endDate)
+        public ActionResult GenerateSalesReport()
         {
+            DateTime startDate, endDate;
+
+            var latestPurchaseOrderDate = _orderServices.GetAllPurchaseOrders().Max(m => m.CreatedTime).Value;
+            startDate = latestPurchaseOrderDate;
+            endDate = DateTime.Now;
+
             var salesReportGenerationFile = SalesReportGeneration(startDate, endDate);
             return salesReportGenerationFile;
         }
@@ -180,20 +189,20 @@ namespace Inventory_AAA.Controllers
         {
             List<PurchaseAndReportDetail> purchaseAndReportDetails = new List<PurchaseAndReportDetail>();
             List<ProductDetail> productDetails = new List<ProductDetail>();
-            
+
             productDetails = _productServices.GetAll().Where(p => p.IsActive).ToList();
 
             if (productDetails.Count > 0)
             {
                 purchaseAndReportDetails = CommonExtensions.ConvertDataTable<PurchaseAndReportDetail>
                                                         (_productServices.PurchaseandSalesReport(startDate, endDate));
-                
+
             }
-            
+
 
             int rowId = 0;
-            var fileNameGenerated = string.Format("{0}_{1}{2}", LookupKey.ReportFileName.PurchaseAndSalesReport, 
-                                                                DateTime.Now.ToString("MMddyyyy"), 
+            var fileNameGenerated = string.Format("{0}_{1}{2}", LookupKey.ReportFileName.PurchaseAndSalesReport,
+                                                                DateTime.Now.ToString("MMddyyyy"),
                                                                 ".xlsx");
 
             var contentType = "application/vnd.ms-excel";
@@ -239,7 +248,7 @@ namespace Inventory_AAA.Controllers
 
             workSheet.Cells["A:H"].AutoFitColumns();
 
-            
+
             var memoryStream = new MemoryStream();
             //package.Save();
             package.SaveAs(memoryStream);
