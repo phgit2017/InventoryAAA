@@ -4,6 +4,7 @@
         .value('globalBaseUrl', '')
         //.value('globalBaseUrl', '/Inventory-AAA')
         .config(function ($routeProvider, $locationProvider) {
+            var globalBaseUrl = '/';
             $locationProvider.hashPrefix('');
             $routeProvider
                 .when("/", {

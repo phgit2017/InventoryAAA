@@ -29,51 +29,37 @@ function ReportController(ReportService, $scope, $window, $http, QuickAlert, glo
 
     function _generateReport() {
 
-        var startDateString = vm.StartDate
-            , endDateString = vm.EndDate
-            , startDate = new Date(startDateString)
-            , endDate = new Date(endDateString);
+        var startDateString = vm.StartDate,
+            endDateString = vm.EndDate,
+            startDate = new Date(startDateString),
+            endDate = new Date(endDateString),
+            url = '';
 
-        if (dateDiffDays(startDate, endDate) > 30) {
-            QuickAlert.Show({
-                type: 'error',
-                message: 'Date range can only be a maximum of 30 days.'
-            });
-        } else if ((startDate - endDate) > 0) {
-            QuickAlert.Show({
-                type: 'error',
-                message: 'End date should be after Start Date.'
-            });
+
+        if (vm.ReportType == 1) {
+            if (dateDiffDays(startDate, endDate) > 30) {
+                QuickAlert.Show({
+                    type: 'error',
+                    message: 'Date range can only be a maximum of 30 days.'
+                });
+            } else if ((startDate - endDate) > 0) {
+                QuickAlert.Show({
+                    type: 'error',
+                    message: 'End date should be after Start Date.'
+                });
+            } else {
+                url = globalBaseUrl + '/Report/GeneratePurchaseAndSalesReport?startDate=' + startDateString + '&endDate=' + endDateString;
+                downloadFile(url);
+            }
         } else {
-            var reportUrl =  vm.ReportType === 0 ? 'GenerateSalesReport' : 'GeneratePurchaseAndSalesReport'
-                , url = globalBaseUrl + '/Report/' + reportUrl + '?startDate=' + startDateString + '&endDate=' + endDateString;
-
-            var a = document.createElement('a');
-            a.href = url;
-            a.target = '_blank';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            url = globalBaseUrl + '/Report/GenerateSalesReport';
+            downloadFile(url);
         }
+
+        
     }
 
     // Private Functions
-
-    function getDateTimeFromLocal(date) {
-        var roundTens = function (i) {
-            return (i < 10 ? '0' : '') + i;
-        }
-        var YYYY = date.getFullYear(),
-            MM = roundTens(date.getMonth() + 1),
-            DD = roundTens(date.getDate()),
-            HH = roundTens(date.getHours()),
-            II = roundTens(date.getMinutes()),
-            SS = roundTens(date.getSeconds());
-
-        var test = YYYY + '-' + MM + '-' + DD + 'T' + HH + ':' + II + ':' + SS;
-        return YYYY + '-' + MM + '-' + DD + 'T' + HH + ':' + II + ':' + SS;
-    }
-
     function dateDiffDays(dt1, dt2) {
         return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
     }
@@ -82,6 +68,15 @@ function ReportController(ReportService, $scope, $window, $http, QuickAlert, glo
         vm.StartDate = "";
         vm.EndDate = "";
         vm.ReportType = 0;
+    }
+
+    function downloadFile(url) {
+        var a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
     }
 
 }
