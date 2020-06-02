@@ -5,13 +5,13 @@
     <div class="card-body align-content-center justify-content-center p-3">
         <span class="input-label">REPORT TYPE</span>
         <div class="custom-control custom-radio">
-            <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input"
+            <input type="radio" id="sales-report" name="customRadio" class="custom-control-input"
                    ng-model="reportCtrl.ReportType"
                    ng-value="0">
             <label class="custom-control-label" for="customRadio2">Sales Report</label>
         </div>
         <div class="custom-control custom-radio">
-            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"
+            <input type="radio" id="inventory-report" name="customRadio" class="custom-control-input"
                    ng-model="reportCtrl.ReportType"
                    ng-value="1">
             <label class="custom-control-label" for="customRadio1">Inventory Report</label>
@@ -31,12 +31,14 @@
         </div>
         <div class="d-flex justify-content-end">
             <button class="btn btn-sm btn-transparent btn-default" ng-if="reportCtrl.ReportType == 1"
-                    ng-click="reportCtrl.ResetFields();">
+                    ng-click="reportCtrl.ResetFields();"
+                    id="btn-report-clear">
                 CLEAR
             </button>
             <button class="btn btn-sm btn-transparent ml-2"
                     ng-click="reportCtrl.GenerateReport();"
-                    ng-if="(reportCtrl.StartDate !== '' && reportCtrl.EndDate !== '') || reportCtrl.ReportType == 0">
+                    ng-if="(reportCtrl.StartDate !== '' && reportCtrl.EndDate !== '') || reportCtrl.ReportType == 0"
+                    id="btn-report-generate">
                 GENERATE
             </button>
         </div>

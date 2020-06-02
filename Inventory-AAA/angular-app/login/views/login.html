@@ -16,17 +16,20 @@
                             <h4 class="mb-4 ml-0">LOGIN</h4>
                             <span class="input-label">USERNAME</span>
                             <input type="text" class="form-control mb-3" ng-model="loginCtrl.LoginDetails.UserName"
-                                   ng-keydown="$event.keyCode === 13 && loginCtrl.Login();" />
+                                   ng-keydown="$event.keyCode === 13 && loginCtrl.Login();" 
+                                   id="login-username" />
 
                             <span class="input-label">PASSWORD</span>
                             <input type="password" class="form-control" ng-model="loginCtrl.LoginDetails.Password"
-                                   ng-keydown="$event.keyCode === 13 && loginCtrl.Login();" />
+                                   ng-keydown="$event.keyCode === 13 && loginCtrl.Login();" 
+                                   id="login-password "/>
 
                             <br />
 
                             <button class="btn btn-block btn-primary mb-2"
                                     ng-click="loginCtrl.Login();"
-                                    ng-keydown="$event.keyCode === 13 && loginCtrl.Login();">
+                                    ng-keydown="$event.keyCode === 13 && loginCtrl.Login();"
+                                    id="btn-login">
                                 LOGIN
                             </button>
                         </div>

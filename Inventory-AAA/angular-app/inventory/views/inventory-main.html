@@ -16,7 +16,8 @@
                             <span class="input-label">PRODUCT ID</span>
                             <input type="text" class="form-control"
                                    ng-model="inventoryCtrl.SelectedProduct.ProductId"
-                                   disabled>
+                                   disabled
+                                   id="is-product-id">
                             <br />
                         </div>
                         <div class="d-flex justify-content-between">
@@ -24,41 +25,48 @@
                             <span ng-if="inventoryForm.productCode.$error.required && !inventoryForm.productCode.$pristine" class="form-validation-msg">This field is required.</span>
                         </div>
                         <input name="productCode" type="text" class="form-control mb-4" required
-                               ng-model="inventoryCtrl.SelectedProduct.ProductCode">
+                               ng-model="inventoryCtrl.SelectedProduct.ProductCode"
+                               id="is-product-code">
 
                         <div class="d-flex justify-content-between">
                             <span class="input-label required">DESCRIPTION</span>
                             <span ng-if="inventoryForm.productDesc.$error.required && !inventoryForm.productDesc.$pristine" class="form-validation-msg">This field is required.</span>
                         </div>
                         <input name="productDesc" type="text" class="form-control mb-4" required
-                               ng-model="inventoryCtrl.SelectedProduct.ProductDescription">
+                               ng-model="inventoryCtrl.SelectedProduct.ProductDescription"
+                               id="is-product-description">
 
                         <div class="d-flex justify-content-between">
                             <span class="input-label required">UNIT PRICE</span>
                             <span ng-if="inventoryForm.unitPrice.$error.required && !inventoryForm.unitPrice.$pristine" class="form-validation-msg">This field is required.</span>
                         </div>
                         <input name="unitPrice" type="number" class="form-control mb-4" required
-                               ng-model="inventoryCtrl.SelectedProduct.UnitPrice">
+                               ng-model="inventoryCtrl.SelectedProduct.UnitPrice"
+                               id="is-unit-price">
 
                         <span class="input-label">INITIAL STOCK</span>
                         <input type="number" class="form-control mb-4"
                                ng-model="inventoryCtrl.SelectedProduct.Quantity"
-                               ng-disabled="inventoryCtrl.SelectedProduct.ProductId != 0">
+                               ng-disabled="inventoryCtrl.SelectedProduct.ProductId != 0"
+                               id="is-quantity">
                     </form>
                 </div>
                 <div class="d-flex flex-row-reverse">
                     <button class="btn btn-sm btn-transparent ml-2"
                             ng-if="inventoryCtrl.SelectedProduct.ProductId == 0 && inventoryForm.$valid"
-                            ng-click="inventoryCtrl.SaveOrderRequest(true);">
+                            ng-click="inventoryCtrl.SaveOrderRequest(true);"
+                            id="btn-is-save">
                         SAVE
                     </button>
                     <button class="btn btn-sm btn-transparent ml-2"
                             ng-if="inventoryCtrl.SelectedProduct.ProductId != 0 && inventoryForm.$valid"
-                            ng-click="inventoryCtrl.UpdateProductDetails();">
+                            ng-click="inventoryCtrl.UpdateProductDetails();"
+                            id="btn-is-update">
                         UPDATE
                     </button>
                     <button class="btn btn-sm btn-transparent btn-default"
-                            ng-click="inventoryCtrl.ResetFields(); inventoryForm.$setPristine();">
+                            ng-click="inventoryCtrl.ResetFields(); inventoryForm.$setPristine();"
+                            id="btn-is-cancel">
                         <text ng-if="inventoryCtrl.SelectedProduct.ProductId == 0">CLEAR</text>
                         <text ng-if="inventoryCtrl.SelectedProduct.ProductId != 0">CANCEL</text>
                     </button>
@@ -72,7 +80,8 @@
                     <table datatable="ng"
                            dt-options="inventoryCtrl.dtInventorySummaryOptions"
                            dt-column-defs="inventoryCtrl.dtInventorySummaryColumnDefs"
-                           class="table table-striped table-responsive">
+                           class="table table-striped table-responsive"
+                           >
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -100,16 +109,19 @@
                                 <td>
                                     <div class="d-flex flex-row">
                                         <button class="btn btn-sm btn-primary"
-                                                ng-click="inventoryCtrl.GetProductDetails(i.ProductID, true);">
+                                                ng-click="inventoryCtrl.GetProductDetails(i.ProductID, true);"
+                                                id="btn-is-row-manage-{{i.ProductID}}">
                                             Manage
                                         </button>
                                         <button class="btn btn-sm btn-default ml-1"
-                                                ng-click="inventoryCtrl.GetProductDetailsBasic(i.ProductID);">
+                                                ng-click="inventoryCtrl.GetProductDetailsBasic(i.ProductID);"
+                                                id="btn-is-row-edit-{{i.ProductID}}">
                                             Edit
                                         </button>
                                         <button class="btn btn-sm btn-danger ml-1"
                                                 ng-click="inventoryCtrl.GetProductDetailsBasic(i.ProductID); 
-                                                          inventoryCtrl.ShowConfirmAlert = true;">
+                                                          inventoryCtrl.ShowConfirmAlert = true;"
+                                                id="btn-is-row-delete-{{i.ProductID}}">
                                             Delete
                                         </button>
                                     </div>

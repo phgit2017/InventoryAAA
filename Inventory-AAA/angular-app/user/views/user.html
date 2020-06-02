@@ -22,40 +22,46 @@
                         <span ng-if="userForm.firstName.$error.required && !userForm.firstName.$pristine" class="form-validation-msg">This field is required.</span>
                     </div>
                     <input type="text" name="firstName" class="form-control form-control-sm mb-3"
-                           ng-model="userCtrl.SelectedUser.FirstName" required>
+                           ng-model="userCtrl.SelectedUser.FirstName" required
+                           id="firstname">
 
                     <div class="d-flex justify-content-between">
                         <span class="input-label required">LAST NAME</span>
                         <span ng-if="userForm.lastName.$error.required && !userForm.lastName.$pristine" class="form-validation-msg">This field is required.</span>
                     </div>
                     <input type="text" name="lastName" class="form-control form-control-sm mb-3"
-                           ng-model="userCtrl.SelectedUser.LastName" required>
+                           ng-model="userCtrl.SelectedUser.LastName" required
+                           id="lastname">
 
                     <div class="d-flex justify-content-between">
                         <span class="input-label required">USERNAME</span>
                         <span ng-if="userForm.userName.$error.required && !userForm.userName.$pristine" class="form-validation-msg">This field is required.</span>
                     </div>
                     <input type="text" name="userName" class="form-control form-control-sm mb-3"
-                           ng-model="userCtrl.SelectedUser.UserName" required>
+                           ng-model="userCtrl.SelectedUser.UserName" required
+                           id="username">
 
                     <div class="d-flex justify-content-between">
                         <span class="input-label required">PASSWORD</span>
                         <span ng-if="userForm.password.$error.required && !userForm.password.$pristine" class="form-validation-msg">This field is required.</span>
                     </div>
                     <input type="text" name="password" class="form-control form-control-sm mb-3"
-                           ng-model="userCtrl.SelectedUser.Password" required>
+                           ng-model="userCtrl.SelectedUser.Password" required
+                           id="password">
 
                     <span class="input-label">ROLE</span>
                     <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input"
+                        <input type="radio" name="customRadio" class="custom-control-input"
                                ng-model="userCtrl.SelectedUser.UserRoleId"
-                               ng-value="1">
+                               ng-value="1"
+                               id="role-admin">
                         <label class="custom-control-label" for="customRadio2">Admin</label>
                     </div>
                     <div class="custom-control custom-radio">
                         <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"
                                ng-model="userCtrl.SelectedUser.UserRoleId"
-                               ng-value="2">
+                               ng-value="2"
+                               id="role-secretary">
                         <label class="custom-control-label" for="customRadio1">Secretary</label>
                     </div>
 
@@ -64,13 +70,15 @@
 
             <div class="d-flex justify-content-end align-self-auto">
                 <button class="btn btn-sm btn-transparent btn-default"
-                        ng-click="userCtrl.ClearUserDetails(); userForm.$setPristine();">
+                        ng-click="userCtrl.ClearUserDetails(); userForm.$setPristine();"
+                        id="user-cancel">
                     <span ng-if="userCtrl.SelectedUser.UserId === 0">CLEAR</span>
                     <span ng-if="userCtrl.SelectedUser.UserId !== 0">CANCEL</span>
                 </button>
                 <button class="ml-2 btn btn-sm btn-transparent"
                         ng-if="userForm.$valid"
-                        ng-click="userCtrl.SaveUser();">
+                        ng-click="userCtrl.SaveUser();"
+                        id="user-save">
                     <span ng-if="userCtrl.SelectedUser.UserId === 0">SAVE</span>
                     <span ng-if="userCtrl.SelectedUser.UserId !== 0">UPDATE</span>
                 </button>
@@ -104,12 +112,14 @@
                             <td> {{ ul.UserRoleDetails.UserRoleName }} </td>
                             <td  class="cell-no-wrap">
                                 <button class="btn btn-sm btn-primary"
-                                        ng-click="userCtrl.SelectUser(ul);">
+                                        ng-click="userCtrl.SelectUser(ul);"
+                                        id="btn-us-row-select-{{ ul.UserId }}">
                                     Select
                                 </button>
                                 <button class="btn btn-sm btn-danger ml-1"
                                         ng-click="userCtrl.SelectUser(ul);
-                                                  userCtrl.ShowConfirmAlert = true;">
+                                                  userCtrl.ShowConfirmAlert = true;"
+                                        id="btn-us-row-delete-{{ ul.UserId }}">
                                     Delete
                                 </button>
                             </td>
