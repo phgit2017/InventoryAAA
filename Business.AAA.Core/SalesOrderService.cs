@@ -42,7 +42,7 @@ namespace Business.AAA.Core
             }
 
             orderTransactionRequest.TotalQuantity = totalQuantity;
-            orderTransactionRequest.TotalAmount = totalAmount;
+            orderTransactionRequest.TotalAmount = (totalAmount * totalQuantity);
 
             #region Sales Order
             var salesOrderRequest = new SalesOrdersRequest()

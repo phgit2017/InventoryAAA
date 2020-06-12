@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -41,12 +42,12 @@ namespace Inventory_AAA.Controllers
         {
             return View();
         }
-        
+
         [HttpGet]
         public JsonResult InventorySummary()
         {
             List<StocksSummary> result = new List<StocksSummary>();
-            
+
             #region Authorize
             var authorizeMenuAccessResult = AuthorizeMenuAccess(LookupKey.Menu.InventoryMenuId);
             if (!authorizeMenuAccessResult.IsSuccess)
@@ -195,10 +196,13 @@ namespace Inventory_AAA.Controllers
             bool productUpdateResult = false;
 
             var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+            var passedProductResult = _productServices.GetAll().Where(m => m.ProductId == request.ProductId).FirstOrDefault();
+
+            request.CreatedTime = passedProductResult.CreatedTime;
             request.ModifiedBy = currentUserId;
             request.ModifiedTime = DateTime.Now;
 
-            Logging.Information("(Request) UpdateProductDetails : " + JsonConvert.SerializeObject(request));
+
 
             if (ModelState.IsValid)
             {
@@ -253,6 +257,14 @@ namespace Inventory_AAA.Controllers
             }
             else
             {
+
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                           .ToList();
+                foreach (var err in errors)
+                {
+                    Logging.Information("(Response-Model-Stocks) UpdateProductDetails : " + err.ErrorMessage);
+                }
+
                 return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
             }
 

@@ -45,7 +45,7 @@ namespace Business.AAA.Core
             }
 
             orderTransactionRequest.TotalQuantity = totalQuantity;
-            orderTransactionRequest.TotalAmount = totalAmount;
+            orderTransactionRequest.TotalAmount = (totalAmount * totalQuantity);
 
             #region Validate if Product Code is existing
 
