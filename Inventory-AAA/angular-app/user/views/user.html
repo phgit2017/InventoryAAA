@@ -51,17 +51,15 @@
 
                     <span class="input-label">ROLE</span>
                     <div class="custom-control custom-radio">
-                        <input type="radio" name="customRadio" class="custom-control-input"
+                        <input type="radio" id="customRadio2" name="role-admin" class="custom-control-input"
                                ng-model="userCtrl.SelectedUser.UserRoleId"
-                               ng-value="1"
-                               id="role-admin">
+                               ng-value="1">
                         <label class="custom-control-label" for="customRadio2">Admin</label>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"
+                        <input type="radio" id="customRadio1" name="role-secretary" class="custom-control-input"
                                ng-model="userCtrl.SelectedUser.UserRoleId"
-                               ng-value="2"
-                               id="role-secretary">
+                               ng-value="2">
                         <label class="custom-control-label" for="customRadio1">Secretary</label>
                     </div>
 

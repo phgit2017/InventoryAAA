@@ -158,7 +158,7 @@ app.directive('modalWindow', function () {
                 scope.show = false;
             };
         },
-        template: "<div ng-show='show'><div class='modal-overlay' ng-click='hideModal()'></div><div class='modal-container'><div class='modal-box' ng-transclude></div></div></div>"
+        template: "<div ng-show='show'><div class='modal-overlay'></div><div class='modal-container'><div class='modal-box' ng-transclude></div></div></div>"
     };
 });
 

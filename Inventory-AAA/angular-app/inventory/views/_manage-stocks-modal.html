@@ -41,18 +41,18 @@
                             <form name="orderRequestForm">
                                 <span class="input-label">TRANSACTION TYPE</span>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" name="customRadio" class="custom-control-input"
+                                    <input type="radio" name="transaction-type-sale" class="custom-control-input"
                                            ng-model="inventoryCtrl.OrderRequestTransactionType"
                                            ng-value="1"
-                                           id="transaction-type-sale">
+                                           id="customRadio1">
                                     <label class="custom-control-label" for="customRadio1">Sale</label>
                                 </div>
                                 <div class="custom-control custom-radio"
                                      ng-if="$root.RoleName === 'Admin'">
-                                    <input type="radio" name="customRadio" class="custom-control-input"
+                                    <input type="radio" name="transaction-type-purchase" class="custom-control-input"
                                            ng-model="inventoryCtrl.OrderRequestTransactionType"
                                            ng-value="0"
-                                           id="transaction-type-purchase">
+                                           id="customRadio2">
                                     <label class="custom-control-label" for="customRadio2">Purchase</label>
                                 </div>
                                 <br />

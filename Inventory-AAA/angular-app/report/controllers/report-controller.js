@@ -67,7 +67,6 @@ function ReportController(ReportService, $scope, $window, $http, QuickAlert, glo
     function _resetFields() {
         vm.StartDate = "";
         vm.EndDate = "";
-        vm.ReportType = 0;
     }
 
     function downloadFile(url) {
