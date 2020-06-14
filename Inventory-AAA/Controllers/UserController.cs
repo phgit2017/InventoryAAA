@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -103,11 +104,13 @@ namespace Inventory_AAA.Controllers
             bool userIdResult = false;
 
             var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+            var passedUserResult = _userServices.GetAllUserDetails().Where(m => m.UserId == request.UserId).FirstOrDefault();
 
+            request.CreatedTime = passedUserResult.CreatedTime;
             request.ModifiedBy = currentUserId;
             request.ModifiedTime = DateTime.Now;
 
-            Logging.Information("(Request) UpdateUserDetails : " + JsonConvert.SerializeObject(request));
+            
 
             if (ModelState.IsValid)
             {
@@ -141,6 +144,12 @@ namespace Inventory_AAA.Controllers
             }
             else
             {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                           .ToList();
+                foreach (var err in errors)
+                {
+                    Logging.Information("(Response-Model-User) UpdateUserDetails : " + err.ErrorMessage);
+                }
                 return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
             }
 
