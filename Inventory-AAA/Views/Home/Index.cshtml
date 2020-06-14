@@ -42,7 +42,8 @@
                             </li>
                             <li class="sidebar-main__nav-item"
                                 ng-class=" {'active-item': $root.navItem == 'Reports'}"
-                                ng-click="loginCtrl.ChangeRoute('Reports');">
+                                ng-click="loginCtrl.ChangeRoute('Reports');"
+                                ng-if="$root.RoleName === 'Admin'">
                                 <span class="nav-item__img">
                                     <img src="~/Content/assets/svg/chart.svg" class="img-invert" />
                                 </span>
