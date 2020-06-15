@@ -110,48 +110,48 @@ namespace Inventory_AAA.Controllers
             request.ModifiedBy = currentUserId;
             request.ModifiedTime = DateTime.Now;
 
-            
 
-            if (ModelState.IsValid)
+
+            //if (ModelState.IsValid)
+            //{
+            #region Validate same username
+            var codeUserDetailResult = _userServices.GetAllUserDetails().Where(u => u.UserName == request.UserName
+                                                                 && u.UserId != request.UserId
+                                                                           && u.IsActive).FirstOrDefault();
+
+
+            if (!codeUserDetailResult.IsNull())
             {
-                #region Validate same username
-                var codeUserDetailResult = _userServices.GetAllUserDetails().Where(u => u.UserName == request.UserName
-                                                                     && u.UserId != request.UserId
-                                                                               && u.IsActive).FirstOrDefault();
-
-
-                if (!codeUserDetailResult.IsNull())
-                {
-                    return Json(new { isSucess = isSucess, messageAlert = Messages.UserNameValidation }, JsonRequestBehavior.AllowGet);
-                }
-                #endregion
-
-                userIdResult = _userServices.UpdateUserDetails(request);
-
-                if (!userIdResult)
-                {
-                    return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
-                }
-
-                isSucess = true;
-                var response = new
-                {
-                    isSuccess = isSucess,
-                    messageAlert = messageAlert
-                };
-
-                return Json(response, JsonRequestBehavior.AllowGet);
+                return Json(new { isSucess = isSucess, messageAlert = Messages.UserNameValidation }, JsonRequestBehavior.AllowGet);
             }
-            else
+            #endregion
+
+            userIdResult = _userServices.UpdateUserDetails(request);
+
+            if (!userIdResult)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors)
-                           .ToList();
-                foreach (var err in errors)
-                {
-                    Logging.Information("(Response-Model-User) UpdateUserDetails : " + err.ErrorMessage);
-                }
-                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
             }
+
+            isSucess = true;
+            var response = new
+            {
+                isSuccess = isSucess,
+                messageAlert = messageAlert
+            };
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+            //}
+            //else
+            //{
+            //    var errors = ModelState.Values.SelectMany(v => v.Errors)
+            //               .ToList();
+            //    foreach (var err in errors)
+            //    {
+            //        Logging.Information("(Response-Model-User) UpdateUserDetails : " + err.ErrorMessage);
+            //    }
+            //    return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
+            //}
 
         }
 
@@ -219,7 +219,7 @@ namespace Inventory_AAA.Controllers
                 response.MessageAlert = Messages.SessionUnavailable;
                 return response;
             }
-            
+
             var userId = userSessionId;
             var userResult = _userServices.GetAllUserDetails().Where(m => m.UserId == userId).FirstOrDefault();
 

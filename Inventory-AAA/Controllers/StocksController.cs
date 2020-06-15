@@ -204,69 +204,69 @@ namespace Inventory_AAA.Controllers
 
 
 
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            var codeProductDetailResult = _productServices.GetAll().Where(p => p.ProductCode == request.ProductCode
+                                                                            && p.IsActive
+                                                                            && p.ProductId != request.ProductId).FirstOrDefault();
+
+            #region Validate same product code
+            if (!codeProductDetailResult.IsNull())
             {
-                var codeProductDetailResult = _productServices.GetAll().Where(p => p.ProductCode == request.ProductCode
-                                                                                && p.IsActive
-                                                                                && p.ProductId != request.ProductId).FirstOrDefault();
-
-                #region Validate same product code
-                if (!codeProductDetailResult.IsNull())
-                {
-                    return Json(new { isSucess = isSucess, messageAlert = Messages.ProductCodeValidation }, JsonRequestBehavior.AllowGet);
-                }
-                #endregion
-
-
-                //Update Product Details
-                productUpdateResult = _productServices.UpdateDetails(request);
-
-                if (!productUpdateResult)
-                {
-                    return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
-                }
-
-                var productLogDetailRequest = new ProductLogDetailRequest()
-                {
-                    ProductLogsId = 0,
-                    ProductId = request.ProductId,
-                    ProductCode = request.ProductCode,
-                    ProductDescription = request.ProductDescription,
-                    Quantity = request.Quantity,
-                    UnitPrice = request.UnitPrice,
-                    IsActive = request.IsActive,
-                    CreatedBy = request.ModifiedBy,
-                    CreatedTime = DateTime.Now,
-                    ModifiedBy = null,
-                    ModifiedTime = null
-                };
-                var productLogResult = _productServices.SaveProductLogs(productLogDetailRequest);
-
-                if (productLogResult <= 0)
-                {
-                    return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
-                }
-
-                isSucess = true;
-                var response = new
-                {
-                    isSucess = isSucess,
-                    messageAlert = messageAlert
-                };
-                return Json(response, JsonRequestBehavior.AllowGet);
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ProductCodeValidation }, JsonRequestBehavior.AllowGet);
             }
-            else
+            #endregion
+
+
+            //Update Product Details
+            productUpdateResult = _productServices.UpdateDetails(request);
+
+            if (!productUpdateResult)
             {
-
-                var errors = ModelState.Values.SelectMany(v => v.Errors)
-                           .ToList();
-                foreach (var err in errors)
-                {
-                    Logging.Information("(Response-Model-Stocks) UpdateProductDetails : " + err.ErrorMessage);
-                }
-
-                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
             }
+
+            var productLogDetailRequest = new ProductLogDetailRequest()
+            {
+                ProductLogsId = 0,
+                ProductId = request.ProductId,
+                ProductCode = request.ProductCode,
+                ProductDescription = request.ProductDescription,
+                Quantity = request.Quantity,
+                UnitPrice = request.UnitPrice,
+                IsActive = request.IsActive,
+                CreatedBy = request.ModifiedBy,
+                CreatedTime = DateTime.Now,
+                ModifiedBy = null,
+                ModifiedTime = null
+            };
+            var productLogResult = _productServices.SaveProductLogs(productLogDetailRequest);
+
+            if (productLogResult <= 0)
+            {
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
+            }
+
+            isSucess = true;
+            var response = new
+            {
+                isSucess = isSucess,
+                messageAlert = messageAlert
+            };
+            return Json(response, JsonRequestBehavior.AllowGet);
+            //}
+            //else
+            //{
+
+            //    var errors = ModelState.Values.SelectMany(v => v.Errors)
+            //               .ToList();
+            //    foreach (var err in errors)
+            //    {
+            //        Logging.Information("(Response-Model-Stocks) UpdateProductDetails : " + err.ErrorMessage);
+            //    }
+
+            //    return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
+            //}
 
 
 

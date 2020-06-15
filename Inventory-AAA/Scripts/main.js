@@ -1,8 +1,8 @@
 ﻿var app =
     angular
         .module("InventoryApp", ["ngRoute", "datatables", "datatables.options", "ngCookies"])
-        .value('globalBaseUrl', '')
-        //.value('globalBaseUrl', '/Inventory-AAA')
+        //.value('globalBaseUrl', '')
+        .value('globalBaseUrl', '/Inventory-AAA')
         .config(function ($routeProvider, $locationProvider) {
             var globalBaseUrl = '/';
             $locationProvider.hashPrefix('');
