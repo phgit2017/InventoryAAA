@@ -239,7 +239,7 @@ namespace Inventory_AAA.Controllers
                         workSheet.Cells[rowId, 3].Value = item.PreviousSalesQty.ToString("N");
                         workSheet.Cells[rowId, 4].Value = item.SalesQty.ToString("N");
                         workSheet.Cells[rowId, 5].Value = item.TransactionType;
-                        workSheet.Cells[rowId, 6].Value = item.TransactionDate.ToString("MM/dd/yyyy HH:mm");
+                        workSheet.Cells[rowId, 6].Value = item.TransactionDate.ToString("MM/dd/yyyy hh:mm");
                         workSheet.Cells[rowId, 7].Value = item.CreatedBy;
                         workSheet.Cells[rowId, 8].Value = item.Remarks;
                     }
