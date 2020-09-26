@@ -75,6 +75,19 @@ namespace Business.AAA.Core
         public long SaveDetail(CustomerDetailRequest request)
         {
             request.CustomerId = 0;
+
+            
+            var customerNameResult = GetAll().Where(u => u.FirstName == request.FirstName
+                                                           && u.CustomerStatusId == LookupKey.CustomerStatus.ActiveId
+                                                           && u.LastName == request.LastName).FirstOrDefault();
+
+            #region Validate same firstname and lastname
+            if (!customerNameResult.IsNull())
+            {
+                return -100;
+            }
+            #endregion
+
             this.customers = request.DtoToEntity();
             var item = this._customerServices.Insert(this.customers);
             if (item == null)
