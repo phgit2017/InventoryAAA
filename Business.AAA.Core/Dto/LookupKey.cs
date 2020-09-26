@@ -38,6 +38,7 @@ namespace Business.AAA.Core.Dto
             public const int InventoryMenuId = 1;
             public const int UserMenuId= 2;
             public const int ReportMenuId = 3;
+            public const int CustomerMenuId = 4;
         }
     }
 
