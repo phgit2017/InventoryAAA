@@ -13,6 +13,7 @@
             ProductLogs = new HashSet<ProductLog>();
             PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
             SalesOrderDetails = new HashSet<SalesOrderDetail>();
+            PriceTypes = new HashSet<PriceType>();
         }
 
         public long ProductID { get; set; }
@@ -29,6 +30,8 @@
 
         public bool IsActive { get; set; }
 
+        public long? CategoryID { get; set; }
+
         public long? CreatedBy { get; set; }
 
         public DateTime? CreatedTime { get; set; }
@@ -37,10 +40,15 @@
 
         public DateTime? ModifiedTime { get; set; }
 
+        [ForeignKey("CategoryID")]
+        public virtual Categories Category { get; set; }
+
         public virtual ICollection<ProductLog> ProductLogs { get; set; }
 
         public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
 
         public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }
+
+        public virtual ICollection<PriceType> PriceTypes { get; set; }
     }
 }

@@ -115,6 +115,7 @@ namespace Business.AAA.Core
                     UnitPrice = orderDetail.UnitPrice,
                     IsActive = orderDetail.IsActive,
                     CreatedBy = orderDetail.CreatedBy,
+                    CategoryId = orderDetail.CategoryId,
                     CreatedTime = DateTime.Now,
                     ModifiedBy = null,
                     ModifiedTime = null
@@ -123,6 +124,14 @@ namespace Business.AAA.Core
                 if (orderDetail.ProductId == 0)
                 {
                     productId = _productServices.SaveDetails(productDetailRequest);
+
+                    #region Product Price
+                    foreach (var productPrice in orderDetail.ProductPrices)
+                    {
+                        _productServices.SaveProductPrice(productPrice);
+                    }
+                    #endregion
+                    
                 }
                 else
                 {
@@ -136,6 +145,7 @@ namespace Business.AAA.Core
                         Quantity = (productDetailResult.Quantity + orderDetail.Quantity),
                         UnitPrice = productDetailResult.UnitPrice,
                         IsActive = productDetailResult.IsActive,
+                        CategoryId = productDetailResult.CategoryId,
                         CreatedBy = productDetailResult.CreatedBy,
                         CreatedTime = productDetailResult.CreatedTime,
                         ModifiedBy = orderDetail.CreatedBy,
@@ -146,6 +156,13 @@ namespace Business.AAA.Core
 
                     _productServices.UpdateDetails(productDetailRequest);
                     productId = productDetailResult.ProductId;
+
+                    #region Product Price
+                    foreach (var productPrice in orderDetail.ProductPrices)
+                    {
+                        _productServices.UpdateProductPrice(productPrice);
+                    }
+                    #endregion
                 }
 
 
@@ -163,6 +180,7 @@ namespace Business.AAA.Core
                     ProductCode = productDetailRequest.ProductCode,
                     ProductDescription = productDetailRequest.ProductDescription,
                     Quantity = productDetailRequest.Quantity,
+                    CategoryId = productDetailRequest.CategoryId,
                     UnitPrice = productDetailRequest.UnitPrice,
                     IsActive = productDetailRequest.IsActive,
                     CreatedBy = orderDetail.CreatedBy,

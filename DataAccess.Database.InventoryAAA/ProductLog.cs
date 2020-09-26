@@ -21,9 +21,9 @@
 
         public decimal? Quantity { get; set; }
 
-        public decimal? UnitPrice { get; set; }
-
         public bool? IsActive { get; set; }
+
+        public long? CategoryID { get; set; }
 
         public long? CreatedBy { get; set; }
 
@@ -31,5 +31,8 @@
 
         [ForeignKey("ProductID")]
         public virtual Product Product { get; set; }
+
+        [ForeignKey("CategoryID")]
+        public virtual Categories Categories { get; set; }
     }
 }

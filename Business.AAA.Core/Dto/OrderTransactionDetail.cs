@@ -9,6 +9,11 @@ namespace Business.AAA.Core.Dto
 {
     public class OrderRequest
     {
+        public OrderRequest()
+        {
+            ProductPrices = new List<ProductPricesDetailRequest>();
+        }
+
         public long ProductId { get; set; }
 
         [Display(Name = "Product Code")]
@@ -26,11 +31,15 @@ namespace Business.AAA.Core.Dto
         [Required(ErrorMessage = "Unit Price is required")]
         public decimal UnitPrice { get; set; }
 
+        public long? CategoryId { get; set; }
+
         public int OrderTransactionType { get; set; }
 
         public bool IsActive { get; set; }
 
         public string Remarks { get; set; } = string.Empty;
+
+        public List<ProductPricesDetailRequest> ProductPrices { get; set; }
 
     }
 

@@ -15,15 +15,18 @@ namespace Inventory_AAA.Controllers
         private readonly IProductServices _productServices;
         private readonly IOrderTypeServices _orderTypeServices;
         private readonly IUserServices _userServices;
+        private readonly ICustomerServices _customerServices;
 
         public CommonController(
             IProductServices productServices,
             IOrderTypeServices orderTypeServices,
-            IUserServices userServices)
+            IUserServices userServices,
+            ICustomerServices customerServices)
         {
             this._productServices = productServices;
             this._orderTypeServices = orderTypeServices;
             this._userServices = userServices;
+            this._customerServices = customerServices;
         }
 
         // GET: Common
@@ -65,6 +68,18 @@ namespace Inventory_AAA.Controllers
         {
             
             var result = _userServices.GetAllMenuDetails().ToList();
+            var response = new
+            {
+                result = result,
+                isSuccess = true
+            };
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult CustomerStatusList()
+        {
+            var result = _customerServices.GetAllCustomerStatus().ToList();
             var response = new
             {
                 result = result,

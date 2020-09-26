@@ -21,5 +21,10 @@ namespace Business.AAA.Core.Interface
         //Reporting
         DataSet SalesReport(DateTime startDate, DateTime endDate);
         DataTable PurchaseandSalesReport(DateTime startDate, DateTime endDate);
+
+        //Product Price
+        long SaveProductPrice(ProductPricesDetailRequest request);
+        bool UpdateProductPrice(ProductPricesDetailRequest request);
+        IQueryable<ProductPricesDetail> GetAllProductPrices();
     }
 }

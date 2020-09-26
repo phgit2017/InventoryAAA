@@ -20,18 +20,24 @@ namespace Business.AAA.Core
     {
         IInventoryAAARepository<dbentities.Product> _productServices;
         IInventoryAAARepository<dbentities.ProductLog> _productLogServices;
+        IInventoryAAARepository<dbentities.ProductPrice> _productPriceServices;
 
         private dbentities.Product products;
         private dbentities.ProductLog productLogs;
+        private dbentities.ProductPrice productPrice;
 
-        public ProductServices(IInventoryAAARepository<dbentities.Product> productServices,
-            IInventoryAAARepository<dbentities.ProductLog> productLogServices)
+        public ProductServices(
+            IInventoryAAARepository<dbentities.Product> productServices,
+            IInventoryAAARepository<dbentities.ProductLog> productLogServices,
+            IInventoryAAARepository<dbentities.ProductPrice> productPriceServices)
         {
             this._productServices = productServices;
             this._productLogServices = productLogServices;
+            this._productPriceServices = productPriceServices;
 
             this.products = new dbentities.Product();
             this.productLogs = new dbentities.ProductLog();
+            this.productPrice = new dbentities.ProductPrice();
         }
     }
 
@@ -48,10 +54,27 @@ namespace Business.AAA.Core
                              Quantity = det.Quantity,
                              UnitPrice = det.UnitPrice,
                              IsActive = det.IsActive,
+                             CategoryId = det.CategoryID,
                              CreatedBy = det.CreatedBy,
                              CreatedTime = det.CreatedTime,
                              ModifiedBy = det.ModifiedBy,
                              ModifiedTime = det.ModifiedTime
+                         };
+
+            return result;
+        }
+
+        public IQueryable<ProductPricesDetail> GetAllProductPrices()
+        {
+            var result = from det in this._productPriceServices.GetAll()
+                         select new ProductPricesDetail()
+                         {
+                             ProductId = det.ProductID,
+                             ProductCode = det.Product.ProductCode,
+                             ProductDescription = det.Product.ProductDescription,
+                             Price = det.Price,
+                             PriceTypeId = det.PriceTypeID,
+                             PriceTypeName = det.PriceType.PriceTypeName
                          };
 
             return result;
@@ -97,6 +120,33 @@ namespace Business.AAA.Core
 
             return item.ProductID;
         }
+
+        public long SaveProductPrice(ProductPricesDetailRequest request)
+        {
+            request.ProductId = 0;
+            this.productPrice = request.DtoToEntity();
+            var item = this._productPriceServices.Insert(this.productPrice);
+            if (item == null)
+            {
+                return 0;
+            }
+
+            return item.ProductID;
+        }
+
+        public bool UpdateProductPrice(ProductPricesDetailRequest request)
+        {
+            this.productPrice = request.DtoToEntity();
+            var item = this._productPriceServices.Update2(this.productPrice);
+            if (item == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+
 
         public long SaveProductLogs(ProductLogDetailRequest request)
         {

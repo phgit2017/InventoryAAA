@@ -17,6 +17,9 @@ namespace DataAccess.Entities.Context
 
         public virtual DbSet<OrderType> OrderTypes { get; set; }
         public virtual DbSet<ProductLog> ProductLogs { get; set; }
+        public virtual DbSet<PriceType> PriceTypes { get; set; }
+        public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<ProductPrice> ProductPrices { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
@@ -27,6 +30,8 @@ namespace DataAccess.Entities.Context
         public virtual DbSet<UserInformationDetail> UserInformationDetails { get; set; }
         public virtual DbSet<MenuDetail> MenuDetails { get; set; }
         public virtual DbSet<UserMenuRoleDetail> UserMenuRoleDetails { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<CustomerStatus> CustomerStatus { get; set; }
 
     }
 }

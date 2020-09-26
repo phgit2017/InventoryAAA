@@ -51,7 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoryServices.cs" />
+    <Compile Include="CustomerServices.cs" />
     <Compile Include="Dto\BaseDetail.cs" />
+    <Compile Include="Dto\CategoryDetail.cs" />
+    <Compile Include="Dto\CustomerDetail.cs" />
     <Compile Include="Dto\InventoryDetail.cs" />
     <Compile Include="Dto\LookupKey.cs" />
     <Compile Include="Dto\OrderDetail.cs" />
@@ -61,6 +65,8 @@
     <Compile Include="Dto\ReportDetail.cs" />
     <Compile Include="Dto\UserDetail.cs" />
     <Compile Include="Extensions\EntityMapper.cs" />
+    <Compile Include="Interface\ICategoryServices.cs" />
+    <Compile Include="Interface\ICustomerServices.cs" />
     <Compile Include="Interface\IOrderServices.cs" />
     <Compile Include="Interface\IOrderTransactionalServices.cs" />
     <Compile Include="Interface\IOrderTypeServices.cs" />

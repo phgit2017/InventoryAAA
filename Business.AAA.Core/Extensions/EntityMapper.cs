@@ -28,7 +28,25 @@ namespace Business.AAA.Core.Extensions
                     ModifiedTime = request.ModifiedTime,
                     ProductDescription = request.ProductDescription,
                     Quantity = request.Quantity,
+                    CategoryID = request.CategoryId,
                     UnitPrice = request.UnitPrice
+                };
+            }
+
+            return entity;
+        }
+
+        public static dbentities.ProductPrice DtoToEntity(this ProductPricesDetailRequest request)
+        {
+            dbentities.ProductPrice entity = null;
+
+            if (request != null)
+            {
+                entity = new dbentities.ProductPrice
+                {
+                    ProductID = request.ProductId,
+                    PriceTypeID = request.PriceTypeId,
+                    Price = request.Price
                 };
             }
 
@@ -50,8 +68,53 @@ namespace Business.AAA.Core.Extensions
                     CreatedTime = request.CreatedTime,
                     ProductDescription = request.ProductDescription,
                     Quantity = request.Quantity,
-                    UnitPrice = request.UnitPrice,
                     IsActive = request.IsActive,
+                    CategoryID = request.CategoryId,
+                };
+            }
+
+            return entity;
+        }
+
+        public static dbentities.Categories DtoToEntity(this CategoryDetailRequest request)
+        {
+            dbentities.Categories entity = null;
+
+            if (request != null)
+            {
+                entity = new dbentities.Categories
+                {
+                    CategoryID = request.CategoryId,
+                    CategoryName = request.CategoryName,
+                    IsActive = request.IsActive,
+                    CreatedBy = request.CreatedBy,
+                    CreatedTime = request.CreatedTime,
+                    ModifiedBy = request.ModifiedBy,
+                    ModifiedTime = request.ModifiedTime
+                };
+            }
+
+            return entity;
+        }
+
+        public static dbentities.Customer DtoToEntity(this CustomerDetailRequest request)
+        {
+            dbentities.Customer entity = null;
+
+            if (request != null)
+            {
+                entity = new dbentities.Customer
+                {
+                    CustomerID = request.CustomerId,
+                    CustomerCode = request.CustomerCode,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    FullAddress = request.FullAddress,
+                    CustomerStatusID = request.CustomerStatusId,
+                    CreatedBy = request.CreatedBy,
+                    CreatedTime = request.CreatedTime,
+                    ModifiedBy = request.ModifiedBy,
+                    ModifiedTime = request.ModifiedTime
                 };
             }
 

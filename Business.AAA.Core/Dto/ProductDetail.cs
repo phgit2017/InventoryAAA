@@ -22,10 +22,17 @@ namespace Business.AAA.Core.Dto
         public decimal UnitPrice { get; set; }
 
         public bool IsActive { get; set; }
+
+        public long? CategoryId { get; set; }
     }
 
     public class ProductDetailRequest : BaseDetail
     {
+        public ProductDetailRequest()
+        {
+            ProductPrices = new List<ProductPricesDetailRequest>();
+        }
+
         public long ProductId { get; set; }
 
         [Display(Name = "Product Code")]
@@ -43,7 +50,11 @@ namespace Business.AAA.Core.Dto
 
         public bool IsActive { get; set; }
 
+        public long? CategoryId { get; set; }
+
         public string Remarks { get; set; } = string.Empty;
+
+        public List<ProductPricesDetailRequest> ProductPrices { get; set; }
     }
     
     public class ProductLogDetailRequest : BaseDetail
@@ -60,10 +71,31 @@ namespace Business.AAA.Core.Dto
 
         public decimal? Quantity { get; set; }
 
+        public long? CategoryId { get; set; }
+
         public decimal? UnitPrice { get; set; }
 
         public bool? IsActive { get; set; }
 
 
+    }
+
+    public class ProductPricesDetail
+    {
+        public int PriceTypeId { get; set; }
+        public long ProductId { get; set; }
+        public string ProductCode { get; set; }
+        public string ProductDescription { get; set; }
+        
+
+        public decimal Price { get; set; }
+        public string PriceTypeName { get; set; }
+    }
+
+    public class ProductPricesDetailRequest
+    {
+        public int PriceTypeId { get; set; }
+        public long ProductId { get; set; }
+        public decimal Price { get; set; }
     }
 }

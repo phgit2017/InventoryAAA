@@ -146,9 +146,11 @@ namespace Inventory_AAA.Controllers
                     ProductDescription = request.ProductDescription,
                     Quantity = request.Stocks,
                     UnitPrice = request.UnitPrice,
+                    CategoryId = request.CategoryId,
                     IsActive = request.IsActive,
                     CreatedBy = currentUserId,
-                    Remarks = request.Remarks
+                    Remarks = request.Remarks,
+                    ProductPrices = request.ProductPrices,
 
                 });
                 var type = Type.GetType(string.Format("{0}.{1}, {0}", "Business.AAA.Core", orderTransactionTypeService));
