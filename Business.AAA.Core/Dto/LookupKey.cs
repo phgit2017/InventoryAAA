@@ -40,12 +40,21 @@ namespace Business.AAA.Core.Dto
             public const int ReportMenuId = 3;
             public const int CustomerMenuId = 4;
         }
+
+        public static class CustomerStatus
+        {
+            public const int ActiveId = 1;
+            public const int InactiveId = 2;
+            public const int BlockedId = 3;
+        }
     }
 
     public static class Messages
     {
         public const string ProductCodeValidation = "Duplicate product code.";
         public const string UserNameValidation = "Duplicate username.";
+        public const string CustomerNameValidation = "Duplicate customer.";
+        public const string CategoryNameValidation = "Duplicate category.";
         public const string ErrorOccuredDuringProcessing = "An error occured during the process. Please check the details, refresh the page, and try again.";
         public const string ServerError = "Server Error";
         public const string SessionUnavailable = "Session is unavailable";

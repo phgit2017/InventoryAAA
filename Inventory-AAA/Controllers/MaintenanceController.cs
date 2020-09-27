@@ -50,7 +50,7 @@ namespace Inventory_AAA.Controllers
                 {
                     isSuccess = authorizeMenuAccessResult.IsSuccess,
                     messageAlert = authorizeMenuAccessResult.MessageAlert,
-                    UserDetailsResult = customerDetailResult
+                    CustomerDetailsResult = customerDetailResult
                 }, JsonRequestBehavior.AllowGet);
             }
             #endregion
@@ -59,11 +59,215 @@ namespace Inventory_AAA.Controllers
             customerDetailResult = _customerServices.GetAll().ToList();
             var response = new
             {
-                UserDetailsResult = customerDetailResult,
+                CustomerDetailsResult = customerDetailResult,
                 isSuccess = true,
                 messageAlert = ""
             };
             return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AddNewCustomerDetails(CustomerDetailRequest request)
+        {
+            bool isSucess = false;
+            string messageAlert = string.Empty;
+            long customerIdResult = 0;
+
+            var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+
+            request.CreatedBy = currentUserId;
+            request.CreatedTime = DateTime.Now;
+
+            if (ModelState.IsValid)
+            {
+
+                customerIdResult = _customerServices.SaveDetail(request);
+
+                if (customerIdResult == -100)
+                {
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.CustomerNameValidation }, JsonRequestBehavior.AllowGet);
+                }
+                if (customerIdResult == 0)
+                {
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
+                }
+
+                isSucess = true;
+                var response = new
+                {
+                    isSuccess = isSucess,
+                    messageAlert = messageAlert
+                };
+
+                return Json(response, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCustomerDetails(CustomerDetailRequest request)
+        {
+            bool isSucess = false;
+            string messageAlert = string.Empty;
+            bool customerIdResult = false;
+
+            var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+            var passedUserResult = _customerServices.GetAll().Where(m => m.CustomerId == request.CustomerId).FirstOrDefault();
+
+            request.CreatedTime = passedUserResult.CreatedTime;
+            request.ModifiedBy = currentUserId;
+            request.ModifiedTime = DateTime.Now;
+
+            #region Validate same firstname and lastname
+            var customerNameResult = _customerServices.GetAll().Where(u => u.FirstName == request.FirstName
+                                                           && u.CustomerStatusId == LookupKey.CustomerStatus.ActiveId
+                                                           && u.LastName == request.LastName).FirstOrDefault();
+
+
+            if (!customerNameResult.IsNull())
+            {
+                return Json(new { isSucess = isSucess, messageAlert = Messages.CustomerNameValidation }, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+            customerIdResult = _customerServices.UpdateDetail(request);
+
+            if (!customerIdResult)
+            {
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
+            }
+
+            isSucess = true;
+            var response = new
+            {
+                isSuccess = isSucess,
+                messageAlert = messageAlert
+            };
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+
+
+        }
+        #endregion
+
+        #region Category
+        [HttpGet]
+        public JsonResult CategoryList()
+        {
+            List<CategoryDetail> categoryDetailResult = new List<CategoryDetail>();
+
+            #region Authorize
+            var authorizeMenuAccessResult = AuthorizeMenuAccess(LookupKey.Menu.CustomerMenuId);
+            if (!authorizeMenuAccessResult.IsSuccess)
+            {
+
+                return Json(new
+                {
+                    isSuccess = authorizeMenuAccessResult.IsSuccess,
+                    messageAlert = authorizeMenuAccessResult.MessageAlert,
+                    CategoryDetailsResult = categoryDetailResult
+                }, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+            var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+            categoryDetailResult = _categoryServices.GetAll().ToList();
+            var response = new
+            {
+                CategoryDetailsResult = categoryDetailResult,
+                isSuccess = true,
+                messageAlert = ""
+            };
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AddNewCategoryDetails(CategoryDetailRequest request)
+        {
+            bool isSucess = false;
+            string messageAlert = string.Empty;
+            long categoryIdResult = 0;
+            var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+
+            request.CreatedBy = currentUserId;
+            request.CreatedTime = DateTime.Now;
+
+            if (ModelState.IsValid)
+            {
+
+                categoryIdResult = _categoryServices.SaveDetail(request);
+
+                if (categoryIdResult == -100)
+                {
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.CategoryNameValidation }, JsonRequestBehavior.AllowGet);
+                }
+                if (categoryIdResult == 0)
+                {
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
+                }
+
+                isSucess = true;
+                var response = new
+                {
+                    isSuccess = isSucess,
+                    messageAlert = messageAlert
+                };
+
+                return Json(response, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCategoryDetails(CategoryDetailRequest request)
+        {
+            bool isSucess = false;
+            string messageAlert = string.Empty;
+            bool categoryIdResult = false;
+
+            var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+            var passedUserResult = _categoryServices.GetAll().Where(m => m.CategoryId == request.CategoryId).FirstOrDefault();
+
+            request.CreatedTime = passedUserResult.CreatedTime;
+            request.ModifiedBy = currentUserId;
+            request.ModifiedTime = DateTime.Now;
+
+            
+            #region Validate same category name
+
+            var categoryNameResult = _categoryServices.GetAll().Where(u => u.CategoryName == request.CategoryName
+                                                          && u.IsActive).FirstOrDefault();
+            if (!categoryNameResult.IsNull())
+            {
+                return Json(new { isSucess = isSucess, messageAlert = Messages.CategoryNameValidation }, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+            categoryIdResult = _categoryServices.UpdateDetail(request);
+
+            if (!categoryIdResult)
+            {
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
+            }
+
+            isSucess = true;
+            var response = new
+            {
+                isSuccess = isSucess,
+                messageAlert = messageAlert
+            };
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+
+
         }
         #endregion
 

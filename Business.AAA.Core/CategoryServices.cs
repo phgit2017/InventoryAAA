@@ -37,6 +37,16 @@ namespace Business.AAA.Core
         public long SaveDetail(CategoryDetailRequest request)
         {
             request.CategoryId = 0;
+            var categoryNameResult = GetAll().Where(u => u.CategoryName == request.CategoryName
+                                                           && u.IsActive).FirstOrDefault();
+
+            #region Validate same firstname and lastname
+            if (!categoryNameResult.IsNull())
+            {
+                return -100;
+            }
+            #endregion
+
             this.categories = request.DtoToEntity();
             var item = this._categoryServices.Insert(this.categories);
             if (item == null)
@@ -59,7 +69,7 @@ namespace Business.AAA.Core
             return true;
         }
 
-        IQueryable<CategoryDetail> ICategoryServices.GetAll()
+        public IQueryable<CategoryDetail> GetAll()
         {
             var result = from det in this._categoryServices.GetAll()
                          select new CategoryDetail()
