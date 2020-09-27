@@ -18,11 +18,11 @@
                     <div class="sidebar-main__nav">
                         <ul class="sidebar-main__nav-list">
                             @*<li class="sidebar-main__nav-item">
-                        <span class="nav-item__img">
-                            <img src="~/Content/assets/svg/home.svg" class="img-invert" />
-                        </span>
-                        <span class="nav-item__label">Home</span>
-                    </li>*@
+                            <span class="nav-item__img">
+                                <img src="~/Content/assets/svg/home.svg" class="img-invert" />
+                            </span>
+                            <span class="nav-item__label">Home</span>
+                            </li>*@
                             <li class="sidebar-main__nav-item"
                                 ng-class="{'active-item': $root.navItem == 'Inventory'} "
                                 ng-click="loginCtrl.ChangeRoute('Inventory');">
@@ -60,7 +60,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex-grow-1">
+        <div class="flex-grow-1" style="height: inherit">
             <div>
                 <nav class="d-flex justify-content-between navbar navbar-inverse navbar-fixed-top" ng-if="showNavbar">
                     <div>
@@ -82,7 +82,7 @@
                 </nav>
             </div>
 
-            <div ng-view></div>
+            <div ng-view class="main-screen"></div>
         </div>
     </div>
 <style>
