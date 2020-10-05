@@ -28,8 +28,7 @@ namespace Business.AAA.Core.Extensions
                     ModifiedTime = request.ModifiedTime,
                     ProductDescription = request.ProductDescription,
                     Quantity = request.Quantity,
-                    CategoryID = request.CategoryId,
-                    UnitPrice = request.UnitPrice
+                    CategoryID = request.CategoryId
                 };
             }
 
@@ -70,6 +69,7 @@ namespace Business.AAA.Core.Extensions
                     Quantity = request.Quantity,
                     IsActive = request.IsActive,
                     CategoryID = request.CategoryId,
+                    
                 };
             }
 

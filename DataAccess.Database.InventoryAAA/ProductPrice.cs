@@ -6,6 +6,7 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("ProductPrices")]
     public partial class ProductPrice
     {
         [Key]
@@ -21,9 +22,9 @@
         public decimal Price { get; set; }
 
         [ForeignKey("PriceTypeID")]
-        public virtual PriceType PriceType { get; set; }
-
+        public virtual PriceType PriceTypes { get; set; }
+        
         [ForeignKey("ProductID")]
-        public virtual Product Product { get; set; }
+        public virtual Product Products { get; set; }
     }
 }

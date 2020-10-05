@@ -74,7 +74,7 @@ namespace Business.AAA.Core
                     ProductCode = productDetailResult.ProductCode,
                     ProductDescription = productDetailResult.ProductDescription,
                     Quantity = (productDetailResult.Quantity - orderDetail.Quantity),
-                    UnitPrice = productDetailResult.UnitPrice,
+                    //UnitPrice = productDetailResult.UnitPrice,
                     IsActive = productDetailResult.IsActive,
                     CreatedBy = productDetailResult.CreatedBy,
                     CreatedTime = productDetailResult.CreatedTime,
@@ -97,7 +97,7 @@ namespace Business.AAA.Core
                     ProductCode = productDetailRequest.ProductCode,
                     ProductDescription = productDetailRequest.ProductDescription,
                     Quantity = productDetailRequest.Quantity,
-                    UnitPrice = productDetailRequest.UnitPrice,
+                    //UnitPrice = productDetailRequest.UnitPrice,
                     IsActive = productDetailRequest.IsActive,
                     CreatedBy = orderDetail.CreatedBy,
                     CreatedTime = DateTime.Now

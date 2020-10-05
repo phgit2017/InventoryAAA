@@ -13,7 +13,7 @@
             ProductLogs = new HashSet<ProductLog>();
             PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
             SalesOrderDetails = new HashSet<SalesOrderDetail>();
-            PriceTypes = new HashSet<PriceType>();
+            ProductPrices = new HashSet<ProductPrice>();
         }
 
         public long ProductID { get; set; }
@@ -25,8 +25,6 @@
         public string ProductDescription { get; set; }
 
         public decimal Quantity { get; set; }
-
-        public decimal UnitPrice { get; set; }
 
         public bool IsActive { get; set; }
 
@@ -49,6 +47,7 @@
 
         public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }
 
-        public virtual ICollection<PriceType> PriceTypes { get; set; }
+        //[InverseProperty("Product_ProductID")]
+        public virtual ICollection<ProductPrice> ProductPrices { get; set; }
     }
 }

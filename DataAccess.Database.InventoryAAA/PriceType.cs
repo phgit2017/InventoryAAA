@@ -6,11 +6,12 @@
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("PriceTypes")]
     public partial class PriceType
     {
         public PriceType()
         {
-            Products = new HashSet<Product>();
+            ProductPrices = new HashSet<ProductPrice>();
         }
 
         [Key]
@@ -20,7 +21,8 @@
         [Required]
         [StringLength(32)]
         public string PriceTypeName { get; set; }
-
-        public virtual ICollection<Product> Products { get; set; }
+        
+        //[InverseProperty("PriceType_PriceTypeID")]
+        public virtual ICollection<ProductPrice> ProductPrices { get; set; }
     }
 }

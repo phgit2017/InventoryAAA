@@ -33,5 +33,23 @@ namespace DataAccess.Entities.Context
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<CustomerStatus> CustomerStatus { get; set; }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PriceType>()
+                .HasMany(e => e.ProductPrices)
+                .WithRequired(e => e.PriceTypes)
+                .WillCascadeOnDelete(false);
+
+
+            modelBuilder.Entity<Product>()
+                .HasMany(e => e.ProductPrices)
+                .WithRequired(e => e.Products)
+                .WillCascadeOnDelete(false);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
     }
+
+    
 }
