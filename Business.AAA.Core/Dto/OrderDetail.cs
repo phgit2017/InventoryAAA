@@ -39,6 +39,12 @@ namespace Business.AAA.Core.Dto
     #endregion
 
     #region OrdersRequest
+    public class CorrectionOrdersRequest : BaseOrdersRequest
+    {
+        public long CorrectionOrderId { get; set; }
+        public int CorrectionOrderTypeId { get; set; }
+
+    }
     public class PurchaseOrdersRequest : BaseOrdersRequest
     {
         public long PurchaseOrderId { get; set; }
@@ -97,6 +103,12 @@ namespace Business.AAA.Core.Dto
     #endregion
 
     #region OrdersDetailsRequest
+    public class CorrectionOrderDetailsRequest : BaseOrderRequestDetails
+    {
+
+        public long CorrectionOrderId { get; set; }
+
+    }
     public class PurchaseOrderDetailsRequest : BaseOrderRequestDetails
     {
 

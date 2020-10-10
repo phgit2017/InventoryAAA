@@ -133,6 +133,10 @@ namespace Inventory_AAA.Controllers
                 {
                     orderTransactionTypeService = "SalesOrderService";
                 }
+                else if(request.OrderTransactionType == LookupKey.OrderTransactionType.CorrectionOrder)
+                {
+                    orderTransactionTypeService = "CorrectionOrderService";
+                }
 
                 #endregion
 

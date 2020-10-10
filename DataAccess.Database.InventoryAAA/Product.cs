@@ -14,6 +14,7 @@
             PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
             SalesOrderDetails = new HashSet<SalesOrderDetail>();
             ProductPrices = new HashSet<ProductPrice>();
+            CorrectionOrderDetails = new HashSet<CorrectionOrderDetail>();
         }
 
         public long ProductID { get; set; }
@@ -49,5 +50,7 @@
 
         //[InverseProperty("Product_ProductID")]
         public virtual ICollection<ProductPrice> ProductPrices { get; set; }
+
+        public virtual ICollection<CorrectionOrderDetail> CorrectionOrderDetails { get; set; }
     }
 }
