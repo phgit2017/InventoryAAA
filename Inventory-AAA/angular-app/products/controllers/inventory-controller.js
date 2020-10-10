@@ -13,17 +13,12 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.SelectedProduct = {
         ProductId: 0,
         ProductCode: "",
-        CategoryId: 1,
         ProductDescription: "",
         Quantity: 0,
+        UnitPrice: "",
         IsActive: true,
         CreatedBy: 0,
         CreatedTime: "",
-        Price: {
-            BigBuyer: 0,
-            Retailer: 0,
-            Reseller: 0,
-        }
     };
     vm.OrderRequestQuantity = 0;
     vm.OrderRequestTransactionType = 1;
@@ -42,8 +37,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.LoaderErrorMessage = '';
     vm.ManageModalShown = false;
     vm.ShowConfirmAlert = false;
-    vm.ManageBarShown = false;
-    vm.SearchProductInput = ""
+    vm.ManagerBarShown = false;
 
     // Bindable methods
     vm.Initialize = _initialize;
@@ -71,6 +65,26 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         _getInventorySummary();
     }
 
+    vm.dtInventorySummaryOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('simple_numbers')
+        .withDisplayLength(10)
+        .withDOM("<'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'p><'table-details't>>");
+
+    vm.dtInventorySummaryColumnDefs = [
+        DTColumnDefBuilder.newColumnDef(0),
+        DTColumnDefBuilder.newColumnDef(6).notSortable()
+    ];
+
+    vm.dtProductHistoryOptions = DTOptionsBuilder.newOptions()
+        .withPaginationType('simple_numbers')
+        .withDisplayLength(11)
+        .withDOM("<'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'p><'table-details't>>")
+        .withOption('order', [0, 'desc']);
+
+    DTDefaultOptions.setLoadingTemplate(
+        '<div class="loader-design"><img src="Content/assets/crescent-loader.gif" ></div>'
+    );
+
     function _toggleManageModal() {
         vm.ManageModalShown = !vm.ManageModalShown
     }
@@ -91,6 +105,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         vm.ProductDetailRequest["ProductId"] = productId;
         $rootScope.IsLoading = true;
         InventoryService.GetProductDetails(vm.ProductDetailRequest).then(
+
             function(data) {
                 setProduct(data.ProductResult);
                 vm.ProductHistory = data.InventoryDetailsResult;
@@ -111,7 +126,6 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             function(data) {
                 setProduct(data.ProductResult);
                 $rootScope.IsLoading = false;
-                vm.ManageBarShown = true;
             },
             function(error) {
                 vm.isLoading = false;
@@ -136,6 +150,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId;
             vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
             vm.OrderRequest["ProductDescription"] = vm.SelectedProduct.ProductDescription;
+            vm.OrderRequest["UnitPrice"] = parseFloat(vm.SelectedProduct.UnitPrice.toFixed(2));
             vm.OrderRequest["Stocks"] = parseInt(vm.OrderRequestQuantity !== 0 ? vm.OrderRequestQuantity : vm.SelectedProduct.Quantity);
             vm.OrderRequest["OrderTransactionType"] = isAddNew ? 0 : vm.OrderRequestTransactionType;
             vm.OrderRequest["IsActive"] = 1;
@@ -234,47 +249,27 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         vm.SelectedProduct = {
             ProductId: 0,
             ProductCode: "",
-            CategoryId: 1,
             ProductDescription: "",
             Quantity: 0,
-            IsActive: true,
-            Price: {
-                BigBuyer: 0,
-                Retailer: 0,
-                Reseller: 0,
-            }
+            UnitPrice: "",
+            IsActive: true
         };
     }
 
     function _showManageBar() {
-        vm.ManageBarShown = true;
+        vm.ManagerBarShown = true;
     }
 
     // Private Methods
 
     function setProduct(data) {
-        debugger;
         vm.SelectedProduct.ProductId = data.ProductId;
         vm.SelectedProduct.ProductCode = data.ProductCode;
         vm.SelectedProduct.ProductDescription = data.ProductDescription;
+        vm.SelectedProduct.UnitPrice = data.UnitPrice;
         vm.SelectedProduct.Quantity = data.Quantity;
-        vm.SelectedProduct.CreatedBy = data.CreatedBy;
-        vm.SelectedProduct.CreatedTime = data.CreatedDateTimeFormat
-        vm.SelectedProduct = {
-            ProductId: data.ProductId,
-            ProductCode: data.ProductCode,
-            CategoryId: 1,
-            ProductDescription: data.ProductDescription,
-            Quantity: data.Quantity,
-            IsActive: true,
-            CreatedBy: data.CreatedBy,
-            CreatedTime: data.CreatedDateTimeFormat,
-            Price: {
-                BigBuyer: data.Price.BigBuyer,
-                Retailer: data.Price.Retailer,
-                Reseller: data.Price.Reseller,
-            }
-        };
+        vm.SelectedProduct.CreatedBy = data.CreatedBy,
+            vm.SelectedProduct.CreatedTime = data.CreatedDateTimeFormat
     }
 
     function validUnitPrice() {
