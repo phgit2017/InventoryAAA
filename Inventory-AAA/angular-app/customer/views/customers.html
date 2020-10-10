@@ -1,0 +1,42 @@
+﻿<div class="d-flex flex-row" ng-init="customerCtrl.Initialize()">
+    <div style="flex: 1">
+        <div class="card">
+            <div class="card-header bg-primary">
+                <h5>ADD/EDIT CUSTOMERS</h5>
+            </div>
+            <div class="card-body">
+                <form novalidate name="userForm">
+                    <div>
+                        <span class="input-label">CUSTOMER CODE</span>
+                        <input type="text" class="form-control mb-3" ng-model="customerCtrl.SelectedCustomer.CustomerCode" disabled>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstname">First Name</label>
+                        <input type="text" name="firstName" class="form-control form-control-sm" ng-model="customerCtrl.SelectedCustomer.FirstName" id="firstname">
+                        <span ng-if="userForm.firstName.$error.required && !userForm.firstName.$pristine" class="form-validation-msg">This field is required.</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <span class="input-label required">LAST NAME</span>
+                        <span ng-if="userForm.lastName.$error.required && !userForm.lastName.$pristine" class="form-validation-msg">This field is required.</span>
+                    </div>
+                    <input type="text" name="lastName" class="form-control form-control-sm mb-3" ng-model="customerCtrl.SelectedCustomer.LastName" required id="lastName">
+
+                    <div class="d-flex justify-content-between">
+                        <span class="input-label required">ADDRESS</span>
+                        <span ng-if="userForm.userName.$error.required && !userForm.userName.$pristine" class="form-validation-msg">This field is required.</span>
+                    </div>
+                    <input type="text" name="userName" class="form-control form-control-sm mb-3" ng-model="customerCtrl.SelectedCustomer.FullAddress" required id="fullAddress">
+                </form>
+            </div>
+        </div>
+    </div>
+    <div style="flex: 4">
+        <div class="card">
+            <div class="card-header">
+                Test
+            </div>
+        </div>
+    </div>
+</div>

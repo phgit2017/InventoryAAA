@@ -54,6 +54,13 @@
   --bg-warning: #FCBF49;
 }
 
+.nav,
+.pagination,
+.carousel,
+.panel-title a {
+  cursor: pointer;
+}
+
 .body-content {
   padding-left: 15px;
   padding-right: 15px;
@@ -81,6 +88,7 @@ textarea {
 }
 
 .main-screen {
+  padding: 2rem;
   height: calc(100% - 3.5rem);
 }
 
@@ -486,6 +494,7 @@ i.login-logo {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-shadow: 6px 0px 4px rgba(0, 0, 0, 0.25);
 }
 .sidebar > div > .navbar {
   background: var(--bg-dark);
@@ -561,12 +570,9 @@ i.login-logo {
   vertical-align: middle;
   padding: 15px 30px;
   cursor: pointer;
-  margin-bottom: 2px;
 }
 .sidebar-main__nav-item:hover {
-  background: var(--bg-primary);
-  font-family: "Roboto-Bold";
-  letter-spacing: 1px;
+  background: #26816f;
 }
 
 .action-col {

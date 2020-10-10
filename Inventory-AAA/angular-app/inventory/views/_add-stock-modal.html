@@ -5,8 +5,7 @@
                 ADD PRODUCT
             </h5>
             <div class="align-self-end ml-4">
-                <button class="btn btn-sm btn-light"
-                        ng-click="inventoryCtrl.Initialize();
+                <button class="btn btn-sm btn-light" ng-click="inventoryCtrl.Initialize();
                                   inventoryCtrl.ResetAddFields();
                                   inventoryCtrl.ToggleAddStockModal();">
                     Close
@@ -16,34 +15,28 @@
         <div class="modal-body p-1">
             <div class="container-fluid mr-4 ml-4 mt-3 mb-3 p-0">
                 <span style="font-size: 0.8rem; font-weight: bold">PRODUCT CODE</span>
-                <input type="text" class="form-control"
-                       ng-model="inventoryCtrl.SelectedProduct.ProductCode">                             
-                <br />                                                                            
-                <span style="font-size: 0.8rem; font-weight: bold">PRODUCT DESCRIPTION</span>     
-                <input type="text" class="form-control"
-                       ng-model="inventoryCtrl.SelectedProduct.ProductDescription">                             
-                                                                                                  
-                <br />                                                                            
-                <span style="font-size: 0.8rem; font-weight: bold">INITIAL STOCK</span>           
-                <input type="number" class="form-control"
-                       ng-model="inventoryCtrl.OrderRequestQuantity">                             
-                                                                                                  
-                <br />                                                                            
-                <span style="font-size: 0.8rem; font-weight: bold">UNIT PRICE</span>              
-                <input type="number" class="form-control"
-                       ng-model="inventoryCtrl.SelectedProduct.UnitPrice">
+                <input type="text" class="form-control" ng-model="inventoryCtrl.SelectedProduct.ProductCode">
+                <br />
+                <span style="font-size: 0.8rem; font-weight: bold">PRODUCT DESCRIPTION</span>
+                <input type="text" class="form-control" ng-model="inventoryCtrl.SelectedProduct.ProductDescription">
+
+                <br />
+                <span style="font-size: 0.8rem; font-weight: bold">INITIAL STOCK</span>
+                <input type="number" class="form-control" ng-model="inventoryCtrl.OrderRequestQuantity">
+
+                <br />
+                <span style="font-size: 0.8rem; font-weight: bold">UNIT PRICE</span>
+                <input type="number" class="form-control" ng-model="inventoryCtrl.SelectedProduct.UnitPrice">
                 <br />
                 <div class="d-flex flex-row-reverse">
-                    <button class="btn btn-sm btn-transparent ml-2"
-                            ng-click="inventoryCtrl.SaveOrderRequest(true);">
+                    <button class="btn btn-sm btn-transparent ml-2" ng-click="inventoryCtrl.SaveOrderRequest(true);">
                         SAVE
                     </button>
-                    <button class="btn btn-sm btn-transparent btn-default"
-                            ng-click="inventoryCtrl.ResetAddFields();">
+                    <button class="btn btn-sm btn-transparent btn-default" ng-click="inventoryCtrl.ResetAddFields();">
                         CLEAR
                     </button>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 </modal-window>

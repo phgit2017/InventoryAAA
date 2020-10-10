@@ -48,7 +48,7 @@ namespace Inventory_AAA.Controllers
 
                 return Json(new
                 {
-                    isSuccess = authorizeMenuAccessResult.IsSuccess,
+                    isSuccess = true,
                     messageAlert = authorizeMenuAccessResult.MessageAlert,
                     CustomerDetailsResult = customerDetailResult
                 }, JsonRequestBehavior.AllowGet);

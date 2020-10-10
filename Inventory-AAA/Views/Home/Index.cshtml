@@ -18,7 +18,7 @@
                     <div class="sidebar-main__nav">
                         <ul class="sidebar-main__nav-list">
                             @*<li class="sidebar-main__nav-item">
-                            <span class="nav-item__img">
+                            <span class="nav-item__img">    
                                 <img src="~/Content/assets/svg/home.svg" class="img-invert" />
                             </span>
                             <span class="nav-item__label">Home</span>
@@ -29,7 +29,15 @@
                                 <span class="nav-item__img">
                                     <img src="~/Content/assets/svg/graph-up.svg" class="img-invert" />
                                 </span>
-                                <span class="nav-item__label">Inventory</span>
+                                <span class="nav-item__label">Products</span>
+                            </li>
+                            <li class="sidebar-main__nav-item"
+                                ng-class="{'active-item': $root.navItem == 'Customers'} "
+                                ng-click="loginCtrl.ChangeRoute('Customers');">
+                                <span class="nav-item__img">
+                                    <img src="~/Content/assets/svg/customers.svg" class="img-invert" />
+                                </span>
+                                <span class="nav-item__label">Customers</span>
                             </li>
                             <li class="sidebar-main__nav-item"
                                 ng-class=" {'active-item': $root.navItem == 'Users'}"

@@ -32,6 +32,14 @@
                 showNavbar: true,
                 navItem: "Inventory"
             })
+            .when("/Customers", {
+                title: "Customers",
+                templateUrl: "angular-app/customer/views/customers.html",
+                controller: "CustomersController",
+                controllerAs: "customerCtrl",
+                showNavbar: true,
+                navItem: "Customers"
+            })
             .when("/Users", {
                 title: "Users",
                 templateUrl: "angular-app/user/views/user.html",
