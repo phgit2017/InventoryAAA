@@ -18,6 +18,7 @@ namespace Business.AAA.Core.Dto
         {
             public const int PurchaseOrder = 0;
             public const int SalesOrder = 1;
+            public const int CorrectionOrder = 2;
         }
 
         public static class SessionVariables

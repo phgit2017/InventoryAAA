@@ -52,7 +52,6 @@ namespace Business.AAA.Core
                              ProductCode = det.ProductCode,
                              ProductDescription = det.ProductDescription,
                              Quantity = det.Quantity,
-                             UnitPrice = det.UnitPrice,
                              IsActive = det.IsActive,
                              CategoryId = det.CategoryID,
                              CreatedBy = det.CreatedBy,
@@ -70,11 +69,11 @@ namespace Business.AAA.Core
                          select new ProductPricesDetail()
                          {
                              ProductId = det.ProductID,
-                             ProductCode = det.Product.ProductCode,
-                             ProductDescription = det.Product.ProductDescription,
+                             ProductCode = det.Products.ProductCode,
+                             ProductDescription = det.Products.ProductDescription,
                              Price = det.Price,
                              PriceTypeId = det.PriceTypeID,
-                             PriceTypeName = det.PriceType.PriceTypeName
+                             PriceTypeName = det.PriceTypes.PriceTypeName
                          };
 
             return result;
@@ -123,7 +122,7 @@ namespace Business.AAA.Core
 
         public long SaveProductPrice(ProductPricesDetailRequest request)
         {
-            request.ProductId = 0;
+            //request.ProductId = 0;
             this.productPrice = request.DtoToEntity();
             var item = this._productPriceServices.Insert(this.productPrice);
             if (item == null)

@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryServices.cs" />
+    <Compile Include="CorrectionOrderService.cs" />
     <Compile Include="CustomerServices.cs" />
     <Compile Include="Dto\BaseDetail.cs" />
     <Compile Include="Dto\CategoryDetail.cs" />

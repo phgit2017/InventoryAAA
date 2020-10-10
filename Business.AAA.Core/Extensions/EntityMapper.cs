@@ -28,8 +28,7 @@ namespace Business.AAA.Core.Extensions
                     ModifiedTime = request.ModifiedTime,
                     ProductDescription = request.ProductDescription,
                     Quantity = request.Quantity,
-                    CategoryID = request.CategoryId,
-                    UnitPrice = request.UnitPrice
+                    CategoryID = request.CategoryId
                 };
             }
 
@@ -70,6 +69,7 @@ namespace Business.AAA.Core.Extensions
                     Quantity = request.Quantity,
                     IsActive = request.IsActive,
                     CategoryID = request.CategoryId,
+                    
                 };
             }
 
@@ -137,6 +137,53 @@ namespace Business.AAA.Core.Extensions
                     CreatedTime = request.CreatedTime,
                     ModifiedBy = request.ModifiedBy,
                     ModifiedTime = request.ModifiedTime
+                };
+            }
+
+            return entity;
+        }
+
+        public static dbentities.CorrectionOrder DtoToEntity(this CorrectionOrdersRequest request)
+        {
+            dbentities.CorrectionOrder entity = null;
+
+            if (request != null)
+            {
+                entity = new dbentities.CorrectionOrder
+                {
+                    CorrectionOrderID = request.CorrectionOrderId,
+                    OrderTypeID = request.CorrectionOrderTypeId,
+                    TotalQuantity = request.TotalQuantity,
+                    TotalAmount = request.TotalAmount,
+                    CreatedBy = request.CreatedBy,
+                    CreatedTime = request.CreatedTime,
+                    ModifiedBy = request.ModifiedBy,
+                    ModifiedTime = request.ModifiedTime
+                };
+            }
+
+            return entity;
+        }
+
+        public static dbentities.CorrectionOrderDetail DtoToEntity(this CorrectionOrderDetailsRequest request)
+        {
+            dbentities.CorrectionOrderDetail entity = null;
+
+            if (request != null)
+            {
+                entity = new dbentities.CorrectionOrderDetail
+                {
+                    CorrectionOrderID = request.CorrectionOrderId,
+                    ProductID = request.ProductId,
+                    Quantity = request.Quantity,
+                    UnitPrice = request.UnitPrice,
+                    CreatedBy = request.CreatedBy,
+                    CreatedTime = request.CreatedTime,
+                    ModifiedBy = request.ModifiedBy,
+                    ModifiedTime = request.ModifiedTime,
+                    PreviousQuantity = request.PreviousQuantity,
+                    Remarks = request.Remarks
+
                 };
             }
 

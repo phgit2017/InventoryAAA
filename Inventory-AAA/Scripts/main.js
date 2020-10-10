@@ -1,78 +1,70 @@
 ﻿var app =
     angular
-    .module("InventoryApp", ["ngRoute", "datatables", "datatables.options", "ngCookies", "ui.bootstrap"])
-    //.value('globalBaseUrl', '')
-    .value('globalBaseUrl', "http://localhost:37600/")
-    .config(function($routeProvider, $locationProvider) {
-        var globalBaseUrl = '/';
-        $locationProvider.hashPrefix('');
-        $routeProvider
-            .when("/", {
-                redirectToUrl: "/Login"
-            })
-            .when("/Home", {
-                title: "Home",
-                templateUrl: "angular-app/home/home.html",
-                controller: "HomeController",
-                controllerAs: "homeCtrl",
-                showNavbar: true
-            })
-            .when("/Login", {
-                title: "Login",
-                templateUrl: "angular-app/login/views/login.html",
-                controller: "LoginController",
-                controllerAs: "loginCtrl",
-                showNavbar: false
-            })
-            .when("/Inventory", {
-                title: "Inventory Summary",
-                templateUrl: "angular-app/inventory/views/inventory-main.html",
-                controller: "InventoryController",
-                controllerAs: "inventoryCtrl",
-                showNavbar: true,
-                navItem: "Inventory"
-            })
-            .when("/Customers", {
-                title: "Customers",
-                templateUrl: "angular-app/customer/views/customers.html",
-                controller: "CustomersController",
-                controllerAs: "customerCtrl",
-                showNavbar: true,
-                navItem: "Customers"
-            })
-            .when("/Users", {
-                title: "Users",
-                templateUrl: "angular-app/user/views/user.html",
-                controller: "UserController",
-                controllerAs: "userCtrl",
-                showNavbar: true,
-                navItem: "Users"
-            })
-            .when("/Reports", {
-                title: "Reports",
-                templateUrl: "angular-app/report/views/report.html",
-                controller: "ReportController",
-                controllerAs: "reportCtrl",
-                showNavbar: true,
-                navItem: "Reports"
-            })
-            .when("/Unauthorized", {
-                title: "Unauthorized",
-                templateUrl: "angular-app/shared/views/unauthorized.html",
-                controller: "LoginController",
-                controllerAs: "loginCtrl",
-                showNavbar: false,
-            })
-            .otherwise({
-                redirectTo: "/"
-            })
-    })
-    .run(['$rootScope', '$location', '$cookies', function($rootScope, $location, $cookies) {
-        $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
-            $rootScope.title = current.$$route.title;
-            $rootScope.showNavbar = current.$$route.showNavbar;
-            $rootScope.navItem = current.$$route.navItem;
-            $rootScope.IsLoading = false;
+        .module("InventoryApp", ["ngRoute", "datatables", "datatables.options", "ngCookies"])
+        .value('globalBaseUrl', '')
+        //.value('globalBaseUrl', '/Inventory-AAA')
+        .config(function ($routeProvider, $locationProvider) {
+            var globalBaseUrl = '/';
+            $locationProvider.hashPrefix('');
+            $routeProvider
+                .when("/", {
+                    redirectToUrl: "/Login"
+                })
+                .when("/Home", {
+                    title: "Home",
+                    templateUrl: "angular-app/home/home.html",
+                    controller: "HomeController",
+                    controllerAs: "homeCtrl",
+                    showNavbar: true
+                })
+                .when("/Login", {
+                    title: "Login",
+                    templateUrl: "angular-app/login/views/login.html",
+                    controller: "LoginController",
+                    controllerAs: "loginCtrl",
+                    showNavbar: false
+                })
+                .when("/Inventory", {
+                    title: "Inventory Summary",
+                    templateUrl: "angular-app/inventory/views/inventory-main.html",
+                    controller: "InventoryController",
+                    controllerAs: "inventoryCtrl",
+                    showNavbar: true,
+                    navItem: "Inventory"
+                })
+                .when("/Users", {
+                    title: "Users",
+                    templateUrl: "angular-app/user/views/user.html",
+                    controller: "UserController",
+                    controllerAs: "userCtrl",
+                    showNavbar: true,
+                    navItem: "Users"
+                })
+                .when("/Reports", {
+                    title: "Reports",
+                    templateUrl: "angular-app/report/views/report.html",
+                    controller: "ReportController",
+                    controllerAs: "reportCtrl",
+                    showNavbar: true,
+                    navItem: "Reports"
+                })
+                .when("/Unauthorized", {
+                    title: "Unauthorized",
+                    templateUrl: "angular-app/shared/views/unauthorized.html",
+                    controller: "LoginController",
+                    controllerAs: "loginCtrl",
+                    showNavbar: false,
+                })
+                .otherwise({
+                    redirectTo: "/"
+                })
+        })
+        .run(['$rootScope', '$location', '$cookies', function ($rootScope, $location, $cookies) {
+            $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+                $rootScope.title = current.$$route.title;
+                $rootScope.showNavbar = current.$$route.showNavbar;
+                $rootScope.navItem = current.$$route.navItem;
+                $rootScope.IsLoading = false;
 
             $rootScope.FullName = $cookies.get('UserFullName');
             $rootScope.RoleName = $cookies.get('UserRoleName');

@@ -9,6 +9,11 @@ namespace Business.AAA.Core.Dto
 {
     public class ProductDetail : BaseDetail
     {
+        public ProductDetail()
+        {
+            ProductPrices = new List<ProductPricesDetail>();
+        }
+
         public long ProductId { get; set; }
 
         [StringLength(32)]
@@ -19,7 +24,7 @@ namespace Business.AAA.Core.Dto
 
         public decimal Quantity { get; set; }
 
-        public decimal UnitPrice { get; set; }
+        public List<ProductPricesDetail> ProductPrices { get; set; }
 
         public bool IsActive { get; set; }
 
@@ -72,8 +77,6 @@ namespace Business.AAA.Core.Dto
         public decimal? Quantity { get; set; }
 
         public long? CategoryId { get; set; }
-
-        public decimal? UnitPrice { get; set; }
 
         public bool? IsActive { get; set; }
 

@@ -40,7 +40,7 @@ namespace Business.AAA.Core
 
             foreach (var orderDetail in orderTransactionDetailRequest)
             {
-                totalAmount += totalAmount + orderDetail.UnitPrice;
+                //totalAmount += totalAmount + orderDetail.UnitPrice;
                 totalQuantity += totalQuantity + orderDetail.Quantity;
             }
 
@@ -112,7 +112,7 @@ namespace Business.AAA.Core
                     ProductCode = orderDetail.ProductCode,
                     ProductDescription = orderDetail.ProductDescription,
                     Quantity = orderDetail.Quantity,
-                    UnitPrice = orderDetail.UnitPrice,
+                    //UnitPrice = orderDetail.UnitPrice,
                     IsActive = orderDetail.IsActive,
                     CreatedBy = orderDetail.CreatedBy,
                     CategoryId = orderDetail.CategoryId,
@@ -128,10 +128,11 @@ namespace Business.AAA.Core
                     #region Product Price
                     foreach (var productPrice in orderDetail.ProductPrices)
                     {
+                        productPrice.ProductId = productId;
                         _productServices.SaveProductPrice(productPrice);
                     }
                     #endregion
-                    
+
                 }
                 else
                 {
@@ -143,7 +144,7 @@ namespace Business.AAA.Core
                         ProductCode = productDetailResult.ProductCode,
                         ProductDescription = productDetailResult.ProductDescription,
                         Quantity = (productDetailResult.Quantity + orderDetail.Quantity),
-                        UnitPrice = productDetailResult.UnitPrice,
+                        //UnitPrice = productDetailResult.UnitPrice,
                         IsActive = productDetailResult.IsActive,
                         CategoryId = productDetailResult.CategoryId,
                         CreatedBy = productDetailResult.CreatedBy,
@@ -181,7 +182,7 @@ namespace Business.AAA.Core
                     ProductDescription = productDetailRequest.ProductDescription,
                     Quantity = productDetailRequest.Quantity,
                     CategoryId = productDetailRequest.CategoryId,
-                    UnitPrice = productDetailRequest.UnitPrice,
+                    //UnitPrice = productDetailRequest.UnitPrice,
                     IsActive = productDetailRequest.IsActive,
                     CreatedBy = orderDetail.CreatedBy,
                     CreatedTime = DateTime.Now
@@ -201,7 +202,7 @@ namespace Business.AAA.Core
                     PurchaseOrderId = purchaseOrderId,
                     ProductId = productId,
                     Quantity = orderDetail.Quantity,
-                    UnitPrice = orderDetail.UnitPrice,
+                    UnitPrice = 0,
                     CreatedBy = orderDetail.CreatedBy,
                     CreatedTime = DateTime.Now,
                     ModifiedBy = null,

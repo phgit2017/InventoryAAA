@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Categories.cs" />
+    <Compile Include="CorrectionOrder.cs" />
+    <Compile Include="CorrectionOrderDetail.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerStatus.cs" />
     <Compile Include="MenuDetail.cs" />

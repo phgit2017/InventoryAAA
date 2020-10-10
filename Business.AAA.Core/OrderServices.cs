@@ -18,12 +18,16 @@ namespace Business.AAA.Core
         IInventoryAAARepository<dbentities.PurchaseOrderDetail> _purchaseOrderDetailServices;
         IInventoryAAARepository<dbentities.SalesOrder> _salesOrderServices;
         IInventoryAAARepository<dbentities.SalesOrderDetail> _salesOrderDetailServices;
+        IInventoryAAARepository<dbentities.CorrectionOrder> _correctionOrderServices;
+        IInventoryAAARepository<dbentities.CorrectionOrderDetail> _correctionOrderDetailServices;
 
         IProductServices _productServices;
         IOrderTypeServices _orderTypeServices;
 
         private dbentities.PurchaseOrder purchaseOrder;
         private dbentities.PurchaseOrderDetail purchaseOrderDetail;
+        private dbentities.CorrectionOrder correctionOrder;
+        private dbentities.CorrectionOrderDetail correctionOrderDetail;
         private dbentities.SalesOrder salesOrder;
         private dbentities.SalesOrderDetail salesOrderDetail;
 
@@ -31,12 +35,17 @@ namespace Business.AAA.Core
         IInventoryAAARepository<dbentities.PurchaseOrderDetail> purchaseOrderDetailServices,
         IInventoryAAARepository<dbentities.SalesOrder> salesOrderServices,
         IInventoryAAARepository<dbentities.SalesOrderDetail> salesOrderDetailServices,
+        IInventoryAAARepository<dbentities.CorrectionOrder> correctionOrderServices,
+        IInventoryAAARepository<dbentities.CorrectionOrderDetail> correctionOrderDetailServices,
 
         IProductServices productServices,
         IOrderTypeServices orderTypeServices)
         {
             this._purchaseOrderServices = purchaseOrderServices;
             this._purchaseOrderDetailServices = purchaseOrderDetailServices;
+
+            this._correctionOrderServices = correctionOrderServices;
+            this._correctionOrderDetailServices = correctionOrderDetailServices;
 
             this._salesOrderServices = salesOrderServices;
             this._salesOrderDetailServices = salesOrderDetailServices;
@@ -48,6 +57,8 @@ namespace Business.AAA.Core
             this.purchaseOrderDetail = new dbentities.PurchaseOrderDetail();
             this.salesOrder = new dbentities.SalesOrder();
             this.salesOrderDetail = new dbentities.SalesOrderDetail();
+            this.correctionOrder = new dbentities.CorrectionOrder();
+            this.correctionOrderDetail = new dbentities.CorrectionOrderDetail();
         }
     }
 
@@ -196,6 +207,32 @@ namespace Business.AAA.Core
             }
 
             return item.SalesOrderID;
+        }
+
+
+        public long SaveCorrectionOrder(CorrectionOrdersRequest request)
+        {
+            request.CorrectionOrderId = 0;
+            this.correctionOrder = request.DtoToEntity();
+            var item = this._correctionOrderServices.Insert(this.correctionOrder);
+            if (item == null)
+            {
+                return 0;
+            }
+
+            return item.CorrectionOrderID;
+        }
+
+        public long SaveCorrectionOrderDetails(CorrectionOrderDetailsRequest request)
+        {
+            this.correctionOrderDetail = request.DtoToEntity();
+            var item = this._correctionOrderDetailServices.Insert(this.correctionOrderDetail);
+            if (item == null)
+            {
+                return 0;
+            }
+
+            return item.CorrectionOrderID;
         }
 
     }

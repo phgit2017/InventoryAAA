@@ -9,80 +9,136 @@ using Business.AAA.Core.Dto;
 using Business.AAA.Core.Interface;
 using dbentities = DataAccess.Database.InventoryAAA;
 using DataAccess.Repository.InventoryAAA.Interface;
+using Infrastructure.Utilities;
 
 namespace Business.AAA.Core
 {
-    public partial class SalesOrderService
+    public partial class CorrectionOrderService
     {
         IProductServices _productServices;
         IOrderServices _orderServices;
 
-        public SalesOrderService(
+        public CorrectionOrderService(
         IProductServices productServices,
         IOrderServices orderServices)
         {
             this._productServices = productServices;
             this._orderServices = orderServices;
         }
+
     }
 
-    public partial class SalesOrderService : IOrderTransactionalServices
+    public partial class CorrectionOrderService : IOrderTransactionalServices
     {
         public long UpdateOrderTransaction(OrderTransactionRequest orderTransactionRequest,
             List<ProductDetailRequest> orderTransactionDetailRequest)
         {
             decimal totalAmount = 0.00m, totalQuantity = 0.00m;
-            long salesOrderId = 0, successReturn = 0;
-
+            long correctionOrderId = 0, successReturn = 0;
+            ProductDetail productDetailResult = new ProductDetail();
 
             foreach (var orderDetail in orderTransactionDetailRequest)
             {
-                totalAmount += totalAmount + orderDetail.UnitPrice;
+                //totalAmount += totalAmount + orderDetail.UnitPrice;
                 totalQuantity += totalQuantity + orderDetail.Quantity;
             }
 
             orderTransactionRequest.TotalQuantity = totalQuantity;
             orderTransactionRequest.TotalAmount = (totalAmount * totalQuantity);
 
-            #region Sales Order
-            var salesOrderRequest = new SalesOrdersRequest()
+            #region Validate if Product Code is existing
+
+            foreach (var orderDetail in orderTransactionDetailRequest)
             {
-                SalesOrderId = 0,
-                SalesOrderTypeId = LookupKey.OrderType.Single,
+
+                var codeProductDetailResult = _productServices.GetAll().Where(p => p.ProductCode == orderDetail.ProductCode
+                                                                            && p.IsActive
+                                                                            && p.ProductId != orderDetail.ProductId).FirstOrDefault();
+
+                #region Validate same product code
+                if (!codeProductDetailResult.IsNull())
+                {
+                    return successReturn = -100;
+                }
+                #endregion
+
+
+            }
+
+            #endregion
+
+            #region Correction Order
+            var correctionOrdersRequest = new CorrectionOrdersRequest()
+            {
+                CorrectionOrderId = 0,
+                CorrectionOrderTypeId = LookupKey.OrderType.Single,
                 TotalAmount = orderTransactionRequest.TotalAmount,
                 TotalQuantity = orderTransactionRequest.TotalQuantity,
                 CreatedBy = orderTransactionRequest.CreatedBy,
                 CreatedTime = DateTime.Now
             };
 
-            salesOrderId = _orderServices.SaveSalesOrder(salesOrderRequest);
+            correctionOrderId = _orderServices.SaveCorrectionOrder(correctionOrdersRequest);
 
-            if (salesOrderId <= 0)
+            if (correctionOrderId <= 0)
             {
                 return successReturn = 1;
             }
             #endregion
 
+
             foreach (var orderDetail in orderTransactionDetailRequest)
             {
-                var productDetailResult = _productServices.GetAll().Where(p => p.ProductId == orderDetail.ProductId).FirstOrDefault();
+                long productId = 0;
 
                 #region Product
                 var productDetailRequest = new ProductDetailRequest()
                 {
+                    ProductId = orderDetail.ProductId,
+                    ProductCode = orderDetail.ProductCode,
+                    ProductDescription = orderDetail.ProductDescription,
+                    Quantity = orderDetail.Quantity,
+                    //UnitPrice = orderDetail.UnitPrice,
+                    IsActive = orderDetail.IsActive,
+                    CreatedBy = orderDetail.CreatedBy,
+                    CategoryId = orderDetail.CategoryId,
+                    CreatedTime = DateTime.Now,
+                    ModifiedBy = null,
+                    ModifiedTime = null
+                };
+
+                productDetailResult = _productServices.GetAll().Where(p => p.ProductId == orderDetail.ProductId).FirstOrDefault();
+
+                productDetailRequest = new ProductDetailRequest()
+                {
                     ProductId = productDetailResult.ProductId,
                     ProductCode = productDetailResult.ProductCode,
                     ProductDescription = productDetailResult.ProductDescription,
-                    Quantity = (productDetailResult.Quantity - orderDetail.Quantity),
+                    Quantity =  orderDetail.Quantity,
+                    //UnitPrice = productDetailResult.UnitPrice,
                     IsActive = productDetailResult.IsActive,
+                    CategoryId = productDetailResult.CategoryId,
                     CreatedBy = productDetailResult.CreatedBy,
                     CreatedTime = productDetailResult.CreatedTime,
                     ModifiedBy = orderDetail.CreatedBy,
                     ModifiedTime = DateTime.Now
                 };
-                var isProductUpdated = _productServices.UpdateDetails(productDetailRequest);
 
-                if (!isProductUpdated)
+
+
+                _productServices.UpdateDetails(productDetailRequest);
+                productId = productDetailResult.ProductId;
+
+                #region Product Price
+                foreach (var productPrice in orderDetail.ProductPrices)
+                {
+                    _productServices.UpdateProductPrice(productPrice);
+                }
+                #endregion
+
+
+
+                if (productId <= 0)
                 {
                     return successReturn = 2;
                 }
@@ -92,10 +148,11 @@ namespace Business.AAA.Core
                 var productLogDetailRequest = new ProductLogDetailRequest()
                 {
                     ProductLogsId = 0,
-                    ProductId = orderDetail.ProductId,
+                    ProductId = productId,
                     ProductCode = productDetailRequest.ProductCode,
                     ProductDescription = productDetailRequest.ProductDescription,
                     Quantity = productDetailRequest.Quantity,
+                    CategoryId = productDetailRequest.CategoryId,
                     //UnitPrice = productDetailRequest.UnitPrice,
                     IsActive = productDetailRequest.IsActive,
                     CreatedBy = orderDetail.CreatedBy,
@@ -110,13 +167,13 @@ namespace Business.AAA.Core
                 }
                 #endregion
 
-                #region Sales Order Details
-                SalesOrderDetailsRequest salesOrderDetailsRequest = new SalesOrderDetailsRequest()
+                #region Correction Order Details
+                CorrectionOrderDetailsRequest correctionOrderDetailsRequest = new CorrectionOrderDetailsRequest()
                 {
-                    SalesOrderId = salesOrderId,
-                    ProductId = productDetailResult.ProductId,
+                    CorrectionOrderId = correctionOrderId,
+                    ProductId = productId,
                     Quantity = orderDetail.Quantity,
-                    UnitPrice = orderDetail.UnitPrice,
+                    UnitPrice = 0,
                     CreatedBy = orderDetail.CreatedBy,
                     CreatedTime = DateTime.Now,
                     ModifiedBy = null,
@@ -125,14 +182,16 @@ namespace Business.AAA.Core
                     Remarks = orderDetail.Remarks
                 };
 
-                var salesOrderDetailId = _orderServices.SaveSalesOrderDetails(salesOrderDetailsRequest);
+                var correctionOrderDetailId = _orderServices.SaveCorrectionOrderDetails(correctionOrderDetailsRequest);
 
-                if (salesOrderDetailId <= 0)
+                if (correctionOrderDetailId <= 0)
                 {
                     return successReturn = 4;
                 }
                 #endregion
             }
+
+            
             return successReturn;
         }
     }

@@ -12,6 +12,7 @@
         {
             PurchaseOrders = new HashSet<PurchaseOrder>();
             SalesOrders = new HashSet<SalesOrder>();
+            CorrectionOrders = new HashSet<CorrectionOrder>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -24,6 +25,8 @@
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
 
         public virtual ICollection<SalesOrder> SalesOrders { get; set; }
+
+        public virtual ICollection<CorrectionOrder> CorrectionOrders { get; set; }
     }
 
 }

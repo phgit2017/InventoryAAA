@@ -79,6 +79,7 @@ namespace Inventory_AAA.Controllers
 
             //Product Details
             var productResult = _productServices.GetAll().Where(p => p.ProductId == request.ProductId).FirstOrDefault();
+            productResult.ProductPrices = _productServices.GetAllProductPrices().Where(m => m.ProductId == request.ProductId).ToList();
 
             //Purchase order and Sales order Details
             var inventoryDetailsResult = _productServices.RetrieveInventoryDetails(request);
@@ -132,6 +133,10 @@ namespace Inventory_AAA.Controllers
                 {
                     orderTransactionTypeService = "SalesOrderService";
                 }
+                else if(request.OrderTransactionType == LookupKey.OrderTransactionType.CorrectionOrder)
+                {
+                    orderTransactionTypeService = "CorrectionOrderService";
+                }
 
                 #endregion
 
@@ -145,7 +150,7 @@ namespace Inventory_AAA.Controllers
                     ProductCode = request.ProductCode,
                     ProductDescription = request.ProductDescription,
                     Quantity = request.Stocks,
-                    UnitPrice = request.UnitPrice,
+                    
                     CategoryId = request.CategoryId,
                     IsActive = request.IsActive,
                     CreatedBy = currentUserId,
@@ -228,6 +233,13 @@ namespace Inventory_AAA.Controllers
                 return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
             }
 
+            #region Product Price
+            foreach (var productPrice in request.ProductPrices)
+            {
+                _productServices.UpdateProductPrice(productPrice);
+            }
+            #endregion
+
             var productLogDetailRequest = new ProductLogDetailRequest()
             {
                 ProductLogsId = 0,
@@ -235,7 +247,7 @@ namespace Inventory_AAA.Controllers
                 ProductCode = request.ProductCode,
                 ProductDescription = request.ProductDescription,
                 Quantity = request.Quantity,
-                UnitPrice = request.UnitPrice,
+                //UnitPrice = request.UnitPrice,
                 IsActive = request.IsActive,
                 CreatedBy = request.ModifiedBy,
                 CreatedTime = DateTime.Now,

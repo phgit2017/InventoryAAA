@@ -20,6 +20,10 @@ namespace Business.AAA.Core.Interface
 
         long SaveSalesOrder(SalesOrdersRequest request);
         long SaveSalesOrderDetails(SalesOrderDetailsRequest request);
-        
+
+        long SaveCorrectionOrder(CorrectionOrdersRequest request);
+        long SaveCorrectionOrderDetails(CorrectionOrderDetailsRequest request);
+
+
     }
 }
