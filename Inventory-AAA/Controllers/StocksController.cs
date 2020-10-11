@@ -156,6 +156,9 @@ namespace Inventory_AAA.Controllers
                     CreatedBy = currentUserId,
                     Remarks = request.Remarks,
                     ProductPrices = request.ProductPrices,
+                    RetailerPrice = request.RetailerPrice,
+                    ResellerPrice = request.ResellerPrice,
+                    BigBuyerPrice = request.BigBuyerPrice,
 
                 });
                 var type = Type.GetType(string.Format("{0}.{1}, {0}", "Business.AAA.Core", orderTransactionTypeService));

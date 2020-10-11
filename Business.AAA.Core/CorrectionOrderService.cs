@@ -130,9 +130,31 @@ namespace Business.AAA.Core
                 productId = productDetailResult.ProductId;
 
                 #region Product Price
-                foreach (var productPrice in orderDetail.ProductPrices)
+                for (int i = 1; i <= 3; i++)
                 {
-                    _productServices.UpdateProductPrice(productPrice);
+                    var price = 0.0m;
+                    switch (i)
+                    {
+                        case 1:
+                            price = orderDetail.BigBuyerPrice;
+                            break;
+                        case 2:
+                            price = orderDetail.ResellerPrice;
+                            break;
+                        case 3:
+                            price = orderDetail.RetailerPrice;
+                            break;
+                        default:
+                            price = 0;
+                            break;
+                    }
+                    ProductPricesDetailRequest productPricesDetailRequest = new ProductPricesDetailRequest()
+                    {
+                        ProductId = productId,
+                        PriceTypeId = i,
+                        Price = price
+                    };
+                    _productServices.SaveProductPrice(productPricesDetailRequest);
                 }
                 #endregion
 

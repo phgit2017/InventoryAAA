@@ -41,6 +41,10 @@ namespace Business.AAA.Core.Dto
 
         public List<ProductPricesDetailRequest> ProductPrices { get; set; }
 
+        public decimal RetailerPrice { get; set; } = 0;
+        public decimal ResellerPrice { get; set; } = 0;
+        public decimal BigBuyerPrice { get; set; } = 0;
+
     }
 
     public class OrderTransactionRequest : BaseDetail
@@ -52,6 +56,8 @@ namespace Business.AAA.Core.Dto
         public decimal TotalAmount { get; set; }
 
         public int OrderTypeId { get; set; }
+
+        public long CustomerId { get; set; }
     }
 
     public class OrderTransactionDetailRequest : BaseDetail

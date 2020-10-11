@@ -203,25 +203,26 @@ namespace Inventory_AAA.Controllers
 
                 if (categoryIdResult == -100)
                 {
-                    return Json(new { isSucess = isSucess, messageAlert = Messages.CategoryNameValidation }, JsonRequestBehavior.AllowGet);
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.CategoryNameValidation, CategoryId = categoryIdResult }, JsonRequestBehavior.AllowGet);
                 }
                 if (categoryIdResult == 0)
                 {
-                    return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError,CategoryId = categoryIdResult }, JsonRequestBehavior.AllowGet);
                 }
 
                 isSucess = true;
                 var response = new
                 {
                     isSuccess = isSucess,
-                    messageAlert = messageAlert
+                    messageAlert = messageAlert,
+                    CategoryId = categoryIdResult
                 };
 
                 return Json(response, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing, CategoryId = categoryIdResult }, JsonRequestBehavior.AllowGet);
             }
 
         }

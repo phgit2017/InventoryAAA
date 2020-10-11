@@ -60,6 +60,10 @@ namespace Business.AAA.Core.Dto
         public string Remarks { get; set; } = string.Empty;
 
         public List<ProductPricesDetailRequest> ProductPrices { get; set; }
+
+        public decimal RetailerPrice { get; set; } = 0;
+        public decimal ResellerPrice { get; set; } = 0;
+        public decimal BigBuyerPrice { get; set; } = 0;
     }
     
     public class ProductLogDetailRequest : BaseDetail
