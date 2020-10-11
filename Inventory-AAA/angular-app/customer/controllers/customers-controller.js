@@ -7,7 +7,7 @@ CustomersController.$inject = ['$scope', '$rootScope', 'CustomerService', 'DTOpt
 function CustomersController($scope, $rootScope, CustomerService, DTOptionsBuilder, DTColumnDefBuilder, QuickAlert) {
 
     var vm = this,
-        controllerName = 'customerCtrl';
+        controllerName = 'customersCtrl';
 
     vm.dtUserListOptions = "";
     vm.dtUserListColumnDefs = "";
@@ -39,7 +39,6 @@ function CustomersController($scope, $rootScope, CustomerService, DTOptionsBuild
         CustomerService.GetCustomerList().then(
             function(data) {
                 vm.CustomerList = data.CustomerDetailsResult;
-                console.log(vm.CustomerList);
                 vm.CustomerListLoading = false;
                 $rootScope.IsLoading = false;
             },
@@ -49,13 +48,4 @@ function CustomersController($scope, $rootScope, CustomerService, DTOptionsBuild
             }
         );
     }
-
-    vm.dtUserListOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('simple_numbers')
-        .withDisplayLength(10)
-        .withDOM("<'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'p><'table-details't>>");
-
-    vm.dtUserListColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(5).notSortable(),
-    ];
 }

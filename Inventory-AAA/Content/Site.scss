@@ -8,6 +8,12 @@ body {
     font-family: 'Roboto-Regular' !important;
 }
 
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+    /* make scrollbar transparent */
+}
+
 
 /* Set padding to keep content from hitting the edges */
 
@@ -37,6 +43,21 @@ body {
 @font-face {
     font-family: 'Roboto-Light';
     src: url('fonts/Roboto-Light.ttf');
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('fonts/Lato-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Lato-Light';
+    src: url('fonts/Lato-Light.ttf');
+}
+
+@font-face {
+    font-family: 'Lato-Bold';
+    src: url('fonts/Lato-Bold.ttf');
 }
 
 @keyframes fadeIn {
@@ -118,6 +139,7 @@ textarea {
     .content-screen {
         display: flex;
         height: calc(100vh - 3rem) !important;
+        width: 100%;
     }
 }
 
@@ -142,6 +164,29 @@ textarea {
     &+.card {
         margin-left: 0;
     }
+    &.card-wipe {
+        overflow-x: hidden;
+        .card-body-wipe {
+            width: calc(200% + 2rem);
+            display: flex;
+            white-space: nowrap;
+            overflow-x: hidden;
+            position: relative;
+            left: calc(50% + 1rem);
+            transition: 500ms ease-in-out;
+            .wipe-child {
+                width: calc(100% + 1rem);
+                position: relative;
+                display: inline-block;
+                &.main-child {
+                    margin-right: 2rem;
+                }
+            }
+            &.wiped {
+                left: calc(-50% - 1rem);
+            }
+        }
+    }
 }
 
 .bar {
@@ -149,7 +194,7 @@ textarea {
     -moz-box-shadow: inset 0 0 0.25rem #aaa;
     -webkit-box-shadow: inset 0 0 0.25rem #aaa;
     box-shadow: inset 0 0 0.25rem #aaa;
-    background: #eee;
+    background: #ddd;
     height: 100%;
     color: #333 !important;
     border: none;
@@ -157,6 +202,7 @@ textarea {
     flex: 0;
     display: none;
     transition: 2s ease;
+    overflow-y: scroll;
     &.shown {
         display: flex;
         flex: 1;
@@ -170,12 +216,12 @@ textarea {
             justify-content: center;
             padding: 1rem;
             font-size: 0.8rem;
-            background: #ccc !important;
+            background: #bbb !important;
             cursor: pointer;
             font-weight: bold;
             letter-spacing: 1px;
             &.active {
-                background: #eee !important;
+                background: #ddd !important;
                 box-shadow: none;
                 &:last-child {
                     -moz-box-shadow: inset -7px 0 9px 0.25rem #aaa;
@@ -237,10 +283,6 @@ textarea {
             margin-right: 0.5rem;
         }
     }
-}
-
-.form-control.ng-pristine {
-    border: 1px solid #A8A8A8 !important;
 }
 
 .dataTables_filter {
@@ -361,6 +403,7 @@ textarea {
 }
 
 table {
+    font-family: 'Lato' !important;
     border-spacing: 0 0.5rem !important;
     border-collapse: separate;
     tr {
@@ -377,6 +420,7 @@ table {
         td {
             background: #fefefe;
             box-shadow: 4px 2px 5px var(--shadow-color);
+            padding: 1rem !important;
             &:first-child {
                 border-left-style: solid;
                 border-top-left-radius: 5px;
@@ -396,6 +440,18 @@ table {
     flex-direction: column;
 }
 
+.custom-select {
+    font-size: 0.9rem;
+    &:active,
+    &:focus {
+        border: 2px solid $bg-primary !important;
+        box-shadow: none !important;
+        &.ng-invalid:not(.ng-pristine) {
+            border: 2px solid var(--bg-danger) !important;
+        }
+    }
+}
+
 .form-control {
     width: 100%;
     padding: 0.5rem 0.75rem;
@@ -405,8 +461,6 @@ table {
     color: #495057;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #A8A8A8;
-    border-radius: 0.5rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     flex: 1;
     &:active,
@@ -419,6 +473,9 @@ table {
     }
     &.ng-invalid {
         border: 1px solid var(--bg-danger);
+    }
+    &.ng-pristine {
+        border: 1px solid #ced4da !important;
     }
     &.inline {
         border-radius: 0;
@@ -574,9 +631,26 @@ h6 {
             height: 1.25rem;
         }
     }
-    &.btn-primary {
+    &.btn-icon {
+        min-width: 1px !important;
+        border-radius: 50%;
+        display: flex;
+    }
+    &.btn-radio {
+        flex: 1;
+        padding: 0.5rem 1rem;
+        background: none;
+        border-color: var(--bg-primary);
+        color: var(--bg-primary);
+        &:hover {
+            background: #eee;
+        }
+    }
+    &.btn-primary,
+    &.btn-radio.active {
         background-color: var(--bg-primary);
         border-color: var(--bg-primary);
+        color: #fff;
     }
     &.btn-default {
         background-color: var(--bg-default);
@@ -600,6 +674,9 @@ h6 {
         background-color: var(--bg-muted);
         border-color: var(--bg-muted);
         color: var(--bg-primary);
+        &:hover {
+            border: 1px solid transparent;
+        }
     }
     &.btn-alert {
         min-width: 5rem !important;
@@ -607,6 +684,10 @@ h6 {
     &+.btn {
         margin-left: 0.5rem;
     }
+}
+
+small {
+    color: #777 !important;
 }
 
 .input-group-text {

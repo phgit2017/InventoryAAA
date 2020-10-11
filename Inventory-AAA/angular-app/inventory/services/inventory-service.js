@@ -68,7 +68,7 @@ function InventoryService($http, $q, $location, globalBaseUrl) {
         return defer.promise;
     }
 
-    function _updateProductDetails(data, prices) {
+    function _updateProductDetails(data) {
         var defer = $q.defer(),
             url = baseUrl + '/UpdateProductDetails';
         $http.post(url, data)

@@ -2,11 +2,12 @@
     .module('InventoryApp')
     .controller('UserController', UserController);
 
-UserController.$inject = ['UserService', 'DTOptionsBuilder', 'DTColumnDefBuilder' ,'$scope', '$rootScope', 'QuickAlert'];
+UserController.$inject = ['UserService', 'DTOptionsBuilder', 'DTColumnDefBuilder', '$scope', '$rootScope', 'QuickAlert'];
 
 function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scope, $rootScope, QuickAlert) {
 
-    var vm = this, controllerName = 'userCtrl';
+    var vm = this,
+        controllerName = 'userCtrl';
 
     vm.dtUserListOptions = "";
     vm.UserListLoading = true;
@@ -25,6 +26,12 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
         CreatedTime: ""
     };
     vm.ShowConfirmAlert = false;
+    vm.SearchUserInput = "";
+
+    vm.filteredUsers = [];
+    vm.currentPage = 1;
+    vm.numPerPage = 9;
+    vm.maxSize = 5;
 
     vm.Initialize = _initialize;
     vm.ClearUserDetails = _clearUserDetails;
@@ -49,11 +56,13 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
     function _getUserList() {
         $rootScope.IsLoading = true;
         UserService.GetUserList().then(
-            function (data) {
+            function(data) {
                 vm.UserList = data.UserDetailsResult;
+                vm.FilterUsers();
                 vm.UserListLoading = false;
                 $rootScope.IsLoading = false;
-            }, function (error) {
+            },
+            function(error) {
                 alert(error);
                 $rootScope.IsLoading = false;
             }
@@ -80,7 +89,7 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
     function _addNewUser() {
         $rootScope.IsLoading = true;
         UserService.AddNewUser(vm.SelectedUser).then(
-            function (data) {
+            function(data) {
                 if (data.isSuccess) {
                     QuickAlert.Show({
                         type: 'success',
@@ -96,7 +105,8 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
                     });
                     $rootScope.IsLoading = false;
                 }
-            }, function (err) {
+            },
+            function(err) {
                 QuickAlert.Show({
                     type: 'error',
                     message: err
@@ -107,7 +117,7 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
 
     function _updateUser(isDelete = false) {
         UserService.UpdateUser(vm.SelectedUser).then(
-            function (data) {
+            function(data) {
                 if (data.isSuccess) {
                     QuickAlert.Show({
                         type: 'success',
@@ -121,7 +131,8 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
                         message: data.messageAlert
                     });
                 }
-            }, function (err) {
+            },
+            function(err) {
                 QuickAlert.Show({
                     type: 'error',
                     message: err
@@ -131,7 +142,6 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
     }
 
     function _selectUser(data) {
-        debugger;
         vm.SelectedUser = {
             UserId: data.UserId,
             FirstName: data.FirstName,
@@ -152,7 +162,7 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
     }
 
     function ValidUserDetails() {
-        if (isNullOrEmpty(vm.SelectedUser.FirstName) || 
+        if (isNullOrEmpty(vm.SelectedUser.FirstName) ||
             isNullOrEmpty(vm.SelectedUser.LastName) ||
             isNullOrEmpty(vm.SelectedUser.UserName) ||
             isNullOrEmpty(vm.SelectedUser.Password)) {
@@ -182,5 +192,12 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
         } else {
             return false;
         }
+    }
+
+    vm.FilterUsers = function() {
+        var begin = ((vm.currentPage - 1) * vm.numPerPage),
+            end = begin + vm.numPerPage;
+
+        vm.filteredUsers = vm.UserList.slice(begin, end);
     }
 }

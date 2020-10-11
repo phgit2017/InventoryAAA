@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('InventoryController', InventoryController);
 
-InventoryController.$inject = ['InventoryService', 'DTOptionsBuilder', 'DTDefaultOptions', '$scope', 'DTColumnDefBuilder', '$rootScope', 'QuickAlert'];
+InventoryController.$inject = ['InventoryService', 'MaintenanceService', '$scope', '$rootScope', 'QuickAlert'];
 
-function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOptions, $scope, DTColumnDefBuilder, $rootScope, QuickAlert) {
+function InventoryController(InventoryService, MaintenanceService, $scope, $rootScope, QuickAlert) {
     var vm = this,
         controllerName = 'inventoryCtrl';
 
@@ -13,17 +13,15 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.SelectedProduct = {
         ProductId: 0,
         ProductCode: "",
-        CategoryId: 1,
+        CategoryId: 0,
         ProductDescription: "",
         Quantity: 0,
         IsActive: true,
         CreatedBy: 0,
         CreatedTime: "",
-        Price: {
-            BigBuyer: 0,
-            Retailer: 0,
-            Reseller: 0,
-        },
+        BigBuyerPrice: 0,
+        RetailerPrice: 0,
+        ResellerPrice: 0,
         ProductPrices: []
     };
 
@@ -37,8 +35,9 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.ProductDetailRequest = {};
     vm.ProductHistory = {};
     vm.OrderRequestRemarks = null;
-
     vm.CriticalStock = 100;
+    vm.CategoryList = [];
+    vm.NewCategoryName = "";
 
     // Misc Items
     vm.dtInventorySummaryOptions = "";
@@ -50,6 +49,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.ShowConfirmAlert = false;
     vm.ManageBarShown = false;
     vm.SearchProductInput = ""
+    vm.IsCategoryNew = false;
 
     // Bindable methods
     vm.Initialize = _initialize;
@@ -58,14 +58,13 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.ResetFields = _resetFields
     vm.filteredProducts = [];
     vm.currentPage = 1;
-    vm.numPerPage = 5;
+    vm.numPerPage = 9;
     vm.maxSize = 5;
 
     // API methods
     vm.GetInventorySummary = _getInventorySummary;
     vm.SaveOrderRequest = _saveOrderRequest;
     vm.GetProductDetails = _getProductDetails;
-    vm.GetProductDetailsBasic = _getProductDetailsBasic;
     vm.UpdateProductDetails = _updateProductDetails;
     vm.DeleteProduct = _deleteProduct;
     vm.ShowManageBar = _showManageBar;
@@ -73,11 +72,6 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.Page = 1;
 
     //Watches
-
-    $scope.$watch(vm.currentPage, function() {
-        vm.FilterProducts();
-    });
-
 
     //Implementations
 
@@ -95,6 +89,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             function(data) {
                 vm.InventorySummary = data;
                 vm.FilterProducts();
+                getCategoryList();
                 vm.IsLoading = false;
             },
             function(error) {
@@ -119,20 +114,6 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             });
     }
 
-    function _getProductDetailsBasic(productId) {
-        $rootScope.IsLoading = true;
-        InventoryService.GetProductDetailsBasic(productId).then(
-            function(data) {
-                setProduct(data.ProductResult);
-                $rootScope.IsLoading = false;
-                vm.ManageBarShown = true;
-            },
-            function(error) {
-                vm.isLoading = false;
-                vm.LoaderErrorMessage = "Error While Fetching Data from Server.";
-            });
-    }
-
     function _saveOrderRequest(isAddNew = false) {
         if (!isAddNew) {
             // On Purchase/Sale Order, check if Quantity != 0
@@ -145,13 +126,16 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
                 return;
             }
         }
-
         if (validProductDetails()) {
             vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId;
             vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
             vm.OrderRequest["ProductDescription"] = vm.SelectedProduct.ProductDescription;
+            vm.OrderRequest["CategoryId"] = vm.SelectedProduct.CategoryId;
             vm.OrderRequest["Stocks"] = parseInt(vm.OrderRequestQuantity !== 0 ? vm.OrderRequestQuantity : vm.SelectedProduct.Quantity);
             vm.OrderRequest["OrderTransactionType"] = isAddNew ? 0 : vm.OrderRequestTransactionType;
+            vm.OrderRequest["BigBuyerPrice"] = vm.SelectedProduct.BigBuyerPrice;
+            vm.OrderRequest["RetailerPrice"] = vm.SelectedProduct.RetailerPrice;
+            vm.OrderRequest["ResellerPrice"] = vm.SelectedProduct.ResellerPrice;
             vm.OrderRequest["IsActive"] = 1;
             vm.OrderRequest["Remarks"] = vm.OrderRequestTransactionType === 0 ? null : vm.OrderRequestRemarks;
             vm.OrderRequest["CreatedBy"] = 1;
@@ -199,23 +183,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         var errorMsg = '';
         errorMsg = validateUnitPrice();
         if (validProductDetails() && errorMsg === '') {
-            var productPrices = [{
-                    PriceTypeId: vm.CONST_BIG_BUYER,
-                    ProductId: vm.SelectedProduct,
-                    Price: vm.SelectedProduct.Price.BigBuyer
-                },
-                {
-                    PriceTypeId: vm.CONST_RESELLER,
-                    ProductId: vm.SelectedProduct,
-                    Price: vm.SelectedProduct.Price.Reseller
-                },
-                {
-                    PriceTypeId: vm.CONST_RETAILER,
-                    ProductId: vm.SelectedProduct,
-                    Price: vm.SelectedProduct.Price.Retailer
-                }
-            ]
-            InventoryService.UpdateProductDetails(vm.SelectedProduct, productPrices).then(
+            InventoryService.UpdateProductDetails(vm.SelectedProduct).then(
                 function(data) {
                     if (data.isSucess) {
                         QuickAlert.Show({
@@ -269,15 +237,13 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         vm.SelectedProduct = {
             ProductId: 0,
             ProductCode: "",
-            CategoryId: 1,
+            CategoryId: 0,
             ProductDescription: "",
             Quantity: 0,
             IsActive: true,
-            Price: {
-                BigBuyer: 0,
-                Retailer: 0,
-                Reseller: 0,
-            }
+            BigBuyerPrice: 0,
+            RetailerPrice: 0,
+            ResellerPrice: 0,
         };
     }
 
@@ -289,50 +255,90 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         vm.ManageBarShown = true;
     }
 
-    // Private Methods
+    vm.FilterProducts = function() {
+        var begin = ((vm.currentPage - 1) * vm.numPerPage),
+            end = begin + vm.numPerPage;
 
-    function setProduct(data) {
-
-        vm.SelectedProduct = {
-            ProductId: data.ProductId,
-            ProductCode: data.ProductCode,
-            CategoryId: 1,
-            ProductDescription: data.ProductDescription,
-            Quantity: data.Quantity,
-            IsActive: true,
-            CreatedBy: data.CreatedBy,
-            CreatedTime: data.CreatedDateTimeFormat,
-            Price: {
-                BigBuyer: 0,
-                Retailer: 0,
-                Reseller: 0,
-            }
-        };
-
-        setProductPrices(data.ProductPrices);
+        vm.filteredProducts = vm.InventorySummary.slice(begin, end);
     }
+
+    vm.SaveNewCategory = function() {
+        if (vm.NewCategoryName.trim() === '') {
+            QuickAlert.Show({
+                type: 'error',
+                message: 'Please input a valid category name.'
+            });
+            return;
+        }
+
+        vm.IsLoading = true;
+        var data = {
+            CategoryId: 0,
+            CategoryName: vm.NewCategoryName,
+            IsActive: true
+        }
+        MaintenanceService.SaveCategory(data).then(
+            function(data) {
+                getCategoryList();
+                vm.SelectedProduct.CategoryId = data.CategoryId;
+                QuickAlert.Show({
+                    type: 'success',
+                    message: 'The category has been saved!'
+                });
+                vm.IsCategoryNew = false;
+                vm.NewCategoryName = '';
+                vm.IsLoading = false;
+            },
+            function(error) {
+                QuickAlert.Show({
+                    type: 'error',
+                    message: data.messageAlert
+                });
+                vm.IsLoading = false;
+            }
+        )
+    }
+
+    // Private Methods
 
     function setProductPrices(prices) {
         for (var x = 0; x < prices.length; x++) {
             switch (prices[x].PriceTypeId) {
                 case 1:
-                    vm.SelectedProduct.Price.BigBuyer = prices[x].Price;
+                    vm.SelectedProduct.BigBuyerPrice = prices[x].Price;
                     break;
                 case 2:
-                    vm.SelectedProduct.Price.Reseller = prices[x].Price;
+                    vm.SelectedProduct.ResellerPrice = prices[x].Price;
                     break;
                 case 3:
-                    vm.SelectedProduct.Price.Retailer = prices[x].Price;
+                    vm.SelectedProduct.RetailerPrice = prices[x].Price;
                     break;
             }
         }
 
     }
 
+    function setProduct(data) {
+        vm.SelectedProduct = {
+            ProductId: data.ProductId,
+            ProductCode: data.ProductCode,
+            CategoryId: data.CategoryId,
+            ProductDescription: data.ProductDescription,
+            Quantity: data.Quantity,
+            IsActive: true,
+            CreatedBy: data.CreatedBy,
+            CreatedTime: data.CreatedDateTimeFormat,
+            BigBuyerPrice: data.BigBuyerPrice,
+            RetailerPrice: data.RetailerPrice,
+            ResellerPrice: data.ResellerPrice,
+        };
+        setProductPrices(data.ProductPrices);
+    }
+
     function validateUnitPrice() {
-        var bigBuyer = vm.SelectedProduct.Price.BigBuyer,
-            reseller = vm.SelectedProduct.Price.Reseller,
-            retailer = vm.SelectedProduct.Price.Retailer
+        var bigBuyer = vm.SelectedProduct.BigBuyerPrice,
+            reseller = vm.SelectedProduct.ResellerPrice,
+            retailer = vm.SelectedProduct.RetailerPrice
 
         if (bigBuyer !== 0 || reseller !== 0 || retailer !== 0) {
             return '';
@@ -356,10 +362,17 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         return false;
     }
 
-    vm.FilterProducts = function() {
-        var begin = ((vm.currentPage - 1) * vm.numPerPage),
-            end = begin + vm.numPerPage;
-
-        vm.filteredProducts = vm.InventorySummary.slice(begin, end);
+    function getCategoryList() {
+        vm.isLoading = true;
+        MaintenanceService.GetCategoryList().then(
+            function(data) {
+                vm.CategoryList = data.CategoryDetailsResult;
+                vm.isLoading = false;
+            },
+            function(error) {
+                vm.isLoading = false;
+                vm.LoaderErrorMessage = error;
+            }
+        )
     }
 }
