@@ -21,12 +21,12 @@ function InventoryService($http, $q, $location, globalBaseUrl) {
             url = baseUrl + '/InventorySummary';
 
         $http.get(url)
-            .then(function (response) {
+            .then(function(response) {
                 if (!response.data.isSuccess) {
                     $location.url('/Unauthorized');
                 }
                 defer.resolve(response.data.result);
-            }, function (err) {
+            }, function(err) {
                 defer.reject(err);
             });
         return defer.promise;
@@ -36,10 +36,10 @@ function InventoryService($http, $q, $location, globalBaseUrl) {
         var defer = $q.defer(),
             url = baseUrl + '/InventoryDetails';
         $http.post(url, data)
-            .then(function (response) {
+            .then(function(response) {
                 defer.resolve(response.data);
-            }, function (err) {
-                    defer.reject(err);
+            }, function(err) {
+                defer.reject(err);
             });
         return defer.promise;
     }
@@ -48,9 +48,9 @@ function InventoryService($http, $q, $location, globalBaseUrl) {
         var defer = $q.defer(),
             url = baseUrl + '/ProductDetails?productId=' + productId;
         $http.get(url)
-            .then(function (response) {
+            .then(function(response) {
                 defer.resolve(response.data);
-            }, function (err) {
+            }, function(err) {
                 defer.reject(err);
             });
         return defer.promise;
@@ -60,21 +60,21 @@ function InventoryService($http, $q, $location, globalBaseUrl) {
         var defer = $q.defer(),
             url = baseUrl + '/UpdateInventoryOrder';
         $http.post(url, data)
-            .then(function (response) {
+            .then(function(response) {
                 defer.resolve(response.data);
-            }, function (err) {
+            }, function(err) {
                 defer.reject(err);
             });
         return defer.promise;
     }
 
-    function _updateProductDetails(data) {
+    function _updateProductDetails(data, prices) {
         var defer = $q.defer(),
             url = baseUrl + '/UpdateProductDetails';
         $http.post(url, data)
-            .then(function (response) {
+            .then(function(response) {
                 defer.resolve(response.data);
-            }, function (err) {
+            }, function(err) {
                 defer.reject(err);
             });
         return defer.promise;

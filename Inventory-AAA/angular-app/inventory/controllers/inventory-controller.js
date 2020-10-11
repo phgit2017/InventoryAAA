@@ -23,8 +23,14 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             BigBuyer: 0,
             Retailer: 0,
             Reseller: 0,
-        }
+        },
+        ProductPrices: []
     };
+
+    vm.CONST_BIG_BUYER = 1;
+    vm.CONST_RESELLER = 2;
+    vm.CONST_RETAILER = 3;
+
     vm.OrderRequestQuantity = 0;
     vm.OrderRequestTransactionType = 1;
     vm.OrderRequest = {};
@@ -50,6 +56,10 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.ToggleManageModal = _toggleManageModal;
     vm.ResetManageFields = _resetManageFields;
     vm.ResetFields = _resetFields
+    vm.filteredProducts = [];
+    vm.currentPage = 1;
+    vm.numPerPage = 5;
+    vm.maxSize = 5;
 
     // API methods
     vm.GetInventorySummary = _getInventorySummary;
@@ -63,6 +73,11 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
     vm.Page = 1;
 
     //Watches
+
+    $scope.$watch(vm.currentPage, function() {
+        vm.FilterProducts();
+    });
+
 
     //Implementations
 
@@ -79,6 +94,7 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         InventoryService.GetInventorySummary().then(
             function(data) {
                 vm.InventorySummary = data;
+                vm.FilterProducts();
                 vm.IsLoading = false;
             },
             function(error) {
@@ -94,10 +110,8 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             function(data) {
                 setProduct(data.ProductResult);
                 vm.ProductHistory = data.InventoryDetailsResult;
-                if (showManageModal) {
-                    _toggleManageModal();
-                }
                 $rootScope.IsLoading = false;
+                vm.ManageBarShown = true;
             },
             function(error) {
                 vm.isLoading = false;
@@ -182,8 +196,26 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
 
     function _updateProductDetails(isDelete = false) {
         $rootScope.IsLoading = true;
-        if (validProductDetails()) {
-            InventoryService.UpdateProductDetails(vm.SelectedProduct).then(
+        var errorMsg = '';
+        errorMsg = validateUnitPrice();
+        if (validProductDetails() && errorMsg === '') {
+            var productPrices = [{
+                    PriceTypeId: vm.CONST_BIG_BUYER,
+                    ProductId: vm.SelectedProduct,
+                    Price: vm.SelectedProduct.Price.BigBuyer
+                },
+                {
+                    PriceTypeId: vm.CONST_RESELLER,
+                    ProductId: vm.SelectedProduct,
+                    Price: vm.SelectedProduct.Price.Reseller
+                },
+                {
+                    PriceTypeId: vm.CONST_RETAILER,
+                    ProductId: vm.SelectedProduct,
+                    Price: vm.SelectedProduct.Price.Retailer
+                }
+            ]
+            InventoryService.UpdateProductDetails(vm.SelectedProduct, productPrices).then(
                 function(data) {
                     if (data.isSucess) {
                         QuickAlert.Show({
@@ -210,7 +242,10 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
                     $rootScope.IsLoading = false;
                 });
         } else {
-            alert('Please fill in the required fields!');
+            QuickAlert.Show({
+                type: 'error',
+                message: errorMsg === '' ? 'Please fill in the required fields!' : errorMsg
+            });
             $rootScope.IsLoading = false;
         }
     }
@@ -246,20 +281,18 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
         };
     }
 
-    function _showManageBar() {
+    function _showManageBar(resetFields = false) {
+        if (resetFields) {
+            _resetFields();
+        }
+
         vm.ManageBarShown = true;
     }
 
     // Private Methods
 
     function setProduct(data) {
-        debugger;
-        vm.SelectedProduct.ProductId = data.ProductId;
-        vm.SelectedProduct.ProductCode = data.ProductCode;
-        vm.SelectedProduct.ProductDescription = data.ProductDescription;
-        vm.SelectedProduct.Quantity = data.Quantity;
-        vm.SelectedProduct.CreatedBy = data.CreatedBy;
-        vm.SelectedProduct.CreatedTime = data.CreatedDateTimeFormat
+
         vm.SelectedProduct = {
             ProductId: data.ProductId,
             ProductCode: data.ProductCode,
@@ -270,32 +303,46 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             CreatedBy: data.CreatedBy,
             CreatedTime: data.CreatedDateTimeFormat,
             Price: {
-                BigBuyer: data.Price.BigBuyer,
-                Retailer: data.Price.Retailer,
-                Reseller: data.Price.Reseller,
+                BigBuyer: 0,
+                Retailer: 0,
+                Reseller: 0,
             }
         };
+
+        setProductPrices(data.ProductPrices);
     }
 
-    function validUnitPrice() {
-        var unitPrice = vm.SelectedProduct.UnitPrice;
-
-        unitPrice = unitPrice.toString();
-
-        if (unitPrice !== null) {
-            if (unitPrice.length > 0) {
-                if (!isNaN(unitPrice)) {
-                    return true;
-                }
+    function setProductPrices(prices) {
+        for (var x = 0; x < prices.length; x++) {
+            switch (prices[x].PriceTypeId) {
+                case 1:
+                    vm.SelectedProduct.Price.BigBuyer = prices[x].Price;
+                    break;
+                case 2:
+                    vm.SelectedProduct.Price.Reseller = prices[x].Price;
+                    break;
+                case 3:
+                    vm.SelectedProduct.Price.Retailer = prices[x].Price;
+                    break;
             }
         }
-        return false;
+
+    }
+
+    function validateUnitPrice() {
+        var bigBuyer = vm.SelectedProduct.Price.BigBuyer,
+            reseller = vm.SelectedProduct.Price.Reseller,
+            retailer = vm.SelectedProduct.Price.Retailer
+
+        if (bigBuyer !== 0 || reseller !== 0 || retailer !== 0) {
+            return '';
+        }
+        return 'Please input at least one price type.';
     }
 
     function validProductDetails() {
         if (!(isNullOrEmpty(vm.SelectedProduct.ProductCode)) &&
-            !(isNullOrEmpty(vm.SelectedProduct.ProductDescription)) &&
-            validUnitPrice()) {
+            !(isNullOrEmpty(vm.SelectedProduct.ProductDescription))) {
             return true;
         } else {
             return false;
@@ -307,5 +354,12 @@ function InventoryController(InventoryService, DTOptionsBuilder, DTDefaultOption
             return true;
         }
         return false;
+    }
+
+    vm.FilterProducts = function() {
+        var begin = ((vm.currentPage - 1) * vm.numPerPage),
+            end = begin + vm.numPerPage;
+
+        vm.filteredProducts = vm.InventorySummary.slice(begin, end);
     }
 }

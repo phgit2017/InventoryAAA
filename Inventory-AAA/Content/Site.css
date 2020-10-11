@@ -59,7 +59,7 @@ body {
   --bg-success: #00BFB3;
   --shadow-color: rgba(0, 0, 0, 0.25);
   --bg-muted: #F5F5F5;
-  --bg-primary-dark: #037971;
+  --bg-primary-dark: #1C7462;
   --bg-dark: #023436;
   --bg-warning: #FCBF49;
 }
@@ -100,7 +100,7 @@ textarea {
 .main-screen {
   height: calc(100% - 3rem);
 }
-.main-screen .product-screen {
+.main-screen .content-screen {
   display: flex;
   height: calc(100vh - 3rem) !important;
 }
@@ -128,7 +128,7 @@ textarea {
 
 .bar {
   flex-direction: column;
-  box-shadow: inset 0 0 1rem #aaa;
+  box-shadow: inset 0 0 0.25rem #aaa;
   background: #eee;
   height: 100%;
   color: #333 !important;
@@ -144,6 +144,7 @@ textarea {
 }
 .bar .bar-header {
   display: flex;
+  border-bottom: 2px solid var(--bg-primary);
 }
 .bar .bar-header .bar-tab {
   flex: 1;
@@ -155,14 +156,13 @@ textarea {
   cursor: pointer;
   font-weight: bold;
   letter-spacing: 1px;
-  box-shadow: inset 0 0 0.25rem #aaa;
-  border-bottom: 2px solid #23967F;
 }
 .bar .bar-header .bar-tab.active {
-  background: #00BFB3 !important;
-  color: #023436;
-  color: #fff;
+  background: #eee !important;
   box-shadow: none;
+}
+.bar .bar-header .bar-tab.active:last-child {
+  box-shadow: inset -7px 0 9px -8px #aaa;
 }
 .bar .bar-body {
   padding: 1rem;
@@ -190,7 +190,6 @@ textarea {
   flex-direction: column;
   align-items: center;
   margin: 1rem 0.5rem;
-  border: 2px solid #ccc;
 }
 .bar .bar-body .card form {
   width: 100%;
@@ -260,11 +259,62 @@ textarea {
 .content {
   background: #eee;
   padding: 1rem 2rem;
+  position: relative;
+  overflow-y: scroll;
 }
 .content .content-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
+}
+.content .content-footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 1.5rem;
+  width: calc(100% - 4rem);
+  border-radius: 5px;
+}
+
+.pagination {
+  font-size: 1rem !important;
+}
+.pagination .disabled a,
+.pagination .disabled a:hover,
+.pagination .disabled a:focus {
+  color: #bbb;
+  background: none;
+}
+.pagination .active a,
+.pagination .active:hover a,
+.pagination .active:active a,
+.pagination .active:focus a {
+  background: var(--bg-primary);
+  border-color: var(--bg-primary);
+  color: #fff;
+}
+.pagination li a {
+  margin: 0 0.5rem;
+  border-radius: 50%;
+  background: none;
+  color: #555;
+}
+.pagination li a:hover {
+  background: #2DB499;
+  color: #fff;
+}
+.pagination li a:active, .pagination li a:focus {
+  background: var(--bg-primary);
+  color: #fff;
+}
+.pagination li span {
+  color: #555 !important;
+}
+.pagination li:last-child a, .pagination li:first-child a {
+  border-radius: 2rem;
+  padding: 0.4rem 1.5rem;
 }
 
 .input-group-text {

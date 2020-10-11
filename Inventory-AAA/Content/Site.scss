@@ -73,7 +73,7 @@ $bg-primary: #23967F;
     --bg-success: #00BFB3;
     --shadow-color: rgba(0, 0, 0, 0.25);
     --bg-muted: #F5F5F5;
-    --bg-primary-dark: #037971;
+    --bg-primary-dark: #1C7462;
     --bg-dark: #023436;
     --bg-warning: #FCBF49;
 }
@@ -115,7 +115,7 @@ textarea {
 
 .main-screen {
     height: calc(100% - 3rem);
-    .product-screen {
+    .content-screen {
         display: flex;
         height: calc(100vh - 3rem) !important;
     }
@@ -146,9 +146,9 @@ textarea {
 
 .bar {
     flex-direction: column;
-    -moz-box-shadow: inset 0 0 1rem #aaa;
-    -webkit-box-shadow: inset 0 0 1rem #aaa;
-    box-shadow: inset 0 0 1rem #aaa;
+    -moz-box-shadow: inset 0 0 0.25rem #aaa;
+    -webkit-box-shadow: inset 0 0 0.25rem #aaa;
+    box-shadow: inset 0 0 0.25rem #aaa;
     background: #eee;
     height: 100%;
     color: #333 !important;
@@ -163,6 +163,7 @@ textarea {
     }
     .bar-header {
         display: flex;
+        border-bottom: 2px solid var(--bg-primary);
         .bar-tab {
             flex: 1;
             display: flex;
@@ -173,15 +174,14 @@ textarea {
             cursor: pointer;
             font-weight: bold;
             letter-spacing: 1px;
-            -moz-box-shadow: inset 0 0 0.25rem #aaa;
-            -webkit-box-shadow: inset 0 0 0.25rem #aaa;
-            box-shadow: inset 0 0 0.25rem #aaa;
-            border-bottom: 2px solid #23967F;
             &.active {
-                background: #00BFB3 !important;
-                color: #023436;
-                color: #fff;
+                background: #eee !important;
                 box-shadow: none;
+                &:last-child {
+                    -moz-box-shadow: inset -7px 0 9px 0.25rem #aaa;
+                    -webkit-box-shadow: inset -7px 0 9px 0.25rem #aaa;
+                    box-shadow: inset -7px 0 9px -8px #aaa;
+                }
             }
         }
     }
@@ -210,7 +210,6 @@ textarea {
             flex-direction: column;
             align-items: center;
             margin: 1rem 0.5rem;
-            border: 2px solid #ccc;
             form {
                 width: 100%;
                 input {
@@ -284,10 +283,72 @@ textarea {
 .content {
     background: #eee;
     padding: 1rem 2rem;
+    position: relative;
+    overflow-y: scroll;
     .content-header {
         display: flex;
         justify-content: space-between;
         margin-bottom: 1rem;
+    }
+    .content-body {}
+    .content-footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: 1.5rem;
+        width: calc(100% - 4rem);
+        border-radius: 5px;
+    }
+}
+
+.pagination {
+    font-size: 1rem !important;
+    .disabled {
+        a,
+        a:hover,
+        a:focus {
+            color: #bbb;
+            background: none;
+        }
+    }
+    .active,
+    .active:hover,
+    .active:active,
+    .active:focus {
+        a {
+            background: var(--bg-primary);
+            border-color: var(--bg-primary);
+            color: #fff;
+        }
+    }
+    li {
+        a {
+            margin: 0 0.5rem;
+            border-radius: 50%;
+            background: none;
+            color: #555;
+            &:hover {
+                background: #2DB499;
+                color: #fff;
+            }
+            &:active,
+            &:focus {
+                background: var(--bg-primary);
+                color: #fff;
+            }
+        }
+        span {
+            color: #555 !important;
+        }
+        &:last-child,
+        &:first-child {
+            a {
+                border-radius: 2rem;
+                padding: 0.40rem 1.5rem;
+            }
+        }
     }
 }
 
