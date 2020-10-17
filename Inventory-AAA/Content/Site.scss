@@ -277,7 +277,7 @@ textarea {
         .btn-sm {
             font-size: 0.8rem;
             min-width: 2rem;
-            padding: 0.5rem 0;
+            padding: 0.5rem;
         }
         .btn+.btn {
             margin-right: 0.5rem;
@@ -475,7 +475,15 @@ table {
         border: 1px solid var(--bg-danger);
     }
     &.ng-pristine {
-        border: 1px solid #ced4da !important;
+        border: 1px solid #ced4da;
+        &:active,
+        &:focus {
+            border: 2px solid $bg-primary !important;
+            box-shadow: none !important;
+            &.ng-invalid:not(.ng-pristine) {
+                border: 2px solid var(--bg-danger) !important;
+            }
+        }
     }
     &.inline {
         border-radius: 0;
@@ -495,6 +503,9 @@ table {
             border-bottom: 2px solid #23967F !important;
             font-weight: 500;
         }
+    }
+    +.btn-inline {
+        margin-left: 0.5rem;
     }
 }
 
@@ -676,6 +687,7 @@ h6 {
         color: var(--bg-primary);
         &:hover {
             border: 1px solid transparent;
+            background-color: #ddd !important;
         }
     }
     &.btn-alert {
@@ -825,13 +837,6 @@ span {
 }
 
 .btn-transparent {
-    &:hover {
-        background-color: var(--bg-primary) !important;
-        color: white !important;
-    }
-}
-
-.btn-primary-inverse {
     &:hover {
         background-color: var(--bg-primary) !important;
         color: white !important;

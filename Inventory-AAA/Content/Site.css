@@ -254,7 +254,7 @@ textarea {
 .bar .bar-footer .btn-sm {
   font-size: 0.8rem;
   min-width: 2rem;
-  padding: 0.5rem 0;
+  padding: 0.5rem;
 }
 .bar .bar-footer .btn + .btn {
   margin-right: 0.5rem;
@@ -434,7 +434,14 @@ table tr td:last-child {
   border: 1px solid var(--bg-danger);
 }
 .form-control.ng-pristine {
-  border: 1px solid #ced4da !important;
+  border: 1px solid #ced4da;
+}
+.form-control.ng-pristine:active, .form-control.ng-pristine:focus {
+  border: 2px solid #23967F !important;
+  box-shadow: none !important;
+}
+.form-control.ng-pristine:active.ng-invalid:not(.ng-pristine), .form-control.ng-pristine:focus.ng-invalid:not(.ng-pristine) {
+  border: 2px solid var(--bg-danger) !important;
 }
 .form-control.inline {
   border-radius: 0;
@@ -453,6 +460,9 @@ table tr td:last-child {
   outline: none;
   border-bottom: 2px solid #23967F !important;
   font-weight: 500;
+}
+.form-control + .btn-inline {
+  margin-left: 0.5rem;
 }
 
 .form-validation-msg {
@@ -621,6 +631,7 @@ h6 {
 }
 .btn.btn-primary-inverse:hover {
   border: 1px solid transparent;
+  background-color: #ddd !important;
 }
 .btn.btn-alert {
   min-width: 5rem !important;
@@ -760,11 +771,6 @@ span strong {
 }
 
 .btn-transparent:hover {
-  background-color: var(--bg-primary) !important;
-  color: white !important;
-}
-
-.btn-primary-inverse:hover {
   background-color: var(--bg-primary) !important;
   color: white !important;
 }

@@ -3,11 +3,14 @@
         <!-- <ul class="pagination" uib-pager total-items="inventoryCtrl.InventorySummary.length" previous-text="Previous" next-text="Next" ng-model="inventoryCtrl.Page"></ul> -->
         <confirm-alert show="inventoryCtrl.ShowConfirmAlert" alert-msg="'Are you sure you want to delete this product?'" ok-function="inventoryCtrl.DeleteProduct(result)" cancel-function="inventoryCtrl.ResetFields();"></confirm-alert>
         <div class="bar" ng-class="{ 'shown' : inventoryCtrl.ManageBarShown }">
-            <div class="bar-header">
-                <div class="bar-tab active"> {{ inventoryCtrl.SelectedProduct.ProductId != 0 ? 'DETAILS' : 'ADD PRODUCT' }} </div>
-                <div class="bar-tab" ng-if="inventoryCtrl.SelectedProduct.ProductId != 0">STOCKS</div>
+            <div class="bar-header" ng-if="inventoryCtrl.SelectedProduct.ProductId === 0">
+                <div class="bar-tab active"> ADD PRODUCT </div>
             </div>
-            <div class="bar-body d-flex flex-column">
+            <div class="bar-header" ng-if="inventoryCtrl.SelectedProduct.ProductId != 0">
+                <div class="bar-tab" ng-click="inventoryCtrl.ManageMode = inventoryCtrl.MANAGE_MODE_DETAILS" ng-class="{ 'active' : inventoryCtrl.ManageMode === inventoryCtrl.MANAGE_MODE_DETAILS }">DETAILS</div>
+                <div class="bar-tab" ng-click="inventoryCtrl.ManageMode = inventoryCtrl.MANAGE_MODE_STOCKS" ng-class="{ 'active' : inventoryCtrl.ManageMode === inventoryCtrl.MANAGE_MODE_STOCKS }">STOCKS</div>
+            </div>
+            <div class="bar-body d-flex flex-column" ng-if="inventoryCtrl.ManageMode === inventoryCtrl.MANAGE_MODE_DETAILS">
                 <div class="bar-content-header" class="icon">
                     <div class="icon">
                         <svg viewBox="0 0 16 16" class="bi bi-card-list" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -109,7 +112,54 @@
                         <span>Clear</span>
                     </button>
                     <button class="btn btn-sm btn-default " ng-click="inventoryCtrl.ManageBarShown=false; inventoryCtrl.ResetFields(); inventoryForm.$setPristine(); " id="btn-is-cancel ">
-                        <span>Cancel</span>
+                        <span>Close</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bar-body d-flex flex-column" ng-if="inventoryCtrl.ManageMode === inventoryCtrl.MANAGE_MODE_STOCKS">
+                <div class="card">
+                    <form novalidate name="stockForm">
+                        <div class="form-group" ng-if="inventoryCtrl.StockMode !== inventoryCtrl.STOCK_MODE_CORRECTION ">
+                            <label for="currentStock">Current Stock</label>
+                            <div class="d-flex">
+                                <input name="currentStock" id="currentStock" type="number" class="form-control" ng-model="inventoryCtrl.SelectedProduct.Quantity " id="is-current-stock " disabled>
+                                <button class="btn btn-inline btn-primary btn-sm" ng-if="inventoryCtrl.StockMode === ''" ng-click="inventoryCtrl.StockMode = inventoryCtrl.STOCK_MODE_ADD">
+                                    Add Stock
+                                </button>
+                            </div>
+                            <span ng-if="stockForm.currentStock.$error.required && !customerForm.address.$pristine" class="form-validation-msg">This field is required.</span>
+                        </div>
+
+                        <div ng-if="inventoryCtrl.StockMode !== ''">
+                            <div class="form-group">
+                                <label for="addedStock">{{ inventoryCtrl.StockMode === inventoryCtrl.STOCK_MODE_CORRECTION ? 'Corrected' : 'Added' }} Stock</label>
+                                <input name="addedStock" id="addedStock" type="number" class="form-control" ng-model="inventoryCtrl.OrderRequestQuantity" id="is-new-stock ">
+                                <span ng-if="stockForm.addedStock.$error.required && !stockForm.addedStock.$pristine" class="form-validation-msg">This field is required.</span>
+                            </div ng-if="inventoryCtrl.StockMode === vm.STOCK_MODE_ADD">
+                            <div class="form-group" ng-if="inventoryCtrl.StockMode === inventoryCtrl.STOCK_MODE_ADD">
+                                <label for="totalStock">Total Stock</label>
+                                <input name="totalStock" id="totalStock" type="number" class="form-control" ng-model="inventoryCtrl.TotalStock" id="is-total-stock " disabled>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="inventoryCtrl.StockMode !== ''">
+                            <label for="remarks" class="input-label">Remarks (Optional)</label>
+                            <textarea name="remarks" type="text" class="form-control form-control-sm" ng-model="inventoryCtrl.OrderRequestRemarks" required id="remarks"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="bar-footer" ng-if="inventoryCtrl.ManageMode === inventoryCtrl.MANAGE_MODE_STOCKS">
+                    <button class="btn btn-primary btn-sm" ng-if="inventoryCtrl.StockMode !== ''" ng-click="inventoryCtrl.SaveOrderRequest(false); " id="btn-is-save ">
+                        Save
+                    </button>
+                    <button class="btn btn-primary-inverse btn-sm" ng-if="inventoryCtrl.StockMode === ''" ng-click="inventoryCtrl.StockMode = inventoryCtrl.STOCK_MODE_CORRECTION" id="btn-is-update">
+                        Stock Correction
+                    </button>
+                    <button ng-if="inventoryCtrl.StockMode !== ''" class="btn btn-sm btn-default" ng-click="inventoryCtrl.OrderRequestQuantity = 0; inventoryCtrl.StockMode = ''" id="btn-is-cancel ">
+                        Cancel
+                    </button>
+                    <button ng-if="inventoryCtrl.StockMode === ''" class="btn btn-sm btn-default" ng-click="inventoryCtrl.ManageBarShown=false; inventoryCtrl.ResetFields();" id="btn-is-cancel ">
+                        Close
                     </button>
                 </div>
             </div>
@@ -127,8 +177,8 @@
                     </div>
                     <input ng-model="inventoryCtrl.SearchProductInput " type="text " class="form-control inline " aria-label="searchProduct " placeholder="Search Products... ">
                 </div>
-                <button class="btn btn-sm btn-primary " ng-if="inventoryCtrl.SelectedProduct.ProductId===0 && inventoryCtrl.ManageBarShown===false " ng-click="inventoryCtrl.ShowManageBar(true) ">
-                    <div class="d-flex ">
+                <button class="btn btn-sm btn-primary" ng-if="inventoryCtrl.SelectedProduct.ProductId===0 && inventoryCtrl.ManageBarShown===false " ng-click="inventoryCtrl.ShowManageBar(true) ">
+                    <div class="d-flex">
                         <span>New Product</span>
                         <svg width="1em " height="1em " viewBox="0 0 16 16 " class="bi bi-file-earmark-plus-fill " fill="currentColor " xmlns="http://www.w3.org/2000/svg ">
                             <path fill-rule="evenodd " d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM8.5 7a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V11a.5.5

@@ -31,10 +31,76 @@ function CustomersController($scope, $rootScope, CustomerService, DTOptionsBuild
     vm.Initialize = _initialize;
 
     function _initialize() {
-        _getCustomerList();
+        getCustomerList();
     }
 
-    function _getCustomerList() {
+    vm.ResetFields = function() {
+        vm.SelectedCustomer = {
+            CustomerId: 0,
+            CustomerCode: "",
+            FirstName: "",
+            LastName: "",
+            FullAddress: "",
+            IsActive: true,
+            CreatedBy: 0,
+            CreatedTime: ""
+        };
+    }
+
+    vm.SelectCustomer = function(data) {
+        vm.SelectedCustomer = {
+            CustomerId: data.CustomerId,
+            CustomerCode: data.CustomerCode,
+            FirstName: data.FirstName,
+            LastName: data.LastName,
+            FullAddress: data.FullAddress,
+            IsActive: data.IsActive,
+            CreatedBy: data.CreatedBy,
+            CreatedTime: data.CreatedTime
+        };
+    }
+
+    vm.SaveCustomer = function() {
+        var mode = vm.SelectedCustomer.CustomerId === 0 ? 'Add' : 'Update';
+
+        if (validCustomerDetails()) {
+            CustomerService.SaveCustomer(vm.SelectedCustomer, mode).then(
+                function(data) {
+                    QuickAlert.Show({
+                        type: 'success',
+                        message: data.messageAlert
+                    });
+                    getCustomerList();
+                    $scope.customerForm.$setPristine();
+                    vm.ResetFields();
+                },
+                function(error) {
+                    QuickAlert.Show({
+                        type: 'error',
+                        message: error
+                    });
+                }
+            )
+        } else {
+            QuickAlert.Show({
+                type: 'error',
+                message: 'Please fill up all the fields!'
+            });
+        }
+    }
+
+    validCustomerDetails = function() {
+        if (isNullOrEmpty(vm.SelectedCustomer.FirstName) ||
+            isNullOrEmpty(vm.SelectedCustomer.LastName) ||
+            isNullOrEmpty(vm.SelectedCustomer.CustomerCode) ||
+            isNullOrEmpty(vm.SelectedCustomer.FullAddress)) {
+            return false
+        } else {
+            return true;
+        }
+    }
+
+    getCustomerList = function() {
         $rootScope.IsLoading = true;
         CustomerService.GetCustomerList().then(
             function(data) {
@@ -48,4 +114,13 @@ function CustomersController($scope, $rootScope, CustomerService, DTOptionsBuild
             }
         );
     }
+
+    function isNullOrEmpty(data) {
+        if (data === "" || data === undefined || data === null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

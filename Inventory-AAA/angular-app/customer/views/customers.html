@@ -35,14 +35,9 @@
                         </form>
                     </div>
                     <div class="bar-footer">
-                        <button class="btn btn-primary btn-sm" ng-if="customersCtrl.SelectedCustomer.CustomerId === 0 && customerForm.$valid" ng-click="customersCtrl.SaveUser();" id="btn-is-save">
-                        <div>
-                            <span>Save</span>
-                        </div>
-                    </button>
-                        <button class="btn btn-primary btn-sm" ng-if="customersCtrl.SelectedCustomer.CustomerId !== 0 && customerForm.$valid" ng-click="customersCtrl.SaveUser();" id="btn-is-update">
-                        Update
-                    </button>
+                        <button class="btn btn-primary btn-sm" ng-if="customerForm.$valid" ng-click="customersCtrl.SaveCustomer();" id="btn-is-save">
+                            <span>{{ customersCtrl.SelectedCustomer.CustomerId === 0 ? 'Save' : 'Update' }}</span>
+                        </button>
                         <button class="btn btn-sm btn-default" ng-if="customersCtrl.SelectedCustomer.CustomerId === 0" ng-click="customersCtrl.ResetFields(); customerForm.$setPristine();" id="btn-is-clear">
                         <span>Clear</span>
                     </button>
@@ -87,13 +82,13 @@
                                 <td class="cell-no-wrap"> {{ cl.FullName }} </td>
                                 <td> {{ cl.FullAddress }} </td>
                                 <td class="d-flex justify-content-center">
-                                    <button class="btn btn-sm btn-primary" ng-click="customersCtrl.SelectUser(ul);" id="btn-us-row-select-{{ ul.UserId }}">
-                                    Select
-                                </button>
+                                    <button class="btn btn-sm btn-primary" ng-click="customersCtrl.SelectCustomer(cl);" id="btn-us-row-select-{{ ul.UserId }}">
+                                    Update
+                                <!-- </button>
                                     <button class="btn btn-sm btn-danger ml-2" ng-click="customersCtrl.SelectUser(ul);
                                     customersCtrl.ShowConfirmAlert = true;" id="btn-us-row-delete-{{ ul.UserId }}">
                                     Delete
-                                </button>
+                                </button> -->
                                 </td>
                             </tr>
                         </tbody>

@@ -24,10 +24,15 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
         ResellerPrice: 0,
         ProductPrices: []
     };
+    vm.TotalStock = 0;
 
     vm.CONST_BIG_BUYER = 1;
     vm.CONST_RESELLER = 2;
     vm.CONST_RETAILER = 3;
+    vm.MANAGE_MODE_DETAILS = 'Details';
+    vm.MANAGE_MODE_STOCKS = 'Stocks';
+    vm.STOCK_MODE_ADD = 'Add';
+    vm.STOCK_MODE_CORRECTION = 'Correction';
 
     vm.OrderRequestQuantity = 0;
     vm.OrderRequestTransactionType = 1;
@@ -50,6 +55,8 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
     vm.ManageBarShown = false;
     vm.SearchProductInput = ""
     vm.IsCategoryNew = false;
+    vm.ManageMode = vm.MANAGE_MODE_DETAILS;
+    vm.StockMode = '';
 
     // Bindable methods
     vm.Initialize = _initialize;
@@ -72,6 +79,17 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
     vm.Page = 1;
 
     //Watches
+
+    $scope.$watch(
+        function() {
+            return vm.OrderRequestQuantity;
+        },
+        function(oldValue, newValue) {
+            if (oldValue != newValue) {
+                vm.TotalStock = vm.OrderRequestQuantity !== null ? vm.SelectedProduct.Quantity + vm.OrderRequestQuantity : vm.SelectedProduct.Quantity;
+            }
+        }
+    );
 
     //Implementations
 
@@ -122,17 +140,16 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
                     type: 'error',
                     message: 'Please input a valid Quantity.'
                 });
-
                 return;
             }
         }
         if (validProductDetails()) {
+            debugger;
             vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId;
             vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
             vm.OrderRequest["ProductDescription"] = vm.SelectedProduct.ProductDescription;
             vm.OrderRequest["CategoryId"] = vm.SelectedProduct.CategoryId;
             vm.OrderRequest["Stocks"] = parseInt(vm.OrderRequestQuantity !== 0 ? vm.OrderRequestQuantity : vm.SelectedProduct.Quantity);
-            vm.OrderRequest["OrderTransactionType"] = isAddNew ? 0 : vm.OrderRequestTransactionType;
             vm.OrderRequest["BigBuyerPrice"] = vm.SelectedProduct.BigBuyerPrice;
             vm.OrderRequest["RetailerPrice"] = vm.SelectedProduct.RetailerPrice;
             vm.OrderRequest["ResellerPrice"] = vm.SelectedProduct.ResellerPrice;
@@ -141,6 +158,15 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
             vm.OrderRequest["CreatedBy"] = 1;
             vm.OrderRequest["CreatedDate"] = new Date();
 
+            switch (vm.StockMode) {
+                case 'Add':
+                    vm.OrderRequest["OrderTransactionType"] = 0;
+                    break;
+                case 'Correction':
+                    vm.OrderRequest["OrderTransactionType"] = 2;
+                    break;
+            }
+
             InventoryService.SaveOrderRequest(vm.OrderRequest).then(
                 function(data) {
                     if (data.isSucess) {
@@ -148,14 +174,9 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
                             type: 'success',
                             message: 'Transaction has been saved.'
                         });
-                        if (isAddNew) {
-                            _getInventorySummary();
-                            _resetFields();
-                        } else {
-                            _getProductDetails(vm.OrderRequest.ProductId);
-                            _resetManageFields();
-                        }
-                        $scope.inventoryForm.$setPristine();
+                        _getInventorySummary();
+                        _getProductDetails(vm.OrderRequest.ProductId);
+                        _resetFields();
                     } else {
                         QuickAlert.Show({
                             type: 'error',
@@ -191,8 +212,6 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
                             message: isDelete ? 'The product has been deleted.' : 'The product has been successfully edited.'
                         })
                         _getInventorySummary();
-                        _resetFields();
-                        $scope.inventoryForm.$setPristine();
                         $rootScope.IsLoading = false;
                     } else {
                         QuickAlert.Show({
@@ -245,10 +264,18 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
             RetailerPrice: 0,
             ResellerPrice: 0,
         };
+
+        vm.TotalStock = 0;
+        vm.OrderRequestQuantity = 0;
+
+        if (vm.StockMode !== '') {
+            vm.StockMode = '';
+        }
     }
 
     function _showManageBar(resetFields = false) {
         if (resetFields) {
+            vm.ManageMode = vm.MANAGE_MODE_DETAILS;
             _resetFields();
         }
 
@@ -319,6 +346,7 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
     }
 
     function setProduct(data) {
+        debugger;
         vm.SelectedProduct = {
             ProductId: data.ProductId,
             ProductCode: data.ProductCode,
@@ -332,6 +360,7 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
             RetailerPrice: data.RetailerPrice,
             ResellerPrice: data.ResellerPrice,
         };
+        vm.TotalStock = data.Quantity;
         setProductPrices(data.ProductPrices);
     }
 

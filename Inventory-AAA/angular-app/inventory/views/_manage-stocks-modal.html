@@ -3,9 +3,7 @@
         <div class="modal-header bg-primary" style="border-bottom: none">
             <h5>MANAGE STOCK</h5>
             <div class="modal-close">
-                <button class="btn btn-sm btn-light"
-                        id="btn-manage-close"
-                        ng-click="inventoryCtrl.Initialize();
+                <button class="btn btn-sm btn-light" id="btn-manage-close" ng-click="inventoryCtrl.Initialize();
                                   inventoryCtrl.ToggleManageModal();">
                     Close
                 </button>
@@ -41,18 +39,11 @@
                             <form name="orderRequestForm">
                                 <span class="input-label">TRANSACTION TYPE</span>
                                 <div class="custom-control custom-radio">
-                                    <input type="radio" name="transaction-type-sale" class="custom-control-input"
-                                           ng-model="inventoryCtrl.OrderRequestTransactionType"
-                                           ng-value="1"
-                                           id="customRadio1">
+                                    <input type="radio" name="transaction-type-sale" class="custom-control-input" ng-model="inventoryCtrl.OrderRequestTransactionType" ng-value="1" id="customRadio1">
                                     <label class="custom-control-label" for="customRadio1">Sale</label>
                                 </div>
-                                <div class="custom-control custom-radio"
-                                     ng-if="$root.RoleName === 'Admin'">
-                                    <input type="radio" name="transaction-type-purchase" class="custom-control-input"
-                                           ng-model="inventoryCtrl.OrderRequestTransactionType"
-                                           ng-value="0"
-                                           id="customRadio2">
+                                <div class="custom-control custom-radio" ng-if="$root.RoleName === 'Admin'">
+                                    <input type="radio" name="transaction-type-purchase" class="custom-control-input" ng-model="inventoryCtrl.OrderRequestTransactionType" ng-value="0" id="customRadio2">
                                     <label class="custom-control-label" for="customRadio2">Purchase</label>
                                 </div>
                                 <br />
@@ -61,24 +52,18 @@
                                     <span class="input-label required">QUANTITY</span>
                                     <span ng-if="orderRequestForm.quantity.$error.required && !orderRequestForm.quantity.$pristine" class="form-validation-msg">This field is required.</span>
                                 </div>
-                                <input type="number" class="form-control" name="quantity" placeholder="Enter quantity..." required
-                                       ng-model="inventoryCtrl.OrderRequestQuantity"
-                                       id="manage-quantity">
+                                <input type="number" class="form-control" name="quantity" placeholder="Enter quantity..." required ng-model="inventoryCtrl.OrderRequestQuantity" id="manage-quantity">
                                 <small class="form-text text-muted">This will affect your Current Stock.</small>
                                 <br />
                                 <div ng-if="inventoryCtrl.OrderRequestTransactionType === 1">
                                     <span class="input-label">REMARKS</span>
                                     <br />
-                                    <textarea maxlength="200" style="width: 250px; font-size: 0.8rem"
-                                              ng-model="inventoryCtrl.OrderRequestRemarks"
-                                              id="manage-remarks"></textarea>
+                                    <textarea maxlength="200" style="width: 250px; font-size: 0.8rem" ng-model="inventoryCtrl.OrderRequestRemarks" id="manage-remarks"></textarea>
                                 </div>
 
                             </form>
                             <div class="d-flex flex-row-reverse mt-1">
-                                <button class="btn btn-sm btn-transparent"
-                                        ng-click="inventoryCtrl.SaveOrderRequest();"
-                                        id="btn-manage-save">
+                                <button class="btn btn-sm btn-transparent" ng-click="inventoryCtrl.SaveOrderRequest();" id="btn-manage-save">
                                     SAVE
                                 </button>
                             </div>
@@ -89,10 +74,7 @@
                     <div class="card-body" style="max-width: 680px;">
                         <loading showme="inventoryCtrl.IsLoading" showerror="true" errormessage="inventoryCtrl.LoaderErrorMessage"></loading>
                         <div ng-show="!inventoryCtrl.IsLoading">
-                            <table datatable="ng"
-                                    dt-options="inventoryCtrl.dtProductHistoryOptions"
-                                    class="table table-striped hover table-responsive"
-                                    id="tbl-product-history">
+                            <table datatable="ng" dt-options="inventoryCtrl.dtProductHistoryOptions" class="table table-striped hover table-responsive" id="tbl-product-history">
                                 <thead>
                                     <tr>
                                         <th class="cell-no-wrap">TRANSACTION DATE</th>
