@@ -237,9 +237,31 @@ namespace Inventory_AAA.Controllers
             }
 
             #region Product Price
-            foreach (var productPrice in request.ProductPrices)
+            for (int i = 1; i <= 3; i++)
             {
-                _productServices.UpdateProductPrice(productPrice);
+                var price = 0.0m;
+                switch (i)
+                {
+                    case 1:
+                        price = request.BigBuyerPrice;
+                        break;
+                    case 2:
+                        price = request.ResellerPrice;
+                        break;
+                    case 3:
+                        price = request.RetailerPrice;
+                        break;
+                    default:
+                        price = 0;
+                        break;
+                }
+                ProductPricesDetailRequest productPricesDetailRequest = new ProductPricesDetailRequest()
+                {
+                    ProductId = request.ProductId,
+                    PriceTypeId = i,
+                    Price = price
+                };
+                _productServices.UpdateProductPrice(productPricesDetailRequest);
             }
             #endregion
 
