@@ -6,7 +6,8 @@ LoginController.$inject = ['LoginService', '$scope', '$location', '$rootScope', 
 
 function LoginController(LoginService, $scope, $location, $rootScope, $cookies, QuickAlert) {
 
-    let vm = this, controllerName = 'loginCtrl';
+    let vm = this,
+        controllerName = 'loginCtrl';
 
     vm.LoginDetails = {
         UserName: "",
@@ -20,7 +21,7 @@ function LoginController(LoginService, $scope, $location, $rootScope, $cookies, 
     function _login() {
         $rootScope.IsLoading = true;
         LoginService.Login(vm.LoginDetails).then(
-            function (data) {
+            function(data) {
                 if (data.isSuccess) {
                     $rootScope.IsLoading = false;
                     $location.url('/Inventory');
@@ -32,7 +33,7 @@ function LoginController(LoginService, $scope, $location, $rootScope, $cookies, 
                     $rootScope.IsLoading = false;
                 }
             },
-            function (err) {
+            function(err) {
                 QuickAlert.Show({
                     type: 'error',
                     message: err
@@ -42,9 +43,10 @@ function LoginController(LoginService, $scope, $location, $rootScope, $cookies, 
 
     function _logout() {
         LoginService.Logout().then(
-            function (data) {
+            function(data) {
                 $location.url("/Login");
-            }, function (err) {
+            },
+            function(err) {
                 QuickAlert.Show({
                     type: 'error',
                     message: err

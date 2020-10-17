@@ -32,6 +32,11 @@
                                 <textarea name="address" type="text" class="form-control form-control-sm" ng-model="customersCtrl.SelectedCustomer.FullAddress" required id="address"></textarea>
                                 <span ng-if="customerForm.address.$error.required && !customerForm.address.$pristine" class="form-validation-msg">This field is required.</span>
                             </div>
+                            <div class="form-group">
+                                <label for="category" class="input-label">{{ inventoryCtrl.IsCategoryNew ? 'New Category Name' : 'Category' }}</label>
+                                <select name="category" class="custom-select" ng-model="customersCtrl.SelectedCustomer.CustomerStatusId" ng-options="status.CustomerStatusId as status.CustomerStatusName for status in customersCtrl.CustomerStatusList" required>
+                                </select>
+                            </div>
                         </form>
                     </div>
                     <div class="bar-footer">

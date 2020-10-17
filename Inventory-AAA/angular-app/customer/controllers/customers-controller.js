@@ -2,19 +2,17 @@
     .module('InventoryApp')
     .controller('CustomersController', CustomersController);
 
-CustomersController.$inject = ['$scope', '$rootScope', 'CustomerService', 'DTOptionsBuilder', 'DTColumnDefBuilder', 'QuickAlert'];
+CustomersController.$inject = ['$scope', '$rootScope', 'CustomerService', 'CommonService', 'QuickAlert'];
 
-function CustomersController($scope, $rootScope, CustomerService, DTOptionsBuilder, DTColumnDefBuilder, QuickAlert) {
+function CustomersController($scope, $rootScope, CustomerService, CommonService, QuickAlert) {
 
     var vm = this,
         controllerName = 'customersCtrl';
 
-    vm.dtUserListOptions = "";
-    vm.dtUserListColumnDefs = "";
-
     vm.CustomerListLoading = true;
 
     vm.CustomerList = [];
+    vm.CustomerStatusList = [];
     vm.SelectedCustomer = {
         CustomerId: 0,
         CustomerCode: "",
@@ -23,7 +21,8 @@ function CustomersController($scope, $rootScope, CustomerService, DTOptionsBuild
         FullAddress: "",
         IsActive: true,
         CreatedBy: 0,
-        CreatedTime: ""
+        CreatedTime: "",
+        CustomerStatusId: 0
     };
 
     vm.ShowConfirmAlert = false;
@@ -31,6 +30,7 @@ function CustomersController($scope, $rootScope, CustomerService, DTOptionsBuild
     vm.Initialize = _initialize;
 
     function _initialize() {
+        getCustomerStatusList();
         getCustomerList();
     }
 
@@ -43,7 +43,8 @@ function CustomersController($scope, $rootScope, CustomerService, DTOptionsBuild
             FullAddress: "",
             IsActive: true,
             CreatedBy: 0,
-            CreatedTime: ""
+            CreatedTime: "",
+            CustomerStatusId: 0
         };
     }
 
@@ -56,7 +57,8 @@ function CustomersController($scope, $rootScope, CustomerService, DTOptionsBuild
             FullAddress: data.FullAddress,
             IsActive: data.IsActive,
             CreatedBy: data.CreatedBy,
-            CreatedTime: data.CreatedTime
+            CreatedTime: data.CreatedTime,
+            CustomerStatusId: data.CustomerStatusId
         };
     }
 
@@ -68,7 +70,7 @@ function CustomersController($scope, $rootScope, CustomerService, DTOptionsBuild
                 function(data) {
                     QuickAlert.Show({
                         type: 'success',
-                        message: data.messageAlert
+                        message: 'Customer has been added.'
                     });
                     getCustomerList();
                     $scope.customerForm.$setPristine();
@@ -113,6 +115,20 @@ function CustomersController($scope, $rootScope, CustomerService, DTOptionsBuild
                 $rootScope.IsLoading = false;
             }
         );
+    }
+
+    getCustomerStatusList = function() {
+        CommonService.GetCustomerStatusList().then(
+            function(data) {
+                vm.CustomerStatusList = data.result;
+            },
+            function(error) {
+                QuickAlert.Show({
+                    type: 'error',
+                    message: 'Server error.'
+                });
+            }
+        )
     }
 
     function isNullOrEmpty(data) {

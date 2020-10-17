@@ -144,7 +144,6 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
             }
         }
         if (validProductDetails()) {
-            debugger;
             vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId;
             vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
             vm.OrderRequest["ProductDescription"] = vm.SelectedProduct.ProductDescription;
@@ -346,7 +345,6 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
     }
 
     function setProduct(data) {
-        debugger;
         vm.SelectedProduct = {
             ProductId: data.ProductId,
             ProductCode: data.ProductCode,

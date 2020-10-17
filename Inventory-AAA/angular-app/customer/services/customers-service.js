@@ -33,7 +33,7 @@ function CustomerService($q, $http, $location, globalBaseUrl) {
     function _saveCustomer(data, mode) {
         var defer = $q.defer(),
 
-            url = baseUrl + (mode === 'Add' ? '/AddNewCustomerDetails' : 'UpdateCustomerDetails');
+            url = baseUrl + (mode === 'Add' ? '/AddNewCustomerDetails' : '/UpdateCustomerDetails');
         $http.post(url, data)
             .then(function(response) {
                 if (!response.data.isSuccess) {
