@@ -198,6 +198,148 @@ namespace Inventory_AAA.Controllers
 
         }
 
+        #region Sales order
+        [HttpPost]
+        public JsonResult UpdateInventorySalesOrder(SalesOrderRequest request)
+        {
+            bool isSucess = false;
+            string messageAlert = string.Empty, orderTransactionTypeService = string.Empty;
+            long updateOrderTransactionResult = 0;
+
+            OrderTransactionRequest orderTransactionRequest = new OrderTransactionRequest();
+            List<ProductDetailRequest> orderTransactionDetailRequest = new List<ProductDetailRequest>();
+
+            var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
+
+            if (ModelState.IsValid)
+            {
+                #region Set Order Transaction Type
+
+                if (request.OrderTransactionType == LookupKey.OrderTransactionType.SalesOrder)
+                {
+                    orderTransactionTypeService = "SalesOrderService";
+                }
+
+                #endregion
+
+                #region Service implementation
+
+                orderTransactionRequest.CreatedBy = currentUserId;
+                orderTransactionRequest.CustomerId = request.CustomerId;
+                orderTransactionRequest.SalesOrderId = request.SalesOrderId;
+                orderTransactionRequest.SalesOrderStatusId = request.SalesOrderStatusId;
+                orderTransactionRequest.SalesNo = request.SalesNo;
+
+                foreach (var salesOrderDetails in request.SalesOrderProductDetailRequest)
+                {
+                    orderTransactionDetailRequest.Add(new ProductDetailRequest()
+                    {
+                        ProductId = salesOrderDetails.ProductId,
+                        UnitPrice = salesOrderDetails.UnitPrice,
+                        Quantity = salesOrderDetails.Quantity
+
+                    });
+                }
+                var type = Type.GetType(string.Format("{0}.{1}, {0}", "Business.AAA.Core", orderTransactionTypeService));
+                IOrderTransactionalServices order = (IOrderTransactionalServices)Activator.CreateInstance(type,
+                    _productServices,
+                    _orderServices);
+                updateOrderTransactionResult = order.UpdateOrderTransaction(
+                    orderTransactionRequest,
+                    orderTransactionDetailRequest);
+
+                #endregion
+
+                //IOrderTransactionalServices x = new PurchaseOrderService(_productServices, _orderServices);
+                //var type = Type.GetType("Business.AAA.Core.PurchaseOrderService, Business.AAA.Core");
+                //updateOrderTransactionResult = x.UpdateOrderTransaction(orderTransactionRequest, orderTransactionDetailRequest);
+
+                if (updateOrderTransactionResult == -100)
+                {
+                    return Json(new { isSucess = isSucess, messageAlert = Messages.ProductCodeValidation }, JsonRequestBehavior.AllowGet);
+                }
+                else if (updateOrderTransactionResult == 0)
+                {
+                    isSucess = true;
+                }
+
+                var response = new
+                {
+                    isSucess = isSucess,
+                    messageAlert = messageAlert
+                };
+                return Json(response, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult SalesOrders()
+        {
+            List<SalesOrders> result = new List<SalesOrders>();
+
+            #region Authorize
+            var authorizeMenuAccessResult = AuthorizeMenuAccess(LookupKey.Menu.SalesOrderMenuId);
+            if (!authorizeMenuAccessResult.IsSuccess)
+            {
+
+                return Json(new
+                {
+                    isSuccess = authorizeMenuAccessResult.IsSuccess,
+                    messageAlert = authorizeMenuAccessResult.MessageAlert,
+                    result = result
+                }, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+            result = this._orderServices.GetAllSalesOrders().Where(m => m.SalesOrderStatusId != LookupKey.SalesOrderStatus.DeliveredId).ToList();
+
+            var response = new
+            {
+                isSuccess = true,
+                messageAlert = string.Empty,
+                result = result,
+            };
+            return Json(response, JsonRequestBehavior.AllowGet);
+            
+        }
+
+        [HttpGet]
+        public JsonResult SalesOrderDetails(long salesOrderId)
+        {
+
+            List<SalesOrderDetails> result = new List<SalesOrderDetails>();
+
+            #region Authorize
+            var authorizeMenuAccessResult = AuthorizeMenuAccess(LookupKey.Menu.SalesOrderMenuId);
+            if (!authorizeMenuAccessResult.IsSuccess)
+            {
+
+                return Json(new
+                {
+                    isSuccess = authorizeMenuAccessResult.IsSuccess,
+                    messageAlert = authorizeMenuAccessResult.MessageAlert,
+                    result = result
+                }, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+            result = this._orderServices.GetAllSalesOrderDetails().Where(m => m.SalesOrderId == salesOrderId).ToList();
+
+            var response = new
+            {
+                isSuccess = true,
+                messageAlert = string.Empty,
+                result = result,
+            };
+            return Json(response, JsonRequestBehavior.AllowGet);
+
+        }
+        #endregion
+
         [HttpPost]
         public JsonResult UpdateProductDetails(ProductDetailRequest request)
         {

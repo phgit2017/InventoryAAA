@@ -19,7 +19,9 @@ namespace Business.AAA.Core.Interface
         long SavePurchaseOrderDetails(PurchaseOrderDetailsRequest request);
 
         long SaveSalesOrder(SalesOrdersRequest request);
+        bool UpdateSalesOrder(SalesOrdersRequest request);
         long SaveSalesOrderDetails(SalesOrderDetailsRequest request);
+        bool DeleteSalesOrderDetails(long salesOrderId);
 
         long SaveCorrectionOrder(CorrectionOrdersRequest request);
         long SaveCorrectionOrderDetails(CorrectionOrderDetailsRequest request);

@@ -40,6 +40,7 @@ namespace Business.AAA.Core.Dto
             public const int UserMenuId= 2;
             public const int ReportMenuId = 3;
             public const int CustomerMenuId = 4;
+            public const int SalesOrderMenuId = 5;
         }
 
         public static class CustomerStatus
@@ -47,6 +48,15 @@ namespace Business.AAA.Core.Dto
             public const int ActiveId = 1;
             public const int InactiveId = 2;
             public const int BlockedId = 3;
+        }
+
+        public static class SalesOrderStatus
+        {
+            public const int PendingId = 1;
+            public const int PaidId = 2;
+            public const int ShippingId = 3;
+            public const int DeliveredId = 4;
+            public const int CancelledId = 5;
         }
     }
 

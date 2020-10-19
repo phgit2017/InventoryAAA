@@ -47,7 +47,40 @@ namespace Business.AAA.Core.Dto
 
     }
 
-    public class OrderTransactionRequest : BaseDetail
+    public class SalesOrderRequest
+    {
+        public SalesOrderRequest()
+        {
+            SalesOrderProductDetailRequest = new List<SalesOrderProductDetailRequest>();
+        }
+
+
+
+        public int OrderTransactionType { get; set; }
+
+        public long CustomerId { get; set; }
+
+        public List<SalesOrderProductDetailRequest> SalesOrderProductDetailRequest { get; set; }
+
+        public long SalesOrderId { get; set; }
+
+        public int SalesOrderStatusId { get; set; }
+
+        public string SalesNo { get; set; }
+
+    }
+
+    public class SalesOrderProductDetailRequest
+    {
+        public long ProductId { get; set; }
+
+        public decimal UnitPrice { get; set; }
+
+        public decimal Quantity { get; set; }
+
+    }
+
+    public partial class OrderTransactionRequest : BaseDetail
     {
         public long OrderId { get; set; }
 
@@ -56,9 +89,25 @@ namespace Business.AAA.Core.Dto
         public decimal TotalAmount { get; set; }
 
         public int OrderTypeId { get; set; }
-
-        public long CustomerId { get; set; }
+        
     }
+    #region Sales Order
+
+    /// <summary>
+    /// Sales Order
+    /// </summary>
+    public partial class OrderTransactionRequest
+    {
+        public long CustomerId { get; set; }
+
+        public int SalesOrderStatusId { get; set; }
+
+        public long SalesOrderId { get; set; }
+
+        public string SalesNo { get; set; }
+    }
+
+    #endregion
 
     public class OrderTransactionDetailRequest : BaseDetail
     {
@@ -69,7 +118,7 @@ namespace Business.AAA.Core.Dto
         public decimal Quantity { get; set; }
 
         public decimal UnitPrice { get; set; }
-        
+
     }
 
 

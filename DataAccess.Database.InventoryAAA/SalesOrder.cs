@@ -15,6 +15,12 @@
 
         public long SalesOrderID { get; set; }
 
+        public string SalesNo { get; set; }
+
+        public int SalesOrderStatusID { get; set; }
+
+        public long CustomerID { get; set; }
+
         public decimal TotalQuantity { get; set; }
 
         public decimal TotalAmount { get; set; }
@@ -31,6 +37,12 @@
 
         [ForeignKey("OrderTypeID")]
         public virtual OrderType OrderType { get; set; }
+
+        [ForeignKey("SalesOrderStatusID")]
+        public virtual SalesOrderStatus SalesOrderStatus { get; set; }
+
+        [ForeignKey("CustomerID")]
+        public virtual Customer Customers { get; set; }
 
         public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }
     }

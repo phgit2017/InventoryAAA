@@ -8,6 +8,11 @@
 
     public partial class Customer
     {
+        public Customer()
+        {
+            SalesOrders = new HashSet<SalesOrder>();
+        }
+
         [Key]
         public long CustomerID { get; set; }
 
@@ -35,5 +40,7 @@
 
         [ForeignKey("CustomerStatusID")]
         public CustomerStatus CustomerStatus { get; set; }
+
+        public virtual ICollection<SalesOrder> SalesOrders { get; set; }
     }
 }

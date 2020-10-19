@@ -249,6 +249,9 @@ namespace Business.AAA.Core.Extensions
                 {
                     SalesOrderID = request.SalesOrderId,
                     OrderTypeID = request.SalesOrderTypeId,
+                    SalesNo = request.SalesNo,
+                    SalesOrderStatusID = request.SalesOrderStatusId,
+                    CustomerID = request.CustomerId,
                     TotalQuantity = request.TotalQuantity,
                     TotalAmount = request.TotalAmount,
                     CreatedBy = request.CreatedBy,

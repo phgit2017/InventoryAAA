@@ -146,6 +146,14 @@ namespace Business.AAA.Core
                          {
                              SalesOrderId = det.SalesOrderID,
                              SalesOrderTypeId = det.OrderTypeID,
+                             SalesNo = det.SalesNo,
+                             SalesOrderStatusId = det.SalesOrderStatusID,
+                             SalesOrderStatusName = det.SalesOrderStatus.SalesOrderStatusName,
+                             CustomerId = det.CustomerID,
+                             CustomerCode = det.Customers.CustomerCode,
+                             CustomerFirstName = det.Customers.FirstName,
+                             CustomerFullAddress = det.Customers.FullAddress,
+                             CustomerLastName = det.Customers.LastName,
                              TotalQuantity = det.TotalQuantity,
                              TotalAmount = det.TotalAmount,
                              CreatedBy = det.CreatedBy,
@@ -197,6 +205,18 @@ namespace Business.AAA.Core
             return item.SalesOrderID;
         }
 
+        public bool UpdateSalesOrder(SalesOrdersRequest request)
+        {
+            this.salesOrder = request.DtoToEntity();
+            var item = _salesOrderServices.Update2(this.salesOrder);
+            if (item == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public long SaveSalesOrderDetails(SalesOrderDetailsRequest request)
         {
             this.salesOrderDetail = request.DtoToEntity();
@@ -207,6 +227,14 @@ namespace Business.AAA.Core
             }
 
             return item.SalesOrderID;
+        }
+
+        public bool DeleteSalesOrderDetails(long salesOrderId)
+        {
+            if (this._salesOrderDetailServices.Delete(m => m.SalesOrderID == salesOrderId))
+                return true;
+            else
+                return false;
         }
 
 

@@ -25,6 +25,31 @@ namespace Business.AAA.Core.Dto
 
         public int SalesOrderTypeId { get; set; }
 
+        public string SalesNo { get; set; }
+
+        public int SalesOrderStatusId { get; set; }
+
+        public string SalesOrderStatusName { get; set; }
+
+        public long CustomerId { get; set; }
+
+        public string CustomerCode { get; set; }
+
+        public string CustomerFirstName { get; set; }
+
+        public string CustomerLastName { get; set; }
+
+        public string CustomerFullAddress { get; set; }
+
+        public string CustomerFullName
+        {
+            get
+            {
+                return CustomerFirstName + " " + CustomerLastName;
+            }
+        }
+
+
 
     }
 
@@ -60,6 +85,12 @@ namespace Business.AAA.Core.Dto
         public long SalesOrderId { get; set; }
 
         public int SalesOrderTypeId { get; set; }
+
+        public string SalesNo { get; set; }
+
+        public long CustomerId { get; set; }
+
+        public int SalesOrderStatusId { get; set; } = 1;
     }
 
 
