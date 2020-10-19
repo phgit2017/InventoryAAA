@@ -1,1 +1,57 @@
-﻿<p>sales order works</p>
+﻿<div class="content" ng-init="salesOrderCtrl.Initialize();">
+    <div class="content-header">
+        <div class="input-group">
+            <div class="input-group-append">
+                <span class="input-group-text">
+                  <svg viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                    <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                     </svg>
+                </span>
+            </div>
+            <input ng-model="salesOrderCtrl.SearchSalesOrdersInput" type="text" class="form-control inline" aria-label="searchProduct" placeholder="Search Orders...">
+        </div>
+    </div>
+    <div class="content-body">
+        <loading showme="salesOrderCtrl.SalesOrdersLoading" showerror="false" errormessage=""></loading>
+        <div ng-show="!salesOrderCtrl.SalesOrdersLoading">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Sales No</th>
+                        <th class="cell-no-wrap">Order Type</th>
+                        <th class="cell-no-wrap">Customer Code</th>
+                        <th>Customer Name</th>
+                        <th>Address</th>
+                        <th>Total Quantity</th>
+                        <th>Total Amount</th>
+                        <th>Created By</th>
+                        <th>Created Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="so in salesOrderCtrl.FilteredSalesOrders">
+                        <td> {{ so.SalesNo }} </td>
+                        <td class="cell-no-wrap"> {{ so.OrderTypes.OrderTypeName }} </td>
+                        <td class="cell-no-wrap"> {{ so.CustomerCode }} </td>
+                        <td> {{ so.CustomerFullName }} </td>
+                        <td> {{ so.CustomerFullAddress }} </td>
+                        <td> {{ so.TotalQuantity }} </td>
+                        <td> {{ so.TotalAmount }} </td>
+                        <td> {{ so.CreatedBy }} </td>
+                        <td> {{ so.CreatedDateTimeFormat }} </td>
+                        <td> {{ so.SalesOrderStatusName }} </td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" ng-click="salesOrderCtrl.ManageSalesOrder(so.SalesOrderId)">Manage</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="content-footer">
+        <pagination total-items="userCtrl.UserList.length" ng-change="userCtrl.FilterUsers()" ng-model="userCtrl.currentPage" max-size="userCtrl.maxSize" class="pagination" boundary-links="false" items-per-page="userCtrl.numPerPage"></pagination>
+    </div>
+</div>

@@ -6,15 +6,33 @@ SalesOrderService.$inject = ['$q', '$http', '$location', 'globalBaseUrl'];
 
 function SalesOrderService($q, $http, $location, globalBaseUrl) {
     var SalesOrderServiceFactory = {},
-        baseUrl = globalBaseUrl + "/Maintenance";
+        baseUrl = globalBaseUrl + "/Stocks";
 
-    SalesOrderServiceFactory.GetCustomerList = _getCustomerList;
+    SalesOrderServiceFactory.GetSalesOrders = _getSalesOrders;
+    SalesOrderServiceFactory.SalesOrderDetails = _salesOrderDetails;
 
     return SalesOrderServiceFactory;
 
-    function _getCustomerList() {
+    function _getSalesOrders() {
         var defer = $q.defer(),
-            url = baseUrl + '/CustomerList';
+            url = baseUrl + '/SalesOrders';
+        $http.post(url)
+            .then(function(response) {
+                if (!response.data.isSuccess) {
+                    $location.url('/Unauthorized');
+                }
+                defer.resolve(response.data)
+            }),
+            function(err) {
+
+                defer.reject(err);
+            }
+        return defer.promise;
+    }
+
+    function _salesOrderDetails(salesOrderId) {
+        var defer = $q.defer(),
+            url = baseUrl + '/SalesOrderDetails?salesOrderId=' + salesOrderId;
         $http.get(url)
             .then(function(response) {
                 if (!response.data.isSuccess) {

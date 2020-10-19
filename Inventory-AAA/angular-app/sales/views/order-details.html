@@ -1,0 +1,76 @@
+﻿<div class="content" ng-init="orderDetailsCtrl.Initialize();">
+    <div class="content-header">
+        <div class="input-group">
+            <div class="input-group-append">
+                <span class="input-group-text">
+                  <svg viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                    <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                     </svg>
+                </span>
+            </div>
+            <input ng-model="orderDetailsCtrl.OrderDetailsInput" type="text" class="form-control inline" aria-label="searchProduct" placeholder="Search Orders...">
+        </div>
+    </div>
+    <div class="content-body">
+        <loading showme="orderDetailsCtrl.OrderDetailsLoading" showerror="false" errormessage=""></loading>
+        <div ng-show="!orderDetailsCtrl.OrderDetailsLoading">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Sales No</th>
+                        <th class="cell-no-wrap">Order Type</th>
+                        <th class="cell-no-wrap">Customer Code</th>
+                        <th>Customer Name</th>
+                        <th>Address</th>
+                        <th>Total Quantity</th>
+                        <th>Total Amount</th>
+                        <th>Created By</th>
+                        <th>Created Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> {{ orderDetailsCtrl.SalesOrder.SalesNo }} </td>
+                        <td class="cell-no-wrap"> {{ orderDetailsCtrl.SalesOrder.OrderTypes.OrderTypeName }} </td>
+                        <td class="cell-no-wrap"> {{ orderDetailsCtrl.SalesOrder.CustomerCode }} </td>
+                        <td> {{ orderDetailsCtrl.SalesOrder.CustomerFullName }} </td>
+                        <td> {{ orderDetailsCtrl.SalesOrder.CustomerFullAddress }} </td>
+                        <td> {{ orderDetailsCtrl.SalesOrder.TotalQuantity }} </td>
+                        <td> {{ orderDetailsCtrl.SalesOrder.TotalAmount }} </td>
+                        <td> {{ orderDetailsCtrl.SalesOrder.CreatedBy }} </td>
+                        <td> {{ orderDetailsCtrl.SalesOrder.CreatedDateTimeFormat }} </td>
+                        <td> {{ orderDetailsCtrl.SalesOrder.SalesOrderStatusName }} </td>
+                        <td>
+                            <button class="btn btn-sm btn-primary" ng-click="orderDetailsCtrl.ManageSalesOrder(orderDetailsCtrl.SalesOrder.SalesOrderId)">Manage</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product Id</th>
+                        <th class="cell-no-wrap">Product Code</th>
+                        <th class="cell-no-wrap">Category Id</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td> {{ orderDetailsCtrl.Products.ProductId }} </td>
+                        <td class="cell-no-wrap"> {{ orderDetailsCtrl.Products.ProductCode }} </td>
+                        <td class="cell-no-wrap"> {{ orderDetailsCtrl.Products.CategoryId }} </td>
+                        <td> {{ orderDetailsCtrl.Products.Quantity }} </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="content-footer">
+        <pagination total-items="userCtrl.UserList.length" ng-change="userCtrl.FilterUsers()" ng-model="userCtrl.currentPage" max-size="userCtrl.maxSize" class="pagination" boundary-links="false" items-per-page="userCtrl.numPerPage"></pagination>
+    </div>
+</div>

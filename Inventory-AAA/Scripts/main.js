@@ -48,6 +48,13 @@
                 showNavbar: true,
                 navItem: "Sales"
             })
+            .when("/OrderDetails/:salesOrderId", {
+                title: "SalesOrders",
+                templateUrl: "angular-app/sales/views/order-details.html",
+                controller: "OrderDetailsController",
+                controllerAs: "orderDetailsCtrl",
+                showNavbar: true,
+            })
             .when("/Users", {
                 title: "Users",
                 templateUrl: "angular-app/user/views/user.html",

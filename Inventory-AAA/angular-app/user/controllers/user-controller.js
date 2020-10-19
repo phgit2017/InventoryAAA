@@ -9,9 +9,7 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
     var vm = this,
         controllerName = 'userCtrl';
 
-    vm.dtUserListOptions = "";
     vm.UserListLoading = true;
-    vm.dtUserListColumnDefs = "";
 
     vm.UserList = [];
     vm.SelectedUser = {
@@ -38,15 +36,6 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
     vm.SelectUser = _selectUser;
     vm.SaveUser = _saveUser;
     vm.DeleteUser = _deleteUser;
-
-    vm.dtUserListOptions = DTOptionsBuilder.newOptions()
-        .withPaginationType('simple_numbers')
-        .withDisplayLength(10)
-        .withDOM("<'row'<'col-sm-12 col-md-6'f><'col-sm-12 col-md-6'p><'table-details't>>");
-
-    vm.dtUserListColumnDefs = [
-        DTColumnDefBuilder.newColumnDef(5).notSortable(),
-    ];
 
     function _initialize() {
         _getUserList();

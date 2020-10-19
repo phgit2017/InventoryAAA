@@ -201,8 +201,10 @@
     <Content Include="angular-app\report\controllers\report-controller.js" />
     <Content Include="angular-app\report\services\report-service.js" />
     <Content Include="angular-app\report\views\report.html" />
+    <Content Include="angular-app\sales\controllers\order-details-controller.js" />
     <Content Include="angular-app\sales\controllers\sales-order-controller.js" />
     <Content Include="angular-app\sales\services\sales-order-service.js" />
+    <Content Include="angular-app\sales\views\order-details.html" />
     <Content Include="angular-app\sales\views\sales-order.html" />
     <Content Include="angular-app\shared\factories\quick-alert.js" />
     <Content Include="angular-app\shared\services\common-service.js" />
