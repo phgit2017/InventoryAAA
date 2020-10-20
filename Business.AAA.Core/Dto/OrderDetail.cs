@@ -107,29 +107,32 @@ namespace Business.AAA.Core.Dto
     {
 
         public long PurchaseOrderId { get; set; }
-
-        public PurchaseOrders PurchaseOrders { get; set; }
+        
 
     }
 
     public class SalesOrderDetails : BaseOrderDetails
     {
         public long SalesOrderId { get; set; }
-
-        public SalesOrders SalesOrders { get; set; }
     }
 
     public class BaseOrderDetails : BaseDetail
     {
         public long ProductId { get; set; }
 
+        public string ProductCode { get; set; }
+
+        public string ProductDescription { get; set; }
+
+        public long? CategoryId { get; set; }
+
+        public string CategoryName { get; set; }
+
         public decimal? PreviousQuantity { get; set; }
 
         public decimal Quantity { get; set; }
 
         public decimal UnitPrice { get; set; }
-
-        public ProductDetail ProductDetails { get; set; }
     }
     #endregion
 

@@ -67,8 +67,6 @@ namespace Business.AAA.Core
 
         public IQueryable<PurchaseOrderDetails> GetAllPurchaseOrderDetails()
         {
-            var productResult = _productServices.GetAll();
-            var purchaseOrderResult = GetAllPurchaseOrders();
 
             var result = from det in this._purchaseOrderDetailServices.GetAll()
                          select new PurchaseOrderDetails()
@@ -83,8 +81,7 @@ namespace Business.AAA.Core
                              ModifiedTime = det.ModifiedTime,
                              PreviousQuantity = det.PreviousQuantity,
 
-                             ProductDetails = productResult.Where(p => p.ProductId == det.ProductID).FirstOrDefault(),
-                             PurchaseOrders = purchaseOrderResult.Where(po => po.PurchaseOrderId == det.PurchaseOrderID).FirstOrDefault()
+                             
                          };
 
             return result;
@@ -114,14 +111,16 @@ namespace Business.AAA.Core
 
         public IQueryable<SalesOrderDetails> GetAllSalesOrderDetails()
         {
-            var productResult = _productServices.GetAll();
-            var salesOrderResult = GetAllSalesOrders();
 
             var result = from det in this._salesOrderDetailServices.GetAll()
                          select new SalesOrderDetails()
                          {
                              SalesOrderId = det.SalesOrderID,
                              ProductId = det.ProductID,
+                             ProductCode = det.Product.ProductCode,
+                             ProductDescription = det.Product.ProductDescription,
+                             CategoryId = det.Product.CategoryID,
+                             CategoryName = det.Product.Category.CategoryName,
                              Quantity = det.Quantity,
                              UnitPrice = det.UnitPrice,
                              CreatedBy = det.CreatedBy,
@@ -129,9 +128,6 @@ namespace Business.AAA.Core
                              ModifiedBy = det.ModifiedBy,
                              ModifiedTime = det.ModifiedTime,
                              PreviousQuantity = det.PreviousQuantity,
-
-                             ProductDetails = productResult.Where(p => p.ProductId == det.ProductID).FirstOrDefault(),
-                             SalesOrders = salesOrderResult.Where(so => so.SalesOrderId == det.SalesOrderID).FirstOrDefault()
                          };
 
             return result;
