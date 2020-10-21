@@ -247,7 +247,8 @@ namespace Inventory_AAA.Controllers
                 var type = Type.GetType(string.Format("{0}.{1}, {0}", "Business.AAA.Core", orderTransactionTypeService));
                 IOrderTransactionalServices order = (IOrderTransactionalServices)Activator.CreateInstance(type,
                     _productServices,
-                    _orderServices);
+                    _orderServices,
+                    _customerServices);
                 updateOrderTransactionResult = order.UpdateOrderTransaction(
                     orderTransactionRequest,
                     orderTransactionDetailRequest);
