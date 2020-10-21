@@ -85,11 +85,11 @@ namespace Inventory_AAA.Controllers
 
                 if (customerIdResult == -100)
                 {
-                    return Json(new { isSucess = isSucess, messageAlert = Messages.CustomerNameValidation }, JsonRequestBehavior.AllowGet);
+                    return Json(new { isSuccess = isSucess, messageAlert = Messages.CustomerNameValidation }, JsonRequestBehavior.AllowGet);
                 }
                 if (customerIdResult == 0)
                 {
-                    return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
+                    return Json(new { isSuccess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
                 }
 
                 isSucess = true;
@@ -103,7 +103,7 @@ namespace Inventory_AAA.Controllers
             }
             else
             {
-                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSuccess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -130,7 +130,7 @@ namespace Inventory_AAA.Controllers
 
             if (!customerNameResult.IsNull())
             {
-                return Json(new { isSucess = isSucess, messageAlert = Messages.CustomerNameValidation }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSuccess = isSucess, messageAlert = Messages.CustomerNameValidation }, JsonRequestBehavior.AllowGet);
             }
             #endregion
 
@@ -138,7 +138,7 @@ namespace Inventory_AAA.Controllers
 
             if (!customerIdResult)
             {
-                return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSuccess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
             }
 
             isSucess = true;
@@ -203,11 +203,11 @@ namespace Inventory_AAA.Controllers
 
                 if (categoryIdResult == -100)
                 {
-                    return Json(new { isSucess = isSucess, messageAlert = Messages.CategoryNameValidation, CategoryId = categoryIdResult }, JsonRequestBehavior.AllowGet);
+                    return Json(new { isSuccess = isSucess, messageAlert = Messages.CategoryNameValidation, CategoryId = categoryIdResult }, JsonRequestBehavior.AllowGet);
                 }
                 if (categoryIdResult == 0)
                 {
-                    return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError,CategoryId = categoryIdResult }, JsonRequestBehavior.AllowGet);
+                    return Json(new { isSuccess = isSucess, messageAlert = Messages.ServerError,CategoryId = categoryIdResult }, JsonRequestBehavior.AllowGet);
                 }
 
                 isSucess = true;
@@ -222,7 +222,7 @@ namespace Inventory_AAA.Controllers
             }
             else
             {
-                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing, CategoryId = categoryIdResult }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSuccess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing, CategoryId = categoryIdResult }, JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -248,7 +248,7 @@ namespace Inventory_AAA.Controllers
                                                           && u.IsActive).FirstOrDefault();
             if (!categoryNameResult.IsNull())
             {
-                return Json(new { isSucess = isSucess, messageAlert = Messages.CategoryNameValidation }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSuccess = isSucess, messageAlert = Messages.CategoryNameValidation }, JsonRequestBehavior.AllowGet);
             }
             #endregion
 
@@ -256,7 +256,7 @@ namespace Inventory_AAA.Controllers
 
             if (!categoryIdResult)
             {
-                return Json(new { isSucess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSuccess = isSucess, messageAlert = Messages.ServerError }, JsonRequestBehavior.AllowGet);
             }
 
             isSucess = true;
