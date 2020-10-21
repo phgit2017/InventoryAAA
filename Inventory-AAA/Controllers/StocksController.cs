@@ -22,19 +22,22 @@ namespace Inventory_AAA.Controllers
         private readonly IProductServices _productServices;
         private readonly IOrderServices _orderServices;
         private readonly IUserServices _userServices;
+        private readonly ICustomerServices _customerServices;
 
         public StocksController(
             IOrderTypeServices orderTypeServices,
             IOrderTransactionalServices orderTransactionalServices,
             IProductServices productServices,
             IOrderServices orderServices,
-            IUserServices userServices)
+            IUserServices userServices,
+            ICustomerServices customerServices)
         {
             this._orderTypeServices = orderTypeServices;
             this._orderTransactionalServices = orderTransactionalServices;
             this._productServices = productServices;
             this._orderServices = orderServices;
             this._userServices = userServices;
+            this._customerServices = customerServices;
         }
 
         // GET: Stocks
@@ -164,7 +167,8 @@ namespace Inventory_AAA.Controllers
                 var type = Type.GetType(string.Format("{0}.{1}, {0}", "Business.AAA.Core", orderTransactionTypeService));
                 IOrderTransactionalServices order = (IOrderTransactionalServices)Activator.CreateInstance(type,
                     _productServices,
-                    _orderServices);
+                    _orderServices,
+                    _customerServices);
                 updateOrderTransactionResult = order.UpdateOrderTransaction(
                     orderTransactionRequest,
                     orderTransactionDetailRequest);
@@ -311,7 +315,7 @@ namespace Inventory_AAA.Controllers
         public JsonResult SalesOrderDetails(long salesOrderId)
         {
 
-            List<SalesOrderDetails> result = new List<SalesOrderDetails>();
+            //List<SalesOrderDetails> result = new List<SalesOrderDetails>();
 
             #region Authorize
             var authorizeMenuAccessResult = AuthorizeMenuAccess(LookupKey.Menu.SalesOrderMenuId);
@@ -322,12 +326,12 @@ namespace Inventory_AAA.Controllers
                 {
                     isSuccess = authorizeMenuAccessResult.IsSuccess,
                     messageAlert = authorizeMenuAccessResult.MessageAlert,
-                    result = result
+                    result = new { }
                 }, JsonRequestBehavior.AllowGet);
             }
             #endregion
 
-            result = this._orderServices.GetAllSalesOrderDetails().Where(m => m.SalesOrderId == salesOrderId).ToList();
+            var result = this._orderServices.SalesDetails(salesOrderId);
 
             var response = new
             {
@@ -335,6 +339,8 @@ namespace Inventory_AAA.Controllers
                 messageAlert = string.Empty,
                 result = result,
             };
+
+            
             return Json(response, JsonRequestBehavior.AllowGet);
 
         }

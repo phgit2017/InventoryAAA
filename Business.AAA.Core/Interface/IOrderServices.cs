@@ -25,6 +25,7 @@ namespace Business.AAA.Core.Interface
 
         long SaveCorrectionOrder(CorrectionOrdersRequest request);
         long SaveCorrectionOrderDetails(CorrectionOrderDetailsRequest request);
+        object SalesDetails(long salesOrderId);
 
 
     }

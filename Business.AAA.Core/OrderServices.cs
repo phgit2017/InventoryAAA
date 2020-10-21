@@ -20,9 +20,11 @@ namespace Business.AAA.Core
         IInventoryAAARepository<dbentities.SalesOrderDetail> _salesOrderDetailServices;
         IInventoryAAARepository<dbentities.CorrectionOrder> _correctionOrderServices;
         IInventoryAAARepository<dbentities.CorrectionOrderDetail> _correctionOrderDetailServices;
+        
 
         IProductServices _productServices;
         IOrderTypeServices _orderTypeServices;
+        ICustomerServices _customerServices;
 
         private dbentities.PurchaseOrder purchaseOrder;
         private dbentities.PurchaseOrderDetail purchaseOrderDetail;
@@ -39,7 +41,8 @@ namespace Business.AAA.Core
         IInventoryAAARepository<dbentities.CorrectionOrderDetail> correctionOrderDetailServices,
 
         IProductServices productServices,
-        IOrderTypeServices orderTypeServices)
+        IOrderTypeServices orderTypeServices,
+        ICustomerServices customerServices)
         {
             this._purchaseOrderServices = purchaseOrderServices;
             this._purchaseOrderDetailServices = purchaseOrderDetailServices;
@@ -52,6 +55,7 @@ namespace Business.AAA.Core
 
             this._productServices = productServices;
             this._orderTypeServices = orderTypeServices;
+            this._customerServices = customerServices;
 
             this.purchaseOrder = new dbentities.PurchaseOrder();
             this.purchaseOrderDetail = new dbentities.PurchaseOrderDetail();
@@ -257,6 +261,23 @@ namespace Business.AAA.Core
             }
 
             return item.CorrectionOrderID;
+        }
+
+        public object SalesDetails(long salesOrderId)
+        {
+            var salesResult = GetAllSalesOrders().Where(m => m.SalesOrderId == salesOrderId).FirstOrDefault();
+            var customerResult = _customerServices.GetAll().Where(m => m.CustomerId == salesResult.CustomerId).FirstOrDefault();
+            var salesOrderDetailsResult = GetAllSalesOrderDetails().Where(m => m.SalesOrderId == salesOrderId).ToList();
+
+            var result  = new
+            {
+                CustomerDetails = customerResult,
+                SalesDetails = salesResult,
+                ProductList = salesOrderDetailsResult
+            };
+
+            var response = result;
+            return response;
         }
 
     }
