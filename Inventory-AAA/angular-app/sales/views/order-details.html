@@ -1,76 +1,116 @@
 ﻿<div class="content" ng-init="orderDetailsCtrl.Initialize();">
-    <div class="content-header">
-        <div class="input-group">
-            <div class="input-group-append">
-                <span class="input-group-text">
-                  <svg viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
-                    <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-                     </svg>
-                </span>
+    <div class="content-body orders-grid">
+        <div class="grid-item">
+            <div class="product-list">
+                <loading showme="orderDetailsCtrl.ProductListLoading" showerror="false" errormessage=""></loading>
+                <div ng-show="!orderDetailsCtrl.ProductListLoading">
+                    <table class="table mb-4">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Stock</th>
+                                <th>Price</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="i in orderDetailsCtrl.ProductList">
+                                <td> {{ i.ProductCode }} </td>
+                                <td> {{ i.ProductDescription }} </td>
+                                <td> Test Category </td>
+                                <td> {{ i.CurrentStocks }}</td>
+                                <td> 0 </td>
+                                <td>
+                                    <button class="btn btn-xs btn-primary" ng-click="orderDetailsCtrl.AddProductToOrder(i)">+</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <input ng-model="orderDetailsCtrl.OrderDetailsInput" type="text" class="form-control inline" aria-label="searchProduct" placeholder="Search Orders...">
         </div>
-    </div>
-    <div class="content-body">
-        <loading showme="orderDetailsCtrl.OrderDetailsLoading" showerror="false" errormessage=""></loading>
-        <div ng-show="!orderDetailsCtrl.OrderDetailsLoading">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Sales No</th>
-                        <th class="cell-no-wrap">Order Type</th>
-                        <th class="cell-no-wrap">Customer Code</th>
-                        <th>Customer Name</th>
-                        <th>Address</th>
-                        <th>Total Quantity</th>
-                        <th>Total Amount</th>
-                        <th>Created By</th>
-                        <th>Created Date</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td> {{ orderDetailsCtrl.SalesOrder.SalesNo }} </td>
-                        <td class="cell-no-wrap"> {{ orderDetailsCtrl.SalesOrder.OrderTypes.OrderTypeName }} </td>
-                        <td class="cell-no-wrap"> {{ orderDetailsCtrl.SalesOrder.CustomerCode }} </td>
-                        <td> {{ orderDetailsCtrl.SalesOrder.CustomerFullName }} </td>
-                        <td> {{ orderDetailsCtrl.SalesOrder.CustomerFullAddress }} </td>
-                        <td> {{ orderDetailsCtrl.SalesOrder.TotalQuantity }} </td>
-                        <td> {{ orderDetailsCtrl.SalesOrder.TotalAmount }} </td>
-                        <td> {{ orderDetailsCtrl.SalesOrder.CreatedBy }} </td>
-                        <td> {{ orderDetailsCtrl.SalesOrder.CreatedDateTimeFormat }} </td>
-                        <td> {{ orderDetailsCtrl.SalesOrder.SalesOrderStatusName }} </td>
-                        <td>
-                            <button class="btn btn-sm btn-primary" ng-click="orderDetailsCtrl.ManageSalesOrder(orderDetailsCtrl.SalesOrder.SalesOrderId)">Manage</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="grid-item">
+            <loading showme="orderDetailsCtrl.OrderDetailsLoading" showerror="false" errormessage=""></loading>
+            <div ng-show="!orderDetailsCtrl.OrderDetailsLoading">
+                <div class="customer-details">
+                    <div>
+                        <div class="btn-group">
+                            <button type="button" class="btn dropdown-toggle ml-3 " ng-class="{ 'btn-outlined' : orderDetailsCtrl.SelectedCustomerLabel === '', 'btn-transparent-white' : orderDetailsCtrl.SelectedCustomerLabel !== '' }" data-toggle="dropdown" ng-click="orderDetailsCtrl.CustomerListShown = !orderDetailsCtrl.CustomerListShown;">
+                                {{ orderDetailsCtrl.SelectedCustomerLabel !== '' ? orderDetailsCtrl.SelectedCustomerLabel : 'Select a Customer'}}
+                            </button>
+                            <div class="dropdown-customers dropdown-menu dropdown-menu-left" ng-class="{ 'show' : orderDetailsCtrl.CustomerListShown }">
+                                <div>
+                                    <input type="text" class="form-control" ng-model="orderDetailsCtrl.SearchCustomerInput">
+                                </div>
+                                <ul>
+                                    <li ng-repeat="cl in orderDetailsCtrl.CustomerList | filter : orderDetailsCtrl.SearchCustomerInput" ng-click="orderDetailsCtrl.SelectCustomer(cl);" class="dropdown-item">{{ cl.CustomerCode + ' - ' + cl.FullName }}</li>
+                                </ul>
+                            </div>
+                        </div>
 
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Product Id</th>
-                        <th class="cell-no-wrap">Product Code</th>
-                        <th class="cell-no-wrap">Category Id</th>
-                        <th>Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td> {{ orderDetailsCtrl.Products.ProductId }} </td>
-                        <td class="cell-no-wrap"> {{ orderDetailsCtrl.Products.ProductCode }} </td>
-                        <td class="cell-no-wrap"> {{ orderDetailsCtrl.Products.CategoryId }} </td>
-                        <td> {{ orderDetailsCtrl.Products.Quantity }} </td>
-                    </tr>
-                </tbody>
-            </table>
+                        <div class="address" ng-if="orderDetailsCtrl.SelectedCustomerLabel !== ''">
+                            <span>{{ orderDetailsCtrl.SelectedCustomer.FullAddress }}</span>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-end align-items-center">
+                        <div class="btn-group">
+                            <button ng-click="orderDetailsCtrl.PriceTypesShown = !orderDetailsCtrl.PriceTypesShown;" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ orderDetailsCtrl.SelectedPriceType !== '' ? orderDetailsCtrl.SelectedPriceType : 'Price Types'}}
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" ng-class="{ 'show' : orderDetailsCtrl.PriceTypesShown }">
+                                <button class="dropdown-item" type="button" ng-repeat="pt in orderDetailsCtrl.PriceTypes" ng-click="orderDetailsCtrl.SelectPriceType(pt)">{{ pt }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="products-in-order">
+                    <div>
+                        <table class="table mb-4">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Stock</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="i in orderDetailsCtrl.ProductsInOrder">
+                                    <td> {{ i.ProductCode }} </td>
+                                    <td> {{ i.ProductDescription }} </td>
+                                    <td> Test Category </td>
+                                    <td> {{ i.CurrentStocks }}</td>
+                                    <td>
+                                        <div ng-if="i.Quantity">
+                                            {{ i.Quantity }}
+                                        </div>
+                                        <div ng-if="!i.Quantity">
+                                            <form novalidate name="{{ 'quantityForm-' + $index }}">
+                                                <input name="{{ 'quantity-' + $index }}" type="text" class="form-control" required ng-model="i.Quantity">
+                                            </form>
+
+                                        </div>
+                                    </td>
+                                    <td> 0 </td>
+                                    <td>
+                                        <button class="btn btn-xs btn-danger">-</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="order-footer">
+                    <button class="btn btn-sm btn-primary" ng-click="orderDetailsCtrl.SubmitOrder()">
+                        Place Order
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="content-footer">
-        <pagination total-items="userCtrl.UserList.length" ng-change="userCtrl.FilterUsers()" ng-model="userCtrl.currentPage" max-size="userCtrl.maxSize" class="pagination" boundary-links="false" items-per-page="userCtrl.numPerPage"></pagination>
     </div>
 </div>

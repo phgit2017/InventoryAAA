@@ -10,6 +10,7 @@ function SalesOrderService($q, $http, $location, globalBaseUrl) {
 
     SalesOrderServiceFactory.GetSalesOrders = _getSalesOrders;
     SalesOrderServiceFactory.SalesOrderDetails = _salesOrderDetails;
+    SalesOrderServiceFactory.SubmitOrder = _submitOrder;
 
     return SalesOrderServiceFactory;
 
@@ -17,6 +18,23 @@ function SalesOrderService($q, $http, $location, globalBaseUrl) {
         var defer = $q.defer(),
             url = baseUrl + '/SalesOrders';
         $http.post(url)
+            .then(function(response) {
+                if (!response.data.isSuccess) {
+                    $location.url('/Unauthorized');
+                }
+                defer.resolve(response.data)
+            }),
+            function(err) {
+
+                defer.reject(err);
+            }
+        return defer.promise;
+    }
+
+    function _submitOrder(data) {
+        var defer = $q.defer(),
+            url = baseUrl + '/UpdateInventorySalesOrder';
+        $http.post(url, data)
             .then(function(response) {
                 if (!response.data.isSuccess) {
                     $location.url('/Unauthorized');

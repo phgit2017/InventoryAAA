@@ -103,7 +103,7 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
     }
 
     getCustomerList = function() {
-        $rootScope.IsLoading = true;
+        vm.CustomerListLoading = true;
         CustomerService.GetCustomerList().then(
             function(data) {
                 vm.CustomerList = data.CustomerDetailsResult;

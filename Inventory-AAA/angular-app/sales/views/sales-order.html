@@ -15,18 +15,17 @@
     <div class="content-body">
         <loading showme="salesOrderCtrl.SalesOrdersLoading" showerror="false" errormessage=""></loading>
         <div ng-show="!salesOrderCtrl.SalesOrdersLoading">
-            <table class="table">
+            <table class="table table-separated">
                 <thead>
                     <tr>
                         <th>Sales No</th>
-                        <th class="cell-no-wrap">Order Type</th>
-                        <th class="cell-no-wrap">Customer Code</th>
+                        <th>Customer Code</th>
                         <th>Customer Name</th>
                         <th>Address</th>
                         <th>Total Quantity</th>
                         <th>Total Amount</th>
-                        <th>Created By</th>
-                        <th>Created Date</th>
+                        <th>Created Time</th>
+                        <th>Modified Time</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -34,14 +33,13 @@
                 <tbody>
                     <tr ng-repeat="so in salesOrderCtrl.FilteredSalesOrders">
                         <td> {{ so.SalesNo }} </td>
-                        <td class="cell-no-wrap"> {{ so.OrderTypes.OrderTypeName }} </td>
-                        <td class="cell-no-wrap"> {{ so.CustomerCode }} </td>
+                        <td> {{ so.CustomerCode }} </td>
                         <td> {{ so.CustomerFullName }} </td>
                         <td> {{ so.CustomerFullAddress }} </td>
                         <td> {{ so.TotalQuantity }} </td>
                         <td> {{ so.TotalAmount }} </td>
-                        <td> {{ so.CreatedBy }} </td>
                         <td> {{ so.CreatedDateTimeFormat }} </td>
+                        <td> {{ so.ModifiedDateTimeFormat !== '' ? so.ModifedDateTimeFormat : 'N/A' }} </td>
                         <td> {{ so.SalesOrderStatusName }} </td>
                         <td>
                             <button class="btn btn-sm btn-primary" ng-click="salesOrderCtrl.ManageSalesOrder(so.SalesOrderId)">Manage</button>

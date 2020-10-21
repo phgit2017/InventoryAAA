@@ -333,7 +333,67 @@ textarea {
         justify-content: space-between;
         margin-bottom: 1rem;
     }
-    .content-body {}
+    .content-body {
+        &.orders-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-auto-rows: 90vh;
+            grid-gap: 2rem;
+            .grid-item {
+                height: 100%;
+                background: #fff;
+                box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+                .customer-details {
+                    background: #555;
+                    display: flex;
+                    width: 100%;
+                    color: #fff;
+                    padding: 1rem;
+                    justify-content: space-between;
+                    .address {
+                        margin-left: 1.75rem;
+                        font-size: 0.8rem;
+                    }
+                    .dropdown-customers {
+                        input {
+                            margin-left: 1rem;
+                            margin-top: 0.5rem;
+                            width: 87.5%;
+                        }
+                        ul {
+                            padding-left: 0 !important;
+                            padding-inline-start: 0 !important;
+                            margin-top: 1rem;
+                            li.dropdown-item {
+                                text-align: left;
+                                padding: 0.5rem;
+                                padding-left: 1rem;
+                                cursor: pointer;
+                                &:active,
+                                &:focus {
+                                    color: #fff;
+                                    background-color: var(--bg-primary);
+                                }
+                            }
+                        }
+                    }
+                }
+                .product-list {
+                    height: 100%;
+                    overflow-y: scroll;
+                    padding-bottom: 2rem !important;
+                    th {
+                        position: sticky;
+                        top: -1px;
+                        background: #fff;
+                        color: var(--bg-primary);
+                        padding: 1.50rem 0.5rem !important;
+                        border-bottom: 2px solid var(--bg-primary);
+                    }
+                }
+            }
+        }
+    }
     .content-footer {
         display: flex;
         flex-direction: column;
@@ -343,6 +403,14 @@ textarea {
         bottom: 1.5rem;
         width: calc(100% - 4rem);
         border-radius: 5px;
+    }
+}
+
+.dropdown-item {
+    &:active,
+    &:focus {
+        color: #fff;
+        background-color: var(--bg-primary);
     }
 }
 
@@ -403,7 +471,7 @@ textarea {
     left: -0.5rem;
 }
 
-table {
+.table-separated {
     font-family: 'Lato' !important;
     border-spacing: 0 0.5rem !important;
     border-collapse: separate;
@@ -434,6 +502,12 @@ table {
                 border-top-right-radius: 5px;
             }
         }
+    }
+}
+
+.table {
+    td {
+        vertical-align: middle;
     }
 }
 
@@ -644,6 +718,13 @@ h6 {
             height: 1.25rem;
         }
     }
+    &.btn-xs {
+        width: 2.25rem !important;
+        height: 2.25rem !important;
+        min-width: 1px !important;
+        font-size: 0.8rem;
+        text-align: center;
+    }
     &.btn-icon {
         min-width: 1px !important;
         border-radius: 50%;
@@ -683,6 +764,10 @@ h6 {
             border-color: var(--bg-danger-active);
         }
     }
+    &.btn-outlined {
+        color: white;
+        border: 2px solid white;
+    }
     &.btn-primary-inverse {
         background-color: var(--bg-muted);
         border-color: var(--bg-muted);
@@ -691,6 +776,12 @@ h6 {
             border: 1px solid transparent;
             background-color: #ddd !important;
         }
+    }
+    &.btn-transparent-white {
+        color: #fff !important;
+        background: transparent !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
     }
     &.btn-alert {
         min-width: 5rem !important;
@@ -727,7 +818,7 @@ small {
 }
 
 .btn-sm {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     min-width: 2rem;
 }
 
