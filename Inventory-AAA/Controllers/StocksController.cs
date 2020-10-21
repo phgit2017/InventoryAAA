@@ -261,7 +261,7 @@ namespace Inventory_AAA.Controllers
 
                 if (updateOrderTransactionResult == -100)
                 {
-                    return Json(new { isSucess = isSucess, messageAlert = Messages.ProductCodeValidation }, JsonRequestBehavior.AllowGet);
+                    return Json(new { isSuccess = isSucess, messageAlert = Messages.ProductCodeValidation }, JsonRequestBehavior.AllowGet);
                 }
                 else if (updateOrderTransactionResult == 0)
                 {
@@ -270,14 +270,14 @@ namespace Inventory_AAA.Controllers
 
                 var response = new
                 {
-                    isSucess = isSucess,
+                    isSuccess = isSucess,
                     messageAlert = messageAlert
                 };
                 return Json(response, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json(new { isSucess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSuccess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
             }
         }
 
