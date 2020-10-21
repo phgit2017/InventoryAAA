@@ -123,6 +123,8 @@ namespace Business.AAA.Core
                              ProductId = det.ProductID,
                              ProductCode = det.Product.ProductCode,
                              ProductDescription = det.Product.ProductDescription,
+                             
+                             CurrentStock = det.Product.Quantity,
                              CategoryId = det.Product.CategoryID,
                              CategoryName = det.Product.Category.CategoryName,
                              Quantity = det.Quantity,

@@ -114,6 +114,8 @@ namespace Business.AAA.Core.Dto
     public class SalesOrderDetails : BaseOrderDetails
     {
         public long SalesOrderId { get; set; }
+
+        public decimal CurrentStock { get; set; } = 0;
     }
 
     public class BaseOrderDetails : BaseDetail
