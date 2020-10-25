@@ -11,10 +11,19 @@
             </div>
             <input ng-model="salesOrderCtrl.SearchSalesOrdersInput" type="text" class="form-control inline" aria-label="searchProduct" placeholder="Search Orders...">
         </div>
+        <button class="btn btn-sm btn-primary" ng-click="salesOrderCtrl.ManageSalesOrder(0)">
+            <div class="d-flex">
+                <span>New Order</span>
+                <svg width="1em " height="1em " viewBox="0 0 16 16 " class="bi bi-file-earmark-plus-fill " fill="currentColor " xmlns="http://www.w3.org/2000/svg ">
+                    <path fill-rule="evenodd " d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM8.5 7a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V11a.5.5
+                                    0 0 0 1 0V9.5H10a.5.5 0 0 0 0-1H8.5V7z "/>
+                </svg>
+            </div>
+        </button>
     </div>
     <div class="content-body">
         <loading showme="salesOrderCtrl.SalesOrdersLoading" showerror="false" errormessage=""></loading>
-        <div ng-show="!salesOrderCtrl.SalesOrdersLoading">
+        <div class="maintenance" ng-show="!salesOrderCtrl.SalesOrdersLoading">
             <table class="table table-separated">
                 <thead>
                     <tr>
@@ -26,7 +35,7 @@
                         <th>Total Amount</th>
                         <th>Created Time</th>
                         <th>Modified Time</th>
-                        <th>Status</th>
+                        <th class="cell-center">Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -40,7 +49,9 @@
                         <td> {{ so.TotalAmount }} </td>
                         <td> {{ so.CreatedDateTimeFormat }} </td>
                         <td> {{ so.ModifiedDateTimeFormat !== '' ? so.ModifedDateTimeFormat : 'N/A' }} </td>
-                        <td> {{ so.SalesOrderStatusName }} </td>
+                        <td class="cell-center">
+                            <span class="fab-status fab-pending">{{ so.SalesOrderStatusName }} </span>
+                        </td>
                         <td>
                             <button class="btn btn-sm btn-primary" ng-click="salesOrderCtrl.ManageSalesOrder(so.SalesOrderId)">Manage</button>
                         </td>

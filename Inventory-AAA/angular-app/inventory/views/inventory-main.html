@@ -187,9 +187,9 @@
                     </div>
                 </button>
             </div>
-            <div class="content-body ">
-                <loading showme="inventoryCtrl.IsLoading " showerror="true " errormessage="inventoryCtrl.LoaderErrorMessage "></loading>
-                <div ng-show="!inventoryCtrl.IsLoading ">
+            <div class="content-body">
+                <loading showme="inventoryCtrl.IsLoading " showerror="true" errormessage="inventoryCtrl.LoaderErrorMessage "></loading>
+                <div class="maintenance" ng-show="!inventoryCtrl.IsLoading ">
                     <table class="table table-separated">
                         <thead>
                             <tr>
@@ -198,7 +198,7 @@
                                 <th>Description</th>
                                 <th class="cell-wrap ">Category</th>
                                 <th class="cell-wrap ">Stock</th>
-                                <th>Price</th>
+                                <th>Prices</th>
                                 <th class="cell-center "><span>Action</span></th>
                             </tr>
                         </thead>
@@ -215,7 +215,22 @@
                                         <span class="tooltip-text ">Low on stocks.</span>
                                     </span>
                                 </td>
-                                <td> 0 </td>
+                                <td>
+                                    <div class="price-list">
+                                        <span class="price-type">
+                                            <span class="type">Big Buyer</span>
+                                        <span class="price">100</span>
+                                        </span>
+                                        <span class="price-type">
+                                            <span class="type">Reseller</span>
+                                        <span class="price">1000</span>
+                                        </span>
+                                        <span class="price-type">
+                                            <span class="type">Retailer</span>
+                                        <span class="price">0</span>
+                                        </span>
+                                    </div>
+                                </td>
                                 <td>
                                     <div class="d-flex flex-row justify-content-center ">
                                         <button class="btn btn-sm btn-primary " ng-click="inventoryCtrl.GetProductDetails(i.ProductID); " id="btn-is-row-manage-{{i.ProductID}} ">

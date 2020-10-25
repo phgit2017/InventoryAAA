@@ -14,13 +14,15 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
     vm.SalesDetails = {};
     vm.ProductList = [];
     vm.ProductsInOrder = [];
-    vm.OrderDetailsLoading = false;
-    vm.ProductListLoading = false;
+    vm.OrderDetailsLoading = true;
+    vm.ProductListLoading = true;
     vm.CustomerFilter = '';
     vm.CustomerListShown = false;
     vm.CustomerList = [];
     vm.CustomerSearchInput = '';
-    vm.SelectedCustomer = {};
+    vm.SearchProductList = '';
+    vm.SearchProductsInOrder = '';
+    vm.SelectedCustomer = '';
     vm.SelectedCustomerLabel = '';
     vm.PriceTypes = ['Big Buyer', 'Reseller', 'Retailer']
     vm.PriceTypesShown = false;
@@ -28,21 +30,16 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
 
     vm.Initialize = function() {
         getCustomerList();
-        getProductList();
         vm.SalesOrderId = parseFloat($routeParams.salesOrderId);
 
         if (vm.SalesOrderId !== 0) {
             getOrderDetails();
-        }
-
-        function isNullOrEmpty(data) {
-            if (data === "" || data === undefined || data === null) {
-                return true;
-            } else {
-                return false;
-            }
+        } else {
+            getProductList();
         }
     }
+
+
 
     vm.SelectCustomer = function(customer) {
         vm.SelectedCustomer = customer;
@@ -56,47 +53,85 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
     }
 
     vm.AddProductToOrder = function(product) {
-        var selectedProduct;
+        if (vm.SelectedPriceType === '') {
+            QuickAlert.Show({
+                type: 'error',
+                message: 'Please select a Price Type before adding a product.'
+            });
+            return;
+        }
+
         vm.ProductsInOrder.push(product);
         selectedProductIndex = vm.ProductList.indexOf(product);
         vm.ProductList.splice(selectedProductIndex, 1);
     }
 
-    vm.SubmitOrder = function() {
+    vm.RemoveProductFromOrder = function(product) {
+        selectedProductIndex = vm.ProductsInOrder.indexOf(product);
+        vm.ProductsInOrder.splice(selectedProductIndex, 1);
         debugger;
-        var salesOrderRequest = {
-            OrderTransactionType: 1,
-            CustomerId: vm.SelectedCustomer.CustomerId,
-            SalesOrderId: vm.SalesOrderId,
-            SalesOrderStatusId: 1,
-            SalesNo: 0,
-            SalesOrderProductDetailRequest: vm.ProductsInOrder
+        getProductList();
+    }
+
+    vm.SubmitOrder = function() {
+        let errorMsg = '',
+            isBreak = false;
+
+        if (vm.SelectedCustomer === '') {
+            errorMsg = 'Please select a Customer.';
         }
-        SalesOrderService.SubmitOrder(salesOrderRequest).then(
-            function(data) {
-                QuickAlert.Show({
-                    type: 'success',
-                    message: 'Order has been placed'
-                });
-            },
-            function(error) {
-                QuickAlert.Show({
-                    type: 'error',
-                    message: error
-                });
+
+        vm.ProductsInOrder.forEach(x => {
+            if (!'Quantity' in x && !isBreak) {
+                debugger;
+                errorMsg = 'Please input quantity for all products before saving.';
+                isBreak = true;
             }
-        )
+        });
+
+        debugger;
+
+        if (errorMsg === '') {
+            var salesOrderRequest = {
+                OrderTransactionType: 1,
+                CustomerId: vm.SelectedCustomer.CustomerId,
+                SalesOrderId: vm.SalesOrderId,
+                SalesOrderStatusId: 1,
+                SalesNo: 0,
+                SalesOrderProductDetailRequest: vm.ProductsInOrder
+            }
+            SalesOrderService.SubmitOrder(salesOrderRequest).then(
+                function(data) {
+                    QuickAlert.Show({
+                        type: 'success',
+                        message: 'Order has been placed'
+                    });
+                },
+                function(error) {
+                    QuickAlert.Show({
+                        type: 'error',
+                        message: error
+                    });
+                }
+            )
+        } else {
+            QuickAlert.Show({
+                type: 'error',
+                message: errorMsg
+            });
+        }
+
     }
 
     getOrderDetails = function() {
         vm.OrderDetailsLoading = true;
         SalesOrderService.SalesOrderDetails(vm.SalesOrderId).then(
             function(data) {
-                vm.OrderDetailsLoading = false;
                 vm.OrderDetails = data.result
                 vm.SalesDetails = vm.OrderDetails.SalesDetails;
                 vm.SelectCustomer(vm.OrderDetails.CustomerDetails);
                 vm.ProductsInOrder = vm.OrderDetails.ProductList;
+                getProductList();
             },
             function(error) {
                 QuickAlert.Show({
@@ -108,11 +143,9 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
     }
 
     getCustomerList = function() {
-        vm.OrderDetailsLoading = true;
         CustomerService.GetCustomerList().then(
             function(data) {
                 vm.CustomerList = data.CustomerDetailsResult;
-                vm.OrderDetailsLoading = false;
             },
             function(error) {
                 alert(error);
@@ -129,7 +162,13 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
         InventoryService.GetInventorySummary().then(
             function(data) {
                 vm.ProductList = data;
+                let _productsInOrder = vm.ProductsInOrder.map(x => x.ProductID);
+                vm.ProductList = vm.ProductList.filter(x => {
+                    return _productsInOrder.includes(x.ProductId) ? false : true;
+                });
+
                 vm.ProductListLoading = false;
+                vm.OrderDetailsLoading = false;
             },
             function(error) {
                 vm.ProductListLoading = false;
@@ -138,5 +177,13 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
                     message: 'Error fetching Product List from Server.'
                 });
             });
+    }
+
+    isNullOrEmpty = function(data) {
+        if (data === "" || data === undefined || data === null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
