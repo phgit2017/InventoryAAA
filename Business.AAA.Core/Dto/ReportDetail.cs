@@ -30,5 +30,15 @@ namespace Business.AAA.Core.Dto
         public string Remarks { get; set; }
     }
 
+    public class SalesOrderReportRequest
+    {
+        public int ReportSalesType { get; set; } = 0;
+        public string SalesNo { get; set; } = string.Empty;
+        public long CustomerId { get; set; } = 0;
+        public long CategoryId { get; set; } = 0;
+        public DateTime? DateFrom { get; set; } = null;
+        public DateTime? DateTo { get; set; } = null;
+    }
+
     
 }

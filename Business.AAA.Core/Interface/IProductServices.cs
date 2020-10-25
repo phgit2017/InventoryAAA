@@ -26,5 +26,9 @@ namespace Business.AAA.Core.Interface
         long SaveProductPrice(ProductPricesDetailRequest request);
         bool UpdateProductPrice(ProductPricesDetailRequest request);
         IQueryable<ProductPricesDetail> GetAllProductPrices();
+
+        DataTable SalesReportPerSalesNo(string salesNo);
+        DataTable SalesReportPerCustomerId(long customerId);
+        DataTable SalesReportPerCategoryAndDate(DateTime? startDate, DateTime? endDate, long categoryId = 0);
     }
 }
