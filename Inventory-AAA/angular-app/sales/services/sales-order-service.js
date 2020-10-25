@@ -36,13 +36,9 @@ function SalesOrderService($q, $http, $location, globalBaseUrl) {
             url = baseUrl + '/UpdateInventorySalesOrder';
         $http.post(url, data)
             .then(function(response) {
-                if (!response.data.isSuccess) {
-                    $location.url('/Unauthorized');
-                }
                 defer.resolve(response.data)
             }),
             function(err) {
-
                 defer.reject(err);
             }
         return defer.promise;

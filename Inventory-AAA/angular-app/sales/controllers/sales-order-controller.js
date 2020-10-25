@@ -11,7 +11,7 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
 
     vm.FilteredSalesOrders = [];
     vm.SalesOrders = [];
-    vm.SalesOrdersLoading = false;
+    vm.SalesOrdersLoading = true;
     vm.SearchSalesOrdersInput = "";
 
     vm.Initialize = function() {
@@ -23,13 +23,12 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
     }
 
     getSalesOrders = function() {
-        vm.SalesOrdersLoading = false;
+        vm.SalesOrdersLoading = true;
         SalesOrderService.GetSalesOrders().then(
             function(data) {
-                vm.SalesOrdersLoading = false;
                 vm.SalesOrders = data.result;
                 vm.FilteredSalesOrders = vm.SalesOrders;
-                debugger;
+                vm.SalesOrdersLoading = false;
             },
             function(error) {
                 vm.SalesOrdersLoading = false;

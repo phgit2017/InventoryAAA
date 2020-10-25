@@ -43,17 +43,14 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
     }
 
     function _getUserList() {
-        $rootScope.IsLoading = true;
         UserService.GetUserList().then(
             function(data) {
                 vm.UserList = data.UserDetailsResult;
                 vm.FilterUsers();
                 vm.UserListLoading = false;
-                $rootScope.IsLoading = false;
             },
             function(error) {
                 alert(error);
-                $rootScope.IsLoading = false;
             }
         );
     }

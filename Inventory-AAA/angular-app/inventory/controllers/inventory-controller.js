@@ -118,12 +118,10 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
 
     function _getProductDetails(productId, showManageModal = false) {
         vm.ProductDetailRequest["ProductId"] = productId;
-        $rootScope.IsLoading = true;
         InventoryService.GetProductDetails(vm.ProductDetailRequest).then(
             function(data) {
                 setProduct(data.ProductResult);
                 vm.ProductHistory = data.InventoryDetailsResult;
-                $rootScope.IsLoading = false;
                 vm.ManageBarShown = true;
             },
             function(error) {
@@ -199,7 +197,6 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
     }
 
     function _updateProductDetails(isDelete = false) {
-        $rootScope.IsLoading = true;
         var errorMsg = '';
         errorMsg = validateUnitPrice();
         if (validProductDetails() && errorMsg === '') {
@@ -211,13 +208,11 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
                             message: isDelete ? 'The product has been deleted.' : 'The product has been successfully edited.'
                         })
                         _getInventorySummary();
-                        $rootScope.IsLoading = false;
                     } else {
                         QuickAlert.Show({
                             type: 'error',
                             message: data.messageAlert
                         })
-                        $rootScope.IsLoading = false;
                     }
                 },
                 function(error) {
@@ -225,20 +220,17 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
                         type: 'error',
                         message: 'Error while fetching data from the service.'
                     })
-                    $rootScope.IsLoading = false;
                 });
         } else {
             QuickAlert.Show({
                 type: 'error',
                 message: errorMsg === '' ? 'Please fill in the required fields!' : errorMsg
             });
-            $rootScope.IsLoading = false;
         }
     }
 
     function _deleteProduct(result) {
         vm.SelectedProduct.IsActive = false;
-        $rootScope.IsLoading = false;
         _updateProductDetails(true);
         vm.ShowConfirmAlert = false;
     }
