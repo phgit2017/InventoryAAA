@@ -49,6 +49,9 @@ namespace Business.AAA.Core.Dto
             }
         }
 
+        public string ModeOfPayment { get; set; }
+
+        public decimal? ShippingFee { get; set; }
 
 
     }
@@ -60,6 +63,31 @@ namespace Business.AAA.Core.Dto
         public decimal TotalAmount { get; set; }
 
         public OrderTypeDetail OrderTypes { get; set; }
+    }
+
+    public class SalesOrderReceiptDetail
+    {
+        public string SalesNo { get; set; }
+        public long SalesOrderId { get; set; }
+        public long SalesOrderStatusID { get; set; }
+        public string SalesOrderStatusDisplay { get; set; }
+        public long ProductID { get; set; }
+        public string ProductCode { get; set; }
+        public string ProductDescription { get; set; }
+        public long CategoryID { get; set; }
+        public string CategoryName { get; set; }
+        public decimal PreviousQuantity { get; set; }
+        public long Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public long CreatedBy { get; set; }
+        public string UserName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string UserFullName { get; set; }
+        public DateTime? CreatedTime { get; set; }
+        public decimal TotalAmount { get; set; }
+        public decimal TotalQuantity { get; set; }
+        public decimal Subtotal { get; set; }
     }
     #endregion
 
@@ -91,6 +119,10 @@ namespace Business.AAA.Core.Dto
         public long CustomerId { get; set; }
 
         public int SalesOrderStatusId { get; set; } = 1;
+
+        public string ModeOfPayment { get; set; }
+
+        public decimal? ShippingFee { get; set; }
     }
 
 

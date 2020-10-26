@@ -149,6 +149,8 @@ namespace Business.AAA.Core
                              SalesOrderId = det.SalesOrderID,
                              SalesOrderTypeId = det.OrderTypeID,
                              SalesNo = det.SalesNo,
+                             ModeOfPayment = det.ModeOfPayment,
+                             ShippingFee = det.ShippingFee,
                              SalesOrderStatusId = det.SalesOrderStatusID,
                              SalesOrderStatusName = det.SalesOrderStatus.SalesOrderStatusName,
                              CustomerId = det.CustomerID,

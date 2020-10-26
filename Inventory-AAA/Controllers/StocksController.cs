@@ -236,6 +236,8 @@ namespace Inventory_AAA.Controllers
                 orderTransactionRequest.SalesOrderId = request.SalesOrderId;
                 orderTransactionRequest.SalesOrderStatusId = request.SalesOrderStatusId;
                 orderTransactionRequest.SalesNo = request.SalesNo;
+                orderTransactionRequest.ModeOfPayment = request.ModeOfPayment;
+                orderTransactionRequest.ShippingFee = request.ShippingFee;
 
                 foreach (var salesOrderDetails in request.SalesOrderProductDetailRequest)
                 {
@@ -349,8 +351,24 @@ namespace Inventory_AAA.Controllers
 
         }
 
+        [HttpGet]
+        public JsonResult GetSalesOrderReceipt(long salesOrderId)
+        {
 
-        public ActionResult GetSalesOrderReceipt(long salesOrderId)
+            List<SalesOrderReceiptDetail> result = new List<SalesOrderReceiptDetail>();
+            result = CommonExtensions.ConvertDataTable<SalesOrderReceiptDetail>
+                                                        (_productServices.SalesReportPerSalesNo(string.Empty, salesOrderId));
+
+            var response = new
+            {
+                isSuccess = true,
+                messageAlert = string.Empty,
+                result = result,
+            };
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ExportSalesOrderReceipt(long salesOrderId)
         {
             var request = new SalesOrderReportRequest()
             {

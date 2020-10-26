@@ -45,5 +45,8 @@
         public virtual Customer Customers { get; set; }
 
         public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }
+
+        public string ModeOfPayment { get; set; }
+        public decimal? ShippingFee { get; set; }
     }
 }

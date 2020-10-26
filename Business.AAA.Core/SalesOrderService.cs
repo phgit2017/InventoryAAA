@@ -59,7 +59,9 @@ namespace Business.AAA.Core
                 TotalAmount = orderTransactionRequest.TotalAmount,
                 TotalQuantity = orderTransactionRequest.TotalQuantity,
                 CreatedBy = orderTransactionRequest.CreatedBy,
-                CreatedTime = DateTime.Now
+                CreatedTime = DateTime.Now,
+                ModeOfPayment = orderTransactionRequest.ModeOfPayment,
+                ShippingFee = orderTransactionRequest.ShippingFee
             };
 
             if (orderTransactionRequest.SalesOrderId == 0)

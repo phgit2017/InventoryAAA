@@ -68,6 +68,9 @@ namespace Business.AAA.Core.Dto
 
         public string SalesNo { get; set; }
 
+        public string ModeOfPayment { get; set; }
+        public decimal? ShippingFee { get; set; } 
+
     }
 
     public class SalesOrderProductDetailRequest
@@ -105,6 +108,9 @@ namespace Business.AAA.Core.Dto
         public long SalesOrderId { get; set; }
 
         public string SalesNo { get; set; }
+        public string ModeOfPayment { get; set; }
+
+        public decimal? ShippingFee { get; set; }
     }
 
     #endregion
