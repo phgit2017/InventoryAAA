@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -12,6 +14,7 @@ using Business.AAA.Core.Interface;
 using Infrastructure.Utilities;
 using Inventory_AAA.Infrastructure;
 using Newtonsoft.Json;
+using OfficeOpenXml;
 
 namespace Inventory_AAA.Controllers
 {
@@ -136,7 +139,7 @@ namespace Inventory_AAA.Controllers
                 {
                     orderTransactionTypeService = "SalesOrderService";
                 }
-                else if(request.OrderTransactionType == LookupKey.OrderTransactionType.CorrectionOrder)
+                else if (request.OrderTransactionType == LookupKey.OrderTransactionType.CorrectionOrder)
                 {
                     orderTransactionTypeService = "CorrectionOrderService";
                 }
@@ -153,7 +156,7 @@ namespace Inventory_AAA.Controllers
                     ProductCode = request.ProductCode,
                     ProductDescription = request.ProductDescription,
                     Quantity = request.Stocks,
-                    
+
                     CategoryId = request.CategoryId,
                     IsActive = request.IsActive,
                     CreatedBy = currentUserId,
@@ -309,7 +312,7 @@ namespace Inventory_AAA.Controllers
                 result = result,
             };
             return Json(response, JsonRequestBehavior.AllowGet);
-            
+
         }
 
         [HttpGet]
@@ -341,9 +344,20 @@ namespace Inventory_AAA.Controllers
                 result = result,
             };
 
-            
+
             return Json(response, JsonRequestBehavior.AllowGet);
 
+        }
+
+
+        public ActionResult GetSalesOrderReceipt(long salesOrderId)
+        {
+            var request = new SalesOrderReportRequest()
+            {
+                SalesOrderId = salesOrderId
+            };
+            var salesOrderReportGeneration = SalesOrderReportGeneration(request);
+            return salesOrderReportGeneration;
         }
         #endregion
 
@@ -504,5 +518,70 @@ namespace Inventory_AAA.Controllers
             return response;
 
         }
+
+        #region Private methods
+        private FileResult SalesOrderReportGeneration(SalesOrderReportRequest request)
+        {
+            DataTable dt = new DataTable();
+
+            dt = _productServices.SalesReportPerSalesNo(request.SalesNo, request.SalesOrderId);
+
+            int rowId = 0;
+            var fileNameGenerated = string.Format("{0}_{1}{2}", LookupKey.ReportFileName.SalesReport, DateTime.Now.ToString("MMddyyyy"), ".xlsx");
+
+            var contentType = "application/vnd.ms-excel";
+
+            //var templateFile = new FileInfo(path);
+            //var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            var package = new ExcelPackage();
+            var workSheet = package.Workbook.Worksheets.Add(LookupKey.ReportFileName.SalesReport);
+
+            if (dt.Rows.Count > 0)
+            {
+                rowId = 1;
+                workSheet.Cells[rowId, 1].Value = "SALES NUMBER";
+                workSheet.Cells[rowId, 2].Value = dt.Rows[0]["SalesNo"].ToString();
+
+                workSheet.Cells[rowId, 4].Value = "DATE";
+                workSheet.Cells[rowId, 5].Value = dt.Rows[0]["CreatedTime"].ToString();
+
+                rowId = 4;
+                workSheet.Cells[rowId, 1].Value = "PRODUCT CODE";
+                workSheet.Cells[rowId, 2].Value = "PRODUCT DESCRIPTION";
+                workSheet.Cells[rowId, 3].Value = "SALES QUANTITY";
+                workSheet.Cells[rowId, 4].Value = "PRICE";
+                workSheet.Cells[rowId, 5].Value = "SUBTOTAL";
+
+
+
+                rowId = rowId + 1;
+                for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                {
+                    
+                    workSheet.Cells[rowId, 1].Value = dt.Rows[i]["ProductCode"].ToString();
+                    workSheet.Cells[rowId, 2].Value = dt.Rows[i]["ProductDescription"].ToString();
+                    workSheet.Cells[rowId, 3].Value = Convert.ToInt64(dt.Rows[i]["Quantity"].ToString());
+                    workSheet.Cells[rowId, 4].Value = dt.Rows[i]["UnitPrice"].ToString();
+                    workSheet.Cells[rowId, 5].Value = dt.Rows[i]["Subtotal"].ToString();
+                    rowId = rowId + 1;
+                }
+
+                rowId = rowId + 2;
+                workSheet.Cells[rowId, 4].Value = "Total";
+                workSheet.Cells[rowId, 5].Value = string.Format("{0:#,0.00}", Convert.ToDecimal(dt.Rows[0]["TotalAmount"]));
+
+                workSheet.Cells.AutoFitColumns();
+
+            }
+
+            var memoryStream = new MemoryStream();
+            //package.Save();
+            package.SaveAs(memoryStream);
+            memoryStream.Position = 0;
+
+            return File(memoryStream, contentType, fileNameGenerated);
+        }
+        #endregion
     }
 }

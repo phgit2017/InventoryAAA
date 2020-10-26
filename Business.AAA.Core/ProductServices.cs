@@ -206,12 +206,13 @@ namespace Business.AAA.Core
             return dt;
         }
 
-        public DataTable SalesReportPerSalesNo(string salesNo)
+        public DataTable SalesReportPerSalesNo(string salesNo,long salesOrderId = 0)
         {
             DataTable dt = new DataTable();
             SqlParameter[] sqlParams = new SqlParameter[]
             {
-                new SqlParameter() { ParameterName = "SalesNo", Value = salesNo, SqlDbType=  SqlDbType.NVarChar }
+                new SqlParameter() { ParameterName = "SalesNo", Value = salesNo, SqlDbType=  SqlDbType.NVarChar },
+                new SqlParameter() { ParameterName = "SalesOrderId", Value = salesOrderId, SqlDbType=  SqlDbType.BigInt },
             };
 
             dt = this._productServices.ExecuteSPReturnTable("INV_SalesOrderReport", true, sqlParams);
@@ -219,11 +220,13 @@ namespace Business.AAA.Core
             return dt;
         }
 
-        public DataTable SalesReportPerCustomerId(long customerId)
+        public DataTable SalesReportPerCustomerId(DateTime? startDate, DateTime? endDate, long customerId = 0)
         {
             DataTable dt = new DataTable();
             SqlParameter[] sqlParams = new SqlParameter[]
             {
+                new SqlParameter() { ParameterName = "StartDate", Value = startDate, SqlDbType=  SqlDbType.DateTime },
+                new SqlParameter() { ParameterName = "EndDate", Value = endDate, SqlDbType = SqlDbType.DateTime },
                 new SqlParameter() { ParameterName = "CustomerId", Value = customerId, SqlDbType=  SqlDbType.BigInt }
             };
 
