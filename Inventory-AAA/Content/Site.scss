@@ -1113,10 +1113,15 @@ span {
     position: fixed;
 }
 
-span.input-label {
+.input-label {
     color: #444;
     font-size: 0.9rem;
     font-weight: bold;
+}
+
+.form-label {
+    color: #fff;
+    font-size: 0.8rem !important;
 }
 
 i.login-logo {

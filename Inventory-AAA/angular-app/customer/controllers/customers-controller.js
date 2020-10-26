@@ -22,8 +22,9 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
         IsActive: true,
         CreatedBy: 0,
         CreatedTime: "",
-        CustomerStatusId: 0
+        CustomerStatusId: 1
     };
+    vm.SearchCustomerInput = '';
 
     vm.ShowConfirmAlert = false;
 
@@ -44,7 +45,7 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
             IsActive: true,
             CreatedBy: 0,
             CreatedTime: "",
-            CustomerStatusId: 0
+            CustomerStatusId: 1
         };
     }
 

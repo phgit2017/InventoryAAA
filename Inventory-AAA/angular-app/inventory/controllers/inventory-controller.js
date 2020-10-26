@@ -172,7 +172,14 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
                             message: 'Transaction has been saved.'
                         });
                         _getInventorySummary();
-                        _getProductDetails(vm.OrderRequest.ProductId);
+                        if (vm.OrderRequest.ProductId !== 0) {
+                            _getProductDetails(vm.OrderRequest.ProductId);
+                        }
+
+                        if (isAddNew) {
+                            vm.ManageBarShown = false;
+                        }
+
                         _resetFields();
                     } else {
                         QuickAlert.Show({

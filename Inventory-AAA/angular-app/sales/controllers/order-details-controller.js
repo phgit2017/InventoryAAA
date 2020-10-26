@@ -2,16 +2,16 @@
     .module('InventoryApp')
     .controller('OrderDetailsController', OrderDetailsController);
 
-OrderDetailsController.$inject = ['$scope', '$rootScope', '$routeParams', 'SalesOrderService', 'CustomerService', 'InventoryService', 'QuickAlert'];
+OrderDetailsController.$inject = ['$scope', '$rootScope', '$routeParams', 'MaintenanceService', 'SalesOrderService', 'CustomerService', 'InventoryService', 'QuickAlert'];
 
-function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderService, CustomerService, InventoryService, QuickAlert) {
+function OrderDetailsController($scope, $rootScope, $routeParams, MaintenanceService, SalesOrderService, CustomerService, InventoryService, QuickAlert) {
 
     var vm = this,
         controllerName = 'orderDetailsCtrl';
 
     vm.SalesOrderId = 0;
     vm.OrderDetails = {};
-    vm.SalesDetails = {};
+    vm.SalesDetails = '';
     vm.ProductList = [];
     vm.ProductsInOrder = [];
     vm.OrderDetailsLoading = true;
@@ -27,6 +27,13 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
     vm.PriceTypes = ['Big Buyer', 'Reseller', 'Retailer']
     vm.PriceTypesShown = false;
     vm.SelectedPriceType = '';
+    vm.ModeOfPayment = '';
+    vm.ShippingFee = null;
+    vm.SalesOrderStatusId = 0;
+    vm.FilterCategoryId = '';
+    vm.ShowConfirmAlert = false;
+    vm.AlertMessage = '';
+
 
     vm.Initialize = function() {
         getCustomerList();
@@ -62,6 +69,17 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
         }
 
         product.Quantity = 0;
+        switch (vm.SelectedPriceType) {
+            case "Big Buyer":
+                product.UnitPrice = product.BigBuyerPrice;
+                break;
+            case "Reseller":
+                product.UnitPrice = product.ResellerPrice;
+                break;
+            case "Retailer":
+                product.UnitPrice = product.RetailerPrice;
+                break;
+        }
         vm.ProductsInOrder.push(product);
         selectedProductIndex = vm.ProductList.indexOf(product);
         vm.ProductList.splice(selectedProductIndex, 1);
@@ -89,35 +107,74 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
         });
 
         if (errorMsg === '') {
-            var salesOrderRequest = {
-                OrderTransactionType: 1,
-                CustomerId: vm.SelectedCustomer.CustomerId,
-                SalesOrderId: vm.SalesOrderId,
-                SalesOrderStatusId: 1,
-                SalesNo: 0,
-                SalesOrderProductDetailRequest: vm.ProductsInOrder
-            }
-            SalesOrderService.SubmitOrder(salesOrderRequest).then(
-                function(data) {
-                    QuickAlert.Show({
-                        type: 'success',
-                        message: 'Order has been placed'
-                    });
-                },
-                function(error) {
-                    QuickAlert.Show({
-                        type: 'error',
-                        message: error
-                    });
-                }
-            )
+            saveOrder();
         } else {
             QuickAlert.Show({
                 type: 'error',
                 message: errorMsg
             });
         }
+    }
 
+    vm.CancelOrder = function() {
+        saveOrder('Cancel');
+    }
+
+    vm.CancelAction = function() {
+        return;
+    }
+
+    saveOrder = function(status = null) {
+        let statusId, alertMessage;
+        debugger;
+        if (isNullOrEmpty(status)) {
+            switch (vm.SalesOrderStatusId) {
+                case 0:
+                    statusId = 1; // Pending
+                    alertMessage = "Saved";
+                    break;
+                case 1:
+                    statusId = 2; // Paid
+                    alertMessage = "Paid";
+                    break;
+                case 2:
+                    statusId = 3; // Shipped
+                    alertMessage = "Shipped";
+                    break;
+                case 3:
+                    statusId = 4; // Delivered
+                    alertMessage = "Delivered";
+                    break;
+            }
+        } else {
+            statusId = 5; // Cancelled
+            alertMessage = "Cancelled";
+        }
+
+        var salesOrderRequest = {
+            OrderTransactionType: 1,
+            CustomerId: vm.SelectedCustomer.CustomerId,
+            SalesOrderId: vm.SalesOrderId,
+            SalesOrderStatusId: statusId,
+            SalesNo: 0,
+            ModeOfPayment: vm.ModeOfPayment,
+            ShippingFee: vm.ShippingFee,
+            SalesOrderProductDetailRequest: vm.ProductsInOrder
+        }
+        SalesOrderService.SubmitOrder(salesOrderRequest).then(
+            function(data) {
+                QuickAlert.Show({
+                    type: 'success',
+                    message: 'Order has been ' + alertMessage
+                });
+            },
+            function(error) {
+                QuickAlert.Show({
+                    type: 'error',
+                    message: error
+                });
+            }
+        )
     }
 
     getOrderDetails = function() {
@@ -126,9 +183,12 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
             function(data) {
                 vm.OrderDetails = data.result
                 vm.SalesDetails = vm.OrderDetails.SalesDetails;
+                vm.ModeOfPayment = vm.SalesDetails.ModeOfPayment;
+                vm.ShippingFee = vm.SalesDetails.ShippingFee;
+                vm.SalesOrderStatusId = vm.SalesDetails.SalesOrderStatusId
+                debugger;
                 vm.SelectCustomer(vm.OrderDetails.CustomerDetails);
                 vm.ProductsInOrder = vm.OrderDetails.ProductList;
-                debugger;
                 getProductList();
             },
             function(error) {
@@ -159,6 +219,7 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
         vm.ProductListLoading = true;
         InventoryService.GetInventorySummary().then(
             function(data) {
+                getCategoryList();
                 vm.ProductList = data;
                 let _productsInOrder = vm.ProductsInOrder.map(x => x.ProductId);
                 vm.ProductList = vm.ProductList.filter(x => {
@@ -175,6 +236,29 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
                     message: 'Error fetching Product List from Server.'
                 });
             });
+    }
+
+    vm.GetStatusClass = function() {
+        return {
+            'fab-pending': vm.SalesOrderStatusId === 0 || vm.SalesOrderStatusId === 1,
+            'fab-success': vm.SalesOrderStatusId === 2 || vm.SalesOrderStatusId === 3 || vm.SalesOrderStatusId === 4,
+            'fab-danger': vm.SalesOrderStatusId === 5
+        }
+    }
+
+    getCategoryList = function() {
+        vm.isLoading = true;
+        MaintenanceService.GetCategoryList().then(
+            function(data) {
+                vm.CategoryList = data.CategoryDetailsResult;
+                vm.CategoryList.unshift({ CategoryId: '', CategoryName: 'All Categories' })
+                vm.isLoading = false;
+            },
+            function(error) {
+                vm.isLoading = false;
+                vm.LoaderErrorMessage = error;
+            }
+        )
     }
 
     isNullOrEmpty = function(data) {

@@ -64,7 +64,7 @@
                         <td> {{ so.CreatedDateTimeFormat }} </td>
                         <td> {{ so.ModifiedDateTimeFormat !== '' ? so.ModifedDateTimeFormat : 'N/A' }} </td>
                         <td class="cell-center">
-                            <span class="fab-status fab-pending">{{ so.SalesOrderStatusName }} </span>
+                            <span class="fab-status" ng-class="salesOrderCtrl.GetStatusClass(so.SalesOrderStatusId)">{{ so.SalesOrderStatusName }} </span>
                         </td>
                         <td>
                             <button class="btn btn-sm btn-primary" ng-click="salesOrderCtrl.ManageSalesOrder(so.SalesOrderId)">Manage</button>

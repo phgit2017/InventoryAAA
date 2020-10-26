@@ -29,7 +29,6 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
                 vm.SalesOrders = data.result;
                 vm.FilteredSalesOrders = vm.SalesOrders;
                 vm.SalesOrdersLoading = false;
-                debugger;
             },
             function(error) {
                 vm.SalesOrdersLoading = false;
@@ -39,6 +38,14 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
                 });
             },
         )
+    }
+
+    vm.GetStatusClass = function(statusId) {
+        return {
+            'fab-pending': statusId === 0 || statusId === 1,
+            'fab-success': statusId === 2 || statusId === 3 || statusId === 4,
+            'fab-danger': statusId === 5
+        }
     }
 
     function isNullOrEmpty(data) {

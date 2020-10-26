@@ -46,7 +46,7 @@
                 controller: "SalesOrderController",
                 controllerAs: "salesOrderCtrl",
                 showNavbar: true,
-                navItem: "Sales"
+                navItem: "SalesOrder"
             })
             .when("/OrderDetails/:salesOrderId", {
                 title: "SalesOrders",

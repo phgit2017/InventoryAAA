@@ -20,7 +20,6 @@ function LoginController(LoginService, $scope, $location, $rootScope, $cookies, 
 
     function _login() {
         $rootScope.IsLoading = true;
-        debugger;
         LoginService.Login(vm.LoginDetails).then(
             function(data) {
                 if (data.isSuccess) {

@@ -64,7 +64,7 @@
                              </svg>
                         </span>
                     </div>
-                    <input ng-model="userCtrl.SearchUserInput" type="text" class="form-control inline" aria-label="searchProduct" placeholder="Search Users...">
+                    <input ng-model="customersCtrl.SearchCustomerInput" type="text" class="form-control inline" aria-label="searchCustomers" placeholder="Search Customers...">
                 </div>
             </div>
             <div class="content-body">
@@ -81,7 +81,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="cl in customersCtrl.CustomerList | filter : customersCtrl.SearchUserInput">
+                            <tr ng-repeat="cl in customersCtrl.CustomerList | filter : customersCtrl.SearchCustomerInput">
                                 <td> {{ cl.CustomerId }} </td>
                                 <td class="cell-no-wrap"> {{ cl.CustomerCode }} </td>
                                 <td class="cell-no-wrap"> {{ cl.FullName }} </td>

@@ -177,7 +177,7 @@
                     </div>
                     <input ng-model="inventoryCtrl.SearchProductInput " type="text " class="form-control inline " aria-label="searchProduct " placeholder="Search Products... ">
                 </div>
-                <button class="btn btn-sm btn-primary" ng-if="inventoryCtrl.SelectedProduct.ProductId===0 && inventoryCtrl.ManageBarShown===false " ng-click="inventoryCtrl.ShowManageBar(true) ">
+                <button class="btn btn-sm btn-primary" ng-if="inventoryForm.$setPristine(); inventoryCtrl.SelectedProduct.ProductId===0 && inventoryCtrl.ManageBarShown===false " ng-click="inventoryCtrl.ShowManageBar(true) ">
                     <div class="d-flex">
                         <span>New Product</span>
                         <svg width="1em " height="1em " viewBox="0 0 16 16 " class="bi bi-file-earmark-plus-fill " fill="currentColor " xmlns="http://www.w3.org/2000/svg ">
@@ -198,7 +198,7 @@
                                 <th>Description</th>
                                 <th class="cell-wrap ">Category</th>
                                 <th class="cell-wrap ">Stock</th>
-                                <th>Prices</th>
+                                <th class="cell-center">Prices</th>
                                 <th class="cell-center "><span>Action</span></th>
                             </tr>
                         </thead>
@@ -207,7 +207,7 @@
                                 <td> {{ i.ProductID }} </td>
                                 <td> {{ i.ProductCode }} </td>
                                 <td> {{ i.ProductDescription }} </td>
-                                <td> Test Category </td>
+                                <td> {{ i.CategoryName }} </td>
                                 <td>
                                     <span class="mr-2 "> {{ i.CurrentStocks }} </span>
                                     <span class="icon-critical-stock " ng-if="i.CurrentStocks <=inventoryCtrl.CriticalStock ">
@@ -215,19 +215,19 @@
                                         <span class="tooltip-text ">Low on stocks.</span>
                                     </span>
                                 </td>
-                                <td>
+                                <td class="cell-center">
                                     <div class="price-list">
                                         <span class="price-type">
                                             <span class="type">Big Buyer</span>
-                                        <span class="price">100</span>
+                                        <span class="price">{{ i.BigBuyerPrice | currency:"" }}</span>
                                         </span>
                                         <span class="price-type">
                                             <span class="type">Reseller</span>
-                                        <span class="price">1000</span>
+                                        <span class="price">{{ i.ResellerPrice | currency:"" }}</span>
                                         </span>
                                         <span class="price-type">
                                             <span class="type">Retailer</span>
-                                        <span class="price">0</span>
+                                        <span class="price">{{ i.RetailerPrice | currency:"" }}</span>
                                         </span>
                                     </div>
                                 </td>
@@ -236,9 +236,9 @@
                                         <button class="btn btn-sm btn-primary " ng-click="inventoryCtrl.GetProductDetails(i.ProductID); " id="btn-is-row-manage-{{i.ProductID}} ">
                                             Manage
                                         </button>
-                                        <button class="btn btn-sm btn-danger " ng-click="inventoryCtrl.GetProductDetailsBasic(i.ProductID); inventoryCtrl.ShowConfirmAlert=true; " id="btn-is-row-delete-{{i.ProductID}} ">
+                                        <!-- <button class="btn btn-sm btn-danger " ng-click="inventoryCtrl.GetProductDetailsBasic(i.ProductID); inventoryCtrl.ShowConfirmAlert=true; " id="btn-is-row-delete-{{i.ProductID}} ">
                                             Delete
-                                        </button>
+                                        </button> -->
                                     </div>
                                 </td>
                             </tr>

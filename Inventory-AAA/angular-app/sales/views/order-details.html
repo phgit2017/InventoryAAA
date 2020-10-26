@@ -1,4 +1,5 @@
 ﻿<div class="content" ng-init="orderDetailsCtrl.Initialize();">
+    <confirm-alert show="orderDetailsCtrl.ShowConfirmAlert" alert-msg="orderDetailsCtrl.AlertMessage" ok-function="orderDetailsCtrl.CancelOrder(result)" cancel-function="orderDetailsCtrl.CancelAction();"></confirm-alert>
     <div class="content-header customer-details">
         <div>
             <div class="btn-group">
@@ -21,10 +22,22 @@
             </div>
         </div>
         <div class="d-flex flex-end align-items-center">
+            <form>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="form-group mr-3">
+                        <span for="mop" class="form-label">Mode of Payment</span>
+                        <input name="mop" type="text" class="form-control form-control-sm" ng-model="orderDetailsCtrl.ModeOfPayment">
+                    </div>
+                    <div class="form-group mr-3">
+                        <span for="shippingFee" class="form-label">Shipping Fee</span>
+                        <input name="shippingFee" type="number" class="form-control form-control-sm" ng-model="orderDetailsCtrl.ShippingFee">
+                    </div>
+                </div>
+            </form>
             <div class="btn-group">
                 <button ng-click="orderDetailsCtrl.PriceTypesShown = !orderDetailsCtrl.PriceTypesShown;" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ orderDetailsCtrl.SelectedPriceType !== '' ? orderDetailsCtrl.SelectedPriceType : 'Price Type'}}
-                </button>
+                        {{ orderDetailsCtrl.SelectedPriceType !== '' ? orderDetailsCtrl.SelectedPriceType : 'Price Type'}}
+                    </button>
                 <div class="dropdown-menu dropdown-menu-right" ng-class="{ 'show' : orderDetailsCtrl.PriceTypesShown }">
                     <button class="dropdown-item" type="button" ng-repeat="pt in orderDetailsCtrl.PriceTypes" ng-click="orderDetailsCtrl.SelectPriceType(pt)">{{ pt }}</button>
                 </div>
@@ -32,11 +45,16 @@
         </div>
     </div>
 
+
     <div class="content-body orders-grid">
         <div class="grid-item">
             <div class="product-list">
                 <div class="grid-header">
                     <input type="text" class="form-control search" ng-model="orderDetailsCtrl.SearchProductList" placeholder="Search for products...">
+                    <div class="d-flex">
+                        <select name="category" class="custom-select" ng-model="orderDetailsCtrl.FilterCategoryId" ng-options="category.CategoryId as category.CategoryName for category in orderDetailsCtrl.CategoryList">
+                        </select>
+                    </div>
                 </div>
                 <div>
                     <loading showme="orderDetailsCtrl.ProductListLoading" showerror="false" errormessage=""></loading>
@@ -53,29 +71,29 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="i in orderDetailsCtrl.ProductList | filter: orderDetailsCtrl.SearchProductList">
+                                <tr ng-repeat="i in orderDetailsCtrl.ProductList | filter: { ProductDescription: orderDetailsCtrl.SearchProductList, CategoryId: orderDetailsCtrl.FilterCategoryId }">
                                     <td> {{ i.ProductCode }} </td>
                                     <td> {{ i.ProductDescription }} </td>
-                                    <td> Test Category </td>
+                                    <td> {{ i.CategoryName }} </td>
                                     <td> {{ i.CurrentStocks }}</td>
                                     <td>
                                         <div class="price-list">
                                             <span class="price-type" ng-if="orderDetailsCtrl.SelectedPriceType === '' || orderDetailsCtrl.SelectedPriceType === 'Big Buyer'">
                                                 <span class="type">Big Buyer</span>
-                                            <span class="price">100</span>
+                                            <span class="price">{{ i.BigBuyerPrice | currency:"" }}</span>
                                             </span>
                                             <span class="price-type" ng-if="orderDetailsCtrl.SelectedPriceType === '' || orderDetailsCtrl.SelectedPriceType === 'Reseller'">
                                                 <span class="type">Reseller</span>
-                                            <span class="price">1000</span>
+                                            <span class="price">{{ i.ResellerPrice | currency:"" }}</span>
                                             </span>
                                             <span class="price-type" ng-if="orderDetailsCtrl.SelectedPriceType === '' || orderDetailsCtrl.SelectedPriceType === 'Retailer'">
                                                 <span class="type">Retailer</span>
-                                            <span class="price">0</span>
+                                            <span class="price">{{ i.RetailerPrice | currency:"" }}</span>
                                             </span>
                                         </div>
                                     </td>
                                     <td class="cell-center">
-                                        <button class="btn btn-xs btn-primary" ng-click="orderDetailsCtrl.AddProductToOrder(i)">+</button>
+                                        <button ng-if="orderDetailsCtrl.SalesOrderStatusId === 1 || orderDetailsCtrl.SalesOrderStatusId === 0" class="btn btn-xs btn-primary" ng-click="orderDetailsCtrl.AddProductToOrder(i)">+</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -88,8 +106,8 @@
             <div class="products-in-order">
                 <div class="grid-header">
                     <input type="text" class="form-control search" ng-model="orderDetailsCtrl.SearchProductsInOrder" placeholder="Search for products in order...">
-                    <strong class="fab-status fab-success">
-                        {{ orderDetailsCtrl.SalesDetails.SalesOrderStatusName ? orderDetailsCtrl.SalesDetails.SalesOrderStatusName : 'Pending'  }}
+                    <strong class="fab-status" ng-class="orderDetailsCtrl.GetStatusClass()">
+                        {{ orderDetailsCtrl.SalesDetails.SalesOrderStatusName ? orderDetailsCtrl.SalesDetails.SalesOrderStatusName : 'Unsaved'  }}
                     </strong>
                 </div>
                 <div>
@@ -131,9 +149,9 @@
                                                 <button class="btn btn-primary-inverse btn-sm ml-3" ng-click="i.Quantity ? i.Quantity = null : i.Quantity = i.UnfinishedQuantity">{{ i.Quantity ? 'Change' : 'Set' }}</button>
                                             </div>
                                         </td>
-                                        <td> 0 </td>
+                                        <td> {{ i.UnitPrice | currency: "" }} </td>
                                         <td class="cell-center">
-                                            <button ng-click="orderDetailsCtrl.RemoveProductFromOrder(i)" class="btn btn-xs btn-danger">-</button>
+                                            <button ng-if="orderDetailsCtrl.SalesOrderStatusId === 1 || orderDetailsCtrl.SalesOrderStatusId === 0" ng-click="orderDetailsCtrl.RemoveProductFromOrder(i)" class="btn btn-xs btn-danger">-</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -143,12 +161,23 @@
                 </div>
             </div>
             <div class="order-footer">
-                <button class="btn btn-sm btn-primary ml-auto" ng-click="orderDetailsCtrl.SubmitOrder()">
-                    Place Order
-                </button>
+                <div class="d-flex ml-auto">
+                    <button class="btn btn-sm btn-danger mr-3" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 4 && orderDetailsCtrl.SalesOrderStatusId !== 5 && orderDetailsCtrl.SalesOrderStatusId !== 0" ng-click="orderDetailsCtrl.AlertMessage = 'Are you sure you want to cancel this order?'; orderDetailsCtrl.ShowConfirmAlert = true;">
+                        Cancel Order
+                    </button>
+                    <button class="btn btn-sm btn-primary" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 4 && orderDetailsCtrl.SalesOrderStatusId !== 5" ng-click="orderDetailsCtrl.SubmitOrder()">
+                        <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 0">Place Order</span>
+                        <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 1">Order Paid</span>
+                        <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 2">Order Shipped</span>
+                        <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 3">Order Delivered</span>
+                    </button>
+                </div>
+
+
             </div>
         </div>
 
 
     </div>
+</div>
 </div>
