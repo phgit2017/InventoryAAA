@@ -223,7 +223,8 @@ namespace Business.AAA.Core
                         ModifiedBy = null,
                         ModifiedTime = null,
                         PreviousQuantity = productDetailResult.Quantity,
-                        Remarks = orderDetail.Remarks
+                        Remarks = orderDetail.Remarks,
+                        PriceTypeId = orderDetail.PriceTypeId
                     };
 
                     
@@ -236,6 +237,7 @@ namespace Business.AAA.Core
                 }
             }
 
+            orderTransactionRequest.SalesOrderId = salesOrderId;
             return successReturn;
         }
 

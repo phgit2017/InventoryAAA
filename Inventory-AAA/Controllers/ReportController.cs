@@ -77,8 +77,18 @@ namespace Inventory_AAA.Controllers
             return purchaseAndSalesReportGenerationFile;
         }
 
-        public ActionResult GenerateSalesOrder(SalesOrderReportRequest request)
+        public ActionResult GenerateSalesOrder(int reportSalesType, string salesNo = "", long customerId = 0, long salesOrderId = 0,long categoryId = 0,DateTime? dateFrom = null, DateTime? dateTo = null)
         {
+            var request = new SalesOrderReportRequest()
+            {
+                ReportSalesType = reportSalesType,
+                SalesNo = salesNo,
+                CustomerId = customerId,
+                SalesOrderId = salesOrderId,
+                CategoryId = categoryId,
+                DateFrom = dateFrom,
+                DateTo = dateTo
+            };
             var salesOrderReportGeneration = SalesOrderReportGeneration(request);
             return salesOrderReportGeneration;
         }

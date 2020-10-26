@@ -39,5 +39,10 @@
 
         [ForeignKey("SalesOrderID")]
         public virtual SalesOrder SalesOrder { get; set; }
+
+        public int PriceTypeID { get; set; }
+
+        [ForeignKey("PriceTypeID")]
+        public virtual PriceType PriceType { get; set; }
     }
 }

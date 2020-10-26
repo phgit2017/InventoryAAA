@@ -12,6 +12,7 @@
         public PriceType()
         {
             ProductPrices = new HashSet<ProductPrice>();
+            SalesOrderDetails = new HashSet<SalesOrderDetail>();
         }
 
         [Key]
@@ -24,5 +25,7 @@
         
         //[InverseProperty("PriceType_PriceTypeID")]
         public virtual ICollection<ProductPrice> ProductPrices { get; set; }
+
+        public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }
     }
 }

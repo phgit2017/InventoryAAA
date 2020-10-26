@@ -148,6 +148,9 @@ namespace Business.AAA.Core.Dto
         public long SalesOrderId { get; set; }
 
         public decimal CurrentStock { get; set; } = 0;
+
+        public int PriceTypeId { get; set; }
+        public string PriceTypeName { get; set; }
     }
 
     public class BaseOrderDetails : BaseDetail
@@ -187,6 +190,8 @@ namespace Business.AAA.Core.Dto
     public class SalesOrderDetailsRequest : BaseOrderRequestDetails
     {
         public long SalesOrderId { get; set; }
+
+        public int PriceTypeId { get; set; }
     }
 
     public class BaseOrderRequestDetails : BaseDetail

@@ -64,6 +64,8 @@ namespace Business.AAA.Core.Dto
         public decimal RetailerPrice { get; set; } = 0;
         public decimal ResellerPrice { get; set; } = 0;
         public decimal BigBuyerPrice { get; set; } = 0;
+
+        public int PriceTypeId { get; set; }
     }
     
     public class ProductLogDetailRequest : BaseDetail

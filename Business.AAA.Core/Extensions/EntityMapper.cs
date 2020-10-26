@@ -232,7 +232,8 @@ namespace Business.AAA.Core.Extensions
                     ModifiedBy = request.ModifiedBy,
                     ModifiedTime = request.ModifiedTime,
                     PreviousQuantity = request.PreviousQuantity,
-                    Remarks = request.Remarks
+                    Remarks = request.Remarks,
+                    PriceTypeID = request.PriceTypeId,
                 };
             }
 

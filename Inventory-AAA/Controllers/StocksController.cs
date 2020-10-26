@@ -212,6 +212,7 @@ namespace Inventory_AAA.Controllers
             bool isSucess = false;
             string messageAlert = string.Empty, orderTransactionTypeService = string.Empty;
             long updateOrderTransactionResult = 0;
+            long salesOrderIdResult = 0;
 
             OrderTransactionRequest orderTransactionRequest = new OrderTransactionRequest();
             List<ProductDetailRequest> orderTransactionDetailRequest = new List<ProductDetailRequest>();
@@ -238,6 +239,7 @@ namespace Inventory_AAA.Controllers
                 orderTransactionRequest.SalesNo = request.SalesNo;
                 orderTransactionRequest.ModeOfPayment = request.ModeOfPayment;
                 orderTransactionRequest.ShippingFee = request.ShippingFee;
+                
 
                 foreach (var salesOrderDetails in request.SalesOrderProductDetailRequest)
                 {
@@ -245,7 +247,8 @@ namespace Inventory_AAA.Controllers
                     {
                         ProductId = salesOrderDetails.ProductId,
                         UnitPrice = salesOrderDetails.UnitPrice,
-                        Quantity = salesOrderDetails.Quantity
+                        Quantity = salesOrderDetails.Quantity,
+                        PriceTypeId = salesOrderDetails.PriceTypeId
 
                     });
                 }
@@ -266,23 +269,26 @@ namespace Inventory_AAA.Controllers
 
                 if (updateOrderTransactionResult == -100)
                 {
-                    return Json(new { isSuccess = isSucess, messageAlert = Messages.ProductCodeValidation }, JsonRequestBehavior.AllowGet);
+                    return Json(new { isSuccess = isSucess, messageAlert = Messages.ProductCodeValidation, salesOrderIdResult = salesOrderIdResult }, JsonRequestBehavior.AllowGet);
                 }
                 else if (updateOrderTransactionResult == 0)
                 {
                     isSucess = true;
+                    
                 }
 
+                salesOrderIdResult = request.SalesOrderId;
                 var response = new
                 {
                     isSuccess = isSucess,
-                    messageAlert = messageAlert
+                    messageAlert = messageAlert,
+                    salesOrderIdResult = salesOrderIdResult
                 };
                 return Json(response, JsonRequestBehavior.AllowGet);
             }
             else
             {
-                return Json(new { isSuccess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing }, JsonRequestBehavior.AllowGet);
+                return Json(new { isSuccess = isSucess, messageAlert = Messages.ErrorOccuredDuringProcessing, salesOrderIdResult = salesOrderIdResult }, JsonRequestBehavior.AllowGet);
             }
         }
 

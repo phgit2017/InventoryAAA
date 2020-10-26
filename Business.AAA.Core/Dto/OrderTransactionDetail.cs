@@ -69,7 +69,8 @@ namespace Business.AAA.Core.Dto
         public string SalesNo { get; set; }
 
         public string ModeOfPayment { get; set; }
-        public decimal? ShippingFee { get; set; } 
+        public decimal? ShippingFee { get; set; }
+        
 
     }
 
@@ -80,6 +81,8 @@ namespace Business.AAA.Core.Dto
         public decimal UnitPrice { get; set; }
 
         public decimal Quantity { get; set; }
+
+        public int PriceTypeId { get; set; }
 
     }
 
