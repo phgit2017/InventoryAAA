@@ -17,13 +17,16 @@ namespace Business.AAA.Core
     {
         IProductServices _productServices;
         IOrderServices _orderServices;
+        ICustomerServices _customerServices;
 
         public CorrectionOrderService(
         IProductServices productServices,
-        IOrderServices orderServices)
+        IOrderServices orderServices,
+        ICustomerServices customerServices)
         {
             this._productServices = productServices;
             this._orderServices = orderServices;
+            this._customerServices = customerServices;
         }
 
     }
@@ -154,7 +157,7 @@ namespace Business.AAA.Core
                         PriceTypeId = i,
                         Price = price
                     };
-                    _productServices.SaveProductPrice(productPricesDetailRequest);
+                    _productServices.UpdateProductPrice(productPricesDetailRequest);
                 }
                 #endregion
 
