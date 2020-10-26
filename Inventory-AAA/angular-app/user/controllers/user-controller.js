@@ -186,4 +186,18 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
 
         vm.filteredUsers = vm.UserList.slice(begin, end);
     }
+
+    vm.ResetFields = function() {
+        vm.SelectedUser = {
+            UserId: 0,
+            FirstName: "",
+            LastName: "",
+            UserName: "",
+            Password: "",
+            UserRoleId: 1,
+            IsActive: true,
+            CreatedBy: 0,
+            CreatedTime: ""
+        };
+    }
 }

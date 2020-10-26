@@ -29,6 +29,7 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
                 vm.SalesOrders = data.result;
                 vm.FilteredSalesOrders = vm.SalesOrders;
                 vm.SalesOrdersLoading = false;
+                debugger;
             },
             function(error) {
                 vm.SalesOrdersLoading = false;

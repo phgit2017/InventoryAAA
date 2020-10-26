@@ -1,10 +1,15 @@
 ﻿<div ng-if="showme" class="page-loader">
     <div class="page-loader-container">
         <div class="loader-design align-self-center">
-            <img ng-src="Content/assets/crescent-loader.gif" />
+            <div class="lds-ellipsis">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
     </div>
     <div ng-if="showerror">
         <h4>{{errormessage}}</h4>
     </div>
-</div>  
+</div>

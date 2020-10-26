@@ -33,6 +33,7 @@
                         <th>Address</th>
                         <th>Total Quantity</th>
                         <th>Total Amount</th>
+                        <th>Payment Details</th>
                         <th>Created Time</th>
                         <th>Modified Time</th>
                         <th class="cell-center">Status</th>
@@ -46,7 +47,20 @@
                         <td> {{ so.CustomerFullName }} </td>
                         <td> {{ so.CustomerFullAddress }} </td>
                         <td> {{ so.TotalQuantity }} </td>
-                        <td> {{ so.TotalAmount }} </td>
+                        <td> {{ so.TotalAmount | currency:"" }} </td>
+                        <td>
+                            <div class="price-list">
+                                <span class="price-type">
+                                    <span class="type">MOP: </span>
+                                <span class="price">{{ so.ModeOfPayment ? so.ModeOfPayment : 'N/A' }}</span>
+                                </span>
+                                <span class="price-type">
+                                    <span class="type">Shipping Fee: </span>
+                                <span class="price">{{ so.ShippingFee? so.ShippingFee : 'N/A' }}</span>
+                                </span>
+
+                            </div>
+                        </td>
                         <td> {{ so.CreatedDateTimeFormat }} </td>
                         <td> {{ so.ModifiedDateTimeFormat !== '' ? so.ModifedDateTimeFormat : 'N/A' }} </td>
                         <td class="cell-center">

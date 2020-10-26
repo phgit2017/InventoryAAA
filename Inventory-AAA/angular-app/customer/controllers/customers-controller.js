@@ -68,13 +68,21 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
         if (validCustomerDetails()) {
             CustomerService.SaveCustomer(vm.SelectedCustomer, mode).then(
                 function(data) {
-                    QuickAlert.Show({
-                        type: 'success',
-                        message: 'Customer has been added.'
-                    });
-                    getCustomerList();
-                    $scope.customerForm.$setPristine();
-                    vm.ResetFields();
+                    if (data.isSuccess) {
+                        QuickAlert.Show({
+                            type: 'success',
+                            message: 'Customer has been added.'
+                        });
+                        getCustomerList();
+                        $scope.customerForm.$setPristine();
+                        vm.ResetFields();
+                    } else {
+                        QuickAlert.Show({
+                            type: 'error',
+                            message: data.messageAlert
+                        });
+                    }
+
                 },
                 function(error) {
                     QuickAlert.Show({

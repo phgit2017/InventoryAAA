@@ -61,6 +61,7 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
             return;
         }
 
+        product.Quantity = 0;
         vm.ProductsInOrder.push(product);
         selectedProductIndex = vm.ProductList.indexOf(product);
         vm.ProductList.splice(selectedProductIndex, 1);
@@ -69,7 +70,6 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
     vm.RemoveProductFromOrder = function(product) {
         selectedProductIndex = vm.ProductsInOrder.indexOf(product);
         vm.ProductsInOrder.splice(selectedProductIndex, 1);
-        debugger;
         getProductList();
     }
 
@@ -82,14 +82,11 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
         }
 
         vm.ProductsInOrder.forEach(x => {
-            if (!'Quantity' in x && !isBreak) {
-                debugger;
+            if (x.Quantity === 0 && !isBreak) {
                 errorMsg = 'Please input quantity for all products before saving.';
                 isBreak = true;
             }
         });
-
-        debugger;
 
         if (errorMsg === '') {
             var salesOrderRequest = {
@@ -131,6 +128,7 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
                 vm.SalesDetails = vm.OrderDetails.SalesDetails;
                 vm.SelectCustomer(vm.OrderDetails.CustomerDetails);
                 vm.ProductsInOrder = vm.OrderDetails.ProductList;
+                debugger;
                 getProductList();
             },
             function(error) {
@@ -162,7 +160,7 @@ function OrderDetailsController($scope, $rootScope, $routeParams, SalesOrderServ
         InventoryService.GetInventorySummary().then(
             function(data) {
                 vm.ProductList = data;
-                let _productsInOrder = vm.ProductsInOrder.map(x => x.ProductID);
+                let _productsInOrder = vm.ProductsInOrder.map(x => x.ProductId);
                 vm.ProductList = vm.ProductList.filter(x => {
                     return _productsInOrder.includes(x.ProductId) ? false : true;
                 });
