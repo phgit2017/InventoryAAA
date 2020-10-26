@@ -17,6 +17,11 @@ namespace Business.AAA.Core.Dto
         public string ProductDescription { get; set; }
         public decimal InventoryStocks { get; set; }
         public decimal CurrentStocks { get; set; }
+        public decimal BigBuyerPrice { get; set; }
+        public decimal ResellerPrice { get; set; }
+        public decimal RetailerPrice { get; set; }
+        public string CategoryName { get; set; }
+        public long CategoryId { get; set; }
         public decimal Sold { get; set; }
     }
 

@@ -88,12 +88,12 @@ namespace Inventory_AAA.Controllers
             productResult.ProductPrices = _productServices.GetAllProductPrices().Where(m => m.ProductId == request.ProductId).ToList();
 
             //Purchase order and Sales order Details
-            var inventoryDetailsResult = _productServices.RetrieveInventoryDetails(request);
+            //var inventoryDetailsResult = _productServices.RetrieveInventoryDetails(request);
 
             var response = new
             {
                 ProductResult = productResult,
-                InventoryDetailsResult = inventoryDetailsResult,
+                //InventoryDetailsResult = inventoryDetailsResult,
                 isSuccess = true
             };
 

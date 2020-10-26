@@ -158,10 +158,13 @@ namespace Inventory_AAA.Controllers
             workSheet.Cells["A3"].Value = ds.Tables[2].Rows[0][0].ToString();
             workSheet.Cells["B3"].Value = ds.Tables[2].Rows[0][1].ToString();
 
+            workSheet.Cells["A4"].Value = ds.Tables[3].Rows[0][0].ToString();
+            workSheet.Cells["B4"].Value = ds.Tables[3].Rows[0][1].ToString();
 
-            rowId = 5;
+
+            rowId = 6;
             DataTable dtReportColumns = new DataTable();
-            dtReportColumns = ds.Tables[4];
+            dtReportColumns = ds.Tables[5];
             for (int i = 0; i <= dtReportColumns.Columns.Count - 1; i++)
             {
                 colId = i + 1;
@@ -169,9 +172,9 @@ namespace Inventory_AAA.Controllers
             }
 
 
-            rowId = 6;
+            rowId = 7;
             DataTable dtReportRows = new DataTable();
-            dtReportRows = ds.Tables[5];
+            dtReportRows = ds.Tables[6];
             for (int i = 0; i <= dtReportRows.Rows.Count - 1; i++)
             {
                 for (int iCol = 0; iCol <= dtReportRows.Columns.Count - 1; iCol++)
@@ -182,7 +185,7 @@ namespace Inventory_AAA.Controllers
                 rowId++;
             }
 
-
+            workSheet.Cells.AutoFitColumns();
             var memoryStream = new MemoryStream();
             //package.Save();
             package.SaveAs(memoryStream);
@@ -258,7 +261,7 @@ namespace Inventory_AAA.Controllers
                 }
             }
 
-            workSheet.Cells["A:H"].AutoFitColumns();
+            workSheet.Cells.AutoFitColumns();
 
 
             var memoryStream = new MemoryStream();

@@ -125,7 +125,8 @@ namespace Inventory_AAA.Controllers
             #region Validate same firstname and lastname
             var customerNameResult = _customerServices.GetAll().Where(u => u.FirstName == request.FirstName
                                                            && u.CustomerStatusId == LookupKey.CustomerStatus.ActiveId
-                                                           && u.LastName == request.LastName).FirstOrDefault();
+                                                           && u.LastName == request.LastName
+                                                           && u.CustomerId != request.CustomerId).FirstOrDefault();
 
 
             if (!customerNameResult.IsNull())
