@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('OrderDetailsController', OrderDetailsController);
 
-OrderDetailsController.$inject = ['$scope', '$rootScope', '$routeParams', 'MaintenanceService', 'SalesOrderService', 'CustomerService', 'InventoryService', 'QuickAlert'];
+OrderDetailsController.$inject = ['$scope', '$route', '$location', '$routeParams', 'MaintenanceService', 'SalesOrderService', 'CustomerService', 'InventoryService', 'QuickAlert'];
 
-function OrderDetailsController($scope, $rootScope, $routeParams, MaintenanceService, SalesOrderService, CustomerService, InventoryService, QuickAlert) {
+function OrderDetailsController($scope, $route, $location, $routeParams, MaintenanceService, SalesOrderService, CustomerService, InventoryService, QuickAlert) {
 
     var vm = this,
         controllerName = 'orderDetailsCtrl';
@@ -28,11 +28,13 @@ function OrderDetailsController($scope, $rootScope, $routeParams, MaintenanceSer
     vm.PriceTypesShown = false;
     vm.SelectedPriceType = '';
     vm.ModeOfPayment = '';
-    vm.ShippingFee = null;
+    vm.ShippingFee = 0;
     vm.SalesOrderStatusId = 0;
     vm.FilterCategoryId = '';
     vm.ShowConfirmAlert = false;
     vm.AlertMessage = '';
+    vm.ReceiptShown = false;
+    vm.ReceiptDetails;
 
 
     vm.Initialize = function() {
@@ -129,6 +131,22 @@ function OrderDetailsController($scope, $rootScope, $routeParams, MaintenanceSer
         return;
     }
 
+    vm.GetOrderReceipt = function() {
+        vm.ReceiptShown = true;
+        SalesOrderService.GetOrderReceipt(vm.SalesOrderId).then(
+            function(data) {
+                vm.ReceiptDetails = data;
+                debugger;
+            },
+            function(error) {
+                QuickAlert.Show({
+                    type: 'error',
+                    message: 'Error fetching Receipt from Server.'
+                });
+            }
+        )
+    }
+
     saveOrder = function(status = null) {
         let statusId, alertMessage, priceTypeId;
         debugger;
@@ -161,13 +179,19 @@ function OrderDetailsController($scope, $rootScope, $routeParams, MaintenanceSer
             CustomerId: vm.SelectedCustomer.CustomerId,
             SalesOrderId: vm.SalesOrderId,
             SalesOrderStatusId: statusId,
-            SalesNo: 0,
+            SalesNo: vm.SalesDetails.SalesNo,
             ModeOfPayment: vm.ModeOfPayment,
             ShippingFee: vm.ShippingFee,
             SalesOrderProductDetailRequest: vm.ProductsInOrder,
         }
         SalesOrderService.SubmitOrder(salesOrderRequest).then(
             function(data) {
+                if (vm.SalesOrderId === 0) {
+                    $location.url('/OrderDetails/' + data.salesOrderIdResult);
+                } else {
+                    $route.reload();
+                }
+
                 QuickAlert.Show({
                     type: 'success',
                     message: 'Order has been ' + alertMessage
@@ -193,7 +217,6 @@ function OrderDetailsController($scope, $rootScope, $routeParams, MaintenanceSer
                 vm.SalesOrderStatusId = vm.SalesDetails.SalesOrderStatusId
                 vm.SelectCustomer(vm.OrderDetails.CustomerDetails);
                 vm.ProductsInOrder = vm.OrderDetails.ProductList;
-                debugger;
                 switch (vm.ProductsInOrder[0].PriceTypeId) {
                     case 1:
                         vm.SelectedPriceType = 'Big Buyer';
@@ -204,9 +227,7 @@ function OrderDetailsController($scope, $rootScope, $routeParams, MaintenanceSer
                     case 3:
                         vm.SelectedPriceType = 'Retailer';
                         break;
-
                 }
-
                 getProductList();
             },
             function(error) {

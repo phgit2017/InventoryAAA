@@ -6,7 +6,7 @@ UserService.$inject = ['$q', '$http', '$location', 'globalBaseUrl'];
 
 function UserService($q, $http, $location, globalBaseUrl) {
     var UserServiceFactory = {},
-        baseUrl = globalBaseUrl +  "/User";
+        baseUrl = globalBaseUrl + "/User";
 
     UserServiceFactory.GetUserList = _getUserList;
     UserServiceFactory.AddNewUser = _addNewUser;
@@ -18,13 +18,14 @@ function UserService($q, $http, $location, globalBaseUrl) {
         var defer = $q.defer(),
             url = baseUrl + '/UserList';
         $http.post(url)
-            .then(function (response) {
+            .then(function(response) {
                 if (!response.data.isSuccess) {
                     $location.url('/Unauthorized');
                 }
                 defer.resolve(response.data)
-            }), function (err) {
-                
+            }),
+            function(err) {
+
                 defer.reject(err);
             }
         return defer.promise;
@@ -35,9 +36,10 @@ function UserService($q, $http, $location, globalBaseUrl) {
             url = baseUrl + '/AddNewUserDetails';
 
         $http.post(url, data)
-            .then(function (response) {
+            .then(function(response) {
                 defer.resolve(response.data)
-            }), function (err) {
+            }),
+            function(err) {
                 defer.reject(err);
             }
         return defer.promise;
@@ -48,9 +50,10 @@ function UserService($q, $http, $location, globalBaseUrl) {
             url = baseUrl + '/UpdateUserDetails';
 
         $http.post(url, data)
-            .then(function (response) {
+            .then(function(response) {
                 defer.resolve(response.data)
-            }), function (err) {
+            }),
+            function(err) {
                 defer.reject(err);
             }
         return defer.promise;

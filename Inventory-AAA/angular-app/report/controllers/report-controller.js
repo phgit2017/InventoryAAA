@@ -47,7 +47,7 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
                     },
                     {
                         FilterId: 2,
-                        FilterLabel: "By Customer"
+                        FilterLabel: "By Customer and Date"
                     },
                     {
                         FilterId: 3,
@@ -110,7 +110,7 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
                     case 1:
                         return vm.SalesNo === 0 || vm.SalesNo === '' ? false : true;
                     case 2:
-                        return vm.SelectedCustomer === 0 ? false : true;
+                        return vm.StartDate === "" || vm.EndDate === "" || vm.SelectedCustomer === 0 ? false : true;
                     case 3:
                         return vm.StartDate === "" || vm.EndDate === "" ? false : true;
                     case 4:
@@ -123,21 +123,26 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
     sendResponse = function() {
         switch (vm.ReportType) {
             case 0:
-                url = globalBaseUrl + '/Report/GenerateSalesReport=' + vm.StartDate + '&endDate=' + vm.EndDate;
+                url = globalBaseUrl + '/Report/GenerateSalesReport' +
+                    '?startDate=' + vm.StartDate +
+                    '&endDate=' + vm.EndDate;
                 break;
             case 1:
-                url = globalBaseUrl + '/Report/GeneratePurchaseAndSalesReport?startDate=' + vm.StartDate + '&endDate=' + vm.EndDate;
+                url = globalBaseUrl + '/Report/GeneratePurchaseAndSalesReport' +
+                    '?startDate=' + vm.StartDate +
+                    '&endDate=' + vm.EndDate;
                 break;
             case 2:
-                url = globalBaseUrl + '/Report/SalesOrderReportGeneration?' +
-                    '&SalesNo=' + vm.SalesNo +
-                    '&CustomerId=' + vm.SelectedCustomer +
+                url = globalBaseUrl + '/Report/GenerateSalesOrder?' +
+                    '&reportSalesType=' + vm.ReportType +
+                    '&salesNo=' + vm.SalesNo +
+                    '&customerId=' + vm.SelectedCustomer +
                     '&startDate=' + vm.StartDate +
                     '&endDate=' + vm.EndDate +
-                    '&CategoryId=' + vm.SelectedCategory;
+                    '&categoryId=' + vm.SelectedCategory;
                 break;
         }
-
+        debugger;
         downloadFile(url);
     }
 
