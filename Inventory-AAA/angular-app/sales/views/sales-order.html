@@ -1,6 +1,6 @@
 ﻿<div class="content" ng-init="salesOrderCtrl.Initialize();">
     <div class="content-header">
-        <div class="input-group">
+        <div class="input-group search-sales">
             <div class="input-group-append">
                 <span class="input-group-text">
                   <svg viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -11,6 +11,12 @@
             </div>
             <input ng-model="salesOrderCtrl.SearchSalesOrdersInput" type="text" class="form-control inline" aria-label="searchProduct" placeholder="Search Orders...">
         </div>
+
+        <div class="btn-group sales-mode">
+            <button ng-click="salesOrderCtrl.TableMode = 'Undelivered'" class="btn btn-sm" ng-class="{ 'btn-selected' : salesOrderCtrl.TableMode === 'Undelivered', 'btn-unselected' : salesOrderCtrl.TableMode === 'Delivered' }">Undelivered</button>
+            <button ng-click="salesOrderCtrl.TableMode = 'Delivered'" class="btn btn-sm" ng-class="{ 'btn-selected' : salesOrderCtrl.TableMode === 'Delivered', 'btn-unselected' : salesOrderCtrl.TableMode === 'Undelivered' }">Delivered</button>
+        </div>
+
         <button class="btn btn-sm btn-primary" ng-click="salesOrderCtrl.ManageSalesOrder(0)">
             <div class="d-flex">
                 <span>New Order</span>

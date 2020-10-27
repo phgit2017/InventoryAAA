@@ -13,6 +13,7 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
     vm.SalesOrders = [];
     vm.SalesOrdersLoading = true;
     vm.SearchSalesOrdersInput = "";
+    vm.TableMode = "Undelivered";
 
     vm.Initialize = function() {
         getSalesOrders();

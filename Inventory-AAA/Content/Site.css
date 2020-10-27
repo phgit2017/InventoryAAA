@@ -332,12 +332,12 @@ textarea {
 
 .content {
   background: #eee;
-  padding: 1rem 2rem;
   position: relative;
   overflow-y: scroll;
   height: calc(100vh - 3rem);
 }
 .content .content-header {
+  padding: 1rem 2rem 0 2rem;
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
@@ -347,19 +347,39 @@ textarea {
   background: #444 !important;
   padding: 1rem;
   color: #fff;
+  border-radius: 0;
 }
 .content .content-header.customer-details .address {
   padding-left: 1.75rem;
 }
+.content .content-header .input-group {
+  width: 30% !important;
+}
+.content .content-header .sales-mode {
+  padding-right: 20vw;
+}
+.content .content-header .sales-mode .btn-selected {
+  background: #555;
+  color: #fff;
+}
+.content .content-header .sales-mode .btn-unselected {
+  background: #ccc;
+  color: #777;
+}
+.content .content-body {
+  padding: 1rem 2rem;
+  max-height: 80% !important;
+  overflow-y: scroll;
+}
 .content .content-body .maintenance {
   height: 77.5vh;
-  overflow-y: scroll;
 }
 .content .content-body.orders-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 77.5vh;
   grid-gap: 2rem;
+  max-height: 100% !important;
 }
 .content .content-body.orders-grid .grid-item {
   height: 100%;
@@ -423,6 +443,73 @@ textarea {
   bottom: 1.5rem;
   width: calc(100% - 4rem);
   border-radius: 5px;
+}
+.content .receipt {
+  background: #555;
+  padding: 3rem 25vw 0 25vw;
+  height: 100%;
+}
+.content .receipt .receipt-body {
+  color: #555;
+  background: #fff;
+  height: 90%;
+  padding: 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+}
+.content .receipt .receipt-body .receipt-section {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  align-items: center;
+  border-bottom: solid 1px #ddd;
+  background: #555;
+}
+.content .receipt .receipt-body .receipt-section:not(:first-child) {
+  margin-top: 1rem;
+}
+.content .receipt .receipt-body .sales-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 1.75rem;
+}
+.content .receipt .receipt-body .sales-details .label {
+  margin-right: 1rem;
+}
+.content .receipt .receipt-body .product-list,
+.content .receipt .receipt-body .total,
+.content .receipt .receipt-body .shipping-fee {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr;
+  grid-auto-rows: 1.75rem;
+  padding: 0 1rem;
+}
+.content .receipt .receipt-body .product-list .label,
+.content .receipt .receipt-body .total .label,
+.content .receipt .receipt-body .shipping-fee .label {
+  margin-right: 1rem;
+}
+.content .receipt .receipt-body .product-list .price,
+.content .receipt .receipt-body .total .price,
+.content .receipt .receipt-body .shipping-fee .price {
+  text-align: right;
+}
+.content .receipt .receipt-body .shipping-fee {
+  margin-top: auto;
+}
+.content .receipt .receipt-body .total {
+  padding-top: 1rem;
+  border-top: solid 3px #ddd;
+}
+.content .receipt .receipt-footer {
+  margin-top: auto;
+  padding: 1rem;
+  background: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .dropdown-customers {

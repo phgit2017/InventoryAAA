@@ -142,7 +142,6 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
                     '&categoryId=' + vm.SelectedCategory;
                 break;
         }
-        debugger;
         downloadFile(url);
     }
 

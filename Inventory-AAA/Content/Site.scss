@@ -367,11 +367,11 @@ textarea {
 
 .content {
     background: #eee;
-    padding: 1rem 2rem;
     position: relative;
     overflow-y: scroll;
     height: calc(100vh - 3rem);
     .content-header {
+        padding: 1rem 2rem 0 2rem;
         display: flex;
         justify-content: space-between;
         margin-bottom: 1rem;
@@ -380,21 +380,39 @@ textarea {
             background: #444 !important;
             padding: 1rem;
             color: #fff;
+            border-radius: 0;
             .address {
                 padding-left: 1.75rem;
             }
         }
+        .input-group {
+            width: 30% !important;
+        }
+        .sales-mode {
+            padding-right: 20vw;
+            .btn-selected {
+                background: #555;
+                color: #fff;
+            }
+            .btn-unselected {
+                background: #ccc;
+                color: #777;
+            }
+        }
     }
     .content-body {
+        padding: 1rem 2rem;
+        max-height: 80% !important;
+        overflow-y: scroll;
         .maintenance {
             height: 77.5vh;
-            overflow-y: scroll;
         }
         &.orders-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-auto-rows: 77.5vh;
             grid-gap: 2rem;
+            max-height: 100% !important;
             .grid-item {
                 height: 100%;
                 background: #fff;
@@ -456,6 +474,69 @@ textarea {
         bottom: 1.5rem;
         width: calc(100% - 4rem);
         border-radius: 5px;
+    }
+    .receipt {
+        background: #555;
+        padding: 3rem 25vw 0 25vw;
+        height: 100%;
+        .receipt-body {
+            color: #555;
+            background: #fff;
+            height: 90%;
+            padding: 2rem 3rem;
+            display: flex;
+            flex-direction: column;
+            .receipt-section {
+                display: flex;
+                flex-direction: column;
+                color: #fff;
+                margin-bottom: 1rem;
+                font-size: 1rem;
+                align-items: center;
+                border-bottom: solid 1px #ddd;
+                background: #555;
+                &:not(:first-child) {
+                    margin-top: 1rem;
+                }
+            }
+            .sales-details {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 1.75rem;
+                .label {
+                    margin-right: 1rem;
+                }
+            }
+            .product-list,
+            .total,
+            .shipping-fee {
+                display: grid;
+                grid-template-columns: 3fr 1fr 1fr;
+                grid-auto-rows: 1.75rem;
+                padding: 0 1rem;
+                .label {
+                    margin-right: 1rem;
+                }
+                .price {
+                    text-align: right;
+                }
+            }
+            .shipping-fee {
+                margin-top: auto;
+            }
+            .total {
+                padding-top: 1rem;
+                border-top: solid 3px #ddd;
+            }
+        }
+        .receipt-footer {
+            margin-top: auto;
+            padding: 1rem;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 }
 

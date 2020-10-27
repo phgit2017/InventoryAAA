@@ -147,9 +147,16 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
         )
     }
 
+    vm.GetStatusClass = function() {
+        return {
+            'fab-pending': vm.SalesOrderStatusId === 0 || vm.SalesOrderStatusId === 1,
+            'fab-success': vm.SalesOrderStatusId === 2 || vm.SalesOrderStatusId === 3 || vm.SalesOrderStatusId === 4,
+            'fab-danger': vm.SalesOrderStatusId === 5
+        }
+    }
+
     saveOrder = function(status = null) {
         let statusId, alertMessage, priceTypeId;
-        debugger;
         if (isNullOrEmpty(status)) {
             switch (vm.SalesOrderStatusId) {
                 case 0:
@@ -275,14 +282,6 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
                     message: 'Error fetching Product List from Server.'
                 });
             });
-    }
-
-    vm.GetStatusClass = function() {
-        return {
-            'fab-pending': vm.SalesOrderStatusId === 0 || vm.SalesOrderStatusId === 1,
-            'fab-success': vm.SalesOrderStatusId === 2 || vm.SalesOrderStatusId === 3 || vm.SalesOrderStatusId === 4,
-            'fab-danger': vm.SalesOrderStatusId === 5
-        }
     }
 
     getCategoryList = function() {

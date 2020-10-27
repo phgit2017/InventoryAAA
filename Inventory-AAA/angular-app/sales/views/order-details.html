@@ -16,15 +16,14 @@
                     </ul>
                 </div>
             </div>
-
             <div class="address" ng-if="orderDetailsCtrl.SelectedCustomerLabel !== ''">
                 <span>{{ orderDetailsCtrl.SelectedCustomer.FullAddress }}</span>
             </div>
         </div>
-        <div class="d-flex flex-end align-items-center">
+        <div class="d-flex align-items-center ml-auto">
             <form>
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="form-group mr-3">
+                <div class="d-flex align-items-center justify-content-between ml-auto">
+                    <div class="form-group mr-3 ml-auto">
                         <span for="mop" class="form-label">Mode of Payment</span>
                         <input name="mop" type="text" class="form-control form-control-sm" ng-model="orderDetailsCtrl.ModeOfPayment">
                     </div>
@@ -160,17 +159,16 @@
             </div>
             <div class="order-footer">
                 <div class="d-flex ml-auto">
-                    <button type="button" class="btn btn-primary" ng-click="orderDetailsCtrl.GetOrderReceipt();">
-                        View Receipt
-                    </button>
                     <button class="btn btn-sm btn-danger" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 4 && orderDetailsCtrl.SalesOrderStatusId !== 5 && orderDetailsCtrl.SalesOrderStatusId !== 0" ng-click="orderDetailsCtrl.AlertMessage = 'Are you sure you want to cancel this order?'; orderDetailsCtrl.ShowConfirmAlert = true;">
                         Cancel Order
                     </button>
-                    <button class="btn btn-sm btn-primary" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 4 && orderDetailsCtrl.SalesOrderStatusId !== 5" ng-click="orderDetailsCtrl.SubmitOrder()" ng-disabled="orderDetailsCtrl.ProductsInOrder.length === 0">
+                    <button type="button" class="btn btn-sm btn-primary-inverse" ng-click="orderDetailsCtrl.GetOrderReceipt();" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 0 && orderDetailsCtrl.SalesOrderStatusId !== 5">
+                        {{ orderDetailsCtrl.SalesOrderStatusId === 3 ? 'Finalize Order' : 'View Receipt' }}
+                    </button>
+                    <button class="btn btn-sm btn-primary" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 3 && orderDetailsCtrl.SalesOrderStatusId !== 4 && orderDetailsCtrl.SalesOrderStatusId !== 5" ng-click="orderDetailsCtrl.SubmitOrder()" ng-disabled="orderDetailsCtrl.ProductsInOrder.length === 0">
                         <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 0">Place Order</span>
                         <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 1">Order Paid</span>
                         <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 2">Order Shipped</span>
-                        <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 3">Order Delivered</span>
                     </button>
                 </div>
             </div>
@@ -178,4 +176,57 @@
 
 
     </div>
-</div>
+    <div class="receipt" ng-if="orderDetailsCtrl.ReceiptShown">
+        <div class="receipt-body">
+            <div class="receipt-section">
+                Order Details
+            </div>
+            <div class="sales-details">
+
+                <div>
+                    <strong class="label">Sales No.:</strong>
+                    <span>000000000</span>
+                </div>
+                <div>
+                    <strong class="label">Mode of Payment:</strong>
+                    <span>BPI</span>
+                </div>
+                <div>
+                    <strong class="label">Customer:</strong>
+                    <span>C1 - Keiga Ebora</span>
+                </div>
+                <div>
+                    <strong class="label">Address:</strong>
+                    <span>Sariaya, Quezon</span>
+                </div>
+            </div>
+            <div class="receipt-section">
+                Product List
+            </div>
+            <div class="product-list">
+                <strong>Product 1</strong>
+                <span>2</span>
+                <span class="price">{{200 | currency: ""}}</span>
+
+                <strong>Product 2</strong>
+                <span>2</span>
+                <span class="price">{{300 | currency: ""}}</span>
+            </div>
+
+            <div class="shipping-fee">
+                <strong>Shipping Fee</strong>
+                <span></span>
+                <span class="price">{{200 | currency: ""}}</span>
+            </div>
+
+            <div class="total">
+                <strong>Total</strong>
+                <span>2</span>
+                <span class="price">{{200 | currency: ""}}</span>
+            </div>
+        </div>
+        <div class="receipt-footer">
+            <button class="btn btn-sm btn-primary-inverse" ng-click="orderDetailsCtrl.ReceiptShown = false">Back</button>
+            <button class="btn btn-sm btn-primary" ng-click="orderDetailsCtrl.SubmitOrder();" ng-if="orderDetailsCtrl.SalesOrderStatusId === 3">Finalize</button>
+        </div>
+    </div>
