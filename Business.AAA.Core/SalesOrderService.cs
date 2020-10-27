@@ -41,12 +41,12 @@ namespace Business.AAA.Core
 
             foreach (var orderDetail in orderTransactionDetailRequest)
             {
-                totalAmount += totalAmount + orderDetail.UnitPrice;
+                totalAmount += totalAmount + (orderDetail.UnitPrice * orderDetail.Quantity);
                 totalQuantity += totalQuantity + orderDetail.Quantity;
             }
 
             orderTransactionRequest.TotalQuantity = totalQuantity;
-            orderTransactionRequest.TotalAmount = (totalAmount * totalQuantity) + Convert.ToDecimal(orderTransactionRequest.ShippingFee);
+            orderTransactionRequest.TotalAmount = (totalAmount) + Convert.ToDecimal(orderTransactionRequest.ShippingFee);
 
             #region Sales Order
             var salesOrderRequest = new SalesOrdersRequest()
