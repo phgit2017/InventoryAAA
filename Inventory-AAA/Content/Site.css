@@ -468,7 +468,7 @@ textarea {
   background: #555;
 }
 .content .receipt .receipt-body .receipt-section:not(:first-child) {
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 .content .receipt .receipt-body .sales-details {
   display: grid;
@@ -478,23 +478,40 @@ textarea {
 .content .receipt .receipt-body .sales-details .label {
   margin-right: 1rem;
 }
+.content .receipt .receipt-body .product-container {
+  height: 100%;
+  overflow-y: scroll;
+}
 .content .receipt .receipt-body .product-list,
 .content .receipt .receipt-body .total,
-.content .receipt .receipt-body .shipping-fee {
+.content .receipt .receipt-body .shipping-fee,
+.content .receipt .receipt-body .header {
   display: grid;
-  grid-template-columns: 3fr 1fr 1fr;
-  grid-auto-rows: 1.75rem;
+  grid-template-columns: 3fr 1fr 1fr 1fr;
+  grid-auto-rows: 4rem;
   padding: 0 1rem;
 }
 .content .receipt .receipt-body .product-list .label,
 .content .receipt .receipt-body .total .label,
-.content .receipt .receipt-body .shipping-fee .label {
+.content .receipt .receipt-body .shipping-fee .label,
+.content .receipt .receipt-body .header .label {
   margin-right: 1rem;
 }
 .content .receipt .receipt-body .product-list .price,
 .content .receipt .receipt-body .total .price,
-.content .receipt .receipt-body .shipping-fee .price {
+.content .receipt .receipt-body .shipping-fee .price,
+.content .receipt .receipt-body .header .price {
   text-align: right;
+}
+.content .receipt .receipt-body .product-list .center,
+.content .receipt .receipt-body .total .center,
+.content .receipt .receipt-body .shipping-fee .center,
+.content .receipt .receipt-body .header .center {
+  text-align: center;
+}
+.content .receipt .receipt-body .shipping-fee,
+.content .receipt .receipt-body .header {
+  grid-auto-rows: 2rem;
 }
 .content .receipt .receipt-body .shipping-fee {
   margin-top: auto;
@@ -502,6 +519,7 @@ textarea {
 .content .receipt .receipt-body .total {
   padding-top: 1rem;
   border-top: solid 3px #ddd;
+  font-size: 1.15rem;
 }
 .content .receipt .receipt-footer {
   margin-top: auto;

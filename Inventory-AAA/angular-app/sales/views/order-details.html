@@ -179,54 +179,61 @@
     <div class="receipt" ng-if="orderDetailsCtrl.ReceiptShown">
         <div class="receipt-body">
             <div class="receipt-section">
-                Order Details
+                ORDER DETAILS
             </div>
             <div class="sales-details">
 
                 <div>
                     <strong class="label">Sales No.:</strong>
-                    <span>000000000</span>
+                    <span>{{ orderDetailsCtrl.ReceiptDetails[0].SalesNo }}</span>
                 </div>
                 <div>
-                    <strong class="label">Mode of Payment:</strong>
-                    <span>BPI</span>
+                    <strong class="label">MOP:</strong>
+                    <span>{{ orderDetailsCtrl.ReceiptDetails[0].ModeOfPayment === '' ? 'N/A' : orderDetailsCtrl.ReceiptDetails[0].ModeOfPayment }}</span>
                 </div>
-                <div>
+                <div class="d-flex">
                     <strong class="label">Customer:</strong>
-                    <span>C1 - Keiga Ebora</span>
+                    <span>{{ orderDetailsCtrl.ReceiptDetails[0].CustomerFullDetails }}</span>
                 </div>
                 <div>
                     <strong class="label">Address:</strong>
-                    <span>Sariaya, Quezon</span>
+                    <span>{{ orderDetailsCtrl.ReceiptDetails[0].FullAddress }}</span>
                 </div>
             </div>
             <div class="receipt-section">
-                Product List
+                PRODUCT LIST
             </div>
-            <div class="product-list">
-                <strong>Product 1</strong>
-                <span>2</span>
-                <span class="price">{{200 | currency: ""}}</span>
-
-                <strong>Product 2</strong>
-                <span>2</span>
-                <span class="price">{{300 | currency: ""}}</span>
+            <div class="header">
+                <strong>Product</strong>
+                <strong class="center">Quantity</strong>
+                <strong class="center">Price</strong>
+                <strong class="price">Subtotal</strong>
+            </div>
+            <div class="product-container">
+                <div class="product-list" ng-repeat="product in orderDetailsCtrl.ReceiptDetails">
+                    <strong>{{ product.ProductCode + ' - ' + product.ProductDescription }}</strong>
+                    <span class="center">{{ product.Quantity }}</span>
+                    <span class="center">{{ product.UnitPrice | currency: ""}}</span>
+                    <span class="price">{{ product.Subtotal | currency: ""}}</span>
+                </div>
             </div>
 
             <div class="shipping-fee">
                 <strong>Shipping Fee</strong>
                 <span></span>
-                <span class="price">{{200 | currency: ""}}</span>
+                <span></span>
+                <span class="price">{{ orderDetailsCtrl.ReceiptDetails[0].ShippingFee | currency: ""}}</span>
             </div>
 
             <div class="total">
                 <strong>Total</strong>
-                <span>2</span>
-                <span class="price">{{200 | currency: ""}}</span>
+                <strong class="center">{{ orderDetailsCtrl.ReceiptDetails[0].TotalQuantity }}</strong>
+                <span></span>
+                <strong class="price">{{ orderDetailsCtrl.ReceiptDetails[0].TotalAmount | currency: ""}}</strong>
             </div>
         </div>
         <div class="receipt-footer">
             <button class="btn btn-sm btn-primary-inverse" ng-click="orderDetailsCtrl.ReceiptShown = false">Back</button>
-            <button class="btn btn-sm btn-primary" ng-click="orderDetailsCtrl.SubmitOrder();" ng-if="orderDetailsCtrl.SalesOrderStatusId === 3">Finalize</button>
+            <button class="btn btn-sm btn-primary" ng-click="orderDetailsCtrl.SubmitOrder();" ng-if="orderDetailsCtrl.SalesOrderStatusId === 3">Checkout</button>
         </div>
     </div>

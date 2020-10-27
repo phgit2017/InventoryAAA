@@ -204,7 +204,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="i in inventoryCtrl.filteredProducts | filter : inventoryCtrl.SearchProductInput ">
-                                <td> {{ i.ProductID }} </td>
+                                <td> {{ i.ProductId }} </td>
                                 <td> {{ i.ProductCode }} </td>
                                 <td> {{ i.ProductDescription }} </td>
                                 <td> {{ i.CategoryName }} </td>
@@ -233,7 +233,7 @@
                                 </td>
                                 <td>
                                     <div class="d-flex flex-row justify-content-center ">
-                                        <button class="btn btn-sm btn-primary " ng-click="inventoryCtrl.GetProductDetails(i.ProductID); " id="btn-is-row-manage-{{i.ProductID}} ">
+                                        <button class="btn btn-sm btn-primary " ng-click="inventoryCtrl.GetProductDetails(i.ProductId); " id="btn-is-row-manage-{{i.ProductId}} ">
                                             Manage
                                         </button>
                                         <!-- <button class="btn btn-sm btn-danger " ng-click="inventoryCtrl.GetProductDetailsBasic(i.ProductID); inventoryCtrl.ShowConfirmAlert=true; " id="btn-is-row-delete-{{i.ProductID}} ">

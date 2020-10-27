@@ -27,7 +27,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     vm.PriceTypes = ['Big Buyer', 'Reseller', 'Retailer']
     vm.PriceTypesShown = false;
     vm.SelectedPriceType = '';
-    vm.ModeOfPayment = '';
+    vm.ModeOfPayment = 'N/A';
     vm.ShippingFee = 0;
     vm.SalesOrderStatusId = 0;
     vm.FilterCategoryId = '';
@@ -135,8 +135,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
         vm.ReceiptShown = true;
         SalesOrderService.GetOrderReceipt(vm.SalesOrderId).then(
             function(data) {
-                vm.ReceiptDetails = data;
-                debugger;
+                vm.ReceiptDetails = data.result;
             },
             function(error) {
                 QuickAlert.Show({
