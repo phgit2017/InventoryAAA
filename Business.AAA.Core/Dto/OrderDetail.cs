@@ -72,12 +72,12 @@ namespace Business.AAA.Core.Dto
         public string CustomerFullDetails { get; set; }
         public string FullAddress { get; set; }
         public long SalesOrderId { get; set; }
-        public long SalesOrderStatusID { get; set; }
+        public long SalesOrderStatusId { get; set; }
         public string SalesOrderStatusDisplay { get; set; }
-        public long ProductID { get; set; }
+        public long ProductId { get; set; }
         public string ProductCode { get; set; }
         public string ProductDescription { get; set; }
-        public long CategoryID { get; set; }
+        public long CategoryId { get; set; }
         public string CategoryName { get; set; }
         public decimal PreviousQuantity { get; set; }
         public long Quantity { get; set; }
@@ -91,6 +91,7 @@ namespace Business.AAA.Core.Dto
         public decimal TotalAmount { get; set; }
         public decimal TotalQuantity { get; set; }
         public decimal Subtotal { get; set; }
+        public decimal ShippingFee { get; set; }
     }
     #endregion
 
