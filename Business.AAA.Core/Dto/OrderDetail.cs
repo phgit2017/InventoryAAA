@@ -68,6 +68,9 @@ namespace Business.AAA.Core.Dto
     public class SalesOrderReceiptDetail
     {
         public string SalesNo { get; set; }
+        public string ModeOfPayment { get; set; }
+        public string CustomerFullDetails { get; set; }
+        public string FullAddress { get; set; }
         public long SalesOrderId { get; set; }
         public long SalesOrderStatusID { get; set; }
         public string SalesOrderStatusDisplay { get; set; }
