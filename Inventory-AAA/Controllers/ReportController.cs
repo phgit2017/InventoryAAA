@@ -59,13 +59,9 @@ namespace Inventory_AAA.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GenerateSalesReport()
+        public ActionResult GenerateSalesReport(DateTime startDate, DateTime endDate)
         {
-            DateTime startDate, endDate;
-
-            var latestPurchaseOrderDate = _orderServices.GetAllPurchaseOrders().Max(m => m.CreatedTime).Value;
-            startDate = latestPurchaseOrderDate;
-            endDate = DateTime.Now;
+            
 
             var salesReportGenerationFile = SalesReportGeneration(startDate, endDate);
             return salesReportGenerationFile;
@@ -77,7 +73,7 @@ namespace Inventory_AAA.Controllers
             return purchaseAndSalesReportGenerationFile;
         }
 
-        public ActionResult GenerateSalesOrder(int reportSalesType, string salesNo = "", long customerId = 0, long salesOrderId = 0,long categoryId = 0,DateTime? dateFrom = null, DateTime? dateTo = null)
+        public ActionResult GenerateSalesOrder(int reportSalesType, string salesNo = "", long customerId = 0, long salesOrderId = 0,long categoryId = 0,DateTime? startDate = null, DateTime? endDate = null)
         {
             var request = new SalesOrderReportRequest()
             {
@@ -86,8 +82,8 @@ namespace Inventory_AAA.Controllers
                 CustomerId = customerId,
                 SalesOrderId = salesOrderId,
                 CategoryId = categoryId,
-                DateFrom = dateFrom,
-                DateTo = dateTo
+                DateFrom = startDate,
+                DateTo = endDate
             };
             var salesOrderReportGeneration = SalesOrderReportGeneration(request);
             return salesOrderReportGeneration;
@@ -314,37 +310,8 @@ namespace Inventory_AAA.Controllers
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             var package = new ExcelPackage();
             var workSheet = package.Workbook.Worksheets.Add(LookupKey.ReportFileName.SalesReport);
-
-            rowId = 1;
-            workSheet.Cells[rowId, 1].Value = "SALES NUMBER";
-            workSheet.Cells[rowId, 2].Value = "PRODUCT CODE";
-            workSheet.Cells[rowId, 3].Value = "PRODUCT DESCRIPTION";
-            workSheet.Cells[rowId, 4].Value = "CATEGORY NAME";
-            workSheet.Cells[rowId, 5].Value = "PREVIOUS QUANTITY";
-            workSheet.Cells[rowId, 6].Value = "SALES QUANTITY";
-            workSheet.Cells[rowId, 7].Value = "PRICE";
-            workSheet.Cells[rowId, 8].Value = "TRANSACTION DATE";
-            workSheet.Cells[rowId, 9].Value = "CREATED BY";
-
-
-            if (request.ReportSalesType == 3 || request.ReportSalesType == 4)
-            {
-                rowId = rowId + 1;
-                for (int i = 0; i <= dt.Rows.Count - 1; i++)
-                {
-                    workSheet.Cells[rowId, 1].Value = dt.Rows[i][0] == null ? "" : "'" + dt.Rows[i][0].ToString();
-                    workSheet.Cells[rowId, 2].Value = dt.Rows[i][5].ToString();
-                    workSheet.Cells[rowId, 3].Value = dt.Rows[i][6].ToString();
-                    workSheet.Cells[rowId, 4].Value = dt.Rows[i][8].ToString();
-                    workSheet.Cells[rowId, 5].Value = dt.Rows[i][9].ToString();
-                    workSheet.Cells[rowId, 6].Value = dt.Rows[i][10].ToString();
-                    workSheet.Cells[rowId, 7].Value = dt.Rows[i][11].ToString();
-                    workSheet.Cells[rowId, 8].Value = dt.Rows[i][17].ToString();
-                    workSheet.Cells[rowId, 9].Value = dt.Rows[i][16].ToString();
-                    rowId = rowId + 1;
-                }
-            }
-            else if (request.ReportSalesType == 1)
+            
+            if (request.ReportSalesType == 1)
             {
                 rowId = 1;
                 workSheet.Cells[rowId, 1].Value = "SALES NUMBER";
@@ -378,8 +345,47 @@ namespace Inventory_AAA.Controllers
 
                 workSheet.Cells.AutoFitColumns();
             }
+            else if (request.ReportSalesType == 3 || request.ReportSalesType == 4)
+            {
+                rowId = 1;
+                workSheet.Cells[rowId, 1].Value = "SALES NUMBER";
+                workSheet.Cells[rowId, 2].Value = "PRODUCT CODE";
+                workSheet.Cells[rowId, 3].Value = "PRODUCT DESCRIPTION";
+                workSheet.Cells[rowId, 4].Value = "CATEGORY NAME";
+                workSheet.Cells[rowId, 5].Value = "PREVIOUS QUANTITY";
+                workSheet.Cells[rowId, 6].Value = "SALES QUANTITY";
+                workSheet.Cells[rowId, 7].Value = "PRICE";
+                workSheet.Cells[rowId, 8].Value = "TRANSACTION DATE";
+                workSheet.Cells[rowId, 9].Value = "CREATED BY";
+
+                rowId = rowId + 1;
+                for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                {
+                    workSheet.Cells[rowId, 1].Value = dt.Rows[i][0] == null ? "" : "'" + dt.Rows[i][0].ToString();
+                    workSheet.Cells[rowId, 2].Value = dt.Rows[i][5].ToString();
+                    workSheet.Cells[rowId, 3].Value = dt.Rows[i][6].ToString();
+                    workSheet.Cells[rowId, 4].Value = dt.Rows[i][8].ToString();
+                    workSheet.Cells[rowId, 5].Value = dt.Rows[i][9].ToString();
+                    workSheet.Cells[rowId, 6].Value = dt.Rows[i][10].ToString();
+                    workSheet.Cells[rowId, 7].Value = dt.Rows[i][11].ToString();
+                    workSheet.Cells[rowId, 8].Value = dt.Rows[i][17].ToString();
+                    workSheet.Cells[rowId, 9].Value = dt.Rows[i][16].ToString();
+                    rowId = rowId + 1;
+                }
+            }
             else
             {
+                rowId = 1;
+                workSheet.Cells[rowId, 1].Value = "SALES NUMBER";
+                workSheet.Cells[rowId, 2].Value = "PRODUCT CODE";
+                workSheet.Cells[rowId, 3].Value = "PRODUCT DESCRIPTION";
+                workSheet.Cells[rowId, 4].Value = "CATEGORY NAME";
+                workSheet.Cells[rowId, 5].Value = "PREVIOUS QUANTITY";
+                workSheet.Cells[rowId, 6].Value = "SALES QUANTITY";
+                workSheet.Cells[rowId, 7].Value = "PRICE";
+                workSheet.Cells[rowId, 8].Value = "TRANSACTION DATE";
+                workSheet.Cells[rowId, 9].Value = "CREATED BY";
+
                 rowId = rowId + 1;
                 for (int i = 0; i <= dt.Rows.Count - 1; i++)
                 {
