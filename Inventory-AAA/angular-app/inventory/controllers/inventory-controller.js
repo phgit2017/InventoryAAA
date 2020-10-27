@@ -285,6 +285,7 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
             end = begin + vm.numPerPage;
 
         vm.filteredProducts = vm.InventorySummary.slice(begin, end);
+        debugger;
     }
 
     vm.SaveNewCategory = function() {

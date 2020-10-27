@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="form-group" ng-if="reportCtrl.ReportType !== 2 || (reportCtrl.ReportType === 2 && (reportCtrl.SelectedReportFilter === 3 || reportCtrl.SelectedReportFilter === 4))">
+            <div class="form-group" ng-if="reportCtrl.ReportType !== 2 || (reportCtrl.ReportType === 2 && (reportCtrl.SelectedReportFilter !== 1))">
                 <span class="input-label">Start Date</span>
                 <input id="dp_startdate" type="text" class="form-control" ng-model="reportCtrl.StartDate" placeholder="mm/dd/yyyy" readonly />
                 <date-picker element-id="'startdate'"></date-picker>

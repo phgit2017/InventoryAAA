@@ -11,6 +11,7 @@ function SalesOrderService($q, $http, $location, globalBaseUrl) {
     SalesOrderServiceFactory.GetSalesOrders = _getSalesOrders;
     SalesOrderServiceFactory.SalesOrderDetails = _salesOrderDetails;
     SalesOrderServiceFactory.SubmitOrder = _submitOrder;
+    SalesOrderServiceFactory.GetOrderReceipt = _getOrderReceipt;
 
     return SalesOrderServiceFactory;
 
@@ -56,6 +57,22 @@ function SalesOrderService($q, $http, $location, globalBaseUrl) {
             }),
             function(err) {
 
+                defer.reject(err);
+            }
+        return defer.promise;
+    }
+
+    function _getOrderReceipt(salesOrderId) {
+        var defer = $q.defer(),
+            url = baseUrl + '/GetSalesOrderReceipt?salesOrderId=' + salesOrderId;
+        $http.get(url)
+            .then(function(response) {
+                if (!response.data.isSuccess) {
+                    $location.url('/Unauthorized');
+                }
+                defer.resolve(response.data)
+            }),
+            function(err) {
                 defer.reject(err);
             }
         return defer.promise;
