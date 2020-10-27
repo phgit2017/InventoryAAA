@@ -131,12 +131,15 @@ textarea {
 }
 
 .main-screen {
-  height: calc(100% - 3rem);
+  max-height: calc(100% - 4rem);
 }
 .main-screen .content-screen {
   display: flex;
   height: calc(100vh - 3rem) !important;
   width: 100%;
+}
+.main-screen .report-screen {
+  margin: 10vh 60vh 10vh 60vh;
 }
 
 .card {

@@ -1,46 +1,75 @@
-﻿<div class="card" style="max-width: 400px" ng-init="reportCtrl.Initialize();">
+﻿<div class="report-screen card" ng-init="reportCtrl.Initialize();">
     <div class="card-header bg-primary">
         <h5>GENERATE SALES REPORT</h5>
     </div>
     <div class="card-body align-content-center justify-content-center p-3">
-        <span class="input-label">REPORT TYPE</span>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="customRadio2" name="sales-report" class="custom-control-input"
-                   ng-model="reportCtrl.ReportType"
-                   ng-value="0">
-            <label class="custom-control-label" for="customRadio2">Sales Report</label>
-        </div>
-        <div class="custom-control custom-radio">
-            <input type="radio" id="customRadio1" name="inventory-report" class="custom-control-input"
-                   ng-model="reportCtrl.ReportType"
-                   ng-value="1">
-            <label class="custom-control-label" for="customRadio1">Inventory Report</label>
-        </div>
-        <br />
-        <div ng-if="reportCtrl.ReportType == 1">
-            <span class="input-label">START DATE</span>
-            <input id="dp_startdate" type="text" class="form-control" ng-model="reportCtrl.StartDate" placeholder="mm/dd/yyyy" readonly />
-            <date-picker element-id="'startdate'"></date-picker>
-            <br />
-            <span class="input-label">END DATE</span>
-            <input id="dp_enddate" type="text" class="form-control" ng-model="reportCtrl.EndDate" placeholder="mm/dd/yyyy" readonly />
-            <date-picker element-id="'enddate'"></date-picker>
-            <small>Date range can only be a maximum of 30 days.</small>
-            <br />
-            <br />
-        </div>
-        <div class="d-flex justify-content-end">
-            <button class="btn btn-sm btn-transparent btn-default" ng-if="reportCtrl.ReportType == 1"
-                    ng-click="reportCtrl.ResetFields();"
-                    id="btn-report-clear">
+        <form>
+
+            <div class="form-group">
+                <span class="input-label">Report Type</span>
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio2" name="sales-report" class="custom-control-input" ng-model="reportCtrl.ReportType" ng-value="0">
+                    <label class="custom-control-label" for="customRadio2">Sales Report</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio1" name="inventory-report" class="custom-control-input" ng-model="reportCtrl.ReportType" ng-value="1">
+                    <label class="custom-control-label" for="customRadio1">Inventory Report</label>
+                </div>
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="customRadio3" name="sales-inventory-report" class="custom-control-input" ng-model="reportCtrl.ReportType" ng-value="2">
+                    <label class="custom-control-label" for="customRadio3">Sales Inventory Report</label>
+                </div>
+            </div>
+
+            <div ng-if="reportCtrl.ReportType === 2">
+                <div class="form-group">
+                    <label for="reportFilter" class="input-label">Report Filter</label>
+                    <select name="reportFilter" class="custom-select" ng-model="reportCtrl.SelectedReportFilter" ng-options="filter.FilterId as filter.FilterLabel for filter in reportCtrl.ReportFilter" required>
+                </select>
+                </div>
+
+                <div class="form-group" ng-if="reportCtrl.SelectedReportFilter === 1">
+                    <label for="salesNo" class="input-label">Sales No.</label>
+                    <input type="text" class="form-control" placeholder="Input Sales No..." ng-model="reportCtrl.SalesNo" />
+                    </select>
+                </div>
+
+                <div class="form-group" ng-if="reportCtrl.SelectedReportFilter === 2">
+                    <label for="customerList" class="input-label">Customers</label>
+                    <select name="customerList" class="custom-select" ng-model="reportCtrl.SelectedCustomer" ng-options="customer.CustomerId as (customer.CustomerCode + ' - ' + customer.FullName) for customer in reportCtrl.CustomerList" required>
+                    </select>
+                </div>
+
+                <div class="form-group" ng-if="reportCtrl.SelectedReportFilter === 4">
+                    <label for="categoryList" class="input-label">Categories</label>
+                    <select name="categoryList" class="custom-select" ng-model="reportCtrl.SelectedCategory" ng-options="category.CategoryId as category.CategoryName for category in reportCtrl.CategoryList" required>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="reportCtrl.ReportType !== 2 || (reportCtrl.ReportType === 2 && (reportCtrl.SelectedReportFilter === 3 || reportCtrl.SelectedReportFilter === 4))">
+                <span class="input-label">Start Date</span>
+                <input id="dp_startdate" type="text" class="form-control" ng-model="reportCtrl.StartDate" placeholder="mm/dd/yyyy" readonly />
+                <date-picker element-id="'startdate'"></date-picker>
+                <br />
+                <span class="input-label">End Date</span>
+                <input id="dp_enddate" type="text" class="form-control" ng-model="reportCtrl.EndDate" placeholder="mm/dd/yyyy" readonly />
+                <date-picker element-id="'enddate'"></date-picker>
+                <small>Date range can only be a maximum of 30 days.</small>
+                <br />
+                <br />
+            </div>
+
+
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-sm btn-transparent btn-default" ng-click="reportCtrl.ResetFields();" id="btn-report-clear">
                 CLEAR
             </button>
-            <button class="btn btn-sm btn-transparent ml-2"
-                    ng-click="reportCtrl.GenerateReport();"
-                    ng-if="(reportCtrl.StartDate !== '' && reportCtrl.EndDate !== '') || reportCtrl.ReportType == 0"
-                    id="btn-report-generate">
+                <button class="btn btn-sm btn-transparent ml-2" ng-click="reportCtrl.GenerateReport();" ng-if="reportCtrl.ValidReportParameters()" id="btn-report-generate">
                 GENERATE
             </button>
-        </div>
-    </div>  
+            </div>
+
+        </form>
+    </div>
 </div>
