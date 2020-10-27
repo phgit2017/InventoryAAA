@@ -248,7 +248,8 @@ namespace Inventory_AAA.Controllers
                         ProductId = salesOrderDetails.ProductId,
                         UnitPrice = salesOrderDetails.UnitPrice,
                         Quantity = salesOrderDetails.Quantity,
-                        PriceTypeId = salesOrderDetails.PriceTypeId
+                        PriceTypeId = salesOrderDetails.PriceTypeId,
+                        CreatedBy = currentUserId,
 
                     });
                 }
@@ -564,13 +565,21 @@ namespace Inventory_AAA.Controllers
             if (dt.Rows.Count > 0)
             {
                 rowId = 1;
-                workSheet.Cells[rowId, 1].Value = "SALES NUMBER";
+                workSheet.Cells[rowId, 1].Value = "Sales No";
                 workSheet.Cells[rowId, 2].Value = dt.Rows[0]["SalesNo"].ToString();
 
-                workSheet.Cells[rowId, 4].Value = "DATE";
-                workSheet.Cells[rowId, 5].Value = dt.Rows[0]["CreatedTime"].ToString();
+                workSheet.Cells[rowId, 4].Value = "Mode of Payment";
+                workSheet.Cells[rowId, 5].Value = dt.Rows[0]["ModeOfPayment"].ToString();
 
-                rowId = 4;
+                rowId = 2;
+                workSheet.Cells[rowId, 1].Value = "Customer";
+                workSheet.Cells[rowId, 2].Value = dt.Rows[0]["CustomerFullDetails"].ToString();
+
+                workSheet.Cells[rowId, 4].Value = "Address";
+                workSheet.Cells[rowId, 5].Value = dt.Rows[0]["FullAddress"].ToString();
+
+
+                rowId = 5;
                 workSheet.Cells[rowId, 1].Value = "PRODUCT CODE";
                 workSheet.Cells[rowId, 2].Value = "PRODUCT DESCRIPTION";
                 workSheet.Cells[rowId, 3].Value = "SALES QUANTITY";
@@ -592,6 +601,9 @@ namespace Inventory_AAA.Controllers
                 }
 
                 rowId = rowId + 2;
+                workSheet.Cells[rowId, 4].Value = "Shipping Fee";
+                workSheet.Cells[rowId, 5].Value = string.Format("{0:#,0.00}", Convert.ToDecimal(dt.Rows[0]["ShippingFee"]));
+                rowId = rowId + 1;
                 workSheet.Cells[rowId, 4].Value = "Total";
                 workSheet.Cells[rowId, 5].Value = string.Format("{0:#,0.00}", Convert.ToDecimal(dt.Rows[0]["TotalAmount"]));
 
