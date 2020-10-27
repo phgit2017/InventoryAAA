@@ -165,7 +165,7 @@
                     <button class="btn btn-sm btn-danger mr-3" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 4 && orderDetailsCtrl.SalesOrderStatusId !== 5 && orderDetailsCtrl.SalesOrderStatusId !== 0" ng-click="orderDetailsCtrl.AlertMessage = 'Are you sure you want to cancel this order?'; orderDetailsCtrl.ShowConfirmAlert = true;">
                         Cancel Order
                     </button>
-                    <button class="btn btn-sm btn-primary" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 4 && orderDetailsCtrl.SalesOrderStatusId !== 5" ng-click="orderDetailsCtrl.SubmitOrder()">
+                    <button class="btn btn-sm btn-primary" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 4 && orderDetailsCtrl.SalesOrderStatusId !== 5" ng-click="orderDetailsCtrl.SubmitOrder()" ng-disabled="orderDetailsCtrl.ProductsInOrder.length === 0">
                         <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 0">Place Order</span>
                         <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 1">Order Paid</span>
                         <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 2">Order Shipped</span>

@@ -60,6 +60,8 @@ function OrderDetailsController($scope, $rootScope, $routeParams, MaintenanceSer
     }
 
     vm.AddProductToOrder = function(product) {
+        let priceTypeId;
+
         if (vm.SelectedPriceType === '') {
             QuickAlert.Show({
                 type: 'error',
@@ -72,12 +74,15 @@ function OrderDetailsController($scope, $rootScope, $routeParams, MaintenanceSer
         switch (vm.SelectedPriceType) {
             case "Big Buyer":
                 product.UnitPrice = product.BigBuyerPrice;
+                product.PriceTypeId = 1;
                 break;
             case "Reseller":
                 product.UnitPrice = product.ResellerPrice;
+                product.PriceTypeId = 2;
                 break;
             case "Retailer":
                 product.UnitPrice = product.RetailerPrice;
+                product.PriceTypeId = 3;
                 break;
         }
         vm.ProductsInOrder.push(product);
@@ -125,7 +130,7 @@ function OrderDetailsController($scope, $rootScope, $routeParams, MaintenanceSer
     }
 
     saveOrder = function(status = null) {
-        let statusId, alertMessage;
+        let statusId, alertMessage, priceTypeId;
         debugger;
         if (isNullOrEmpty(status)) {
             switch (vm.SalesOrderStatusId) {
@@ -159,7 +164,7 @@ function OrderDetailsController($scope, $rootScope, $routeParams, MaintenanceSer
             SalesNo: 0,
             ModeOfPayment: vm.ModeOfPayment,
             ShippingFee: vm.ShippingFee,
-            SalesOrderProductDetailRequest: vm.ProductsInOrder
+            SalesOrderProductDetailRequest: vm.ProductsInOrder,
         }
         SalesOrderService.SubmitOrder(salesOrderRequest).then(
             function(data) {
@@ -186,9 +191,22 @@ function OrderDetailsController($scope, $rootScope, $routeParams, MaintenanceSer
                 vm.ModeOfPayment = vm.SalesDetails.ModeOfPayment;
                 vm.ShippingFee = vm.SalesDetails.ShippingFee;
                 vm.SalesOrderStatusId = vm.SalesDetails.SalesOrderStatusId
-                debugger;
                 vm.SelectCustomer(vm.OrderDetails.CustomerDetails);
                 vm.ProductsInOrder = vm.OrderDetails.ProductList;
+                debugger;
+                switch (vm.ProductsInOrder[0].PriceTypeId) {
+                    case 1:
+                        vm.SelectedPriceType = 'Big Buyer';
+                        break;
+                    case 2:
+                        vm.SelectedPriceType = 'Reseller';
+                        break;
+                    case 3:
+                        vm.SelectedPriceType = 'Retailer';
+                        break;
+
+                }
+
                 getProductList();
             },
             function(error) {
