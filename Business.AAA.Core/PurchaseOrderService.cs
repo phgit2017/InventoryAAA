@@ -32,7 +32,7 @@ namespace Business.AAA.Core
 
     public partial class PurchaseOrderService : IOrderTransactionalServices
     {
-        public long UpdateOrderTransaction(OrderTransactionRequest orderTransactionRequest,
+        public long UpdateOrderTransaction(ref OrderTransactionRequest orderTransactionRequest,
             List<ProductDetailRequest> orderTransactionDetailRequest
             )
         {

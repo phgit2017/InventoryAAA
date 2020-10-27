@@ -173,7 +173,7 @@ namespace Inventory_AAA.Controllers
                     _orderServices,
                     _customerServices);
                 updateOrderTransactionResult = order.UpdateOrderTransaction(
-                    orderTransactionRequest,
+                    ref orderTransactionRequest,
                     orderTransactionDetailRequest);
 
                 #endregion
@@ -258,7 +258,7 @@ namespace Inventory_AAA.Controllers
                     _orderServices,
                     _customerServices);
                 updateOrderTransactionResult = order.UpdateOrderTransaction(
-                    orderTransactionRequest,
+                    ref orderTransactionRequest,
                     orderTransactionDetailRequest);
 
                 #endregion
@@ -277,7 +277,7 @@ namespace Inventory_AAA.Controllers
                     
                 }
 
-                salesOrderIdResult = request.SalesOrderId;
+                salesOrderIdResult = orderTransactionRequest.SalesOrderId;
                 var response = new
                 {
                     isSuccess = isSucess,

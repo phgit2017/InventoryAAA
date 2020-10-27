@@ -10,7 +10,7 @@ namespace Business.AAA.Core.Interface
 {
     public interface IOrderTransactionalServices
     {
-        long UpdateOrderTransaction(OrderTransactionRequest orderTransactionRequest,
+        long UpdateOrderTransaction(ref OrderTransactionRequest orderTransactionRequest,
             List<ProductDetailRequest> orderTransactionDetailRequest);
     }
 }

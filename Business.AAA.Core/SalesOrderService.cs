@@ -32,7 +32,7 @@ namespace Business.AAA.Core
 
     public partial class SalesOrderService : IOrderTransactionalServices
     {
-        public long UpdateOrderTransaction(OrderTransactionRequest orderTransactionRequest,
+        public long UpdateOrderTransaction(ref OrderTransactionRequest orderTransactionRequest,
             List<ProductDetailRequest> orderTransactionDetailRequest)
         {
             decimal totalAmount = 0.00m, totalQuantity = 0.00m;
@@ -46,7 +46,7 @@ namespace Business.AAA.Core
             }
 
             orderTransactionRequest.TotalQuantity = totalQuantity;
-            orderTransactionRequest.TotalAmount = (totalAmount * totalQuantity);
+            orderTransactionRequest.TotalAmount = (totalAmount * totalQuantity) + Convert.ToDecimal(orderTransactionRequest.ShippingFee);
 
             #region Sales Order
             var salesOrderRequest = new SalesOrdersRequest()
@@ -145,7 +145,8 @@ namespace Business.AAA.Core
                         ModifiedBy = null,
                         ModifiedTime = null,
                         PreviousQuantity = productDetailResult.Quantity,
-                        Remarks = orderDetail.Remarks
+                        Remarks = orderDetail.Remarks,
+                        PriceTypeId = orderDetail.PriceTypeId
                     };
 
                     var salesOrderDetailId = _orderServices.SaveSalesOrderDetails(salesOrderDetailsRequest);

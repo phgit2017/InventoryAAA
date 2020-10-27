@@ -33,7 +33,7 @@ namespace Business.AAA.Core
 
     public partial class CorrectionOrderService : IOrderTransactionalServices
     {
-        public long UpdateOrderTransaction(OrderTransactionRequest orderTransactionRequest,
+        public long UpdateOrderTransaction(ref OrderTransactionRequest orderTransactionRequest,
             List<ProductDetailRequest> orderTransactionDetailRequest)
         {
             decimal totalAmount = 0.00m, totalQuantity = 0.00m;
