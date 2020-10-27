@@ -100,7 +100,8 @@ namespace Business.AAA.Core
                             CreatedBy = productDetailResult.CreatedBy,
                             CreatedTime = productDetailResult.CreatedTime,
                             ModifiedBy = orderDetail.CreatedBy,
-                            ModifiedTime = DateTime.Now
+                            ModifiedTime = DateTime.Now,
+                            CategoryId = productDetailResult.CategoryId
                         };
                         var isProductUpdated = _productServices.UpdateDetails(productDetailRequest);
 
@@ -121,7 +122,8 @@ namespace Business.AAA.Core
                             //UnitPrice = productDetailRequest.UnitPrice,
                             IsActive = productDetailRequest.IsActive,
                             CreatedBy = orderDetail.CreatedBy,
-                            CreatedTime = DateTime.Now
+                            CreatedTime = DateTime.Now,
+                            CategoryId = productDetailResult.CategoryId
                         };
 
                         var productLogsId = _productServices.SaveProductLogs(productLogDetailRequest);
@@ -179,7 +181,8 @@ namespace Business.AAA.Core
                             CreatedBy = productDetailResult.CreatedBy,
                             CreatedTime = productDetailResult.CreatedTime,
                             ModifiedBy = orderDetail.CreatedBy,
-                            ModifiedTime = DateTime.Now
+                            ModifiedTime = DateTime.Now,
+                            CategoryId = productDetailResult.CategoryId
                         };
                         var isProductUpdated = _productServices.UpdateDetails(productDetailRequest);
 
