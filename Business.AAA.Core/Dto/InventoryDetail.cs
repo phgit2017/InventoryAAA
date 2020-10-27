@@ -12,7 +12,7 @@ namespace Business.AAA.Core.Dto
 
     public class StocksSummary
     {
-        public long ProductID { get; set; }
+        public long ProductId { get; set; }
         public string ProductCode { get; set; }
         public string ProductDescription { get; set; }
         public decimal InventoryStocks { get; set; }
