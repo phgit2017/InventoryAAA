@@ -34,6 +34,7 @@ namespace DataAccess.Entities.Context
         public virtual DbSet<CustomerStatus> CustomerStatus { get; set; }
         public virtual DbSet<CorrectionOrder> CorrectionOrders { get; set; }
         public virtual DbSet<CorrectionOrderDetail> CorrectionOrderDetails { get; set; }
+        public virtual DbSet<ProductPricesLog> ProductPricesLog { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

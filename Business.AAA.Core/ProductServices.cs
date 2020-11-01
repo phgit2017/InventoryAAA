@@ -21,23 +21,28 @@ namespace Business.AAA.Core
         IInventoryAAARepository<dbentities.Product> _productServices;
         IInventoryAAARepository<dbentities.ProductLog> _productLogServices;
         IInventoryAAARepository<dbentities.ProductPrice> _productPriceServices;
+        IInventoryAAARepository<dbentities.ProductPricesLog> _productPricesLogServices;
 
         private dbentities.Product products;
         private dbentities.ProductLog productLogs;
         private dbentities.ProductPrice productPrice;
+        private dbentities.ProductPricesLog productPricesLog;
 
         public ProductServices(
             IInventoryAAARepository<dbentities.Product> productServices,
             IInventoryAAARepository<dbentities.ProductLog> productLogServices,
-            IInventoryAAARepository<dbentities.ProductPrice> productPriceServices)
+            IInventoryAAARepository<dbentities.ProductPrice> productPriceServices,
+            IInventoryAAARepository<dbentities.ProductPricesLog> productPricesLogServices)
         {
             this._productServices = productServices;
             this._productLogServices = productLogServices;
             this._productPriceServices = productPriceServices;
+            this._productPricesLogServices = productPricesLogServices;
 
             this.products = new dbentities.Product();
             this.productLogs = new dbentities.ProductLog();
             this.productPrice = new dbentities.ProductPrice();
+            this.productPricesLog = new dbentities.ProductPricesLog();
         }
     }
 
@@ -145,6 +150,18 @@ namespace Business.AAA.Core
             return true;
         }
 
+        public long SaveProductLogPrices(ProductPricesLogDetailRequest request)
+        {
+            //request.ProductId = 0;
+            this.productPricesLog = request.DtoToEntity();
+            var item = this._productPricesLogServices.Insert(this.productPricesLog);
+            if (item == null)
+            {
+                return 0;
+            }
+
+            return item.ProductPriceLogsID;
+        }
 
 
         public long SaveProductLogs(ProductLogDetailRequest request)

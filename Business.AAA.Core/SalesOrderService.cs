@@ -41,8 +41,8 @@ namespace Business.AAA.Core
 
             foreach (var orderDetail in orderTransactionDetailRequest)
             {
-                totalAmount += totalAmount + (orderDetail.UnitPrice * orderDetail.Quantity);
-                totalQuantity += totalQuantity + orderDetail.Quantity;
+                totalAmount += (orderDetail.UnitPrice * orderDetail.Quantity);
+                totalQuantity += orderDetail.Quantity;
             }
 
             orderTransactionRequest.TotalQuantity = totalQuantity;

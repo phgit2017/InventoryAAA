@@ -24,6 +24,7 @@ namespace Business.AAA.Core.Interface
 
         //Product Price
         long SaveProductPrice(ProductPricesDetailRequest request);
+        long SaveProductLogPrices(ProductPricesLogDetailRequest request);
         bool UpdateProductPrice(ProductPricesDetailRequest request);
         IQueryable<ProductPricesDetail> GetAllProductPrices();
 

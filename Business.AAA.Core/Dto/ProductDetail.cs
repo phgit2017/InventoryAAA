@@ -107,4 +107,13 @@ namespace Business.AAA.Core.Dto
         public long ProductId { get; set; }
         public decimal Price { get; set; }
     }
+
+    public class ProductPricesLogDetailRequest : BaseDetail
+    {
+        public int PriceTypeId { get; set; }
+        public long ProductId { get; set; }
+        public decimal Price { get; set; }
+
+        public long ProductPriceLogsId { get; set; }
+    }
 }

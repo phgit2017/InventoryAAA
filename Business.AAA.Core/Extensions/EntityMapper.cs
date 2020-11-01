@@ -52,6 +52,26 @@ namespace Business.AAA.Core.Extensions
             return entity;
         }
 
+        public static dbentities.ProductPricesLog DtoToEntity(this ProductPricesLogDetailRequest request)
+        {
+            dbentities.ProductPricesLog entity = null;
+
+            if (request != null)
+            {
+                entity = new dbentities.ProductPricesLog
+                {
+                    ProductID = request.ProductId,
+                    PriceTypeID = request.PriceTypeId,
+                    Price = request.Price,
+                    ProductPriceLogsID = request.ProductPriceLogsId,
+                    CreatedBy = request.CreatedBy,
+                    CreatedTime = request.CreatedTime
+                };
+            }
+
+            return entity;
+        }
+
         public static dbentities.ProductLog DtoToEntity(this ProductLogDetailRequest request)
         {
             dbentities.ProductLog entity = null;

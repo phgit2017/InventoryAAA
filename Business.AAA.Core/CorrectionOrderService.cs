@@ -151,6 +151,20 @@ namespace Business.AAA.Core
                             price = 0;
                             break;
                     }
+                    var productPricesResult = _productServices.GetAllProductPrices().Where(m => m.ProductId == productId && m.PriceTypeId == i).FirstOrDefault();
+                    if (productPricesResult.IsNull())
+                    {
+                        ProductPricesLogDetailRequest productPricesLogDetailRequest = new ProductPricesLogDetailRequest()
+                        {
+                            ProductId = productId,
+                            PriceTypeId = i,
+                            Price = price,
+                            ProductPriceLogsId = 0,
+                            CreatedBy = orderDetail.CreatedBy,
+                            CreatedTime = DateTime.Now,
+                        };
+                        _productServices.SaveProductLogPrices(productPricesLogDetailRequest);
+                    }
                     ProductPricesDetailRequest productPricesDetailRequest = new ProductPricesDetailRequest()
                     {
                         ProductId = productId,

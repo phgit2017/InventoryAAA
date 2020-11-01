@@ -443,6 +443,20 @@ namespace Inventory_AAA.Controllers
                         price = 0;
                         break;
                 }
+                var productPricesResult = _productServices.GetAllProductPrices().Where(m => m.ProductId == request.ProductId && m.PriceTypeId == i).FirstOrDefault();
+                if (productPricesResult.IsNull())
+                {
+                    ProductPricesLogDetailRequest productPricesLogDetailRequest = new ProductPricesLogDetailRequest()
+                    {
+                        ProductId = request.ProductId,
+                        PriceTypeId = i,
+                        Price = price,
+                        ProductPriceLogsId = 0,
+                        CreatedBy = currentUserId,
+                        CreatedTime = DateTime.Now,
+                    };
+                    _productServices.SaveProductLogPrices(productPricesLogDetailRequest);
+                }
                 ProductPricesDetailRequest productPricesDetailRequest = new ProductPricesDetailRequest()
                 {
                     ProductId = request.ProductId,
@@ -465,7 +479,8 @@ namespace Inventory_AAA.Controllers
                 CreatedBy = request.ModifiedBy,
                 CreatedTime = DateTime.Now,
                 ModifiedBy = null,
-                ModifiedTime = null
+                ModifiedTime = null,
+                CategoryId = request.CategoryId
             };
             var productLogResult = _productServices.SaveProductLogs(productLogDetailRequest);
 
