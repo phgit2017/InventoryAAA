@@ -241,8 +241,8 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
             function(data) {
                 vm.OrderDetails = data.result
                 vm.SalesDetails = vm.OrderDetails.SalesDetails;
-                vm.ModeOfPayment = vm.SalesDetails.ModeOfPayment;
-                vm.ShippingFee = vm.SalesDetails.ShippingFee;
+                vm.ModeOfPayment = vm.SalesDetails.ModeOfPayment ? vm.SalesDetails.ModeOfPayment : 'N/A';
+                vm.ShippingFee = vm.SalesDetails.ShippingFee ? vm.SalesDetails.ShippingFee : 0;
                 vm.SalesOrderStatusId = vm.SalesDetails.SalesOrderStatusId
                 vm.SelectCustomer(vm.OrderDetails.CustomerDetails);
                 vm.ProductsInOrder = vm.OrderDetails.ProductList;
