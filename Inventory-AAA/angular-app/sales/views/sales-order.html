@@ -47,7 +47,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="so in salesOrderCtrl.FilteredSalesOrders">
+                    <tr ng-repeat="so in salesOrderCtrl.FilteredSalesOrders | filter : salesOrderCtrl.SearchSalesOrdersInput ">
                         <td> {{ so.SalesNo }} </td>
                         <td> {{ so.CustomerCode }} </td>
                         <td> {{ so.CustomerFullName }} </td>

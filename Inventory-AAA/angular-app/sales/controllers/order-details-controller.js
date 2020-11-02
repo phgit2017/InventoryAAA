@@ -154,6 +154,21 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
         }
     }
 
+    vm.SetQuantity = function(i) {
+        if (i.Quantity) {
+            i.Quantity = null
+        } else {
+            if (i.UnfinishedQuantity < 0) {
+                QuickAlert.Show({
+                    type: 'error',
+                    message: 'Please input a valid Quantity.'
+                });
+            } else {
+                i.Quantity = i.UnfinishedQuantity;
+            }
+        }
+    }
+
     saveOrder = function(status = null) {
         let statusId, alertMessage, priceTypeId;
         if (isNullOrEmpty(status)) {
@@ -178,6 +193,14 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
         } else {
             statusId = 5; // Cancelled
             alertMessage = "Cancelled";
+        }
+
+        if (vm.ShippingFee < 0) {
+            QuickAlert.Show({
+                type: 'error',
+                message: "Please input a valid Shipping Fee."
+            });
+            return;
         }
 
         var salesOrderRequest = {

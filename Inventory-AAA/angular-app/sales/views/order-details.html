@@ -68,7 +68,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="i in orderDetailsCtrl.ProductList | filter: { ProductDescription: orderDetailsCtrl.SearchProductList, CategoryId: orderDetailsCtrl.FilterCategoryId }">
+                                <tr ng-repeat="i in orderDetailsCtrl.ProductList | filter: { ProductCode: orderDetailsCtrl.SearchProductList, CategoryId: orderDetailsCtrl.FilterCategoryId }">
                                     <td> {{ i.ProductCode }} </td>
                                     <td> {{ i.ProductDescription }} </td>
                                     <td> {{ i.CategoryName }} </td>
@@ -143,7 +143,7 @@
 
                                                     </form>
                                                 </div>
-                                                <button class="btn btn-primary-inverse btn-sm ml-3" ng-click="i.Quantity ? i.Quantity = null : i.Quantity = i.UnfinishedQuantity">{{ i.Quantity ? 'Change' : 'Set' }}</button>
+                                                <button class="btn btn-primary-inverse btn-sm ml-3" ng-if="orderDetailsCtrl.SalesOrderStatusId === 0 || orderDetailsCtrl.SalesOrderStatusId === 1" ng-click="orderDetailsCtrl.SetQuantity(i);">{{ i.Quantity ? 'Change' : 'Set' }}</button>
                                             </div>
                                         </td>
                                         <td> {{ i.UnitPrice | currency: "" }} </td>

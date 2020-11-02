@@ -70,7 +70,6 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
 
     // API methods
     vm.GetInventorySummary = _getInventorySummary;
-    vm.SaveOrderRequest = _saveOrderRequest;
     vm.GetProductDetails = _getProductDetails;
     vm.UpdateProductDetails = _updateProductDetails;
     vm.DeleteProduct = _deleteProduct;
@@ -130,23 +129,22 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
             });
     }
 
-    function _saveOrderRequest(isAddNew = false) {
-        if (!isAddNew) {
-            // On Purchase/Sale Order, check if Quantity != 0
-            if (vm.OrderRequestQuantity === 0 || vm.OrderRequestQuantity < 0) {
-                QuickAlert.Show({
-                    type: 'error',
-                    message: 'Please input a valid Quantity.'
-                });
-                return;
-            }
+    vm.SaveOrderRequest = function(isAddNew = false) {
+        if ((isAddNew && (vm.SelectedProduct.Quantity === 0 || vm.SelectedProduct.Quantity < 0)) ||
+            !isAddNew && (vm.OrderRequestQuantity === 0 || vm.OrderRequestQuantity < 0)) {
+            QuickAlert.Show({
+                type: 'error',
+                message: 'Please input a valid Quantity.'
+            });
+            return;
         }
+
         if (validProductDetails()) {
             vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId;
             vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
             vm.OrderRequest["ProductDescription"] = vm.SelectedProduct.ProductDescription;
             vm.OrderRequest["CategoryId"] = vm.SelectedProduct.CategoryId;
-            vm.OrderRequest["Stocks"] = parseInt(vm.OrderRequestQuantity !== 0 ? vm.OrderRequestQuantity : vm.SelectedProduct.Quantity);
+            vm.OrderRequest["Stocks"] = isAddNew ? vm.SelectedProduct.Quantity : vm.OrderRequestQuantity;
             vm.OrderRequest["BigBuyerPrice"] = vm.SelectedProduct.BigBuyerPrice;
             vm.OrderRequest["RetailerPrice"] = vm.SelectedProduct.RetailerPrice;
             vm.OrderRequest["ResellerPrice"] = vm.SelectedProduct.ResellerPrice;
@@ -172,13 +170,7 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
                             message: 'Transaction has been saved.'
                         });
                         _getInventorySummary();
-                        if (vm.OrderRequest.ProductId !== 0) {
-                            _getProductDetails(vm.OrderRequest.ProductId);
-                        }
-
-                        if (isAddNew) {
-                            vm.ManageBarShown = false;
-                        }
+                        vm.ManageBarShown = false;
 
                         _resetFields();
                     } else {
@@ -214,6 +206,8 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
                             type: 'success',
                             message: isDelete ? 'The product has been deleted.' : 'The product has been successfully edited.'
                         })
+
+                        vm.ManageBarShown = false;
                         _getInventorySummary();
                     } else {
                         QuickAlert.Show({
@@ -262,7 +256,7 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
             RetailerPrice: 0,
             ResellerPrice: 0,
         };
-
+        vm.OrderRequestRemarks = "";
         vm.TotalStock = 0;
         vm.OrderRequestQuantity = 0;
 
@@ -304,14 +298,22 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
         }
         MaintenanceService.SaveCategory(data).then(
             function(data) {
-                getCategoryList();
-                vm.SelectedProduct.CategoryId = data.CategoryId;
-                QuickAlert.Show({
-                    type: 'success',
-                    message: 'The category has been saved!'
-                });
-                vm.IsCategoryNew = false;
-                vm.NewCategoryName = '';
+                if (data.isSuccess) {
+                    getCategoryList();
+                    vm.SelectedProduct.CategoryId = data.CategoryId;
+                    QuickAlert.Show({
+                        type: 'success',
+                        message: 'The category has been saved!'
+                    });
+                    vm.IsCategoryNew = false;
+                    vm.NewCategoryName = '';
+                } else {
+                    QuickAlert.Show({
+                        type: 'error',
+                        message: data.messageAlert
+                    });
+                }
+
                 vm.IsLoading = false;
             },
             function(error) {
