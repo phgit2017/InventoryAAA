@@ -18,13 +18,9 @@ function MaintenanceService($q, $http, $location, globalBaseUrl) {
             url = baseUrl + '/CategoryList';
         $http.get(url)
             .then(function(response) {
-                if (!response.data.isSuccess) {
-                    $location.url('/Unauthorized');
-                }
                 defer.resolve(response.data)
             }),
             function(err) {
-
                 defer.reject(err);
             }
         return defer.promise;
@@ -35,13 +31,9 @@ function MaintenanceService($q, $http, $location, globalBaseUrl) {
             url = baseUrl + '/AddNewCategoryDetails';
         $http.post(url, data)
             .then(function(response) {
-                if (!response.data.isSuccess) {
-                    $location.url('/Unauthorized');
-                }
                 defer.resolve(response.data)
             }),
             function(err) {
-
                 defer.reject(err);
             }
         return defer.promise;

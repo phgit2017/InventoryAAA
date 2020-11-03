@@ -134,7 +134,7 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
                 break;
             case 2:
                 url = globalBaseUrl + '/Report/GenerateSalesOrder?' +
-                    '&reportSalesType=' + vm.ReportType +
+                    '&reportSalesType=' + vm.SelectedReportFilter +
                     '&salesNo=' + vm.SalesNo +
                     '&customerId=' + vm.SelectedCustomer +
                     '&startDate=' + vm.StartDate +
