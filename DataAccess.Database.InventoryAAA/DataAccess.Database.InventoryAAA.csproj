@@ -68,6 +68,7 @@
     <Compile Include="SalesOrder.cs" />
     <Compile Include="SalesOrderDetail.cs" />
     <Compile Include="SalesOrderStatus.cs" />
+    <Compile Include="SalesOrderStatusLog.cs" />
     <Compile Include="UserDetail.cs" />
     <Compile Include="UserInformationDetail.cs" />
     <Compile Include="UserMenuRoleDetail.cs" />

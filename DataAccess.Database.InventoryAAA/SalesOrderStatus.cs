@@ -11,6 +11,7 @@
         public SalesOrderStatus()
         {
             SalesOrders = new HashSet<SalesOrder>();
+            SalesOrderStatusLogs = new HashSet<SalesOrderStatusLog>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -25,5 +26,7 @@
         public string SalesOrderStatusDisplay { get; set; }
 
         public virtual ICollection<SalesOrder> SalesOrders { get; set; }
+
+        public virtual ICollection<SalesOrderStatusLog> SalesOrderStatusLogs { get; set; }
     }
 }

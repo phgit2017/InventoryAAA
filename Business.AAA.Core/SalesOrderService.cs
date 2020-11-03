@@ -58,21 +58,49 @@ namespace Business.AAA.Core
                 CustomerId = orderTransactionRequest.CustomerId,
                 TotalAmount = orderTransactionRequest.TotalAmount,
                 TotalQuantity = orderTransactionRequest.TotalQuantity,
-                CreatedBy = orderTransactionRequest.CreatedBy,
-                CreatedTime = DateTime.Now,
+                
                 ModeOfPayment = orderTransactionRequest.ModeOfPayment,
                 ShippingFee = orderTransactionRequest.ShippingFee
             };
 
             if (orderTransactionRequest.SalesOrderId == 0)
+            {
+                salesOrderRequest.CreatedBy = orderTransactionRequest.CreatedBy;
+                salesOrderRequest.CreatedTime = DateTime.Now;
                 salesOrderId = _orderServices.SaveSalesOrder(salesOrderRequest);
+            }
             else
             {
-                if(_orderServices.UpdateSalesOrder(salesOrderRequest))
+                var existingSalesOrderResult = _orderServices.GetAllSalesOrders().Where(m => m.SalesOrderId == salesOrderRequest.SalesOrderId).FirstOrDefault();
+
+                salesOrderRequest.CreatedBy = existingSalesOrderResult.CreatedBy;
+                salesOrderRequest.CreatedTime = existingSalesOrderResult.CreatedTime;
+                salesOrderRequest.ModifiedBy = orderTransactionRequest.CreatedBy;
+                salesOrderRequest.ModifiedTime = DateTime.Now;
+                if (_orderServices.UpdateSalesOrder(salesOrderRequest))
+                {
                     salesOrderId = salesOrderRequest.SalesOrderId;
+                }
                 else
+                {
                     salesOrderId = 0;
+                }
+                    
             }
+
+            if (salesOrderId != 0)
+            {
+                var salesOrderLogsRequest = new SalesOrderLogsRequest()
+                {
+                    SalesOrderStatusLogsId = 0,
+                    SalesOrderId = salesOrderId,
+                    SalesOrderStatusId = salesOrderRequest.SalesOrderStatusId,
+                    CreatedBy = salesOrderRequest.CreatedBy,
+                    CreatedTime = DateTime.Now
+                };
+                _orderServices.SaveSalesOrderStatusLogs(salesOrderLogsRequest);
+            }
+            
                 
 
             if (salesOrderId <= 0)

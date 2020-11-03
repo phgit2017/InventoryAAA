@@ -162,7 +162,7 @@ namespace Inventory_AAA.Controllers
             List<CategoryDetail> categoryDetailResult = new List<CategoryDetail>();
 
             #region Authorize
-            var authorizeMenuAccessResult = AuthorizeMenuAccess(LookupKey.Menu.CustomerMenuId);
+            var authorizeMenuAccessResult = AuthorizeMenuAccess(LookupKey.Menu.InventoryMenuId);
             if (!authorizeMenuAccessResult.IsSuccess)
             {
 

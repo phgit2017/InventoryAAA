@@ -143,7 +143,7 @@ namespace Business.AAA.Core.Dto
     {
 
         public long PurchaseOrderId { get; set; }
-        
+
 
     }
 
@@ -209,6 +209,16 @@ namespace Business.AAA.Core.Dto
         public decimal UnitPrice { get; set; }
 
         public string Remarks { get; set; } = string.Empty;
+    }
+    #endregion
+
+    #region Sales Order Status Logs
+    public class SalesOrderLogsRequest : BaseDetail
+    {
+        public long SalesOrderStatusLogsId { get; set; }
+        public long SalesOrderId { get; set; }
+        public int SalesOrderStatusId { get; set; }
+        
     }
     #endregion
 

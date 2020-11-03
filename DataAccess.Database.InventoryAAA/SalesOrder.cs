@@ -11,6 +11,7 @@
         public SalesOrder()
         {
             SalesOrderDetails = new HashSet<SalesOrderDetail>();
+            SalesOrderStatusLogs = new HashSet<SalesOrderStatusLog>();
         }
 
         public long SalesOrderID { get; set; }
@@ -48,5 +49,7 @@
 
         public string ModeOfPayment { get; set; }
         public decimal? ShippingFee { get; set; }
+
+        public virtual ICollection<SalesOrderStatusLog> SalesOrderStatusLogs { get; set; }
     }
 }

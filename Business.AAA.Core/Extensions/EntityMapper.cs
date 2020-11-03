@@ -259,6 +259,26 @@ namespace Business.AAA.Core.Extensions
 
             return entity;
         }
+        
+        public static dbentities.SalesOrderStatusLog DtoToEntity(this SalesOrderLogsRequest request)
+        {
+            dbentities.SalesOrderStatusLog entity = null;
+
+            if (request != null)
+            {
+                entity = new dbentities.SalesOrderStatusLog
+                {
+                    SalesOrderStatusLogsID = request.SalesOrderStatusLogsId,
+                    SalesOrderStatusID = request.SalesOrderStatusId,
+                    SalesOrderID = request.SalesOrderId,
+                    CreatedBy = request.CreatedBy,
+                    CreatedTime = request.CreatedTime
+
+                };
+            }
+
+            return entity;
+        }
 
         public static dbentities.SalesOrder DtoToEntity(this SalesOrdersRequest request)
         {

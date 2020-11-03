@@ -20,6 +20,7 @@ namespace Business.AAA.Core
         IInventoryAAARepository<dbentities.SalesOrderDetail> _salesOrderDetailServices;
         IInventoryAAARepository<dbentities.CorrectionOrder> _correctionOrderServices;
         IInventoryAAARepository<dbentities.CorrectionOrderDetail> _correctionOrderDetailServices;
+        IInventoryAAARepository<dbentities.SalesOrderStatusLog> _salesOrderStatusLogServices;
         
 
         IProductServices _productServices;
@@ -32,6 +33,7 @@ namespace Business.AAA.Core
         private dbentities.CorrectionOrderDetail correctionOrderDetail;
         private dbentities.SalesOrder salesOrder;
         private dbentities.SalesOrderDetail salesOrderDetail;
+        private dbentities.SalesOrderStatusLog salesOrderStatusLog;
 
         public OrderServices(IInventoryAAARepository<dbentities.PurchaseOrder> purchaseOrderServices,
         IInventoryAAARepository<dbentities.PurchaseOrderDetail> purchaseOrderDetailServices,
@@ -39,6 +41,7 @@ namespace Business.AAA.Core
         IInventoryAAARepository<dbentities.SalesOrderDetail> salesOrderDetailServices,
         IInventoryAAARepository<dbentities.CorrectionOrder> correctionOrderServices,
         IInventoryAAARepository<dbentities.CorrectionOrderDetail> correctionOrderDetailServices,
+        IInventoryAAARepository<dbentities.SalesOrderStatusLog> salesOrderStatusLogServices,
 
         IProductServices productServices,
         IOrderTypeServices orderTypeServices,
@@ -52,10 +55,12 @@ namespace Business.AAA.Core
 
             this._salesOrderServices = salesOrderServices;
             this._salesOrderDetailServices = salesOrderDetailServices;
+            this._salesOrderStatusLogServices = salesOrderStatusLogServices;
 
             this._productServices = productServices;
             this._orderTypeServices = orderTypeServices;
             this._customerServices = customerServices;
+            
 
             this.purchaseOrder = new dbentities.PurchaseOrder();
             this.purchaseOrderDetail = new dbentities.PurchaseOrderDetail();
@@ -63,6 +68,7 @@ namespace Business.AAA.Core
             this.salesOrderDetail = new dbentities.SalesOrderDetail();
             this.correctionOrder = new dbentities.CorrectionOrder();
             this.correctionOrderDetail = new dbentities.CorrectionOrderDetail();
+            this.salesOrderStatusLog = new dbentities.SalesOrderStatusLog();
         }
     }
 
@@ -285,6 +291,18 @@ namespace Business.AAA.Core
 
             var response = result;
             return response;
+        }
+
+        public long SaveSalesOrderStatusLogs(SalesOrderLogsRequest request)
+        {
+            this.salesOrderStatusLog = request.DtoToEntity();
+            var item = this._salesOrderStatusLogServices.Insert(this.salesOrderStatusLog);
+            if (item == null)
+            {
+                return 0;
+            }
+
+            return item.SalesOrderStatusLogsID;
         }
 
     }
