@@ -29,7 +29,7 @@ namespace Business.AAA.Core.Interface
         IQueryable<ProductPricesDetail> GetAllProductPrices();
 
         DataTable SalesReportPerSalesNo(string salesNo, long salesOrderId = 0);
-        DataTable SalesReportPerCustomerId(DateTime? startDate, DateTime? endDate, long customerId = 0);
-        DataTable SalesReportPerCategoryAndDate(DateTime? startDate, DateTime? endDate, long categoryId = 0);
+        DataTable SalesReportPerCustomerId(DateTime? startDate, DateTime? endDate, long customerId = 0, int salesOrderStatusId = 0);
+        DataTable SalesReportPerCategoryAndDate(DateTime? startDate, DateTime? endDate, long categoryId = 0, int salesOrderStatusId = 0);
     }
 }

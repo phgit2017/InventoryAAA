@@ -61,7 +61,7 @@ namespace Inventory_AAA.Controllers
 
         public ActionResult GenerateSalesReport(DateTime startDate, DateTime endDate)
         {
-            
+
 
             var salesReportGenerationFile = SalesReportGeneration(startDate, endDate);
             return salesReportGenerationFile;
@@ -73,7 +73,9 @@ namespace Inventory_AAA.Controllers
             return purchaseAndSalesReportGenerationFile;
         }
 
-        public ActionResult GenerateSalesOrder(int reportSalesType, string salesNo = "", long customerId = 0, long salesOrderId = 0,long categoryId = 0,DateTime? startDate = null, DateTime? endDate = null)
+        public ActionResult GenerateSalesOrder(int reportSalesType, string salesNo = "", long customerId = 0, long salesOrderId = 0, long categoryId = 0,
+            DateTime? startDate = null, DateTime? endDate = null,
+            int salesOrderStatusId = 0)
         {
             var request = new SalesOrderReportRequest()
             {
@@ -83,7 +85,8 @@ namespace Inventory_AAA.Controllers
                 SalesOrderId = salesOrderId,
                 CategoryId = categoryId,
                 DateFrom = startDate,
-                DateTo = endDate
+                DateTo = endDate,
+                SalesOrderStatusId = salesOrderStatusId
             };
             var salesOrderReportGeneration = SalesOrderReportGeneration(request);
             return salesOrderReportGeneration;
@@ -254,14 +257,16 @@ namespace Inventory_AAA.Controllers
                         foreach (var item in purchaseAndReportResult)
                         {
                             rowId = rowId + 1;
-                            workSheet.Cells[rowId, 1].Value = item.PreviousPurchaseQty.ToString("N");
-                            workSheet.Cells[rowId, 2].Value = item.PurchaseQty.ToString("N");
-                            workSheet.Cells[rowId, 3].Value = item.PreviousSalesQty.ToString("N");
-                            workSheet.Cells[rowId, 4].Value = item.SalesQty.ToString("N");
-                            workSheet.Cells[rowId, 5].Value = item.TransactionType;
-                            workSheet.Cells[rowId, 6].Value = item.TransactionDate.ToString("MM/dd/yyyy hh:mm");
-                            workSheet.Cells[rowId, 7].Value = item.CreatedBy;
-                            workSheet.Cells[rowId, 8].Value = item.Remarks;
+                            workSheet.Cells[rowId, 1].Value = Convert.ToInt64(item.PreviousPurchaseQty);
+                            workSheet.Cells[rowId, 2].Value = Convert.ToInt64(item.PurchaseQty);
+                            workSheet.Cells[rowId, 3].Value = Convert.ToInt64(item.PreviousSalesQty);
+                            workSheet.Cells[rowId, 4].Value = Convert.ToInt64(item.SalesQty);
+                            workSheet.Cells[rowId, 5].Value = Convert.ToInt64(item.PreviousCorrectionQty);
+                            workSheet.Cells[rowId, 6].Value = Convert.ToInt64(item.CorrectionQty);
+                            workSheet.Cells[rowId, 7].Value = item.TransactionType;
+                            workSheet.Cells[rowId, 8].Value = item.TransactionDate.ToString("MM/dd/yyyy hh:mm");
+                            workSheet.Cells[rowId, 9].Value = item.CreatedBy;
+                            workSheet.Cells[rowId, 10].Value = item.Remarks;
                         }
                     }
                 }
@@ -288,13 +293,13 @@ namespace Inventory_AAA.Controllers
                     dt = _productServices.SalesReportPerSalesNo(request.SalesNo, 0);
                     break;
                 case 2:
-                    dt = _productServices.SalesReportPerCustomerId(request.DateFrom, request.DateTo, request.CustomerId);
+                    dt = _productServices.SalesReportPerCustomerId(request.DateFrom, request.DateTo, request.CustomerId, request.SalesOrderStatusId);
                     break;
                 case 3:
-                    dt = _productServices.SalesReportPerCategoryAndDate(request.DateFrom, request.DateTo);
+                    dt = _productServices.SalesReportPerCategoryAndDate(request.DateFrom, request.DateTo, request.SalesOrderStatusId);
                     break;
                 case 4:
-                    dt = _productServices.SalesReportPerCategoryAndDate(request.DateFrom, request.DateTo, request.CategoryId);
+                    dt = _productServices.SalesReportPerCategoryAndDate(request.DateFrom, request.DateTo, request.CategoryId, request.SalesOrderStatusId);
                     break;
                 default:
                     break;
@@ -310,7 +315,7 @@ namespace Inventory_AAA.Controllers
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             var package = new ExcelPackage();
             var workSheet = package.Workbook.Worksheets.Add(LookupKey.ReportFileName.SalesReport);
-            
+
             if (request.ReportSalesType == 1)
             {
                 rowId = 1;
@@ -344,8 +349,8 @@ namespace Inventory_AAA.Controllers
                     workSheet.Cells[rowId, 1].Value = dt.Rows[i]["ProductCode"].ToString();
                     workSheet.Cells[rowId, 2].Value = dt.Rows[i]["ProductDescription"].ToString();
                     workSheet.Cells[rowId, 3].Value = Convert.ToInt64(dt.Rows[i]["Quantity"].ToString());
-                    workSheet.Cells[rowId, 4].Value = dt.Rows[i]["UnitPrice"].ToString();
-                    workSheet.Cells[rowId, 5].Value = dt.Rows[i]["Subtotal"].ToString();
+                    workSheet.Cells[rowId, 4].Value = Convert.ToDecimal(dt.Rows[i]["UnitPrice"]).ToString("N");
+                    workSheet.Cells[rowId, 5].Value = Convert.ToDecimal(dt.Rows[i]["Subtotal"]).ToString("N");
                     rowId = rowId + 1;
                 }
 
@@ -362,27 +367,29 @@ namespace Inventory_AAA.Controllers
             {
                 rowId = 1;
                 workSheet.Cells[rowId, 1].Value = "SALES NUMBER";
-                workSheet.Cells[rowId, 2].Value = "PRODUCT CODE";
-                workSheet.Cells[rowId, 3].Value = "PRODUCT DESCRIPTION";
-                workSheet.Cells[rowId, 4].Value = "CATEGORY NAME";
-                workSheet.Cells[rowId, 5].Value = "PREVIOUS QUANTITY";
-                workSheet.Cells[rowId, 6].Value = "SALES QUANTITY";
-                workSheet.Cells[rowId, 7].Value = "PRICE";
-                workSheet.Cells[rowId, 8].Value = "TRANSACTION DATE";
-                workSheet.Cells[rowId, 9].Value = "CREATED BY";
+                workSheet.Cells[rowId, 2].Value = "CUSTOMER";
+                workSheet.Cells[rowId, 3].Value = "PRODUCT CODE";
+                workSheet.Cells[rowId, 4].Value = "PRODUCT DESCRIPTION";
+                workSheet.Cells[rowId, 5].Value = "CATEGORY NAME";
+                workSheet.Cells[rowId, 6].Value = "PREVIOUS QUANTITY";
+                workSheet.Cells[rowId, 7].Value = "SALES QUANTITY";
+                workSheet.Cells[rowId, 8].Value = "PRICE";
+                workSheet.Cells[rowId, 9].Value = "TRANSACTION DATE";
+                workSheet.Cells[rowId, 10].Value = "CREATED BY";
 
                 rowId = rowId + 1;
                 for (int i = 0; i <= dt.Rows.Count - 1; i++)
                 {
-                    workSheet.Cells[rowId, 1].Value = dt.Rows[i][0] == null ? "" : "'" + dt.Rows[i][0].ToString();
-                    workSheet.Cells[rowId, 2].Value = dt.Rows[i][5].ToString();
-                    workSheet.Cells[rowId, 3].Value = dt.Rows[i][6].ToString();
-                    workSheet.Cells[rowId, 4].Value = dt.Rows[i][8].ToString();
-                    workSheet.Cells[rowId, 5].Value = dt.Rows[i][9].ToString();
-                    workSheet.Cells[rowId, 6].Value = dt.Rows[i][10].ToString();
-                    workSheet.Cells[rowId, 7].Value = dt.Rows[i][11].ToString();
-                    workSheet.Cells[rowId, 8].Value = dt.Rows[i][17].ToString();
-                    workSheet.Cells[rowId, 9].Value = dt.Rows[i][16].ToString();
+                    workSheet.Cells[rowId, 1].Value = dt.Rows[i]["SalesNo"] == null ? "" : "'" + dt.Rows[i]["SalesNo"].ToString();
+                    workSheet.Cells[rowId, 2].Value = dt.Rows[i]["CustomerFullDetails"].ToString();
+                    workSheet.Cells[rowId, 3].Value = dt.Rows[i]["ProductCode"].ToString();
+                    workSheet.Cells[rowId, 4].Value = dt.Rows[i]["ProductDescription"].ToString();
+                    workSheet.Cells[rowId, 5].Value = dt.Rows[i]["CategoryName"].ToString();
+                    workSheet.Cells[rowId, 6].Value = Convert.ToInt64(dt.Rows[i]["PreviousQuantity"].ToString());
+                    workSheet.Cells[rowId, 7].Value = Convert.ToInt64(dt.Rows[i]["Quantity"].ToString());
+                    workSheet.Cells[rowId, 8].Value = Convert.ToDecimal(dt.Rows[i]["UnitPrice"].ToString()).ToString("N");
+                    workSheet.Cells[rowId, 9].Value = dt.Rows[i]["TransactionTime"].ToString();
+                    workSheet.Cells[rowId, 10].Value = dt.Rows[i]["UserFullName"].ToString();
                     rowId = rowId + 1;
                 }
             }
@@ -390,27 +397,29 @@ namespace Inventory_AAA.Controllers
             {
                 rowId = 1;
                 workSheet.Cells[rowId, 1].Value = "SALES NUMBER";
-                workSheet.Cells[rowId, 2].Value = "PRODUCT CODE";
-                workSheet.Cells[rowId, 3].Value = "PRODUCT DESCRIPTION";
-                workSheet.Cells[rowId, 4].Value = "CATEGORY NAME";
-                workSheet.Cells[rowId, 5].Value = "PREVIOUS QUANTITY";
-                workSheet.Cells[rowId, 6].Value = "SALES QUANTITY";
-                workSheet.Cells[rowId, 7].Value = "PRICE";
-                workSheet.Cells[rowId, 8].Value = "TRANSACTION DATE";
-                workSheet.Cells[rowId, 9].Value = "CREATED BY";
+                workSheet.Cells[rowId, 2].Value = "CUSTOMER";
+                workSheet.Cells[rowId, 3].Value = "PRODUCT CODE";
+                workSheet.Cells[rowId, 4].Value = "PRODUCT DESCRIPTION";
+                workSheet.Cells[rowId, 5].Value = "CATEGORY NAME";
+                workSheet.Cells[rowId, 6].Value = "PREVIOUS QUANTITY";
+                workSheet.Cells[rowId, 7].Value = "SALES QUANTITY";
+                workSheet.Cells[rowId, 8].Value = "PRICE";
+                workSheet.Cells[rowId, 9].Value = "TRANSACTION DATE";
+                workSheet.Cells[rowId, 10].Value = "CREATED BY";
 
                 rowId = rowId + 1;
                 for (int i = 0; i <= dt.Rows.Count - 1; i++)
                 {
-                    workSheet.Cells[rowId, 1].Value = dt.Rows[i][0] == null ? "" : "'" + dt.Rows[i][0].ToString();
-                    workSheet.Cells[rowId, 2].Value = dt.Rows[i][5].ToString();
-                    workSheet.Cells[rowId, 3].Value = dt.Rows[i][6].ToString();
-                    workSheet.Cells[rowId, 4].Value = dt.Rows[i][8].ToString();
-                    workSheet.Cells[rowId, 5].Value = dt.Rows[i][9].ToString();
-                    workSheet.Cells[rowId, 6].Value = dt.Rows[i][10].ToString();
-                    workSheet.Cells[rowId, 7].Value = dt.Rows[i][11].ToString();
-                    workSheet.Cells[rowId, 8].Value = dt.Rows[i][17].ToString();
-                    workSheet.Cells[rowId, 9].Value = dt.Rows[i][16].ToString();
+                    workSheet.Cells[rowId, 1].Value = dt.Rows[i]["SalesNo"] == null ? "" : "'" + dt.Rows[i]["SalesNo"].ToString();
+                    workSheet.Cells[rowId, 2].Value = dt.Rows[i]["CustomerFullDetails"].ToString();
+                    workSheet.Cells[rowId, 3].Value = dt.Rows[i]["ProductCode"].ToString();
+                    workSheet.Cells[rowId, 4].Value = dt.Rows[i]["ProductDescription"].ToString();
+                    workSheet.Cells[rowId, 5].Value = dt.Rows[i]["CategoryName"].ToString();
+                    workSheet.Cells[rowId, 6].Value = Convert.ToInt64(dt.Rows[i]["PreviousQuantity"].ToString());
+                    workSheet.Cells[rowId, 7].Value = Convert.ToInt64(dt.Rows[i]["Quantity"].ToString());
+                    workSheet.Cells[rowId, 8].Value = Convert.ToDecimal(dt.Rows[i]["UnitPrice"].ToString()).ToString("N");
+                    workSheet.Cells[rowId, 9].Value = dt.Rows[i]["TransactionTime"].ToString();
+                    workSheet.Cells[rowId, 10].Value = dt.Rows[i]["UserFullName"].ToString();
                     rowId = rowId + 1;
                 }
             }

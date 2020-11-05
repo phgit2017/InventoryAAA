@@ -444,7 +444,7 @@ namespace Inventory_AAA.Controllers
                         break;
                 }
                 var productPricesResult = _productServices.GetAllProductPrices().Where(m => m.ProductId == request.ProductId && m.PriceTypeId == i).FirstOrDefault();
-                if (productPricesResult.IsNull())
+                if (!productPricesResult.IsNull())
                 {
                     ProductPricesLogDetailRequest productPricesLogDetailRequest = new ProductPricesLogDetailRequest()
                     {
@@ -606,12 +606,12 @@ namespace Inventory_AAA.Controllers
                 rowId = rowId + 1;
                 for (int i = 0; i <= dt.Rows.Count - 1; i++)
                 {
-                    
+
                     workSheet.Cells[rowId, 1].Value = dt.Rows[i]["ProductCode"].ToString();
                     workSheet.Cells[rowId, 2].Value = dt.Rows[i]["ProductDescription"].ToString();
                     workSheet.Cells[rowId, 3].Value = Convert.ToInt64(dt.Rows[i]["Quantity"].ToString());
-                    workSheet.Cells[rowId, 4].Value = dt.Rows[i]["UnitPrice"].ToString();
-                    workSheet.Cells[rowId, 5].Value = dt.Rows[i]["Subtotal"].ToString();
+                    workSheet.Cells[rowId, 4].Value = Convert.ToDecimal(dt.Rows[i]["UnitPrice"]).ToString("N");
+                    workSheet.Cells[rowId, 5].Value = Convert.ToDecimal(dt.Rows[i]["Subtotal"]).ToString("N");
                     rowId = rowId + 1;
                 }
 

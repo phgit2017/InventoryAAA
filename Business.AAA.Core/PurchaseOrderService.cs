@@ -214,7 +214,7 @@ namespace Business.AAA.Core
                                 break;
                         }
                         var productPricesResult = _productServices.GetAllProductPrices().Where(m => m.ProductId == productId && m.PriceTypeId == i).FirstOrDefault();
-                        if (productPricesResult.IsNull())
+                        if (!productPricesResult.IsNull())
                         {
                             ProductPricesLogDetailRequest productPricesLogDetailRequest = new ProductPricesLogDetailRequest()
                             {

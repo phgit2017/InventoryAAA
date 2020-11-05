@@ -24,6 +24,8 @@ namespace Business.AAA.Core.Dto
         public decimal PurchaseQty { get; set; }
         public decimal PreviousSalesQty { get; set; }
         public decimal SalesQty { get; set; }
+        public decimal PreviousCorrectionQty { get; set; }
+        public decimal CorrectionQty { get; set; }
         public string TransactionType { get; set; }
         public DateTime TransactionDate { get; set; }
         public string CreatedBy { get; set; }
@@ -39,6 +41,7 @@ namespace Business.AAA.Core.Dto
         public long CategoryId { get; set; } = 0;
         public DateTime? DateFrom { get; set; } = null;
         public DateTime? DateTo { get; set; } = null;
+        public int SalesOrderStatusId { get; set; } = 0;
     }
 
     

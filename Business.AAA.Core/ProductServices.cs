@@ -237,14 +237,15 @@ namespace Business.AAA.Core
             return dt;
         }
 
-        public DataTable SalesReportPerCustomerId(DateTime? startDate, DateTime? endDate, long customerId = 0)
+        public DataTable SalesReportPerCustomerId(DateTime? startDate, DateTime? endDate, long customerId = 0,int salesOrderStatusId = 0)
         {
             DataTable dt = new DataTable();
             SqlParameter[] sqlParams = new SqlParameter[]
             {
                 new SqlParameter() { ParameterName = "StartDate", Value = startDate, SqlDbType=  SqlDbType.DateTime },
                 new SqlParameter() { ParameterName = "EndDate", Value = endDate, SqlDbType = SqlDbType.DateTime },
-                new SqlParameter() { ParameterName = "CustomerId", Value = customerId, SqlDbType=  SqlDbType.BigInt }
+                new SqlParameter() { ParameterName = "CustomerId", Value = customerId, SqlDbType=  SqlDbType.BigInt },
+                new SqlParameter() { ParameterName = "SalesOrderStatusId", Value = salesOrderStatusId, SqlDbType=  SqlDbType.Int }
             };
 
             dt = this._productServices.ExecuteSPReturnTable("INV_SalesOrderReportPerCustomer", true, sqlParams);
@@ -252,7 +253,7 @@ namespace Business.AAA.Core
             return dt;
         }
 
-        public DataTable SalesReportPerCategoryAndDate(DateTime? startDate, DateTime? endDate, long categoryId = 0)
+        public DataTable SalesReportPerCategoryAndDate(DateTime? startDate, DateTime? endDate, long categoryId = 0, int salesOrderStatusId = 0)
         {
             DataTable dt = new DataTable();
             SqlParameter[] sqlParams = new SqlParameter[]
@@ -260,6 +261,7 @@ namespace Business.AAA.Core
                 new SqlParameter() { ParameterName = "StartDate", Value = startDate, SqlDbType=  SqlDbType.DateTime },
                 new SqlParameter() { ParameterName = "EndDate", Value = endDate, SqlDbType = SqlDbType.DateTime },
                 new SqlParameter() { ParameterName = "CategoryId", Value = categoryId, SqlDbType = SqlDbType.BigInt },
+                new SqlParameter() { ParameterName = "SalesOrderStatusId", Value = salesOrderStatusId, SqlDbType=  SqlDbType.Int }
             };
 
             dt = this._productServices.ExecuteSPReturnTable("INV_SalesOrderReportPerCategoryAndDate", true, sqlParams);
