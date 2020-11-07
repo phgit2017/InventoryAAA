@@ -158,7 +158,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
         if (i.Quantity) {
             i.Quantity = null
         } else {
-            if (i.UnfinishedQuantity < 0) {
+            if (i.UnfinishedQuantity <= 0) {
                 QuickAlert.Show({
                     type: 'error',
                     message: 'Please input a valid Quantity.'

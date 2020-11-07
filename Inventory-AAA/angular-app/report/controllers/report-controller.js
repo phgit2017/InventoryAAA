@@ -20,6 +20,8 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
     vm.SelectedCategory = 0;
     vm.CustomerList = [];
     vm.SelectedCustomer = 0;
+    vm.StatusList = [];
+    vm.SelectedStatus = 0;
 
     $scope.$watch(
         function() {
@@ -58,6 +60,28 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
                         FilterLabel: "By Category and Date"
                     },
                 ];
+
+                vm.StatusList = [{
+                        StatusId: 1,
+                        StatusName: "Pending"
+                    },
+                    {
+                        StatusId: 2,
+                        StatusName: "Paid"
+                    },
+                    {
+                        StatusId: 3,
+                        StatusName: "Shipped"
+                    },
+                    {
+                        StatusId: 4,
+                        StatusName: "Delivered"
+                    },
+                    {
+                        StatusId: 5,
+                        StatusName: "Cancelled"
+                    },
+                ]
 
                 getCustomerList();
                 getCategoryList();
@@ -110,11 +134,11 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
                     case 1:
                         return vm.SalesNo === 0 || vm.SalesNo === '' ? false : true;
                     case 2:
-                        return vm.StartDate === "" || vm.EndDate === "" || vm.SelectedCustomer === 0 ? false : true;
+                        return vm.StartDate === "" || vm.EndDate === "" || vm.SelectedCustomer === 0 || vm.SelectedStatus === 0 ? false : true;
                     case 3:
-                        return vm.StartDate === "" || vm.EndDate === "" ? false : true;
+                        return vm.StartDate === "" || vm.EndDate === "" || vm.SelectedStatus === 0 ? false : true;
                     case 4:
-                        return vm.StartDate === "" || vm.EndDate === "" || vm.SelectedCategory === 0 ? false : true
+                        return vm.StartDate === "" || vm.EndDate === "" || vm.SelectedCategory === 0 || vm.SelectedStatus === 0 ? false : true
                 }
         }
     }
@@ -139,7 +163,8 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
                     '&customerId=' + vm.SelectedCustomer +
                     '&startDate=' + vm.StartDate +
                     '&endDate=' + vm.EndDate +
-                    '&categoryId=' + vm.SelectedCategory;
+                    '&categoryId=' + vm.SelectedCategory +
+                    '&salesOrderStatusId=' + vm.SelectedStatus;
                 break;
         }
         downloadFile(url);

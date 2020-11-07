@@ -139,6 +139,14 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
             return;
         }
 
+        if (vm.SelectedProduct.CategoryId === 0) {
+            QuickAlert.Show({
+                type: 'error',
+                message: 'Please input a Category.'
+            });
+            return;
+        }
+
         if (validProductDetails()) {
             vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId;
             vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
@@ -171,7 +179,6 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
                         });
                         _getInventorySummary();
                         vm.ManageBarShown = false;
-
                         _resetFields();
                     } else {
                         QuickAlert.Show({
@@ -206,9 +213,9 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
                             type: 'success',
                             message: isDelete ? 'The product has been deleted.' : 'The product has been successfully edited.'
                         })
-
                         vm.ManageBarShown = false;
                         _getInventorySummary();
+                        _resetFields();
                     } else {
                         QuickAlert.Show({
                             type: 'error',

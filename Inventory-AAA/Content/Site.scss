@@ -783,6 +783,11 @@ td {
             font-weight: 500;
         }
     }
+    &:disabled {
+        &:hover {
+            cursor: not-allowed;
+        }
+    }
     +.btn-inline {
         margin-left: 0.5rem;
     }

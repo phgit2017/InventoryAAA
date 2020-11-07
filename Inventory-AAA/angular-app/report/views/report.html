@@ -4,7 +4,6 @@
     </div>
     <div class="card-body align-content-center justify-content-center p-3">
         <form>
-
             <div class="form-group">
                 <span class="input-label">Report Type</span>
                 <div class="custom-control custom-radio">
@@ -41,8 +40,14 @@
                 </div>
 
                 <div class="form-group" ng-if="reportCtrl.SelectedReportFilter === 4">
-                    <label for="categoryList" class="input-label">Categories</label>
+                    <label for="categoryList" class="input-label">Category</label>
                     <select name="categoryList" class="custom-select" ng-model="reportCtrl.SelectedCategory" ng-options="category.CategoryId as category.CategoryName for category in reportCtrl.CategoryList" required>
+                    </select>
+                </div>
+
+                <div class="form-group" ng-if="reportCtrl.SelectedReportFilter !== 1">
+                    <label for="statusList" class="input-label">Status</label>
+                    <select name="statusList" class="custom-select" ng-model="reportCtrl.SelectedStatus" ng-options="status.StatusId as status.StatusName for status in reportCtrl.StatusList" required>
                     </select>
                 </div>
             </div>
