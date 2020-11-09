@@ -296,7 +296,7 @@ namespace Inventory_AAA.Controllers
                     dt = _productServices.SalesReportPerCustomerId(request.DateFrom, request.DateTo, request.CustomerId, request.SalesOrderStatusId);
                     break;
                 case 3:
-                    dt = _productServices.SalesReportPerCategoryAndDate(request.DateFrom, request.DateTo, request.SalesOrderStatusId);
+                    dt = _productServices.SalesReportPerCategoryAndDate(request.DateFrom, request.DateTo, 0, request.SalesOrderStatusId);
                     break;
                 case 4:
                     dt = _productServices.SalesReportPerCategoryAndDate(request.DateFrom, request.DateTo, request.CategoryId, request.SalesOrderStatusId);
