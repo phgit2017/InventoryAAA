@@ -147,6 +147,14 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
             return;
         }
 
+        if (validateUnitPrice() !== '') {
+            QuickAlert.Show({
+                type: 'error',
+                message: 'Please input at least one price type.'
+            });
+            return;
+        }
+
         if (validProductDetails()) {
             vm.OrderRequest["ProductId"] = vm.SelectedProduct.ProductId;
             vm.OrderRequest["ProductCode"] = vm.SelectedProduct.ProductCode;
