@@ -19,6 +19,8 @@ namespace Business.AAA.Core.Dto
 
         public string FullAddress { get; set; }
 
+        public string MobileNumber { get; set; }
+
         public int CustomerStatusId { get; set; }
 
         public string CustomerStatusName { get; set; }
@@ -53,6 +55,9 @@ namespace Business.AAA.Core.Dto
 
         [StringLength(256)]
         public string FullAddress { get; set; }
+
+        [StringLength(16)]
+        public string MobileNumber { get; set; }
 
         public int CustomerStatusId { get; set; }
     }

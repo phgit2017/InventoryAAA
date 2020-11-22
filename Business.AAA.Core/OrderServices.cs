@@ -278,9 +278,27 @@ namespace Business.AAA.Core
 
         public object SalesDetails(long salesOrderId)
         {
+            List<int> pendingSalesOrderStatus = new List<int>();
+            pendingSalesOrderStatus.Add(1);
+            pendingSalesOrderStatus.Add(2);
+            pendingSalesOrderStatus.Add(3);
+
             var salesResult = GetAllSalesOrders().Where(m => m.SalesOrderId == salesOrderId).FirstOrDefault();
             var customerResult = _customerServices.GetAll().Where(m => m.CustomerId == salesResult.CustomerId).FirstOrDefault();
             var salesOrderDetailsResult = GetAllSalesOrderDetails().Where(m => m.SalesOrderId == salesOrderId).ToList();
+
+            foreach (var saleProduct in salesOrderDetailsResult)
+            {
+                var stocksAvailablePerProduct = 0.0m;
+
+                var currentProduct = _productServices.GetAll().Where(m => m.ProductId == saleProduct.ProductId).FirstOrDefault();
+                var pendingSalesOrders = GetAllSalesOrders().Where(m => pendingSalesOrderStatus.Contains(m.SalesOrderStatusId)).ToList();
+                var summationOfPendingSalesOrders = GetAllSalesOrderDetails().Where(m => pendingSalesOrders.Select(model => model.SalesOrderId).Contains(m.SalesOrderId) && m.ProductId == currentProduct.ProductId).Sum(m => m.Quantity);
+
+
+                stocksAvailablePerProduct = (currentProduct.Quantity - summationOfPendingSalesOrders);
+                saleProduct.StocksAvailable = stocksAvailablePerProduct;
+            }
 
             var result  = new
             {

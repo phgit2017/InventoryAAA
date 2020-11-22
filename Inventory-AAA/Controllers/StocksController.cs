@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -13,6 +14,8 @@ using Business.AAA.Core.Dto;
 using Business.AAA.Core.Interface;
 using Infrastructure.Utilities;
 using Inventory_AAA.Infrastructure;
+using Inventory_AAA.Models;
+using LinqKit;
 using Newtonsoft.Json;
 using OfficeOpenXml;
 
@@ -239,7 +242,7 @@ namespace Inventory_AAA.Controllers
                 orderTransactionRequest.SalesNo = request.SalesNo;
                 orderTransactionRequest.ModeOfPayment = request.ModeOfPayment;
                 orderTransactionRequest.ShippingFee = request.ShippingFee;
-                
+
 
                 foreach (var salesOrderDetails in request.SalesOrderProductDetailRequest)
                 {
@@ -275,7 +278,7 @@ namespace Inventory_AAA.Controllers
                 else if (updateOrderTransactionResult == 0)
                 {
                     isSucess = true;
-                    
+
                 }
 
                 salesOrderIdResult = orderTransactionRequest.SalesOrderId;
@@ -322,6 +325,84 @@ namespace Inventory_AAA.Controllers
             };
             return Json(response, JsonRequestBehavior.AllowGet);
 
+        }
+
+        [HttpPost]
+        public JsonResult SalesOrdersTransactionHistory(SalesOrderSearchRequest request)
+        {
+            List<SalesOrders> result = new List<SalesOrders>();
+
+            #region Authorize
+            var authorizeMenuAccessResult = AuthorizeMenuAccess(LookupKey.Menu.SalesOrderMenuId);
+            if (!authorizeMenuAccessResult.IsSuccess)
+            {
+
+                return Json(new
+                {
+                    isSuccess = authorizeMenuAccessResult.IsSuccess,
+                    messageAlert = authorizeMenuAccessResult.MessageAlert,
+                    result = result
+                }, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+            if (request.IsNull())
+            {
+                result = this._orderServices.GetAllSalesOrders().AsExpandable().Where(a => DbFunctions.TruncateTime(a.ModifiedTime) >= DbFunctions.TruncateTime(request.StartDate) && DbFunctions.TruncateTime(a.ModifiedTime) <= DbFunctions.TruncateTime(request.EndDate)).ToList();
+            }
+            else
+            {
+                var predicate = PredicateBuilder.New<SalesOrders>();
+
+                if (!request.StartDate.IsNull() && request.EndDate.IsNull())
+                {
+                    if (request.SalesOrderStatusId == LookupKey.SalesOrderStatus.PendingId)
+                    {
+                        predicate = predicate.And(a => DbFunctions.TruncateTime(a.CreatedTime) >= DbFunctions.TruncateTime(request.StartDate));
+                    }
+                    else
+                    {
+                        predicate = predicate.And(a => DbFunctions.TruncateTime(a.ModifiedTime) >= DbFunctions.TruncateTime(request.StartDate));
+                    }
+
+                }
+                else if (request.StartDate.IsNull() && !request.EndDate.IsNull())
+                {
+                    if (request.SalesOrderStatusId == LookupKey.SalesOrderStatus.PendingId)
+                    {
+                        predicate = predicate.And(a => DbFunctions.TruncateTime(a.CreatedTime) <= DbFunctions.TruncateTime(request.EndDate));
+                    }
+                    else
+                    {
+                        predicate = predicate.And(a => DbFunctions.TruncateTime(a.ModifiedTime) <= DbFunctions.TruncateTime(request.EndDate));
+                    }
+
+                }
+                else if (!request.StartDate.IsNull() && !request.EndDate.IsNull())
+                {
+                    if (request.SalesOrderStatusId == LookupKey.SalesOrderStatus.PendingId)
+                    {
+                        predicate = predicate.And(a => DbFunctions.TruncateTime(a.CreatedTime) >= DbFunctions.TruncateTime(request.StartDate) && DbFunctions.TruncateTime(a.CreatedTime) <= DbFunctions.TruncateTime(request.EndDate));
+                    }
+                    else
+                    {
+                        predicate = predicate.And(a => DbFunctions.TruncateTime(a.ModifiedTime) >= DbFunctions.TruncateTime(request.StartDate) && DbFunctions.TruncateTime(a.ModifiedTime) <= DbFunctions.TruncateTime(request.EndDate));
+                    }
+
+                }
+
+                result = this._orderServices.GetAllSalesOrders().AsExpandable().Where(predicate).ToList();
+
+            }
+
+
+            var response = new
+            {
+                isSuccess = true,
+                messageAlert = string.Empty,
+                result = result,
+            };
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]

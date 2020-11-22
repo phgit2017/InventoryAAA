@@ -51,6 +51,7 @@ namespace Business.AAA.Core
                              FirstName = det.FirstName,
                              LastName = det.LastName,
                              FullAddress = det.FullAddress,
+                             MobileNumber = det.MobileNumber,
                              CreatedBy = det.CreatedBy,
                              CreatedTime = det.CreatedTime,
                              ModifiedBy = det.ModifiedBy,

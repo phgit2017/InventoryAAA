@@ -130,6 +130,7 @@ namespace Business.AAA.Core.Extensions
                     FirstName = request.FirstName,
                     LastName = request.LastName,
                     FullAddress = request.FullAddress,
+                    MobileNumber = request.MobileNumber,
                     CustomerStatusID = request.CustomerStatusId,
                     CreatedBy = request.CreatedBy,
                     CreatedTime = request.CreatedTime,

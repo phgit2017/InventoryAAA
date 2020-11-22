@@ -155,6 +155,7 @@ namespace Business.AAA.Core.Dto
 
         public int PriceTypeId { get; set; }
         public string PriceTypeName { get; set; }
+        public decimal StocksAvailable { get; set; } = 0;
     }
 
     public class BaseOrderDetails : BaseDetail

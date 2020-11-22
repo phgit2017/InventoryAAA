@@ -28,6 +28,9 @@
         [StringLength(256)]
         public string FullAddress { get; set; }
 
+        [StringLength(16)]
+        public string MobileNumber { get; set; }
+
         public int CustomerStatusID { get; set; }
 
         public long? CreatedBy { get; set; }

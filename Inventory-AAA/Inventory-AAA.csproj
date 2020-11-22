@@ -63,6 +63,9 @@
     <Reference Include="EPPlus, Version=5.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.5.1.1\lib\net45\EPPlus.dll</HintPath>
     </Reference>
+    <Reference Include="LinqKit, Version=1.1.21.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqKit.1.1.21\lib\net45\LinqKit.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -182,6 +185,7 @@
     </Compile>
     <Compile Include="Infrastructure\DependencyInjection.cs" />
     <Compile Include="Infrastructure\InventoryAAAAuthorizeUserAttribute.cs" />
+    <Compile Include="Models\SalesOrderSearchRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -318,7 +322,6 @@
     <Folder Include="angular-app\shared\controllers\" />
     <Folder Include="angular-app\shared\directives\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
     <Folder Include="Views\Common\" />
     <Folder Include="Views\Maintenance\" />
     <Folder Include="Views\Report\" />
