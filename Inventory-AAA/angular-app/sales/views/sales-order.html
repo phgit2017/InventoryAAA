@@ -68,7 +68,7 @@
                             </div>
                         </td>
                         <td> {{ so.CreatedDateTimeFormat }} </td>
-                        <td> {{ so.ModifiedDateTimeFormat !== '' ? so.ModifedDateTimeFormat : 'N/A' }} </td>
+                        <td> {{ so.ModifiedDateTimeFormat !== '' ? so.ModifiedDateTimeFormat : 'N/A' }} </td>
                         <td class="cell-center">
                             <span class="fab-status" ng-class="salesOrderCtrl.GetStatusClass(so.SalesOrderStatusId)">{{ so.SalesOrderStatusName }} </span>
                         </td>
@@ -81,6 +81,6 @@
         </div>
     </div>
     <div class="content-footer">
-        <pagination total-items="userCtrl.UserList.length" ng-change="userCtrl.FilterUsers()" ng-model="userCtrl.currentPage" max-size="userCtrl.maxSize" class="pagination" boundary-links="false" items-per-page="userCtrl.numPerPage"></pagination>
+        <pagination total-items="salesOrderCtrl.FilteredSalesOrders.length" ng-change="salesOrderCtrl.FilterUsers()" ng-model="salesOrderCtrl.currentPage" max-size="salesOrderCtrl.maxSize" class="pagination" boundary-links="false" items-per-page="salesOrderCtrl.numPerPage"></pagination>
     </div>
 </div>

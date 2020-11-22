@@ -15,6 +15,11 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
     vm.SearchSalesOrdersInput = "";
     vm.TableMode = "Undelivered";
 
+    vm.filteredUsers = [];
+    vm.currentPage = 1;
+    vm.numPerPage = 10;
+    vm.maxSize = 5;
+
     vm.Initialize = function() {
         getSalesOrders();
     }

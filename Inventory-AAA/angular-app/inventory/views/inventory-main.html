@@ -134,17 +134,18 @@
                         <div ng-if="inventoryCtrl.StockMode !== ''">
                             <div class="form-group">
                                 <label for="addedStock">{{ inventoryCtrl.StockMode === inventoryCtrl.STOCK_MODE_CORRECTION ? 'Corrected' : 'Added' }} Stock</label>
-                                <input name="addedStock" id="addedStock" type="number" class="form-control" ng-model="inventoryCtrl.OrderRequestQuantity" id="is-new-stock ">
+                                <input name="addedStock" id="addedStock" type="number" class="form-control" ng-model="inventoryCtrl.OrderRequestQuantity" id="is-new-stock" required>
                                 <span ng-if="stockForm.addedStock.$error.required && !stockForm.addedStock.$pristine" class="form-validation-msg">This field is required.</span>
-                            </div ng-if="inventoryCtrl.StockMode === vm.STOCK_MODE_ADD">
+                            </div ng-if="inventoryCtrl.StockMode === inventoryCtrl.STOCK_MODE_ADD">
                             <div class="form-group" ng-if="inventoryCtrl.StockMode === inventoryCtrl.STOCK_MODE_ADD">
                                 <label for="totalStock">Total Stock</label>
                                 <input name="totalStock" id="totalStock" type="number" class="form-control" ng-model="inventoryCtrl.TotalStock" id="is-total-stock " disabled>
                             </div>
                         </div>
                         <div class="form-group" ng-if="inventoryCtrl.StockMode !== ''">
-                            <label for="remarks" class="input-label">Remarks (Optional)</label>
-                            <textarea name="remarks" type="text" class="form-control form-control-sm" ng-model="inventoryCtrl.OrderRequestRemarks" required id="remarks"></textarea>
+                            <label for="remarks" class="input-label">Remarks</label>
+                            <textarea name="remarks" type="text" class="form-control form-control-sm" ng-model="inventoryCtrl.OrderRequestRemarks" required id="remarks" required></textarea>
+                            <span ng-if="stockForm.remarks.$error.required && !stockForm.remarks.$pristine" class="form-validation-msg">This field is required.</span>
                         </div>
                     </form>
                 </div>
@@ -254,4 +255,6 @@
             </div>
         </div>
     </div>
+
+    
 </div>

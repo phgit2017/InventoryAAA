@@ -39,7 +39,7 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
     vm.OrderRequest = {};
     vm.ProductDetailRequest = {};
     vm.ProductHistory = {};
-    vm.OrderRequestRemarks = null;
+    vm.OrderRequestRemarks = "";
     vm.CriticalStock = 100;
     vm.CategoryList = [];
     vm.NewCategoryName = "";
@@ -65,7 +65,7 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
     vm.ResetFields = _resetFields
     vm.filteredProducts = [];
     vm.currentPage = 1;
-    vm.numPerPage = 9;
+    vm.numPerPage = 10;
     vm.maxSize = 5;
 
     // API methods
@@ -143,6 +143,13 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
             QuickAlert.Show({
                 type: 'error',
                 message: 'Please input a Category.'
+            });
+            return;
+        }
+        if (vm.OrderRequestRemarks === '' || vm.OrderRequestRemarks === null) {
+            QuickAlert.Show({
+                type: 'error',
+                message: 'Please input Remarks.'
             });
             return;
         }
@@ -255,7 +262,7 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
         vm.OrderRequest = {};
         vm.OrderRequestTransactionType = 1;
         vm.OrderRequestQuantity = 0;
-        vm.OrderRequestRemarks = null;
+        vm.OrderRequestRemarks = "";
         _resetFields();
     }
 

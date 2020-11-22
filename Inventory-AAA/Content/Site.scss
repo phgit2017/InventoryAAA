@@ -282,18 +282,7 @@ textarea {
             flex-direction: column;
             align-items: center;
             margin: 1rem 0.5rem;
-            form {
-                width: 100%;
-                input {
-                    font-size: 0.8rem;
-                }
-                label {
-                    color: #666;
-                    font-size: 0.75rem;
-                    font-weight: 600 !important;
-                    margin-bottom: 0.25rem;
-                }
-            }
+            
         }
     }
     .bar-footer {
@@ -308,6 +297,19 @@ textarea {
         .btn+.btn {
             margin-right: 0.5rem;
         }
+    }
+}
+
+form {
+    width: 100%;
+    input {
+        font-size: 0.8rem;
+    }
+    label {
+        color: #666;
+        font-size: 0.75rem;
+        font-weight: 600 !important;
+        margin-bottom: 0.25rem;
     }
 }
 
@@ -410,10 +412,13 @@ textarea {
         }
         &.orders-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(1, 1fr);
             grid-auto-rows: 77.5vh;
             grid-gap: 2rem;
             max-height: 100% !important;
+            &.new-order {
+                grid-template-columns: repeat(2, 1fr);
+            }
             .grid-item {
                 height: 100%;
                 background: #fff;
@@ -497,7 +502,7 @@ textarea {
                 border-bottom: solid 1px #ddd;
                 background: #555;
                 &:not(:first-child) {
-                    margin-top: 2rem;
+                    margin-top: 1rem;
                 }
             }
             .sales-details {
@@ -511,6 +516,9 @@ textarea {
             .product-container {
                 height: 100%;
                 overflow-y: scroll;
+                &::-webkit-scrollbar {
+                    display: none;
+                }
             }
             .product-list,
             .total,
@@ -560,13 +568,17 @@ textarea {
     flex-direction: column;
     padding: 0 !important;
     border-radius: 5px !important;
-    box-shadow: 4px 2px 5px var(--shadow-color);
+    box-shadow: 0px 4px 30px 10px rgba(0, 0, 0, 0.25);
     justify-content: space-between;
+    max-height: 600px;
+    overflow-y: scroll;
     .dropdown-header {
         display: flex;
         justify-content: space-between;
-        background: var(--bg-primary);
+        background: var(--bg-primary-dark);
         padding: 0.75rem;
+        position: sticky;
+        top: 0;
     }
     ul {
         padding-left: 0;
@@ -580,6 +592,10 @@ textarea {
             }
         }
     }
+}
+
+.btn.dropdown-toggle:disabled {
+    opacity: 1 !important;
 }
 
 .dropdown-item {
@@ -1091,30 +1107,42 @@ small {
     height: 100vh;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    margin: auto;
+    justify-content: center;
+
+    .modal-container {
+        background: #fff;
+        position: relative;
+        bottom: 100px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 30px 10px rgba(0, 0, 0, 0.25);
+    
+        &.modal-sm {
+            max-width: 770px;
+            min-height: 400px;
+            min-width: 400px;
+        }
+
+        .modal-header {
+            background: var(--bg-primary-dark);
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
 }
 
-.modal-container {
-    z-index: 10000;
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-content: center;
-    left: 50px;
-}
+
 
 .modal-xs {
     max-width: 770px;
     min-height: 400px;
 }
 
-.modal-sm {
-    max-width: 770px;
-    min-width: 770px;
-    min-height: 400px;
-}
+
 
 .modal-md {
     max-width: 900px !important;
@@ -1142,6 +1170,10 @@ small {
     display: flex;
     justify-content: flex-start;
     background: white;
+    padding: 2rem;
+    input, textarea, select {
+        min-width: 360px;
+    }
 }
 
 span {
