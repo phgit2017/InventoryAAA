@@ -3,13 +3,20 @@
     <div class="content-header customer-details" ng-if="!orderDetailsCtrl.ReceiptShown">
         <div>
             <div class="btn-group">
-                <button type="button" class="btn dropdown-toggle ml-3 " ng-class="{ 'btn-outlined' : orderDetailsCtrl.SelectedCustomerLabel === '', 'btn-transparent-white' : orderDetailsCtrl.SelectedCustomerLabel !== '' }" data-toggle="dropdown" ng-click="orderDetailsCtrl.CustomerListShown = !orderDetailsCtrl.CustomerListShown;">
+                <button type="button" class="btn dropdown-toggle ml-3 " 
+                        ng-class="{ 'btn-outlined' : orderDetailsCtrl.SelectedCustomerLabel === '', 
+                                    'btn-transparent-white' : orderDetailsCtrl.SelectedCustomerLabel !== '',
+                                    'dropdown-toggle' : orderDetailsCtrl.SalesOrderStatusId === 0 || orderDetailsCtrl.SalesOrderStatusId === 1
+                                }" data-toggle="dropdown" 
+                        ng-click="orderDetailsCtrl.CustomerListShown = !orderDetailsCtrl.CustomerListShown;"
+                        ng-disabled="orderDetailsCtrl.SalesOrderStatusId !== 0 && orderDetailsCtrl.SalesOrderStatusId !== 1">
                     {{ orderDetailsCtrl.SelectedCustomerLabel !== '' ? orderDetailsCtrl.SelectedCustomerLabel : 'Select a Customer'}}
                 </button>
                 <div class="dropdown-customers dropdown-menu dropdown-menu-left" ng-class="{ 'show' : orderDetailsCtrl.CustomerListShown }">
                     <div class="dropdown-header">
                         <input type="text" class="form-control search" ng-model="orderDetailsCtrl.SearchCustomerInput" placeholder="Search for customers...">
-                        <button class="btn btn-primary-inverse btn-sm" ng-click="orderDetailsCtrl.CustomerListShown = false">Close</button>
+                        <button class="btn btn-primary-inverse btn-sm ml-2" ng-click="orderDetailsCtrl.NewCustomer();orderDetailsCtrl.NewCustomerToggled = true">New</button>
+                        <button class="btn btn-danger btn-sm" ng-click="orderDetailsCtrl.CustomerListShown = false">Close</button>
                     </div>
                     <ul>
                         <li ng-repeat="cl in orderDetailsCtrl.CustomerList | filter : orderDetailsCtrl.SearchCustomerInput" ng-click="orderDetailsCtrl.SelectCustomer(cl);" class="dropdown-item">{{ cl.CustomerCode + ' - ' + cl.FullName }}</li>
@@ -17,6 +24,7 @@
                 </div>
             </div>
             <div class="address" ng-if="orderDetailsCtrl.SelectedCustomerLabel !== ''">
+                <span>{{ orderDetailsCtrl.SelectedCustomerDetail }}</span>
                 <span>{{ orderDetailsCtrl.SelectedCustomer.FullAddress }}</span>
             </div>
         </div>
@@ -43,8 +51,8 @@
             </div>
         </div>
     </div>
-    <div class="content-body orders-grid" ng-if="!orderDetailsCtrl.ReceiptShown">
-        <div class="grid-item">
+    <div class="content-body orders-grid" ng-class="{ 'new-order' : orderDetailsCtrl.SalesOrderId === 0 || orderDetailsCtrl.SalesOrderStatusId === 1 }" ng-if="!orderDetailsCtrl.ReceiptShown">
+        <div class="grid-item"  ng-if="orderDetailsCtrl.SalesOrderId === 0 || orderDetailsCtrl.SalesOrderStatusId === 1">
             <div class="product-list">
                 <div class="grid-header">
                     <input type="text" class="form-control search" ng-model="orderDetailsCtrl.SearchProductList" placeholder="Search for products...">
@@ -158,6 +166,11 @@
                 </div>
             </div>
             <div class="order-footer">
+                <div>
+                    <button class="btn btn-sm btn-primary-inverse" ng-click="loginCtrl.ChangeRoute('SalesOrder')">
+                        Back 
+                    </button>
+                </div>
                 <div class="d-flex ml-auto">
                     <button class="btn btn-sm btn-danger" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 4 && orderDetailsCtrl.SalesOrderStatusId !== 5 && orderDetailsCtrl.SalesOrderStatusId !== 0" ng-click="orderDetailsCtrl.AlertMessage = 'Are you sure you want to cancel this order?'; orderDetailsCtrl.ShowConfirmAlert = true;">
                         Cancel Order
@@ -196,9 +209,13 @@
                     <span>{{ orderDetailsCtrl.ReceiptDetails[0].CustomerFullDetails }}</span>
                 </div>
                 <div>
-                    <strong class="label">Address:</strong>
-                    <span>{{ orderDetailsCtrl.ReceiptDetails[0].FullAddress }}</span>
+                    <strong class="label">Mobile No::</strong>
+                    <span>{{ '0999999999' }}</span>
                 </div>
+            </div>
+            <div>
+                <strong class="label">Address:</strong>
+                <span>{{ orderDetailsCtrl.ReceiptDetails[0].FullAddress }}</span>
             </div>
             <div class="receipt-section">
                 PRODUCT LIST
@@ -235,5 +252,53 @@
         <div class="receipt-footer">
             <button class="btn btn-sm btn-primary-inverse" ng-click="orderDetailsCtrl.ReceiptShown = false">Back</button>
             <button class="btn btn-sm btn-primary" ng-click="orderDetailsCtrl.SubmitOrder();" ng-if="orderDetailsCtrl.SalesOrderStatusId === 3">Checkout</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" ng-if="orderDetailsCtrl.NewCustomerToggled">
+        <div class="modal-container modal-sm">
+            <div class="modal-header">
+                <h5>Add New Customer</h5>
+                <button type="button" class="btn btn-danger btn-sm" ng-click="orderDetailsCtrl.NewCustomerToggled = false">
+                    Close
+                </button>
+            </div>
+            <div class="modal-body">
+                <form novalidate name="customerForm">
+                    <div class="form-group">
+                        <label for="customerCode" class="input-label">Customer Code</label>
+                        <input name="customerCode" type="text" class="form-control form-control-sm" ng-model="orderDetailsCtrl.SelectedCustomer.CustomerCode" required id="customercode">
+                        <span ng-if="customerForm.customerCode.$error.required && !customerForm.customerCode.$pristine" class="form-validation-msg">This field is required.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstName" class="input-label">First Name</label>
+                        <input name="firstName" type="text" class="form-control form-control-sm" ng-model="orderDetailsCtrl.SelectedCustomer.FirstName" required id="firstname">
+                        <span ng-if="customerForm.firstName.$error.required && !customerForm.firstName.$pristine" class="form-validation-msg">This field is required.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" class="input-label">Last Name</label>
+                        <input name="lastName" type="text" class="form-control form-control-sm" ng-model="orderDetailsCtrl.SelectedCustomer.LastName" required id="lastname">
+                        <span ng-if="customerForm.lastName.$error.required && !customerForm.lastName.$pristine" class="form-validation-msg">This field is required.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="mobileNo" class="input-label">Mobile No.</label>
+                        <input name="mobileNo" type="number" class="form-control form-control-sm" required id="mobileNo">
+                        <span ng-if="customerForm.mobileNo.$error.required && !customerForm.mobileNo.$pristine" class="form-validation-msg">This field is required.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="input-label">Address</label>
+                        <textarea name="address" type="text" class="form-control form-control-sm" ng-model="orderDetailsCtrl.SelectedCustomer.FullAddress" required id="address"></textarea>
+                        <span ng-if="customerForm.address.$error.required && !customerForm.address.$pristine" class="form-validation-msg">This field is required.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="category" class="input-label">Category</label>
+                        <select name="category" class="custom-select" ng-model="orderDetailsCtrl.SelectedCustomer.CustomerStatusId" ng-options="status.CustomerStatusId as status.CustomerStatusName for status in orderDetailsCtrl.CustomerStatusList" required>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-sm" ng-disabled="!customerForm.$valid" ng-click="orderDetailsCtrl.SaveCustomer();">Save and Use</button>
+            </div>
         </div>
     </div>

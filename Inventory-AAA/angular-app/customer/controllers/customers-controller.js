@@ -25,6 +25,9 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
         CustomerStatusId: 1
     };
     vm.SearchCustomerInput = '';
+    vm.currentPage = 1;
+    vm.numPerPage = 10;
+    vm.maxSize = 5;
 
     vm.ShowConfirmAlert = false;
 

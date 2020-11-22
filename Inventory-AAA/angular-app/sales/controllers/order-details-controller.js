@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('OrderDetailsController', OrderDetailsController);
 
-OrderDetailsController.$inject = ['$scope', '$route', '$location', '$routeParams', 'MaintenanceService', 'SalesOrderService', 'CustomerService', 'InventoryService', 'QuickAlert'];
+OrderDetailsController.$inject = ['$scope', '$route', '$location', '$routeParams', 'MaintenanceService', 'SalesOrderService', 'CustomerService', 'InventoryService', 'QuickAlert', 'CommonService'];
 
-function OrderDetailsController($scope, $route, $location, $routeParams, MaintenanceService, SalesOrderService, CustomerService, InventoryService, QuickAlert) {
+function OrderDetailsController($scope, $route, $location, $routeParams, MaintenanceService, SalesOrderService, CustomerService, InventoryService, QuickAlert, CommonService) {
 
     var vm = this,
         controllerName = 'orderDetailsCtrl';
@@ -24,6 +24,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     vm.SearchProductsInOrder = '';
     vm.SelectedCustomer = '';
     vm.SelectedCustomerLabel = '';
+    vm.SelectedCustomerDetail = '';
     vm.PriceTypes = ['Big Buyer', 'Reseller', 'Retailer']
     vm.PriceTypesShown = false;
     vm.SelectedPriceType = '';
@@ -35,6 +36,18 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     vm.AlertMessage = '';
     vm.ReceiptShown = false;
     vm.ReceiptDetails;
+    vm.NewCustomerToggled = false;
+    vm.SelectedCustomer = {
+        CustomerId: 0,
+        CustomerCode: "",
+        FirstName: "",
+        LastName: "",
+        FullAddress: "",
+        IsActive: true,
+        CreatedBy: 0,
+        CreatedTime: "",
+        CustomerStatusId: 1
+    };
 
 
     vm.Initialize = function() {
@@ -52,8 +65,74 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
 
     vm.SelectCustomer = function(customer) {
         vm.SelectedCustomer = customer;
-        vm.SelectedCustomerLabel = customer.CustomerCode + ' - ' + customer.FullName;
+        vm.SelectedCustomerLabel = customer.CustomerCode + ' - ' + customer.FirstName + ' ' + customer.LastName;
+        vm.SelectedCustomerDetail = '09999999999' + ' - ' + customer.FullAddress;
         vm.CustomerListShown = false;
+    }
+
+    vm.NewCustomer = function() {
+        vm.SelectedCustomer = {
+            CustomerId: 0,
+            CustomerCode: "",
+            FirstName: "",
+            LastName: "",
+            FullAddress: "",
+            IsActive: true,
+            CreatedBy: 0,
+            CreatedTime: "",
+            CustomerStatusId: 1
+        };
+        CommonService.GetCustomerStatusList().then(
+            function(data) {
+                vm.CustomerStatusList = data.result;
+            },
+            function(error) {
+                QuickAlert.Show({
+                    type: 'error',
+                    message: 'Server error.'
+                });
+            }
+        )
+    }
+
+    vm.SaveCustomer = function() {
+        CustomerService.SaveCustomer(vm.SelectedCustomer, 'Add').then(
+            function(data) {
+                if (data.isSuccess) {
+                    QuickAlert.Show({
+                        type: 'success',
+                        message: 'Customer has been added and set.'
+                    });
+                    vm.SelectCustomer(vm.SelectedCustomer);
+                    vm.NewCustomerToggled = false;
+                    vm.CustomerListShown = false;
+                    getCustomerList();
+                    vm.SelectedCustomer = {
+                        CustomerId: 0,
+                        CustomerCode: "",
+                        FirstName: "",
+                        LastName: "",
+                        FullAddress: "",
+                        IsActive: true,
+                        CreatedBy: 0,
+                        CreatedTime: "",
+                        CustomerStatusId: 1
+                    };
+                } else {
+                    QuickAlert.Show({
+                        type: 'error',
+                        message: data.messageAlert
+                    });
+                }
+
+            },
+            function(error) {
+                QuickAlert.Show({
+                    type: 'error',
+                    message: error
+                });
+            }
+        )
     }
 
     vm.SelectPriceType = function(priceType) {

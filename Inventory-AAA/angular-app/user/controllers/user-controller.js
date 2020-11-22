@@ -28,7 +28,7 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
 
     vm.filteredUsers = [];
     vm.currentPage = 1;
-    vm.numPerPage = 9;
+    vm.numPerPage = 10;
     vm.maxSize = 5;
 
     vm.Initialize = _initialize;
