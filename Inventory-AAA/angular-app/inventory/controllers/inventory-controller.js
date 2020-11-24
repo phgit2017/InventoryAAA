@@ -146,7 +146,7 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
             });
             return;
         }
-        if (vm.OrderRequestRemarks === '' || vm.OrderRequestRemarks === null) {
+        if (!isAddNew && (vm.OrderRequestRemarks === '' || vm.OrderRequestRemarks === null)) {
             QuickAlert.Show({
                 type: 'error',
                 message: 'Please input Remarks.'

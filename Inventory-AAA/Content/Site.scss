@@ -1136,7 +1136,6 @@ small {
 }
 
 
-
 .modal-xs {
     max-width: 770px;
     min-height: 400px;
@@ -1158,6 +1157,18 @@ small {
 
 .modal-close {
     margin-left: auto;
+}
+
+.confirm-modal-container {
+    z-index: 10000;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    left: 50px;
 }
 
 .card-sm {

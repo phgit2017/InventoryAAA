@@ -20,6 +20,19 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
     vm.numPerPage = 10;
     vm.maxSize = 5;
 
+    //Watches
+
+    $scope.$watch(
+        function() {
+            return vm.TableMode;
+        },
+        function(oldValue, newValue) {
+            if (oldValue !== newValue) {
+                vm.TotalStock = vm.OrderRequestQuantity !== null ? vm.SelectedProduct.Quantity + vm.OrderRequestQuantity : vm.SelectedProduct.Quantity;
+            }
+        }
+    );
+
     vm.Initialize = function() {
         getSalesOrders();
     }

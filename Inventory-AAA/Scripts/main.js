@@ -217,7 +217,7 @@ app.directive('confirmAlert', function($rootScope) {
         },
         template: `<div ng-show='show'>
              <div class='modal-overlay'> </div>
-             <div class='modal-container'>
+             <div class='confirm-modal-container'>
              <div class='modal-box' ng-transclude>
               <div class='card p-2'>
                   <div class='card-body' style='color: black;'>

@@ -19,6 +19,7 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
         FirstName: "",
         LastName: "",
         FullAddress: "",
+        MobileNumber: "",
         IsActive: true,
         CreatedBy: 0,
         CreatedTime: "",
@@ -45,6 +46,7 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
             FirstName: "",
             LastName: "",
             FullAddress: "",
+            MobileNumber: "",
             IsActive: true,
             CreatedBy: 0,
             CreatedTime: "",
@@ -59,6 +61,7 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
             FirstName: data.FirstName,
             LastName: data.LastName,
             FullAddress: data.FullAddress,
+            MobileNumber: data.MobileNumber,
             IsActive: data.IsActive,
             CreatedBy: data.CreatedBy,
             CreatedTime: data.CreatedTime,
@@ -107,7 +110,8 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
         if (isNullOrEmpty(vm.SelectedCustomer.FirstName) ||
             isNullOrEmpty(vm.SelectedCustomer.LastName) ||
             isNullOrEmpty(vm.SelectedCustomer.CustomerCode) ||
-            isNullOrEmpty(vm.SelectedCustomer.FullAddress)) {
+            isNullOrEmpty(vm.SelectedCustomer.FullAddress) ||
+            isNullOrEmpty(vm.SelectedCustomer.MobileNumber)) {
             return false
         } else {
             return true;

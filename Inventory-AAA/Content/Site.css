@@ -1481,6 +1481,26 @@ small {
   margin-left: auto;
 }
 
+.confirm-modal-container {
+  z-index: 10000;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  left: 50px;
+}
+
 .card-sm .card-body {
   padding: 0.3rem !important;
 }
