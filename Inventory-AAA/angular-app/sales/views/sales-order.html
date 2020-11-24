@@ -10,6 +10,9 @@
                 </span>
             </div>
             <input ng-model="salesOrderCtrl.SearchSalesOrdersInput" type="text" class="form-control inline" aria-label="searchProduct" placeholder="Search Orders...">
+            <button class="btn btn-primary-inverse btn-sm ml-4" 
+                ng-click="salesOrderCtrl.FilterToggled = true"
+                ng-if="salesOrderCtrl.TableMode === 'Delivered'">Filter</button>
         </div>
 
         <div class="btn-group sales-mode">
@@ -82,5 +85,39 @@
     </div>
     <div class="content-footer">
         <pagination total-items="salesOrderCtrl.FilteredSalesOrders.length" ng-change="salesOrderCtrl.FilterUsers()" ng-model="salesOrderCtrl.currentPage" max-size="salesOrderCtrl.maxSize" class="pagination" boundary-links="false" items-per-page="salesOrderCtrl.numPerPage"></pagination>
+    </div>
+</div>
+
+<div class="modal-overlay" ng-if="salesOrderCtrl.FilterToggled">
+    <div class="modal-container modal-sm">
+        <div class="modal-header">
+            <h5>Filter Sales Orders</h5>
+            <button type="button" class="btn btn-danger btn-sm" ng-click="salesOrderCtrl.FilterToggled = false;">
+                Close
+            </button>
+        </div>
+        <div class="modal-body">
+            <form novaldiate name="filterForm">
+                <div class="form-group">
+                    <label for="category" class="input-label">Status</label>
+                    <select name="category" class="custom-select" ng-model="salesOrderCtrl.FilterStatus" ng-options="status.StatusId as status.StatusName for status in salesOrderCtrl.StatusList" required>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="startDate" class="input-label">Start Date</label>
+                    <input id="dp_startdate" type="text" class="form-control" ng-model="salesOrderCtrl.FilterStartDate" placeholder="mm/dd/yyyy" readonly />
+                    <date-picker element-id="'startdate'"></date-picker>
+                </div>
+                <div class="form-group">
+                    <label class="input-label">End Date</label>
+                    <input id="dp_enddate" type="text" class="form-control" ng-model="salesOrderCtrl.FilterEndDate" placeholder="mm/dd/yyyy" readonly />
+                    <date-picker element-id="'enddate'"></date-picker>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info btn-sm" ng-if="salesOrderCtrl.FilterApplied" ng-click="salesOrderCtrl.RemoveFilter();">Clear Filter</button>
+            <button type="button" class="btn btn-primary btn-sm" ng-click="salesOrderCtrl.ApplyFilter();">Apply Filter</button>
+        </div>
     </div>
 </div>

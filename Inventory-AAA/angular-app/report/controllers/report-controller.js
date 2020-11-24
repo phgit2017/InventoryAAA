@@ -99,7 +99,6 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
             endDateString = vm.EndDate,
             startDate = new Date(startDateString),
             endDate = new Date(endDateString);
-
         if (vm.ReportType !== 2 || (vm.ReportType === 2 && (vm.SelectedReportFilter === 3 || vm.SelectedReportFilter === 4))) {
             if (dateDiffDays(startDate, endDate) > 30) {
                 QuickAlert.Show({

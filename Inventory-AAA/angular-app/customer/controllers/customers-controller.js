@@ -111,7 +111,8 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
             isNullOrEmpty(vm.SelectedCustomer.LastName) ||
             isNullOrEmpty(vm.SelectedCustomer.CustomerCode) ||
             isNullOrEmpty(vm.SelectedCustomer.FullAddress) ||
-            isNullOrEmpty(vm.SelectedCustomer.MobileNumber)) {
+            isNullOrEmpty(vm.SelectedCustomer.MobileNumber) || 
+            vm.SelectedCustomer.MobileNumber.length < 11) {
             return false
         } else {
             return true;
