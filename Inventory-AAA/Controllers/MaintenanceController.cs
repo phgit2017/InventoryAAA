@@ -96,7 +96,8 @@ namespace Inventory_AAA.Controllers
                 var response = new
                 {
                     isSuccess = isSucess,
-                    messageAlert = messageAlert
+                    messageAlert = messageAlert,
+                    CustomerId = customerIdResult
                 };
 
                 return Json(response, JsonRequestBehavior.AllowGet);
