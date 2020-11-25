@@ -83,6 +83,36 @@ namespace Inventory_AAA.Controllers
         }
 
         [HttpPost]
+        public JsonResult InventorySummaryForSalesOrders()
+        {
+            List<StocksSummaryForSalesOrders> result = new List<StocksSummaryForSalesOrders>();
+
+            #region Authorize
+            var authorizeMenuAccessResult = AuthorizeMenuAccess(LookupKey.Menu.InventoryMenuId);
+            if (!authorizeMenuAccessResult.IsSuccess)
+            {
+
+                return Json(new
+                {
+                    isSuccess = authorizeMenuAccessResult.IsSuccess,
+                    messageAlert = authorizeMenuAccessResult.MessageAlert,
+                    result = result
+                }, JsonRequestBehavior.AllowGet);
+            }
+            #endregion
+
+            result = this._productServices.RetrieveInventorySummaryForSalesOrders();
+
+            var response = new
+            {
+                isSuccess = true,
+                messageAlert = string.Empty,
+                result = result,
+            };
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public JsonResult InventoryDetails(StocksDetailsSearchRequest request)
         {
 

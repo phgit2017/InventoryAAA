@@ -25,6 +25,22 @@ namespace Business.AAA.Core.Dto
         public decimal Sold { get; set; }
     }
 
+    public class StocksSummaryForSalesOrders
+    {
+        public long ProductId { get; set; }
+        public string ProductCode { get; set; }
+        public string ProductDescription { get; set; }
+        public decimal InventoryStocks { get; set; }
+        public decimal CurrentStocks { get; set; }
+        public decimal BigBuyerPrice { get; set; }
+        public decimal ResellerPrice { get; set; }
+        public decimal RetailerPrice { get; set; }
+        public string CategoryName { get; set; }
+        public long CategoryId { get; set; }
+        public decimal Sold { get; set; }
+        public decimal StocksAvailable { get; set; }
+    }
+
     public class StocksDetails
     {
         public long ProductID { get; set; }

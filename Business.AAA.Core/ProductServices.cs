@@ -96,6 +96,18 @@ namespace Business.AAA.Core
             return result;
         }
 
+        public List<StocksSummaryForSalesOrders> RetrieveInventorySummaryForSalesOrders()
+        {
+            var result = CommonExtensions.ConvertDataTable<StocksSummaryForSalesOrders>(
+                (this._productServices.ExecuteSPReturnTable("INV_InventorySummaryForSalesOrder",
+                true,
+                new SqlParameter[] { })));
+
+
+            return result;
+            
+        }
+
         public List<StocksDetails> RetrieveInventoryDetails(StocksDetailsSearchRequest request)
         {
             SqlParameter[] parameters =
