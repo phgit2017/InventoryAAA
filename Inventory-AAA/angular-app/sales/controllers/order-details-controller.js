@@ -66,7 +66,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     vm.SelectCustomer = function(customer) {
         vm.SelectedCustomer = customer;
         vm.SelectedCustomerLabel = customer.CustomerCode + ' - ' + customer.FirstName + ' ' + customer.LastName;
-        vm.SelectedCustomerDetail = '09999999999' + ' - ' + customer.FullAddress;
+        vm.SelectedCustomerDetail = customer.MobileNumber + ' - ' + customer.FullAddress;
         vm.CustomerListShown = false;
     }
 
@@ -107,17 +107,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
                     vm.NewCustomerToggled = false;
                     vm.CustomerListShown = false;
                     getCustomerList();
-                    vm.SelectedCustomer = {
-                        CustomerId: 0,
-                        CustomerCode: "",
-                        FirstName: "",
-                        LastName: "",
-                        FullAddress: "",
-                        IsActive: true,
-                        CreatedBy: 0,
-                        CreatedTime: "",
-                        CustomerStatusId: 1
-                    };
+                    vm.SelectedCustomer.CustomerId = data.CustomerId
                 } else {
                     QuickAlert.Show({
                         type: 'error',
@@ -181,7 +171,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
         let errorMsg = '',
             isBreak = false;
 
-        if (vm.SelectedCustomer === '') {
+        if (vm.SelectedCustomer.CustomerId === 0) {
             errorMsg = 'Please select a Customer.';
         }
 
@@ -240,9 +230,15 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
             if (i.UnfinishedQuantity <= 0) {
                 QuickAlert.Show({
                     type: 'error',
-                    message: 'Please input a valid Quantity.'
+                    message: 'Please input a valid quantity.'
                 });
-            } else {
+            } else if (i.UnfinishedQuantity > i.StocksAvailable) {
+                QuickAlert.Show({
+                    type: 'error',
+                    message: 'Insufficient available stocks.'
+                });
+            }
+            else {
                 i.Quantity = i.UnfinishedQuantity;
             }
         }
@@ -364,10 +360,10 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
 
     getProductList = function() {
         vm.ProductListLoading = true;
-        InventoryService.GetInventorySummary().then(
+        InventoryService.GetInventorySummaryForSalesOrders().then(
             function(data) {
                 getCategoryList();
-                vm.ProductList = data;
+                vm.ProductList = data.result;
                 let _productsInOrder = vm.ProductsInOrder.map(x => x.ProductId);
                 vm.ProductList = vm.ProductList.filter(x => {
                     return _productsInOrder.includes(x.ProductId) ? false : true;

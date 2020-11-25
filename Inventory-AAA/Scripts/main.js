@@ -249,3 +249,27 @@ app.directive('datePicker', function() {
         }
     };
 });
+
+app.filter('productListFilter', function(){
+    return function(data, searchString) {
+        // If no array is given, exit.
+        if (!data) {
+            return;
+        }
+        // If no search term exists, return the array unfiltered.
+        else if (!searchString) {
+            return data;
+        }
+        // Otherwise, continue.
+        else {
+             // Convert filter text to lower case.
+             var search = searchString.toLowerCase();
+             // Return the array and filter it by looking for any occurrences of the search term in each items id or name. 
+             return data.filter(function(item){
+                var termInId = item.id.toLowerCase().indexOf(term) > -1;
+                var termInName = item.name.toLowerCase().indexOf(term) > -1;
+                return termInId || termInName;
+             });
+        } 
+    }    
+  });

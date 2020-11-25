@@ -14,17 +14,17 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
     vm.SalesOrdersLoading = true;
     vm.SearchSalesOrdersInput = "";
     vm.TableMode = "Undelivered";
-
-    vm.filteredUsers = [];
     vm.currentPage = 1;
     vm.numPerPage = 10;
     vm.maxSize = 5;
 
     vm.FilterToggled = false;
-    vm.FilterStartDate = null;
-    vm.FilterEndDate = null;
-    vm.FilterStatus = null;
     vm.FilterApplied = false;
+    vm.FilterAllOrders = {
+        StartDate: null,
+        EndDate: null,
+        SalesOrderStatusId: null
+    }
 
     vm.StatusList = [{
         StatusId: 1,
@@ -80,7 +80,7 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
         SalesOrderService.GetSalesOrders().then(
             function(data) {
                 vm.SalesOrders = data.result;
-                vm.FilteredSalesOrders = vm.SalesOrders;
+                vm.SliceSalesOrders();
                 vm.SalesOrdersLoading = false;
             },
             function(error) {
@@ -94,16 +94,16 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
     }
 
     getAllSalesOrders = function() {
-        vm.SalesOrdersLoading = true;
+        vm.SalesOrdersLoading = true;   
         var filter = {
-            StartDate: vm.FilterStartDate,
-            EndDate: vm.FilterEndDate,
-            SalesOrderStatusId: vm.FilterStatus
+            StartDate: new Date(vm.FilterAllOrders.StartDate),
+            EndDate: new Date(vm.FilterAllOrders.EndDate),
+            SalesOrderStatusId: vm.FilterAllOrders.SalesOrderStatusId
         }
         SalesOrderService.GetAllSalesOrders(filter).then(
             function(data) {
                 vm.SalesOrders = data.result;
-                vm.FilteredSalesOrders = vm.SalesOrders;
+                vm.SliceSalesOrders();
                 vm.SalesOrdersLoading = false;
             },
             function(error) {
@@ -153,6 +153,13 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
         vm.ClearFilters();
         getAllSalesOrders();
         vm.FilterToggled = false;
+    }
+
+    vm.SliceSalesOrders = function() {
+        var begin = ((vm.currentPage - 1) * vm.numPerPage),
+        end = begin + vm.numPerPage;
+
+        vm.FilteredSalesOrders = vm.SalesOrders.slice(begin, end);
     }
 
     isNullOrEmpty = function(data) {
