@@ -376,8 +376,10 @@ namespace Inventory_AAA.Controllers
             }
             #endregion
 
-            if (request.IsNull())
+            if (request.StartDate.IsNull() && request.EndDate.IsNull() && request.SalesOrderStatusId.IsNull())
             {
+                request.StartDate = DateTime.Now;
+                request.EndDate = DateTime.Now;
                 result = this._orderServices.GetAllSalesOrders().AsExpandable().Where(a => DbFunctions.TruncateTime(a.ModifiedTime) >= DbFunctions.TruncateTime(request.StartDate) && DbFunctions.TruncateTime(a.ModifiedTime) <= DbFunctions.TruncateTime(request.EndDate)).ToList();
             }
             else
@@ -405,6 +407,18 @@ namespace Inventory_AAA.Controllers
                     else
                     {
                         predicate = predicate.And(a => DbFunctions.TruncateTime(a.ModifiedTime) <= DbFunctions.TruncateTime(request.EndDate));
+                    }
+
+                }
+                else if (!request.StartDate.IsNull() && !request.EndDate.IsNull() && !request.SalesOrderStatusId.IsNull())
+                {
+                    if (request.SalesOrderStatusId == LookupKey.SalesOrderStatus.PendingId)
+                    {
+                        predicate = predicate.And(a => DbFunctions.TruncateTime(a.CreatedTime) >= DbFunctions.TruncateTime(request.StartDate) && DbFunctions.TruncateTime(a.CreatedTime) <= DbFunctions.TruncateTime(request.EndDate) && a.SalesOrderStatusId == request.SalesOrderStatusId);
+                    }
+                    else
+                    {
+                        predicate = predicate.And(a => DbFunctions.TruncateTime(a.ModifiedTime) >= DbFunctions.TruncateTime(request.StartDate) && DbFunctions.TruncateTime(a.ModifiedTime) <= DbFunctions.TruncateTime(request.EndDate) && a.SalesOrderStatusId == request.SalesOrderStatusId);
                     }
 
                 }
