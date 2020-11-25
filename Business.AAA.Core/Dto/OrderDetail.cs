@@ -71,6 +71,7 @@ namespace Business.AAA.Core.Dto
         public string ModeOfPayment { get; set; }
         public string CustomerFullDetails { get; set; }
         public string FullAddress { get; set; }
+        public string MobileNumber { get; set; }
         public long SalesOrderId { get; set; }
         public long SalesOrderStatusId { get; set; }
         public string SalesOrderStatusDisplay { get; set; }
