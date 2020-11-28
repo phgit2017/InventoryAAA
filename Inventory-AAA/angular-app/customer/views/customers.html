@@ -24,12 +24,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="lastName" class="input-label">Last Name</label>
-                                <input name="lastName" type="text" class="form-control form-control-sm" ng-model="customersCtrl.SelectedCustomer.LastName" required id="lastname">
+                                <input name="lastName" type="text" class="form-control form-control-sm" 
+                                ng-model="customersCtrl.SelectedCustomer.LastName" required id="lastname">
                                 <span ng-if="customerForm.lastName.$error.required && !customerForm.lastName.$pristine" class="form-validation-msg">This field is required.</span>
                             </div>
                             <div class="form-group">
                                 <label for="mobileNumber" class="input-label">Mobile No.</label>
-                                <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" name="mobileNo" type="number" class="form-control form-control-sm" required id="mobileNo" maxlength="11" ng-model="customersCtrl.SelectedCustomer.MobileNumber">
+                                <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+                                       name="mobileNo" 
+                                       type="text" class="form-control form-control-sm" required id="mobileNo" maxlength="11" 
+                                ng-model="customersCtrl.SelectedCustomer.MobileNumber">
                                 <span ng-if="customerForm.mobileNumber.$error.required && !customerForm.mobileNumber.$pristine" class="form-validation-msg">This field is required.</span>
                             </div>
                             <div class="form-group">
@@ -87,7 +91,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="cl in customersCtrl.CustomerList | filter : customersCtrl.SearchCustomerInput">
+                            <tr ng-repeat="cl in customersCtrl.filteredCustomerList  | startFrom: ((customersCtrl.currentPage-1) *  customersCtrl.numPerPage) | limitTo : customersCtrl.numPerPage">
                                 <td> {{ cl.CustomerId }} </td>
                                 <td class="cell-no-wrap"> {{ cl.CustomerCode }} </td>
                                 <td class="cell-no-wrap"> {{ cl.FullName }} </td>
@@ -103,7 +107,8 @@
                 </div>
             </div>
             <div class="content-footer">
-                <pagination total-items="customersCtrl.UserList.length" ng-change="customersCtrl.FilterUsers()" ng-model="customersCtrl.currentPage" max-size="customersCtrl.maxSize" class="pagination" boundary-links="false" items-per-page="customersCtrl.numPerPage"></pagination>
+                <pagination total-items="customersCtrl.filteredCustomerList.length" 
+                ng-model="customersCtrl.currentPage" max-size="customersCtrl.maxSize" class="pagination" boundary-links="false" items-per-page="customersCtrl.numPerPage"></pagination>
             </div>
         </div>
     </div>

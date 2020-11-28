@@ -106,7 +106,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="ul in userCtrl.filteredUsers | filter : userCtrl.SearchUserInput">
+                            <tr ng-repeat="ul in userCtrl.filteredUsers | startFrom: ((userCtrl.currentPage-1) *  userCtrl.numPerPage) | limitTo : userCtrl.numPerPage">
                                 <td> {{ ul.UserId }} </td>
                                 <td class="cell-no-wrap"> {{ ul.FullName }} </td>
                                 <td class="cell-no-wrap"> {{ ul.UserName }} </td>
@@ -127,7 +127,7 @@
                 </div>
             </div>
             <div class="content-footer">
-                <pagination total-items="userCtrl.UserList.length" ng-change="userCtrl.FilterUsers()" ng-model="userCtrl.currentPage" max-size="userCtrl.maxSize" class="pagination" boundary-links="false" items-per-page="userCtrl.numPerPage"></pagination>
+                <pagination total-items="userCtrl.UserList.length" ng-model="userCtrl.currentPage" max-size="userCtrl.maxSize" class="pagination" boundary-links="false" items-per-page="userCtrl.numPerPage"></pagination>
             </div>
         </div>
     </div>

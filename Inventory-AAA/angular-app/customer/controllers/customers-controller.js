@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('CustomersController', CustomersController);
 
-CustomersController.$inject = ['$scope', '$rootScope', 'CustomerService', 'CommonService', 'QuickAlert'];
+CustomersController.$inject = ['$filter', '$scope', '$rootScope', 'CustomerService', 'CommonService', 'QuickAlert'];
 
-function CustomersController($scope, $rootScope, CustomerService, CommonService, QuickAlert) {
+function CustomersController($filter, $scope, $rootScope, CustomerService, CommonService, QuickAlert) {
 
     var vm = this,
         controllerName = 'customersCtrl';
@@ -12,6 +12,7 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
     vm.CustomerListLoading = true;
 
     vm.CustomerList = [];
+    vm.filteredCustomerList = [];
     vm.CustomerStatusList = [];
     vm.SelectedCustomer = {
         CustomerId: 0,
@@ -34,6 +35,18 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
 
     vm.Initialize = _initialize;
 
+    $scope.$watch(
+        function() {
+            return vm.SearchCustomerInput;
+        },
+        function(newValue,oldValue){                
+            if(oldValue!=newValue){
+                vm.filteredCustomerList = $filter('filter')(vm.CustomerList, vm.SearchCustomerInput);
+                vm.currentPage = 1;
+            }
+        }
+    );
+
     function _initialize() {
         getCustomerStatusList();
         getCustomerList();
@@ -55,13 +68,14 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
     }
 
     vm.SelectCustomer = function(data) {
+        
         vm.SelectedCustomer = {
             CustomerId: data.CustomerId,
             CustomerCode: data.CustomerCode,
             FirstName: data.FirstName,
             LastName: data.LastName,
             FullAddress: data.FullAddress,
-            MobileNumber: data.MobileNumber,
+            MobileNumber: parseFloat(data.MobileNumber),
             IsActive: data.IsActive,
             CreatedBy: data.CreatedBy,
             CreatedTime: data.CreatedTime,
@@ -124,6 +138,7 @@ function CustomersController($scope, $rootScope, CustomerService, CommonService,
         CustomerService.GetCustomerList().then(
             function(data) {
                 vm.CustomerList = data.CustomerDetailsResult;
+                vm.filteredCustomerList = data.CustomerDetailsResult;
                 vm.CustomerListLoading = false;
                 $rootScope.IsLoading = false;
             },

@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('SalesOrderController', SalesOrderController);
 
-SalesOrderController.$inject = ['$scope', '$rootScope', '$location', 'SalesOrderService', 'QuickAlert'];
+SalesOrderController.$inject = ['$filter', '$scope', '$rootScope', '$location', 'SalesOrderService', 'QuickAlert'];
 
-function SalesOrderController($scope, $rootScope, $location, SalesOrderService, QuickAlert) {
+function SalesOrderController($filter, $scope, $rootScope, $location, SalesOrderService, QuickAlert) {
 
     var vm = this,
         controllerName = 'salesOrderCtrl';
@@ -67,6 +67,18 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
         }
     );
 
+    $scope.$watch(
+        function() {
+            return vm.SearchSalesOrdersInput;
+        },
+        function(newValue,oldValue){                
+            if(oldValue!=newValue){
+                vm.FilteredSalesOrders = $filter('filter')(vm.SalesOrders, vm.SearchSalesOrdersInput);
+                vm.currentPage = 1;
+            }
+        }
+    );
+
     vm.Initialize = function() {
         getSalesOrders();
     }
@@ -80,7 +92,7 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
         SalesOrderService.GetSalesOrders().then(
             function(data) {
                 vm.SalesOrders = data.result;
-                vm.SliceSalesOrders();
+                vm.FilteredSalesOrders =  data.result;
                 vm.SalesOrdersLoading = false;
             },
             function(error) {
@@ -103,7 +115,7 @@ function SalesOrderController($scope, $rootScope, $location, SalesOrderService, 
         SalesOrderService.GetAllSalesOrders(filter).then(
             function(data) {
                 vm.SalesOrders = data.result;
-                vm.SliceSalesOrders();
+                vm.FilteredSalesOrders =  data.result;
                 vm.SalesOrdersLoading = false;
             },
             function(error) {

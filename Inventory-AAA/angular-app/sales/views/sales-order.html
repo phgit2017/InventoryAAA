@@ -50,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="so in salesOrderCtrl.FilteredSalesOrders | filter : salesOrderCtrl.SearchSalesOrdersInput ">
+                    <tr ng-repeat="so in salesOrderCtrl.FilteredSalesOrders | startFrom: ((salesOrderCtrl.currentPage-1) *  salesOrderCtrl.numPerPage) | limitTo : salesOrderCtrl.numPerPage">
                         <td> {{ so.SalesNo }} </td>
                         <td> {{ so.CustomerCode }} </td>
                         <td> {{ so.CustomerFullName }} </td>
@@ -84,7 +84,7 @@
         </div>
     </div>
     <div class="content-footer">
-        <pagination total-items="salesOrderCtrl.SalesOrders.length" ng-change="salesOrderCtrl.SliceSalesOrders()" ng-model="salesOrderCtrl.currentPage" max-size="salesOrderCtrl.maxSize" class="pagination" boundary-links="false" items-per-page="salesOrderCtrl.numPerPage"></pagination>
+        <pagination total-items="salesOrderCtrl.SalesOrders.length" ng-model="salesOrderCtrl.currentPage" max-size="salesOrderCtrl.maxSize" class="pagination" boundary-links="false" items-per-page="salesOrderCtrl.numPerPage"></pagination>
     </div>
 </div>
 

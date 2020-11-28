@@ -206,7 +206,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="i in inventoryCtrl.filteredProducts | filter : inventoryCtrl.SearchProductInput ">
+                            <tr ng-repeat="i in inventoryCtrl.filteredProducts | startFrom: ((inventoryCtrl.currentPage-1) *  inventoryCtrl.numPerPage) | limitTo : inventoryCtrl.numPerPage">
                                 <td> {{ i.ProductId }} </td>
                                 <td> {{ i.ProductCode }} </td>
                                 <td> {{ i.ProductDescription }} </td>
@@ -250,8 +250,12 @@
                 </div>
             </div>
             <div class="content-footer ">
-                <pagination total-items="inventoryCtrl.InventorySummary.length " ng-change="inventoryCtrl.FilterProducts() " ng-model="inventoryCtrl.currentPage " max-size="inventoryCtrl.maxSize " class="pagination " boundary-links="false
-                                            " items-per-page="inventoryCtrl.numPerPage "></pagination>
+                <pagination class="pagination "
+                            total-items="inventoryCtrl.filteredProducts.length" 
+                            ng-model="inventoryCtrl.currentPage"
+                            max-size="inventoryCtrl.maxSize " 
+                            boundary-links="false"
+                            items-per-page="inventoryCtrl.numPerPage "></pagination>
             </div>
         </div>
     </div>

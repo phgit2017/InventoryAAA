@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('UserController', UserController);
 
-UserController.$inject = ['UserService', 'DTOptionsBuilder', 'DTColumnDefBuilder', '$scope', '$rootScope', 'QuickAlert'];
+UserController.$inject = ['$filter', 'UserService', 'DTOptionsBuilder', 'DTColumnDefBuilder', '$scope', '$rootScope', 'QuickAlert'];
 
-function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scope, $rootScope, QuickAlert) {
+function UserController($filter, UserService, DTOptionsBuilder, DTColumnDefBuilder, $scope, $rootScope, QuickAlert) {
 
     var vm = this,
         controllerName = 'userCtrl';
@@ -36,6 +36,18 @@ function UserController(UserService, DTOptionsBuilder, DTColumnDefBuilder, $scop
     vm.SelectUser = _selectUser;
     vm.SaveUser = _saveUser;
     vm.DeleteUser = _deleteUser;
+
+    $scope.$watch(
+        function() {
+            return vm.SearchUserInput;
+        },
+        function(newValue,oldValue){                
+            if(oldValue!=newValue){
+                vm.filteredUsers = $filter('filter')(vm.UserList, vm.SearchUserInput);
+                vm.currentPage = 1;
+            }
+        }
+    );
 
     function _initialize() {
         _getUserList();

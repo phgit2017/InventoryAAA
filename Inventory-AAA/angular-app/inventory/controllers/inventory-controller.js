@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('InventoryController', InventoryController);
 
-InventoryController.$inject = ['InventoryService', 'MaintenanceService', '$scope', '$rootScope', 'QuickAlert'];
+InventoryController.$inject = ['$filter', 'InventoryService', 'MaintenanceService', '$scope', '$rootScope', 'QuickAlert'];
 
-function InventoryController(InventoryService, MaintenanceService, $scope, $rootScope, QuickAlert) {
+function InventoryController($filter, InventoryService, MaintenanceService, $scope, $rootScope, QuickAlert) {
     var vm = this,
         controllerName = 'inventoryCtrl';
 
@@ -73,7 +73,6 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
     vm.GetProductDetails = _getProductDetails;
     vm.UpdateProductDetails = _updateProductDetails;
     vm.DeleteProduct = _deleteProduct;
-    vm.ShowManageBar = _showManageBar;
 
     vm.Page = 1;
 
@@ -86,6 +85,18 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
         function(oldValue, newValue) {
             if (oldValue != newValue) {
                 vm.TotalStock = vm.OrderRequestQuantity !== null ? vm.SelectedProduct.Quantity + vm.OrderRequestQuantity : vm.SelectedProduct.Quantity;
+            }
+        }
+    );
+
+    $scope.$watch(
+        function() {
+            return vm.SearchProductInput;
+        },
+        function(newValue,oldValue){                
+            if(oldValue!=newValue){
+                vm.filteredProducts = $filter('filter')(vm.InventorySummary, vm.SearchProductInput);
+                vm.currentPage = 1;
             }
         }
     );
@@ -105,7 +116,7 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
         InventoryService.GetInventorySummary().then(
             function(data) {
                 vm.InventorySummary = data;
-                vm.FilterProducts();
+                vm.filteredProducts = data;
                 getCategoryList();
                 vm.IsLoading = false;
             },
@@ -287,7 +298,7 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
         }
     }
 
-    function _showManageBar(resetFields = false) {
+    vm.ShowManageBar = function(resetFields = false) {
         if (resetFields) {
             vm.ManageMode = vm.MANAGE_MODE_DETAILS;
             _resetFields();
@@ -296,13 +307,7 @@ function InventoryController(InventoryService, MaintenanceService, $scope, $root
         vm.ManageBarShown = true;
     }
 
-    vm.FilterProducts = function() {
-        var begin = ((vm.currentPage - 1) * vm.numPerPage),
-            end = begin + vm.numPerPage;
-
-        vm.filteredProducts = vm.InventorySummary.slice(begin, end);
-    }
-
+    
     vm.SaveNewCategory = function() {
         if (vm.NewCategoryName.trim() === '') {
             QuickAlert.Show({
