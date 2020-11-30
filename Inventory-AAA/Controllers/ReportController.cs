@@ -316,113 +316,122 @@ namespace Inventory_AAA.Controllers
             var package = new ExcelPackage();
             var workSheet = package.Workbook.Worksheets.Add(LookupKey.ReportFileName.SalesReport);
 
-            if (request.ReportSalesType == 1)
+            if (dt.Rows.Count <= 0)
             {
-                rowId = 1;
-                workSheet.Cells[rowId, 1].Value = "Sales No";
-                workSheet.Cells[rowId, 2].Value = dt.Rows[0]["SalesNo"].ToString();
-
-                workSheet.Cells[rowId, 4].Value = "Mode of Payment";
-                workSheet.Cells[rowId, 5].Value = dt.Rows[0]["ModeOfPayment"].ToString();
-
-                rowId = 2;
-                workSheet.Cells[rowId, 1].Value = "Customer";
-                workSheet.Cells[rowId, 2].Value = dt.Rows[0]["CustomerFullDetails"].ToString();
-
-                workSheet.Cells[rowId, 4].Value = "Address";
-                workSheet.Cells[rowId, 5].Value = dt.Rows[0]["FullAddress"].ToString();
-
-
-                rowId = 5;
-                workSheet.Cells[rowId, 1].Value = "PRODUCT CODE";
-                workSheet.Cells[rowId, 2].Value = "PRODUCT DESCRIPTION";
-                workSheet.Cells[rowId, 3].Value = "SALES QUANTITY";
-                workSheet.Cells[rowId, 4].Value = "PRICE";
-                workSheet.Cells[rowId, 5].Value = "SUBTOTAL";
-
-
-
-                rowId = rowId + 1;
-                for (int i = 0; i <= dt.Rows.Count - 1; i++)
-                {
-
-                    workSheet.Cells[rowId, 1].Value = dt.Rows[i]["ProductCode"].ToString();
-                    workSheet.Cells[rowId, 2].Value = dt.Rows[i]["ProductDescription"].ToString();
-                    workSheet.Cells[rowId, 3].Value = Convert.ToInt64(dt.Rows[i]["Quantity"].ToString());
-                    workSheet.Cells[rowId, 4].Value = Convert.ToDecimal(dt.Rows[i]["UnitPrice"]).ToString("N");
-                    workSheet.Cells[rowId, 5].Value = Convert.ToDecimal(dt.Rows[i]["Subtotal"]).ToString("N");
-                    rowId = rowId + 1;
-                }
-
-                rowId = rowId + 2;
-                workSheet.Cells[rowId, 4].Value = "Shipping Fee";
-                workSheet.Cells[rowId, 5].Value = string.Format("{0:#,0.00}", Convert.ToDecimal(dt.Rows[0]["ShippingFee"]));
-                rowId = rowId + 1;
-                workSheet.Cells[rowId, 4].Value = "Total";
-                workSheet.Cells[rowId, 5].Value = string.Format("{0:#,0.00}", Convert.ToDecimal(dt.Rows[0]["TotalAmount"]));
-
-                workSheet.Cells.AutoFitColumns();
-            }
-            else if (request.ReportSalesType == 3 || request.ReportSalesType == 4)
-            {
-                rowId = 1;
-                workSheet.Cells[rowId, 1].Value = "SALES NUMBER";
-                workSheet.Cells[rowId, 2].Value = "CUSTOMER";
-                workSheet.Cells[rowId, 3].Value = "PRODUCT CODE";
-                workSheet.Cells[rowId, 4].Value = "PRODUCT DESCRIPTION";
-                workSheet.Cells[rowId, 5].Value = "CATEGORY NAME";
-                workSheet.Cells[rowId, 6].Value = "PREVIOUS QUANTITY";
-                workSheet.Cells[rowId, 7].Value = "SALES QUANTITY";
-                workSheet.Cells[rowId, 8].Value = "PRICE";
-                workSheet.Cells[rowId, 9].Value = "TRANSACTION DATE";
-                workSheet.Cells[rowId, 10].Value = "CREATED BY";
-
-                rowId = rowId + 1;
-                for (int i = 0; i <= dt.Rows.Count - 1; i++)
-                {
-                    workSheet.Cells[rowId, 1].Value = dt.Rows[i]["SalesNo"] == null ? "" : "'" + dt.Rows[i]["SalesNo"].ToString();
-                    workSheet.Cells[rowId, 2].Value = dt.Rows[i]["CustomerFullDetails"].ToString();
-                    workSheet.Cells[rowId, 3].Value = dt.Rows[i]["ProductCode"].ToString();
-                    workSheet.Cells[rowId, 4].Value = dt.Rows[i]["ProductDescription"].ToString();
-                    workSheet.Cells[rowId, 5].Value = dt.Rows[i]["CategoryName"].ToString();
-                    workSheet.Cells[rowId, 6].Value = Convert.ToInt64(dt.Rows[i]["PreviousQuantity"]);
-                    workSheet.Cells[rowId, 7].Value = Convert.ToInt64(dt.Rows[i]["Quantity"]);
-                    workSheet.Cells[rowId, 8].Value = Convert.ToDecimal(dt.Rows[i]["UnitPrice"].ToString()).ToString("N");
-                    workSheet.Cells[rowId, 9].Value = dt.Rows[i]["TransactionTime"].ToString();
-                    workSheet.Cells[rowId, 10].Value = dt.Rows[i]["UserFullName"].ToString();
-                    rowId = rowId + 1;
-                }
+                return null;
             }
             else
             {
-                rowId = 1;
-                workSheet.Cells[rowId, 1].Value = "SALES NUMBER";
-                workSheet.Cells[rowId, 2].Value = "CUSTOMER";
-                workSheet.Cells[rowId, 3].Value = "PRODUCT CODE";
-                workSheet.Cells[rowId, 4].Value = "PRODUCT DESCRIPTION";
-                workSheet.Cells[rowId, 5].Value = "CATEGORY NAME";
-                workSheet.Cells[rowId, 6].Value = "PREVIOUS QUANTITY";
-                workSheet.Cells[rowId, 7].Value = "SALES QUANTITY";
-                workSheet.Cells[rowId, 8].Value = "PRICE";
-                workSheet.Cells[rowId, 9].Value = "TRANSACTION DATE";
-                workSheet.Cells[rowId, 10].Value = "CREATED BY";
-
-                rowId = rowId + 1;
-                for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                if (request.ReportSalesType == 1)
                 {
-                    workSheet.Cells[rowId, 1].Value = dt.Rows[i]["SalesNo"] == null ? "" : "'" + dt.Rows[i]["SalesNo"].ToString();
-                    workSheet.Cells[rowId, 2].Value = dt.Rows[i]["CustomerFullDetails"].ToString();
-                    workSheet.Cells[rowId, 3].Value = dt.Rows[i]["ProductCode"].ToString();
-                    workSheet.Cells[rowId, 4].Value = dt.Rows[i]["ProductDescription"].ToString();
-                    workSheet.Cells[rowId, 5].Value = dt.Rows[i]["CategoryName"].ToString();
-                    workSheet.Cells[rowId, 6].Value = Convert.ToInt64(dt.Rows[i]["PreviousQuantity"]);
-                    workSheet.Cells[rowId, 7].Value = Convert.ToInt64(dt.Rows[i]["Quantity"]);
-                    workSheet.Cells[rowId, 8].Value = Convert.ToDecimal(dt.Rows[i]["UnitPrice"].ToString()).ToString("N");
-                    workSheet.Cells[rowId, 9].Value = dt.Rows[i]["TransactionTime"].ToString();
-                    workSheet.Cells[rowId, 10].Value = dt.Rows[i]["UserFullName"].ToString();
+                    rowId = 1;
+                    workSheet.Cells[rowId, 1].Value = "Sales No";
+                    workSheet.Cells[rowId, 2].Value = dt.Rows[0]["SalesNo"].ToString();
+
+                    workSheet.Cells[rowId, 4].Value = "Mode of Payment";
+                    workSheet.Cells[rowId, 5].Value = dt.Rows[0]["ModeOfPayment"].ToString();
+
+                    rowId = 2;
+                    workSheet.Cells[rowId, 1].Value = "Customer";
+                    workSheet.Cells[rowId, 2].Value = dt.Rows[0]["CustomerFullDetails"].ToString();
+
+                    workSheet.Cells[rowId, 4].Value = "Address";
+                    workSheet.Cells[rowId, 5].Value = dt.Rows[0]["FullAddress"].ToString();
+
+
+                    rowId = 5;
+                    workSheet.Cells[rowId, 1].Value = "PRODUCT CODE";
+                    workSheet.Cells[rowId, 2].Value = "PRODUCT DESCRIPTION";
+                    workSheet.Cells[rowId, 3].Value = "SALES QUANTITY";
+                    workSheet.Cells[rowId, 4].Value = "PRICE";
+                    workSheet.Cells[rowId, 5].Value = "SUBTOTAL";
+
+
+
                     rowId = rowId + 1;
+                    for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                    {
+
+                        workSheet.Cells[rowId, 1].Value = dt.Rows[i]["ProductCode"].ToString();
+                        workSheet.Cells[rowId, 2].Value = dt.Rows[i]["ProductDescription"].ToString();
+                        workSheet.Cells[rowId, 3].Value = Convert.ToInt64(dt.Rows[i]["Quantity"].ToString());
+                        workSheet.Cells[rowId, 4].Value = Convert.ToDecimal(dt.Rows[i]["UnitPrice"]).ToString("N");
+                        workSheet.Cells[rowId, 5].Value = Convert.ToDecimal(dt.Rows[i]["Subtotal"]).ToString("N");
+                        rowId = rowId + 1;
+                    }
+
+                    rowId = rowId + 2;
+                    workSheet.Cells[rowId, 4].Value = "Shipping Fee";
+                    workSheet.Cells[rowId, 5].Value = string.Format("{0:#,0.00}", Convert.ToDecimal(dt.Rows[0]["ShippingFee"]));
+                    rowId = rowId + 1;
+                    workSheet.Cells[rowId, 4].Value = "Total";
+                    workSheet.Cells[rowId, 5].Value = string.Format("{0:#,0.00}", Convert.ToDecimal(dt.Rows[0]["TotalAmount"]));
+
+                    workSheet.Cells.AutoFitColumns();
+                }
+                else if (request.ReportSalesType == 3 || request.ReportSalesType == 4)
+                {
+                    rowId = 1;
+                    workSheet.Cells[rowId, 1].Value = "SALES NUMBER";
+                    workSheet.Cells[rowId, 2].Value = "CUSTOMER";
+                    workSheet.Cells[rowId, 3].Value = "PRODUCT CODE";
+                    workSheet.Cells[rowId, 4].Value = "PRODUCT DESCRIPTION";
+                    workSheet.Cells[rowId, 5].Value = "CATEGORY NAME";
+                    workSheet.Cells[rowId, 6].Value = "PREVIOUS QUANTITY";
+                    workSheet.Cells[rowId, 7].Value = "SALES QUANTITY";
+                    workSheet.Cells[rowId, 8].Value = "PRICE";
+                    workSheet.Cells[rowId, 9].Value = "TRANSACTION DATE";
+                    workSheet.Cells[rowId, 10].Value = "CREATED BY";
+
+                    rowId = rowId + 1;
+                    for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                    {
+                        workSheet.Cells[rowId, 1].Value = dt.Rows[i]["SalesNo"] == null ? "" : "'" + dt.Rows[i]["SalesNo"].ToString();
+                        workSheet.Cells[rowId, 2].Value = dt.Rows[i]["CustomerFullDetails"].ToString();
+                        workSheet.Cells[rowId, 3].Value = dt.Rows[i]["ProductCode"].ToString();
+                        workSheet.Cells[rowId, 4].Value = dt.Rows[i]["ProductDescription"].ToString();
+                        workSheet.Cells[rowId, 5].Value = dt.Rows[i]["CategoryName"].ToString();
+                        workSheet.Cells[rowId, 6].Value = Convert.ToInt64(dt.Rows[i]["PreviousQuantity"]);
+                        workSheet.Cells[rowId, 7].Value = Convert.ToInt64(dt.Rows[i]["Quantity"]);
+                        workSheet.Cells[rowId, 8].Value = Convert.ToDecimal(dt.Rows[i]["UnitPrice"].ToString()).ToString("N");
+                        workSheet.Cells[rowId, 9].Value = dt.Rows[i]["TransactionTime"].ToString();
+                        workSheet.Cells[rowId, 10].Value = dt.Rows[i]["UserFullName"].ToString();
+                        rowId = rowId + 1;
+                    }
+                }
+                else
+                {
+                    rowId = 1;
+                    workSheet.Cells[rowId, 1].Value = "SALES NUMBER";
+                    workSheet.Cells[rowId, 2].Value = "CUSTOMER";
+                    workSheet.Cells[rowId, 3].Value = "PRODUCT CODE";
+                    workSheet.Cells[rowId, 4].Value = "PRODUCT DESCRIPTION";
+                    workSheet.Cells[rowId, 5].Value = "CATEGORY NAME";
+                    workSheet.Cells[rowId, 6].Value = "PREVIOUS QUANTITY";
+                    workSheet.Cells[rowId, 7].Value = "SALES QUANTITY";
+                    workSheet.Cells[rowId, 8].Value = "PRICE";
+                    workSheet.Cells[rowId, 9].Value = "TRANSACTION DATE";
+                    workSheet.Cells[rowId, 10].Value = "CREATED BY";
+
+                    rowId = rowId + 1;
+                    for (int i = 0; i <= dt.Rows.Count - 1; i++)
+                    {
+                        workSheet.Cells[rowId, 1].Value = dt.Rows[i]["SalesNo"] == null ? "" : "'" + dt.Rows[i]["SalesNo"].ToString();
+                        workSheet.Cells[rowId, 2].Value = dt.Rows[i]["CustomerFullDetails"].ToString();
+                        workSheet.Cells[rowId, 3].Value = dt.Rows[i]["ProductCode"].ToString();
+                        workSheet.Cells[rowId, 4].Value = dt.Rows[i]["ProductDescription"].ToString();
+                        workSheet.Cells[rowId, 5].Value = dt.Rows[i]["CategoryName"].ToString();
+                        workSheet.Cells[rowId, 6].Value = Convert.ToInt64(dt.Rows[i]["PreviousQuantity"]);
+                        workSheet.Cells[rowId, 7].Value = Convert.ToInt64(dt.Rows[i]["Quantity"]);
+                        workSheet.Cells[rowId, 8].Value = Convert.ToDecimal(dt.Rows[i]["UnitPrice"].ToString()).ToString("N");
+                        workSheet.Cells[rowId, 9].Value = dt.Rows[i]["TransactionTime"].ToString();
+                        workSheet.Cells[rowId, 10].Value = dt.Rows[i]["UserFullName"].ToString();
+                        rowId = rowId + 1;
+                    }
                 }
             }
+
+            
 
 
 
