@@ -108,8 +108,8 @@ function SalesOrderController($filter, $scope, $rootScope, $location, SalesOrder
     getAllSalesOrders = function() {
         vm.SalesOrdersLoading = true;   
         var filter = {
-            StartDate: new Date(vm.FilterAllOrders.StartDate),
-            EndDate: new Date(vm.FilterAllOrders.EndDate),
+            StartDate: vm.FilterAllOrders.StartDate ? new Date(vm.FilterAllOrders.StartDate) : null,
+            EndDate: vm.FilterAllOrders.EndDate ? new Date(vm.FilterAllOrders.EndDate) : null,
             SalesOrderStatusId: vm.FilterAllOrders.SalesOrderStatusId
         }
         SalesOrderService.GetAllSalesOrders(filter).then(
