@@ -318,7 +318,8 @@ namespace Inventory_AAA.Controllers
 
             if (dt.Rows.Count <= 0)
             {
-                return null;
+                rowId = 1;
+                workSheet.Cells[rowId, 1].Value = "No Result(s) Found";
             }
             else
             {
