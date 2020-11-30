@@ -133,7 +133,7 @@ namespace Business.AAA.Core
                              PriceTypeId = det.PriceTypeID,
                              PriceTypeName = det.PriceType.PriceTypeName,
                              
-                             CurrentStock = det.Product.Quantity,
+                             CurrentStocks = det.Product.Quantity,
                              CategoryId = det.Product.CategoryID,
                              CategoryName = det.Product.Category.CategoryName,
                              Quantity = det.Quantity,
@@ -287,27 +287,27 @@ namespace Business.AAA.Core
             var customerResult = _customerServices.GetAll().Where(m => m.CustomerId == salesResult.CustomerId).FirstOrDefault();
             var salesOrderDetailsResult = GetAllSalesOrderDetails().Where(m => m.SalesOrderId == salesOrderId).ToList();
 
-            //foreach (var saleProduct in salesOrderDetailsResult)
-            //{
-            //    var stocksAvailablePerProduct = 0.0m;
+            foreach (var saleProduct in salesOrderDetailsResult)
+            {
+                var stocksAvailablePerProduct = 0.0m;
 
-            //    var currentProduct = _productServices.GetAll().Where(m => m.ProductId == saleProduct.ProductId).FirstOrDefault();
-            //    var pendingSalesOrders = GetAllSalesOrders().Where(m => pendingSalesOrderStatus.Contains(m.SalesOrderStatusId)).ToList();
-            //    List<long> xx = new List<long>();
-                
-            //    foreach (var pendingOrders in pendingSalesOrders)
-            //    {
-            //        xx.Add(pendingOrders.SalesOrderId);
-            //    }
+                var currentProduct = _productServices.GetAll().Where(m => m.ProductId == saleProduct.ProductId).FirstOrDefault();
+                var pendingSalesOrders = GetAllSalesOrders().Where(m => pendingSalesOrderStatus.Contains(m.SalesOrderStatusId)).ToList();
+                List<long> xx = new List<long>();
 
-            //    var summationOfPendingSalesOrders = GetAllSalesOrderDetails().Where(m =>
-            //                                                                    xx.Contains(m.SalesOrderId)
-            //                                                                    && m.ProductId == currentProduct.ProductId).Sum(m => m.Quantity);
+                foreach (var pendingOrders in pendingSalesOrders)
+                {
+                    xx.Add(pendingOrders.SalesOrderId);
+                }
 
-            //    stocksAvailablePerProduct = (currentProduct.Quantity - summationOfPendingSalesOrders);
-            //    saleProduct.StocksAvailable = stocksAvailablePerProduct;
+                var summationOfPendingSalesOrders = GetAllSalesOrderDetails().Where(m =>
+                                                                                xx.Contains(m.SalesOrderId)
+                                                                                && m.ProductId == currentProduct.ProductId).Sum(m => m.Quantity);
 
-            //}
+                stocksAvailablePerProduct = (currentProduct.Quantity - (summationOfPendingSalesOrders == null ? 0 : summationOfPendingSalesOrders));
+                saleProduct.StocksAvailable = stocksAvailablePerProduct;
+
+            }
 
             var result  = new
             {
