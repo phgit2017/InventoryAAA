@@ -129,9 +129,11 @@ function SalesOrderController($filter, $scope, $rootScope, $location, SalesOrder
     }
 
     vm.ClearFilters = function() {
-        vm.FilterStartDate = null;
-        vm.FilterEndDate = null;
-        vm.FilterStatus = null;
+        vm.FilterAllOrders = {
+            StartDate: null,
+            EndDate: null,
+            SalesOrderStatusId: null
+        }
     }
 
     vm.GetStatusClass = function(statusId) {
@@ -143,8 +145,8 @@ function SalesOrderController($filter, $scope, $rootScope, $location, SalesOrder
     }
 
     vm.ApplyFilter = function() {
-        var startDateString = vm.FilterStartDate,
-        endDateString = vm.FilterEndDate,
+        var startDateString = vm.FilterAllOrders.StartDate,
+        endDateString = vm.FilterAllOrders.EndDate,
         startDate = new Date(startDateString),
         endDate = new Date(endDateString);
 

@@ -25,7 +25,6 @@
             </div>
             <div class="address" ng-if="orderDetailsCtrl.SelectedCustomerLabel !== ''">
                 <span>{{ orderDetailsCtrl.SelectedCustomerDetail }}</span>
-                <span>{{ orderDetailsCtrl.SelectedCustomer.FullAddress }}</span>
             </div>
         </div>
         <div class="d-flex align-items-center">
@@ -283,8 +282,13 @@
                     </div>
                     <div class="form-group">
                         <label for="mobileNo" class="input-label">Mobile No.</label>
-                        <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" name="mobileNo" type="number" class="form-control form-control-sm" required id="mobileNo" maxlength="11">
-                        <span ng-if="customerForm.mobileNo.$error.required && !customerForm.mobileNo.$pristine" class="form-validation-msg">This field is required.</span>
+                        <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+                                       name="mobileNo" 
+                                       type="text"
+                                       class="form-control form-control-sm" required id="mobileNo" 
+                                       maxlength="11" 
+                                ng-model="orderDetailsCtrl.SelectedCustomer.MobileNumber">
+                                <span ng-if="customerForm.mobileNumber.$error.required && !customerForm.mobileNumber.$pristine" class="form-validation-msg">This field is required.</span>
                     </div>
                     <div class="form-group">
                         <label for="address" class="input-label">Address</label>

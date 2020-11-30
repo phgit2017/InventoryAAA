@@ -75,7 +75,7 @@ function CustomersController($filter, $scope, $rootScope, CustomerService, Commo
             FirstName: data.FirstName,
             LastName: data.LastName,
             FullAddress: data.FullAddress,
-            MobileNumber: parseFloat(data.MobileNumber),
+            MobileNumber: data.MobileNumber,
             IsActive: data.IsActive,
             CreatedBy: data.CreatedBy,
             CreatedTime: data.CreatedTime,

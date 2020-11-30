@@ -66,7 +66,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     vm.SelectCustomer = function(customer) {
         vm.SelectedCustomer = customer;
         vm.SelectedCustomerLabel = customer.CustomerCode + ' - ' + customer.FirstName + ' ' + customer.LastName;
-        vm.SelectedCustomerDetail = customer.MobileNumber + ' - ' + customer.FullAddress;
+        vm.SelectedCustomerDetail = (isNullOrEmpty(customer.MobileNumber) ? 'No Number' : customer.MobileNumber)  + ' - ' + customer.FullAddress;
         vm.CustomerListShown = false;
     }
 
