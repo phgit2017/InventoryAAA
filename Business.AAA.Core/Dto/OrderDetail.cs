@@ -152,7 +152,7 @@ namespace Business.AAA.Core.Dto
     {
         public long SalesOrderId { get; set; }
 
-        public decimal CurrentStock { get; set; } = 0;
+        public decimal CurrentStocks { get; set; } = 0;
 
         public int PriceTypeId { get; set; }
         public string PriceTypeName { get; set; }
