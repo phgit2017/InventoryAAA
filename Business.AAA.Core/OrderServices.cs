@@ -300,9 +300,16 @@ namespace Business.AAA.Core
                     xx.Add(pendingOrders.SalesOrderId);
                 }
 
-                var summationOfPendingSalesOrders = GetAllSalesOrderDetails().Where(m =>
+                var listOfPendingSalesOrders = GetAllSalesOrderDetails().Where(m =>
                                                                                 xx.Contains(m.SalesOrderId)
-                                                                                && m.ProductId == currentProduct.ProductId).Sum(m => m.Quantity);
+                                                                                && m.ProductId == currentProduct.ProductId).ToList();
+
+                var summationOfPendingSalesOrders = 0.0m;
+                if (listOfPendingSalesOrders.Count > 0)
+                {
+                    summationOfPendingSalesOrders = listOfPendingSalesOrders.Sum(m => m.Quantity);
+                }
+
 
                 stocksAvailablePerProduct = (currentProduct.Quantity - (summationOfPendingSalesOrders == null ? 0 : summationOfPendingSalesOrders));
                 saleProduct.StocksAvailable = stocksAvailablePerProduct;
