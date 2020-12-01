@@ -150,7 +150,10 @@
                     </form>
                 </div>
                 <div class="bar-footer" ng-if="inventoryCtrl.ManageMode === inventoryCtrl.MANAGE_MODE_STOCKS">
-                    <button class="btn btn-primary btn-sm" ng-if="inventoryCtrl.StockMode !== ''" ng-click="inventoryCtrl.SaveOrderRequest(false); " id="btn-is-save ">
+                    <button class="btn btn-primary btn-sm" ng-if="inventoryCtrl.StockMode !== ''" 
+                            ng-click="inventoryCtrl.SaveOrderRequest(false); " 
+                            ng-disabled="!stockForm.$valid"
+                            id="btn-is-save ">
                         Save
                     </button>
                     <button class="btn btn-primary-inverse btn-sm" ng-if="inventoryCtrl.StockMode === ''" ng-click="inventoryCtrl.StockMode = inventoryCtrl.STOCK_MODE_CORRECTION" id="btn-is-update">
