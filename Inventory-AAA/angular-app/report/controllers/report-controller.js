@@ -122,6 +122,7 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
     vm.ResetFields = function() {
         vm.StartDate = "";
         vm.EndDate = "";
+        vm.SelectedCategoryInv = 0;
     }
 
     vm.ValidReportParameters = function() {
