@@ -221,13 +221,14 @@ namespace Business.AAA.Core
             return ds;
         }
 
-        public DataTable PurchaseandSalesReport(DateTime startDate, DateTime endDate)
+        public DataTable PurchaseandSalesReport(DateTime startDate, DateTime endDate, long categoryId = 0)
         {
             DataTable dt = new DataTable();
             SqlParameter[] sqlParams = new SqlParameter[]
             {
                 new SqlParameter() { ParameterName = "StartDate", Value = startDate, SqlDbType=  SqlDbType.DateTime },
                 new SqlParameter() { ParameterName = "EndDate", Value = endDate, SqlDbType = SqlDbType.DateTime },
+                new SqlParameter() { ParameterName = "CategoryId", Value = categoryId, SqlDbType = SqlDbType.BigInt },
             };
 
             dt = this._productServices.ExecuteSPReturnTable("INV_PurchaseAndSalesReport", true, sqlParams);

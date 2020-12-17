@@ -67,9 +67,9 @@ namespace Inventory_AAA.Controllers
             return salesReportGenerationFile;
         }
 
-        public ActionResult GeneratePurchaseAndSalesReport(DateTime startDate, DateTime endDate)
+        public ActionResult GeneratePurchaseAndSalesReport(DateTime startDate, DateTime endDate, long categoryId = 0)
         {
-            var purchaseAndSalesReportGenerationFile = PurchaseAndSalesReportGeneration(startDate, endDate);
+            var purchaseAndSalesReportGenerationFile = PurchaseAndSalesReportGeneration(startDate, endDate , categoryId);
             return purchaseAndSalesReportGenerationFile;
         }
 
@@ -203,7 +203,7 @@ namespace Inventory_AAA.Controllers
             return File(memoryStream, contentType, fileNameGenerated);
         }
 
-        private FileResult PurchaseAndSalesReportGeneration(DateTime startDate, DateTime endDate)
+        private FileResult PurchaseAndSalesReportGeneration(DateTime startDate, DateTime endDate,long categoryId = 0)
         {
             List<PurchaseAndReportDetail> purchaseAndReportDetails = new List<PurchaseAndReportDetail>();
             List<ProductDetail> productDetails = new List<ProductDetail>();
@@ -213,7 +213,7 @@ namespace Inventory_AAA.Controllers
             if (productDetails.Count > 0)
             {
                 purchaseAndReportDetails = CommonExtensions.ConvertDataTable<PurchaseAndReportDetail>
-                                                        (_productServices.PurchaseandSalesReport(startDate, endDate));
+                                                        (_productServices.PurchaseandSalesReport(startDate, endDate, categoryId));
 
             }
 
