@@ -18,6 +18,7 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
     vm.SalesNo = 0;
     vm.CategoryList = [];
     vm.SelectedCategory = 0;
+    vm.SelectedCategoryInv = 0;
     vm.CustomerList = [];
     vm.SelectedCustomer = 0;
     vm.StatusList = [];
@@ -153,7 +154,8 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
             case 1:
                 url = globalBaseUrl + '/Report/GeneratePurchaseAndSalesReport' +
                     '?startDate=' + vm.StartDate +
-                    '&endDate=' + vm.EndDate;
+                    '&endDate=' + vm.EndDate +
+                    '&categoryId=' + vm.SelectedCategoryInv;
                 break;
             case 2:
                 url = globalBaseUrl + '/Report/GenerateSalesOrder?' +

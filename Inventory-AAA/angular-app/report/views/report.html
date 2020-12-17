@@ -16,7 +16,8 @@
                 </div>
                 <div class="custom-control custom-radio">
                     <input type="radio" id="customRadio3" name="sales-inventory-report" class="custom-control-input" ng-model="reportCtrl.ReportType" ng-value="2">
-                    <label class="custom-control-label" for="customRadio3">Sales Inventory Report</label>
+                    <label class="custom-control-label" style="display: flex;
+                    align-items: center;" for="customRadio3">Sales Inventory Report</label>
                 </div>
             </div>
 
@@ -53,6 +54,11 @@
             </div>
 
             <div class="form-group" ng-if="reportCtrl.ReportType !== 2 || (reportCtrl.ReportType === 2 && (reportCtrl.SelectedReportFilter !== 1))">
+                <div class="form-group" ng-if="reportCtrl.ReportType === 1">
+                    <label for="categoryList" class="input-label">Category</label>
+                    <select name="categoryList" class="custom-select" ng-model="reportCtrl.SelectedCategoryInv" ng-options="category.CategoryId as category.CategoryName for category in reportCtrl.CategoryList" required>
+                    </select>
+                </div>
                 <span class="input-label">Start Date</span>
                 <input id="dp_startdate" type="text" class="form-control" ng-model="reportCtrl.StartDate" placeholder="mm/dd/yyyy" readonly />
                 <date-picker element-id="'startdate'"></date-picker>

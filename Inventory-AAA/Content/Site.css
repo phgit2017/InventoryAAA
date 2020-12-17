@@ -143,18 +143,6 @@ body {
   white-space: normal;
 }
 
-input {
-  max-width: 280px;
-}
-
-select {
-  max-width: 280px;
-}
-
-textarea {
-  max-width: 280px;
-}
-
 .bg-primary {
   background-color: var(--bg-primary) !important;
   color: white;
@@ -174,6 +162,10 @@ textarea {
 
 .main-screen .report-screen {
   margin: 10vh 60vh 10vh 60vh;
+}
+
+.main-screen .report-screen .card-body {
+  padding: 2rem !important;
 }
 
 .card {
@@ -1250,6 +1242,15 @@ h6 {
   width: 100% !important;
   display: table !important;
   padding: 0 1rem 1rem 1rem;
+}
+
+.custom-control.custom-radio {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .custom-control-label:after {

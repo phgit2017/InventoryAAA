@@ -140,18 +140,6 @@ $bg-primary: #23967F;
     }
 }
 
-input {
-    max-width: 280px;
-}
-
-select {
-    max-width: 280px;
-}
-
-textarea {
-    max-width: 280px;
-}
-
 .bg-primary {
     background-color: var(--bg-primary) !important;
     color: white;
@@ -166,6 +154,9 @@ textarea {
     }
     .report-screen {
         margin: 10vh 60vh 10vh 60vh;
+        .card-body {
+            padding: 2rem !important;
+        }
     }
 }
 
@@ -961,6 +952,13 @@ h6 {
     width: 100% !important;
     display: table !important;
     padding: 0 1rem 1rem 1rem;
+}
+
+.custom-control {
+    &.custom-radio {
+        display: flex !important;
+        align-items: center;
+    }
 }
 
 .custom-control-label {
