@@ -87,5 +87,17 @@ namespace Inventory_AAA.Controllers
             };
             return Json(response, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public JsonResult CustomerList()
+        {
+            var result = _customerServices.GetAll().Where(c => c.CustomerStatusId == LookupKey.CustomerStatus.ActiveId).ToList();
+            var response = new
+            {
+                result = result,
+                isSuccess = true
+            };
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
     }
 }
