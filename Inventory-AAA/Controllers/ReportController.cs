@@ -383,6 +383,7 @@ namespace Inventory_AAA.Controllers
                     workSheet.Cells[rowId, 8].Value = "PRICE";
                     workSheet.Cells[rowId, 9].Value = "TRANSACTION DATE";
                     workSheet.Cells[rowId, 10].Value = "CREATED BY";
+                    workSheet.Cells[rowId, 11].Value = "MODDE OF PAYMENT";
 
                     rowId = rowId + 1;
                     for (int i = 0; i <= dt.Rows.Count - 1; i++)
@@ -397,6 +398,7 @@ namespace Inventory_AAA.Controllers
                         workSheet.Cells[rowId, 8].Value = Convert.ToDecimal(dt.Rows[i]["UnitPrice"].ToString()).ToString("N");
                         workSheet.Cells[rowId, 9].Value = dt.Rows[i]["TransactionTime"].ToString();
                         workSheet.Cells[rowId, 10].Value = dt.Rows[i]["UserFullName"].ToString();
+                        workSheet.Cells[rowId, 11].Value = dt.Rows[i]["ModeOfPayment"].ToString();
                         rowId = rowId + 1;
                     }
                 }
@@ -413,6 +415,7 @@ namespace Inventory_AAA.Controllers
                     workSheet.Cells[rowId, 8].Value = "PRICE";
                     workSheet.Cells[rowId, 9].Value = "TRANSACTION DATE";
                     workSheet.Cells[rowId, 10].Value = "CREATED BY";
+                    workSheet.Cells[rowId, 11].Value = "MODDE OF PAYMENT";
 
                     rowId = rowId + 1;
                     for (int i = 0; i <= dt.Rows.Count - 1; i++)
@@ -427,6 +430,7 @@ namespace Inventory_AAA.Controllers
                         workSheet.Cells[rowId, 8].Value = Convert.ToDecimal(dt.Rows[i]["UnitPrice"].ToString()).ToString("N");
                         workSheet.Cells[rowId, 9].Value = dt.Rows[i]["TransactionTime"].ToString();
                         workSheet.Cells[rowId, 10].Value = dt.Rows[i]["UserFullName"].ToString();
+                        workSheet.Cells[rowId, 11].Value = dt.Rows[i]["ModeOfPayment"].ToString();
                         rowId = rowId + 1;
                     }
                 }

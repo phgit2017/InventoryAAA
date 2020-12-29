@@ -56,7 +56,7 @@ namespace Inventory_AAA.Controllers
             #endregion
 
             var currentUserId = Session[LookupKey.SessionVariables.UserId].IsNull() ? 0 : Convert.ToInt64(Session[LookupKey.SessionVariables.UserId]);
-            customerDetailResult = _customerServices.GetAll().Where(m => m.CustomerStatusId == LookupKey.CustomerStatus.ActiveId).ToList();
+            customerDetailResult = _customerServices.GetAll().ToList();
             var response = new
             {
                 CustomerDetailsResult = customerDetailResult,
