@@ -34,17 +34,49 @@
                     </select>
                 </div>
 
-                <div class="form-group" ng-if="reportCtrl.SelectedReportFilter === 2">
-                    <label for="customerList" class="input-label">Customers</label>
-                    <select name="customerList" class="custom-select" ng-model="reportCtrl.SelectedCustomer" ng-options="customer.CustomerId as (customer.CustomerCode + ' - ' + customer.FullName) for customer in reportCtrl.CustomerList" required>
-                    </select>
+                <div class="d-flex flex-column mb-3"  ng-if="reportCtrl.SelectedReportFilter === 2">
+                    <label for="customerList" class="input-label">Customer</label>
+                    <div name="customerList" class="btn-group" >
+                        <button class="btn btn-white dropdown-toggle in-form" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ reportCtrl.SelectedCustomer.CustomerId === 0 ? 'Select Customer' : (reportCtrl.SelectedCustomer.CustomerCode + ' - ' + reportCtrl.SelectedCustomer.FullName) }}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="search-form">
+                                <div>
+                                    <input class="form-control" type="text" ng-model="reportCtrl.CustomerFilter" placeholder="Filter Customers ..."/>
+                                </div>
+                            </div>
+                            <ul aria-labelledby="dropdownMenuButton">
+                                <li class="dropdown-item" 
+                                    ng-repeat="customer in reportCtrl.CustomerList | filter: { FullName: reportCtrl.CustomerFilter }"
+                                    ng-click="reportCtrl.SelectedCustomer = customer">{{ customer.CustomerCode + ' - ' + customer.FullName }}</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group" ng-if="reportCtrl.SelectedReportFilter === 4">
+                <div class="d-flex flex-column mb-3" ng-if="reportCtrl.SelectedReportFilter === 4">
                     <label for="categoryList" class="input-label">Category</label>
-                    <select name="categoryList" class="custom-select" ng-model="reportCtrl.SelectedCategory" ng-options="category.CategoryId as category.CategoryName for category in reportCtrl.CategoryList" required>
-                    </select>
+                    <div name="categoryList" class="btn-group">
+                        <button class="btn btn-white dropdown-toggle in-form" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ reportCtrl.SelectedCategory.CategoryId === 0 ? 'Select Category' : reportCtrl.SelectedCategory.CategoryName }}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="search-form">
+                                <div>
+                                    <input class="form-control" type="text" ng-model="reportCtrl.CategoryFilter" placeholder="Filter Categories ..."/>
+                                </div>
+                                
+                            </div>
+                            <ul aria-labelledby="dropdownMenuButton">
+                                <li class="dropdown-item" 
+                                    ng-repeat="category in reportCtrl.CategoryList | filter: { CategoryName: reportCtrl.CategoryFilter }"
+                                    ng-click="reportCtrl.SelectedCategory = category">{{ category.CategoryName }}</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+                
 
                 <div class="form-group" ng-if="reportCtrl.SelectedReportFilter !== 1">
                     <label for="statusList" class="input-label">Status</label>
@@ -54,11 +86,29 @@
             </div>
 
             <div class="form-group" ng-if="reportCtrl.ReportType !== 2 || (reportCtrl.ReportType === 2 && (reportCtrl.SelectedReportFilter !== 1))">
-                <div class="form-group" ng-if="reportCtrl.ReportType === 1">
-                    <label for="categoryList" class="input-label">Category</label>
-                    <select name="categoryList" class="custom-select" ng-model="reportCtrl.SelectedCategoryInv" ng-options="category.CategoryId as category.CategoryName for category in reportCtrl.CategoryList" required>
-                    </select>
+                <div class="d-flex flex-column mb-3" ng-if="reportCtrl.ReportType === 1">
+                    <label for="categoryInvList" class="input-label">Category</label>
+                    <div name="categoryInvList" class="btn-group" >
+                        <button class="btn btn-white dropdown-toggle in-form" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ reportCtrl.SelectedCategoryInv.CategoryId === 0 ? 'Select Category' : reportCtrl.SelectedCategoryInv.CategoryName }}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="search-form">
+                                <div>
+                                    <input class="form-control" type="text" ng-model="reportCtrl.CategoryFilter" placeholder="Filter Categories ..."/>
+                                </div>
+                                
+                            </div>
+                            <ul aria-labelledby="dropdownMenuButton">
+                                <li class="dropdown-item" 
+                                    ng-repeat="category in reportCtrl.CategoryList | filter: { CategoryName: reportCtrl.CategoryFilter }"
+                                    ng-click="reportCtrl.SelectedCategoryInv = category">{{ category.CategoryName }}</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+                
+                
                 <span class="input-label">Start Date</span>
                 <input id="dp_startdate" type="text" class="form-control" ng-model="reportCtrl.StartDate" placeholder="mm/dd/yyyy" readonly />
                 <date-picker element-id="'startdate'"></date-picker>
@@ -70,7 +120,6 @@
                 <br />
                 <br />
             </div>
-
 
             <div class="d-flex justify-content-end">
                 <button class="btn btn-sm btn-transparent btn-default" ng-click="reportCtrl.ResetFields();" id="btn-report-clear">

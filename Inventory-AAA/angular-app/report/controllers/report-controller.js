@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('ReportController', ReportController)
 
-ReportController.$inject = ['ReportService', 'CustomerService', 'MaintenanceService', '$scope', '$window', '$http', 'QuickAlert', 'globalBaseUrl'];
+ReportController.$inject = ['ReportService', 'CommonService', 'MaintenanceService', '$scope', '$window', '$http', 'QuickAlert', 'globalBaseUrl'];
 
-function ReportController(ReportService, CustomerService, MaintenanceService, $scope, $window, $http, QuickAlert, globalBaseUrl) {
+function ReportController(ReportService, CommonService, MaintenanceService, $scope, $window, $http, QuickAlert, globalBaseUrl) {
     var vm = this,
         controllerName = "reportCtrl";
 
@@ -17,10 +17,22 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
     vm.SelectedReportFilter = 0;
     vm.SalesNo = 0;
     vm.CategoryList = [];
-    vm.SelectedCategory = 0;
-    vm.SelectedCategoryInv = 0;
+    vm.CategoryFilter = "";
+    vm.SelectedCategory = {
+        CategoryId : 0,
+        CategoryName : ""
+    };
+    vm.SelectedCategoryInv = {
+        CategoryId : 0,
+        CategoryName : ""
+    };
     vm.CustomerList = [];
-    vm.SelectedCustomer = 0;
+    vm.SelectedCustomer = {
+        CustomerId : 0,
+        CustomerCode : "",
+        FullName : ""
+    };
+    vm.CustomerFilter = "";
     vm.StatusList = [];
     vm.SelectedStatus = 0;
 
@@ -31,8 +43,19 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
         function(oldValue, newValue) {
             if (oldValue != newValue) {
                 vm.SalesNo = 0;
-                vm.SelectedCustomer = 0;
-                vm.SelectedCategory = 0;
+                vm.SelectedCustomer = {
+                    CustomerId : 0,
+                    CustomerCode : "",
+                    FullName : ""
+                };
+                vm.SelectedCategory = {
+                    CategoryId : 0,
+                    CategoryName : ""
+                };
+                vm.SelectedCategoryInv = {
+                    CategoryId : 0,
+                    CategoryName : ""
+                };
                 vm.StartDate = "";
                 vm.EndDate = "";
             }
@@ -122,7 +145,14 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
     vm.ResetFields = function() {
         vm.StartDate = "";
         vm.EndDate = "";
-        vm.SelectedCategoryInv = 0;
+        vm.SelectedCategory = {
+            CategoryId : 0,
+            CategoryName : ""
+        };
+        vm.SelectedCategoryInv = {
+            CategoryId : 0,
+            CategoryName : ""
+        };
     }
 
     vm.ValidReportParameters = function() {
@@ -135,11 +165,11 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
                     case 1:
                         return vm.SalesNo === 0 || vm.SalesNo === '' ? false : true;
                     case 2:
-                        return vm.StartDate === "" || vm.EndDate === "" || vm.SelectedCustomer === 0 || vm.SelectedStatus === 0 ? false : true;
+                        return vm.StartDate === "" || vm.EndDate === "" || vm.SelectedCustomer.CustomerId === 0 || vm.SelectedStatus === 0 ? false : true;
                     case 3:
                         return vm.StartDate === "" || vm.EndDate === "" || vm.SelectedStatus === 0 ? false : true;
                     case 4:
-                        return vm.StartDate === "" || vm.EndDate === "" || vm.SelectedCategory === 0 || vm.SelectedStatus === 0 ? false : true
+                        return vm.StartDate === "" || vm.EndDate === "" || vm.SelectedCategory.CategoryId === 0 || vm.SelectedStatus === 0 ? false : true
                 }
         }
     }
@@ -156,16 +186,16 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
                 url = globalBaseUrl + '/Report/GeneratePurchaseAndSalesReport' +
                     '?startDate=' + vm.StartDate +
                     '&endDate=' + vm.EndDate +
-                    '&categoryId=' + vm.SelectedCategoryInv;
+                    '&categoryId=' + vm.SelectedCategoryInv.CategoryId;
                 break;
             case 2:
                 url = globalBaseUrl + '/Report/GenerateSalesOrder?' +
                     '&reportSalesType=' + vm.SelectedReportFilter +
                     '&salesNo=' + vm.SalesNo +
-                    '&customerId=' + vm.SelectedCustomer +
+                    '&customerId=' + vm.SelectedCustomer.CustomerId +
                     '&startDate=' + vm.StartDate +
                     '&endDate=' + vm.EndDate +
-                    '&categoryId=' + vm.SelectedCategory +
+                    '&categoryId=' + vm.SelectedCategory.CategoryId +
                     '&salesOrderStatusId=' + vm.SelectedStatus;
                 break;
         }
@@ -173,9 +203,9 @@ function ReportController(ReportService, CustomerService, MaintenanceService, $s
     }
 
     getCustomerList = function() {
-        CustomerService.GetCustomerList().then(
+        CommonService.GetCustomerList().then(
             function(data) {
-                vm.CustomerList = data.CustomerDetailsResult;
+                vm.CustomerList = data.result;
             },
             function(error) {
                 alert(error);

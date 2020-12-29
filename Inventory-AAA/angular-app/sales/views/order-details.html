@@ -41,7 +41,8 @@
                 </div>
             </form>
             <div class="btn-group">
-                <button ng-click="orderDetailsCtrl.PriceTypesShown = !orderDetailsCtrl.PriceTypesShown;" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button ng-click="orderDetailsCtrl.PriceTypesShown = !orderDetailsCtrl.PriceTypesShown;" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                style="display: inline-block !important">
                         {{ orderDetailsCtrl.SelectedPriceType !== '' ? orderDetailsCtrl.SelectedPriceType : 'Price Type'}}
                     </button>
                 <div class="dropdown-menu dropdown-menu-right" ng-class="{ 'show' : orderDetailsCtrl.PriceTypesShown }">
@@ -169,23 +170,28 @@
                 </div>
             </div>
             <div class="order-footer">
-                <div>
-                    <button class="btn btn-sm btn-primary-inverse" ng-click="loginCtrl.ChangeRoute('SalesOrder')">
-                        Back 
-                    </button>
+                <div class="order-total">
+                    <strong>Order Total : {{ orderDetailsCtrl.TotalAmount | currency: "" }}</strong>
                 </div>
-                <div class="d-flex ml-auto">
-                    <button class="btn btn-sm btn-danger" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 4 && orderDetailsCtrl.SalesOrderStatusId !== 5 && orderDetailsCtrl.SalesOrderStatusId !== 0" ng-click="orderDetailsCtrl.AlertMessage = 'Are you sure you want to cancel this order?'; orderDetailsCtrl.ShowConfirmAlert = true;">
-                        Cancel Order
-                    </button>
-                    <button type="button" class="btn btn-sm btn-primary-inverse" ng-click="orderDetailsCtrl.GetOrderReceipt();" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 0 && orderDetailsCtrl.SalesOrderStatusId !== 1 &&  orderDetailsCtrl.SalesOrderStatusId !== 5">
-                        {{ orderDetailsCtrl.SalesOrderStatusId === 3 ? 'Finalize Order' : 'View Receipt' }}
-                    </button>
-                    <button class="btn btn-sm btn-primary" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 3 && orderDetailsCtrl.SalesOrderStatusId !== 4 && orderDetailsCtrl.SalesOrderStatusId !== 5" ng-click="orderDetailsCtrl.SubmitOrder()" ng-disabled="orderDetailsCtrl.ProductsInOrder.length === 0">
-                        <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 0">Place Order</span>
-                        <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 1">Order Paid</span>
-                        <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 2">Order Shipped</span>
-                    </button>
+                <div class="order-controls">
+                    <div>
+                        <button class="btn btn-sm btn-primary-inverse" ng-click="loginCtrl.ChangeRoute('SalesOrder')">
+                            Back 
+                        </button>
+                    </div>
+                    <div class="d-flex ml-auto">
+                        <button class="btn btn-sm btn-danger" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 4 && orderDetailsCtrl.SalesOrderStatusId !== 5 && orderDetailsCtrl.SalesOrderStatusId !== 0" ng-click="orderDetailsCtrl.AlertMessage = 'Are you sure you want to cancel this order?'; orderDetailsCtrl.ShowConfirmAlert = true;">
+                            Cancel Order
+                        </button>
+                        <button type="button" class="btn btn-sm btn-primary-inverse" ng-click="orderDetailsCtrl.GetOrderReceipt();" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 0 && orderDetailsCtrl.SalesOrderStatusId !== 1 &&  orderDetailsCtrl.SalesOrderStatusId !== 5">
+                            {{ orderDetailsCtrl.SalesOrderStatusId === 3 ? 'Finalize Order' : 'View Receipt' }}
+                        </button>
+                        <button class="btn btn-sm btn-primary" ng-if="orderDetailsCtrl.SalesOrderStatusId !== 3 && orderDetailsCtrl.SalesOrderStatusId !== 4 && orderDetailsCtrl.SalesOrderStatusId !== 5" ng-click="orderDetailsCtrl.SubmitOrder()" ng-disabled="orderDetailsCtrl.ProductsInOrder.length === 0">
+                            <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 0">Place Order</span>
+                            <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 1">Order Paid</span>
+                            <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 2">Order Shipped</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

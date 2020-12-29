@@ -268,7 +268,7 @@ $bg-primary: #23967F;
             align-items: center;
         }
         .card {
-            padding: 1.5rem 2rem;
+            padding: 1rem 2rem;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -451,13 +451,25 @@ form {
                     }
                 }
                 .order-footer {
-                    padding: 1rem;
                     margin-top: auto;
-                    background: #444;
                     border-top: 2px solid var(--bg-primary);
-                    display: flex;
-                    justify-items: flex-end;
-                    width: 100%;
+
+                    .order-total {
+                        background: #777;
+                        color: #fff;
+                        display: flex;
+                        justify-content: flex-end;
+                        width: 100%;
+                        padding: 0.5rem 1rem;
+                    }
+
+                    .order-controls {
+                        display: flex;
+                        padding: 1rem;
+                        background: #444;
+                        justify-items: flex-end;
+                        width: 100%;
+                    }
                 }
             }
         }
@@ -589,7 +601,54 @@ form {
     opacity: 1 !important;
 }
 
+.dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &.in-form {
+        color: #495057;
+        box-shadow: none;
+        border: 1px solid #ced4da;
+        font-weight: 500;
+        font-size: 0.9rem;
+
+        &:active,
+        &:focus {
+            border: 2px solid $bg-primary !important;
+            box-shadow: none !important;
+            &.ng-invalid:not(.ng-pristine) {
+                border: 2px solid var(--bg-danger) !important;
+            }
+        }
+
+        + .dropdown-menu {
+            width: 100%;
+            box-shadow: 0px 4px 5px var(--shadow-color);
+            max-height: 20rem;
+            overflow-y: auto;
+            position: relative;
+
+            .search-form {
+                position: sticky;
+                top: -0.5rem;
+                background: #fff;
+                width: 100%;
+                div {
+                    padding: 0.5rem 1rem
+                }
+            }
+
+            ul {
+                margin-bottom: 0;
+                padding-left: 0;
+            }
+        }
+    }
+}
+
 .dropdown-item {
+    cursor: pointer;
     &:active,
     &:focus {
         color: #fff;
@@ -797,6 +856,9 @@ td {
     }
     +.btn-inline {
         margin-left: 0.5rem;
+    }
+    &.search {
+        max-width: 20rem;
     }
 }
 
@@ -1063,7 +1125,10 @@ h6 {
     &+.btn {
         margin-left: 0.5rem;
     }
+
+    
 }
+
 
 small {
     color: #777 !important;

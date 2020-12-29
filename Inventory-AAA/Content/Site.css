@@ -329,7 +329,7 @@ body {
 }
 
 .bar .bar-body .card {
-  padding: 1.5rem 2rem;
+  padding: 1rem 2rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -591,13 +591,29 @@ form label {
 }
 
 .content .content-body.orders-grid .grid-item .order-footer {
-  padding: 1rem;
   margin-top: auto;
-  background: #444;
   border-top: 2px solid var(--bg-primary);
+}
+
+.content .content-body.orders-grid .grid-item .order-footer .order-total {
+  background: #777;
+  color: #fff;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  width: 100%;
+  padding: 0.5rem 1rem;
+}
+
+.content .content-body.orders-grid .grid-item .order-footer .order-controls {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 1rem;
+  background: #444;
   justify-items: flex-end;
   width: 100%;
 }
@@ -797,6 +813,67 @@ form label {
 
 .btn.dropdown-toggle:disabled {
   opacity: 1 !important;
+}
+
+.dropdown-toggle {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.dropdown-toggle.in-form {
+  color: #495057;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border: 1px solid #ced4da;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.dropdown-toggle.in-form:active, .dropdown-toggle.in-form:focus {
+  border: 2px solid #23967F !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.dropdown-toggle.in-form:active.ng-invalid:not(.ng-pristine), .dropdown-toggle.in-form:focus.ng-invalid:not(.ng-pristine) {
+  border: 2px solid var(--bg-danger) !important;
+}
+
+.dropdown-toggle.in-form + .dropdown-menu {
+  width: 100%;
+  -webkit-box-shadow: 0px 4px 5px var(--shadow-color);
+          box-shadow: 0px 4px 5px var(--shadow-color);
+  max-height: 20rem;
+  overflow-y: auto;
+  position: relative;
+}
+
+.dropdown-toggle.in-form + .dropdown-menu .search-form {
+  position: -webkit-sticky;
+  position: sticky;
+  top: -0.5rem;
+  background: #fff;
+  width: 100%;
+}
+
+.dropdown-toggle.in-form + .dropdown-menu .search-form div {
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-toggle.in-form + .dropdown-menu ul {
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+.dropdown-item {
+  cursor: pointer;
 }
 
 .dropdown-item:active, .dropdown-item:focus {
@@ -1033,6 +1110,10 @@ td .price-list .price-type .price {
 
 .form-control + .btn-inline {
   margin-left: 0.5rem;
+}
+
+.form-control.search {
+  max-width: 20rem;
 }
 
 .form-validation-msg {

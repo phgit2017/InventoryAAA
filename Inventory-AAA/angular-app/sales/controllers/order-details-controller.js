@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('OrderDetailsController', OrderDetailsController);
 
-OrderDetailsController.$inject = ['$scope', '$route', '$location', '$routeParams', 'MaintenanceService', 'SalesOrderService', 'CustomerService', 'InventoryService', 'QuickAlert', 'CommonService'];
+OrderDetailsController.$inject = ['$scope', '$route', '$location', '$routeParams', 'MaintenanceService', 'SalesOrderService', 'CustomerService', 'CommonService', 'InventoryService', 'QuickAlert', 'CommonService'];
 
-function OrderDetailsController($scope, $route, $location, $routeParams, MaintenanceService, SalesOrderService, CustomerService, InventoryService, QuickAlert, CommonService) {
+function OrderDetailsController($scope, $route, $location, $routeParams, MaintenanceService, SalesOrderService, CustomerService, CommonService, InventoryService, QuickAlert, CommonService) {
 
     var vm = this,
         controllerName = 'orderDetailsCtrl';
@@ -48,6 +48,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
         CreatedTime: "",
         CustomerStatusId: 1
     };
+    vm.TotalAmount = 0;
 
 
     vm.Initialize = function() {
@@ -164,6 +165,11 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     vm.RemoveProductFromOrder = function(product) {
         selectedProductIndex = vm.ProductsInOrder.indexOf(product);
         vm.ProductsInOrder.splice(selectedProductIndex, 1);
+
+        if (product.Quantity > 0) {
+            setTotalAmount(product, true);
+        }
+
         getProductList();
     }
 
@@ -240,7 +246,24 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
             }
             else {
                 i.Quantity = i.UnfinishedQuantity;
+                setTotalAmount(i);
             }
+        }
+    }
+
+    setTotalAmount = function(product, isDiff = false) {
+        let selectedPrice = 0;
+
+        switch(product.PriceTypeId) {
+            case 1: selectedPrice = product.BigBuyerPrice; break;
+            case 2: selectedPrice = product.ResellerPrice; break;
+            case 3: selectedPrice = product.RetailerPrice; break;
+        }
+
+        if(!isDiff) {
+            vm.TotalAmount += (product.Quantity * selectedPrice);
+        } else {
+            vm.TotalAmount -= (product.Quantity * selectedPrice);
         }
     }
 
@@ -321,6 +344,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
                 vm.SalesOrderStatusId = vm.SalesDetails.SalesOrderStatusId
                 vm.SelectCustomer(vm.OrderDetails.CustomerDetails);
                 vm.ProductsInOrder = vm.OrderDetails.ProductList;
+                vm.TotalAmount = vm.SalesDetails.TotalAmount;
                 switch (vm.ProductsInOrder[0].PriceTypeId) {
                     case 1:
                         vm.SelectedPriceType = 'Big Buyer';
@@ -344,9 +368,9 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     }
 
     getCustomerList = function() {
-        CustomerService.GetCustomerList().then(
+        CommonService.GetCustomerList().then(
             function(data) {
-                vm.CustomerList = data.CustomerDetailsResult;
+                vm.CustomerList = data.result;
             },
             function(error) {
                 alert(error);

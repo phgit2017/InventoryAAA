@@ -2,9 +2,9 @@
     .module('InventoryApp')
     .controller('InventoryController', InventoryController);
 
-InventoryController.$inject = ['$filter', 'InventoryService', 'MaintenanceService', '$scope', '$rootScope', 'QuickAlert'];
+InventoryController.$inject = ['$filter', '$scope', 'InventoryService', 'MaintenanceService', '$scope', '$rootScope', 'QuickAlert'];
 
-function InventoryController($filter, InventoryService, MaintenanceService, $scope, $rootScope, QuickAlert) {
+function InventoryController($filter, $scope, InventoryService, MaintenanceService, $scope, $rootScope, QuickAlert) {
     var vm = this,
         controllerName = 'inventoryCtrl';
 
@@ -42,6 +42,11 @@ function InventoryController($filter, InventoryService, MaintenanceService, $sco
     vm.OrderRequestRemarks = "";
     vm.CriticalStock = 100;
     vm.CategoryList = [];
+    vm.CategoryFilter = "";
+    vm.SelectedCategory = {
+        CategoryId: 0,
+        CategoryName: ""
+    }
     vm.NewCategoryName = "";
 
     // Misc Items
@@ -289,6 +294,10 @@ function InventoryController($filter, InventoryService, MaintenanceService, $sco
             RetailerPrice: 0,
             ResellerPrice: 0,
         };
+        vm.SelectedCategory = {
+            CategoryId: 0,
+            CategoryName: ""
+        }
         vm.OrderRequestRemarks = "";
         vm.TotalStock = 0;
         vm.OrderRequestQuantity = 0;

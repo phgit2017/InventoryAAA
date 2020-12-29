@@ -43,8 +43,25 @@
                             <label for="category" class="input-label">{{ inventoryCtrl.IsCategoryNew ? 'New Category Name' : 'Category' }}</label>
                             <div class="d-flex">
                                 <div class="d-flex" style="flex: 1" ng-if="!inventoryCtrl.IsCategoryNew">
-                                    <select name="category" class="custom-select" ng-model="inventoryCtrl.SelectedProduct.CategoryId" ng-options="category.CategoryId as category.CategoryName for category in inventoryCtrl.CategoryList" required>
-                                    </select>
+                                    <button class="btn btn-block btn-white dropdown-toggle in-form" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        {{ inventoryCtrl.SelectedCategory.CategoryId === 0 ? 'Select Category' : inventoryCtrl.SelectedCategory.CategoryName }}
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <div class="search-form">
+                                            <div>
+                                                <input class="form-control" type="text" ng-model="inventoryCtrl.CategoryFilter" placeholder="Filter Customers ..."/>
+                                            </div>
+                                        </div>
+                                        <ul aria-labelledby="dropdownMenuButton">
+                                            <li class="dropdown-item" 
+                                                ng-repeat="category in inventoryCtrl.CategoryList | filter: { CategoryName: inventoryCtrl.CategoryFilter }"
+                                                ng-click="inventoryCtrl.SelectedCategory = category; 
+                                                          inventoryCtrl.SelectedProduct.CategoryId = category.CategoryId">
+                                                          {{ category.CategoryName }}
+                                            </li>
+                                        </ul>
+                                    </div>
+                    
                                     <button class="btn btn-primary btn-sm ml-2" ng-click="inventoryCtrl.IsCategoryNew = true">
                                         New
                                     </button>
@@ -100,7 +117,9 @@
                     </form>
                 </div>
                 <div class="bar-footer ">
-                    <button class="btn btn-primary btn-sm " ng-if="inventoryCtrl.SelectedProduct.ProductId==0 && inventoryForm.$valid " ng-click="inventoryCtrl.SaveOrderRequest(true); " id="btn-is-save ">
+                    <button class="btn btn-primary btn-sm " ng-if="inventoryCtrl.SelectedProduct.ProductId==0 && inventoryForm.$valid " 
+                            ng-click="inventoryCtrl.SaveOrderRequest(true); inventoryForm.$setPristine(); " 
+                            id="btn-is-save ">
                         <div>
                             <span>Save</span>
                         </div>
@@ -151,7 +170,7 @@
                 </div>
                 <div class="bar-footer" ng-if="inventoryCtrl.ManageMode === inventoryCtrl.MANAGE_MODE_STOCKS">
                     <button class="btn btn-primary btn-sm" ng-if="inventoryCtrl.StockMode !== ''" 
-                            ng-click="inventoryCtrl.SaveOrderRequest(false); " 
+                            ng-click="inventoryCtrl.SaveOrderRequest(false); stockForm.$setPristine();" 
                             ng-disabled="!stockForm.$valid"
                             id="btn-is-save ">
                         Save
