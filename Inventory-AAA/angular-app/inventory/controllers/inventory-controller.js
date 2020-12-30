@@ -135,6 +135,7 @@ function InventoryController($filter, $scope, InventoryService, MaintenanceServi
         vm.ProductDetailRequest["ProductId"] = productId;
         InventoryService.GetProductDetails(vm.ProductDetailRequest).then(
             function(data) {
+                debugger;
                 setProduct(data.ProductResult);
                 vm.ProductHistory = data.InventoryDetailsResult;
                 vm.ManageBarShown = true;
@@ -394,6 +395,10 @@ function InventoryController($filter, $scope, InventoryService, MaintenanceServi
             BigBuyerPrice: data.BigBuyerPrice,
             RetailerPrice: data.RetailerPrice,
             ResellerPrice: data.ResellerPrice,
+        };
+        vm.SelectedCategory = {
+            CategoryId: data.CategoryId,
+            CategoryName: data.CategoryName
         };
         vm.TotalStock = data.Quantity;
         setProductPrices(data.ProductPrices);

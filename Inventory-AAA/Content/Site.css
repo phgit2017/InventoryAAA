@@ -445,7 +445,7 @@ form label {
 .content {
   background: #eee;
   position: relative;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: calc(100vh - 3rem);
 }
 
@@ -496,7 +496,7 @@ form label {
 .content .content-body {
   padding: 1rem 2rem;
   max-height: 80% !important;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .content .content-body .maintenance {
@@ -575,7 +575,7 @@ form label {
 
 .content .content-body.orders-grid .grid-item .product-list,
 .content .content-body.orders-grid .grid-item .products-in-order {
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-bottom: 2rem !important;
 }
 
@@ -694,7 +694,7 @@ form label {
 
 .content .receipt .receipt-body .product-container {
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .content .receipt .receipt-body .product-container::-webkit-scrollbar {
@@ -779,7 +779,7 @@ form label {
       -ms-flex-pack: justify;
           justify-content: space-between;
   max-height: 600px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .dropdown-customers .dropdown-header {
