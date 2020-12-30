@@ -29,6 +29,8 @@ namespace Business.AAA.Core.Dto
         public bool IsActive { get; set; }
 
         public long? CategoryId { get; set; }
+
+        public string CategoryName { get; set; }
     }
 
     public class ProductDetailRequest : BaseDetail

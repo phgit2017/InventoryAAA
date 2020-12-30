@@ -59,6 +59,7 @@ namespace Business.AAA.Core
                              Quantity = det.Quantity,
                              IsActive = det.IsActive,
                              CategoryId = det.CategoryID,
+                             CategoryName = det.Category.CategoryName,
                              CreatedBy = det.CreatedBy,
                              CreatedTime = det.CreatedTime,
                              ModifiedBy = det.ModifiedBy,
