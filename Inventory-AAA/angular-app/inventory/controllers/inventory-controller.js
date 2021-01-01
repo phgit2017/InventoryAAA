@@ -135,7 +135,6 @@ function InventoryController($filter, $scope, InventoryService, MaintenanceServi
         vm.ProductDetailRequest["ProductId"] = productId;
         InventoryService.GetProductDetails(vm.ProductDetailRequest).then(
             function(data) {
-                debugger;
                 setProduct(data.ProductResult);
                 vm.ProductHistory = data.InventoryDetailsResult;
                 vm.ManageBarShown = true;
@@ -336,9 +335,12 @@ function InventoryController($filter, $scope, InventoryService, MaintenanceServi
         MaintenanceService.SaveCategory(data).then(
             function(data) {
                 if (data.isSuccess) {
-                    debugger;
                     getCategoryList();
                     vm.SelectedProduct.CategoryId = data.CategoryId;
+                    vm.SelectedCategory = {
+                        CategoryId: data.CategoryId,
+                        CategoryName: data.CategoryName
+                    }
                     QuickAlert.Show({
                         type: 'success',
                         message: 'The category has been saved!'
