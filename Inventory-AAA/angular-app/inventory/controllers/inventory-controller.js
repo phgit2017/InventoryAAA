@@ -336,6 +336,7 @@ function InventoryController($filter, $scope, InventoryService, MaintenanceServi
         MaintenanceService.SaveCategory(data).then(
             function(data) {
                 if (data.isSuccess) {
+                    debugger;
                     getCategoryList();
                     vm.SelectedProduct.CategoryId = data.CategoryId;
                     QuickAlert.Show({
