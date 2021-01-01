@@ -213,11 +213,13 @@ namespace Inventory_AAA.Controllers
                 }
 
                 isSucess = true;
+                var categoryResult = _categoryServices.GetAll().Where(c => c.CategoryId == categoryIdResult).FirstOrDefault();
                 var response = new
                 {
                     isSuccess = isSucess,
                     messageAlert = messageAlert,
-                    CategoryId = categoryIdResult
+                    CategoryId = categoryIdResult,
+                    CategoryName = categoryResult.CategoryName == null ? "" : categoryResult.CategoryName
                 };
 
                 return Json(response, JsonRequestBehavior.AllowGet);
