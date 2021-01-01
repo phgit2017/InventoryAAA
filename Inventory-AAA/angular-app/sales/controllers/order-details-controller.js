@@ -166,10 +166,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
         selectedProductIndex = vm.ProductsInOrder.indexOf(product);
         vm.ProductsInOrder.splice(selectedProductIndex, 1);
 
-        if (product.Quantity > 0) {
-            setTotalAmount(product, true);
-        }
-
+        computeTotalAmount();
         getProductList();
     }
 
@@ -230,6 +227,8 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     }
 
     vm.SetQuantity = function(i) {
+        let tempQuantity = i.Quantity;
+
         if (i.Quantity) {
             i.Quantity = null
         } else {
@@ -245,26 +244,19 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
                 });
             }
             else {
-                i.Quantity = i.UnfinishedQuantity;
-                setTotalAmount(i);
+                i.Quantity = parseInt(i.UnfinishedQuantity);
+                computeTotalAmount();
             }
         }
     }
 
-    setTotalAmount = function(product, isDiff = false) {
-        let selectedPrice = 0;
-
-        switch(product.PriceTypeId) {
-            case 1: selectedPrice = product.BigBuyerPrice; break;
-            case 2: selectedPrice = product.ResellerPrice; break;
-            case 3: selectedPrice = product.RetailerPrice; break;
-        }
-
-        if(!isDiff) {
-            vm.TotalAmount += (product.Quantity * selectedPrice);
-        } else {
-            vm.TotalAmount -= (product.Quantity * selectedPrice);
-        }
+    computeTotalAmount = function(){
+        vm.TotalAmount = 0;
+        vm.ProductsInOrder.forEach(function
+            (product, index) {
+                vm.TotalAmount += (product.Quantity * product.UnitPrice); 
+            }
+        );
     }
 
     saveOrder = function(status = null) {
