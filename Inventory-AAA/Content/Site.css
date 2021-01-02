@@ -1842,6 +1842,10 @@ span strong {
   font-size: 0.8rem !important;
 }
 
+.parent-page {
+  z-index: 10;
+}
+
 i.login-logo {
   font-size: 9rem;
   color: var(--bg-primary);
