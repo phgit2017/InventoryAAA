@@ -117,20 +117,18 @@
                     </form>
                 </div>
                 <div class="bar-footer ">
-                    <button class="btn btn-primary btn-sm " ng-if="inventoryCtrl.SelectedProduct.ProductId==0 && inventoryForm.$valid " 
+                    <button class="btn btn-sm btn-primary " ng-if="inventoryCtrl.SelectedProduct.ProductId==0 && inventoryForm.$valid " 
                             ng-click="inventoryCtrl.SaveOrderRequest(true); inventoryForm.$setPristine(); " 
                             id="btn-is-save ">
-                        <div>
-                            <span>Save</span>
-                        </div>
+                        Save
                     </button>
-                    <button class="btn btn-primary btn-sm " ng-if="inventoryCtrl.SelectedProduct.ProductId !=0 && inventoryForm.$valid " ng-click="inventoryCtrl.UpdateProductDetails(); " id="btn-is-update ">
+                    <button class="btn btn-sm btn-primary " ng-if="inventoryCtrl.SelectedProduct.ProductId !=0 && inventoryForm.$valid " ng-click="inventoryCtrl.UpdateProductDetails(); " id="btn-is-update ">
                         Update
                     </button>
                     <button class="btn btn-sm btn-default " ng-click="inventoryCtrl.ResetFields(); inventoryForm.$setPristine(); " ng-if="inventoryCtrl.SelectedProduct.ProductId==0 " id="btn-is-cancel ">
                         <span>Clear</span>
                     </button>
-                    <button class="btn btn-sm btn-default " ng-click="inventoryCtrl.ManageBarShown=false; inventoryCtrl.ResetFields(); inventoryForm.$setPristine(); " id="btn-is-cancel ">
+                    <button class="btn btn-sm btn-danger " ng-click="inventoryCtrl.ManageBarShown=false; inventoryCtrl.ResetFields(); inventoryForm.$setPristine(); " id="btn-is-cancel ">
                         <span>Close</span>
                     </button>
                 </div>
@@ -181,7 +179,7 @@
                     <button ng-if="inventoryCtrl.StockMode !== ''" class="btn btn-sm btn-default" ng-click="inventoryCtrl.OrderRequestQuantity = 0; inventoryCtrl.StockMode = ''" id="btn-is-cancel ">
                         Cancel
                     </button>
-                    <button ng-if="inventoryCtrl.StockMode === ''" class="btn btn-sm btn-default" ng-click="inventoryCtrl.ManageBarShown=false; inventoryCtrl.ResetFields();" id="btn-is-cancel ">
+                    <button ng-if="inventoryCtrl.StockMode === ''" class="btn btn-sm btn-danger" ng-click="inventoryCtrl.ManageBarShown=false; inventoryCtrl.ResetFields();" id="btn-is-cancel ">
                         Close
                     </button>
                 </div>

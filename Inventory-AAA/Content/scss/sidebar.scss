@@ -1,0 +1,100 @@
+.sidebar {
+    width: 15vw;
+    height: 100vh;
+    background: var(--bg-primary-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 6px 0px 4px rgba(0, 0, 0, 0.25);
+    z-index: 5;
+    >div {
+        >.navbar {
+            background: var(--bg-dark);
+            max-height: 3rem;
+        }
+    }
+    .navbar {
+        background: #333 !important;
+        .btn-sm {
+            margin: 10px 0;
+        }
+    }
+
+    .avatar-icon {
+        line-height: 0 !important;
+        font-size: 4rem;
+    }
+
+    .sidebar-main {
+        display: flex;
+        flex-direction: column;
+        color: white;
+
+        .user-info {
+            display: flex;
+            padding: 1.5em;
+            border-bottom-color: rgba(0, 0, 0, 0.3);
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+    
+            .labels {
+                margin-left: 15px;
+                padding-top: 4px;
+            }
+    
+            .name {
+                font-family: 'Roboto-Regular' !important;
+                font-size: 1.3em;
+                line-height: 1.3em;
+            }
+            
+            .role {
+                font-family: 'Roboto-Light' !important;
+                font-size: 0.9em;
+                padding-top: 10px;
+            }
+            
+            .img {
+                min-width: 80px;
+                min-height: 80px;
+                background: white;
+            }
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+    
+            .nav-item {
+                font-size: 1.1em;
+                font-family: 'Roboto-Regular';
+                vertical-align: middle;
+                padding: 15px 30px;
+                cursor: pointer;
+                &:hover {
+                    background: #26816f;
+                }
+
+                .img {
+                    margin-right: 10px;
+                }
+    
+                &.active-item {
+                    background: var(--bg-primary);
+                    font-weight: 800;
+                }
+            }
+        }
+    }
+
+    
+}
+
+@media (max-width: 1024px) {
+    .sidebar {
+        min-width: 200px;
+    }
+}

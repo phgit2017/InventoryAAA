@@ -25,6 +25,7 @@ function UserController($filter, UserService, DTOptionsBuilder, DTColumnDefBuild
     };
     vm.ShowConfirmAlert = false;
     vm.SearchUserInput = "";
+    vm.ManageBarShown = false;
 
     vm.filteredUsers = [];
     vm.currentPage = 1;
@@ -94,6 +95,7 @@ function UserController($filter, UserService, DTOptionsBuilder, DTColumnDefBuild
                         message: 'User has been successfully added.'
                     });
                     vm.UserListLoading = true;
+                    vm.ManageBarShown = false;
                     _initialize();
                     $rootScope.IsLoading = false;
                 } else {
@@ -122,6 +124,7 @@ function UserController($filter, UserService, DTOptionsBuilder, DTColumnDefBuild
                         message: isDelete ? 'User has been deleted.' : 'User has been successfully updated.'
                     });
                     vm.UserListLoading = true;
+                    vm.ManageBarShown = false;
                     _initialize();
                 } else {
                     QuickAlert.Show({

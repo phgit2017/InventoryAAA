@@ -1,66 +1,67 @@
 ﻿<div class="d-flex flex-row" ng-init="customersCtrl.Initialize()">
     <div class="content-screen">
-        <div style="flex: 1">
-            <div class="bar shown">
-                <div class="bar-header">
-                    <div class="bar-tab active"> {{ customersCtrl.SelectedCustomer.CustomerId === 0 ? 'ADD CUSTOMER' : 'UPDATE CUSTOMER' }} </div>
+        <div class="bar" ng-class="{ shown : customersCtrl.ManageBarShown }">
+            <div class="bar-header">
+                <div class="bar-tab active"> {{ customersCtrl.SelectedCustomer.CustomerId === 0 ? 'ADD CUSTOMER' : 'UPDATE CUSTOMER' }} </div>
+            </div>
+            <div class="bar-body d-flex flex-column">
+                <div class="card">
+                    <form novalidate name="customerForm">
+                        <div class="form-group" ng-show="customersCtrl.SelectedCustomer.CustomerId !== 0">
+                            <label for="customerId" class="input-label">Customer ID</label>
+                            <input name="customerId" type="text" class="form-control" ng-model="customersCtrl.SelectedCustomer.CustomerId" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="customerCode" class="input-label">Customer Code</label>
+                            <input name="customerCode" type="text" class="form-control form-control-sm" ng-model="customersCtrl.SelectedCustomer.CustomerCode" required id="customercode">
+                            <span ng-if="customerForm.customerCode.$error.required && !customerForm.customerCode.$pristine" class="form-validation-msg">This field is required.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName" class="input-label">First Name</label>
+                            <input name="firstName" type="text" class="form-control form-control-sm" ng-model="customersCtrl.SelectedCustomer.FirstName" required id="firstname">
+                            <span ng-if="customerForm.firstName.$error.required && !customerForm.firstName.$pristine" class="form-validation-msg">This field is required.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName" class="input-label">Last Name</label>
+                            <input name="lastName" type="text" class="form-control form-control-sm" 
+                            ng-model="customersCtrl.SelectedCustomer.LastName" required id="lastname">
+                            <span ng-if="customerForm.lastName.$error.required && !customerForm.lastName.$pristine" class="form-validation-msg">This field is required.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobileNo" class="input-label">Mobile No.</label>
+                            <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
+                                    name="mobileNo" 
+                                    type="text"
+                                    class="form-control form-control-sm" required id="mobileNo" 
+                                    maxlength="11" 
+                            ng-model="customersCtrl.SelectedCustomer.MobileNumber">
+                            <span ng-if="customerForm.mobileNumber.$error.required && !customerForm.mobileNumber.$pristine" class="form-validation-msg">This field is required.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="address" class="input-label">Address</label>
+                            <textarea name="address" type="text" class="form-control form-control-sm" ng-model="customersCtrl.SelectedCustomer.FullAddress" required id="address"></textarea>
+                            <span ng-if="customerForm.address.$error.required && !customerForm.address.$pristine" class="form-validation-msg">This field is required.</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="category" class="input-label">{{ inventoryCtrl.IsCategoryNew ? 'New Category Name' : 'Category' }}</label>
+                            <select name="category" class="custom-select" ng-model="customersCtrl.SelectedCustomer.CustomerStatusId" ng-options="status.CustomerStatusId as status.CustomerStatusName for status in customersCtrl.CustomerStatusList" required>
+                            </select>
+                        </div>
+                    </form>
                 </div>
-                <div class="bar-body d-flex flex-column">
-                    <div class="card">
-                        <form novalidate name="customerForm">
-                            <div class="form-group" ng-show="customersCtrl.SelectedCustomer.CustomerId !== 0">
-                                <label for="customerId" class="input-label">Customer ID</label>
-                                <input name="customerId" type="text" class="form-control" ng-model="customersCtrl.SelectedCustomer.CustomerId" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="customerCode" class="input-label">Customer Code</label>
-                                <input name="customerCode" type="text" class="form-control form-control-sm" ng-model="customersCtrl.SelectedCustomer.CustomerCode" required id="customercode">
-                                <span ng-if="customerForm.customerCode.$error.required && !customerForm.customerCode.$pristine" class="form-validation-msg">This field is required.</span>
-                            </div>
-                            <div class="form-group">
-                                <label for="firstName" class="input-label">First Name</label>
-                                <input name="firstName" type="text" class="form-control form-control-sm" ng-model="customersCtrl.SelectedCustomer.FirstName" required id="firstname">
-                                <span ng-if="customerForm.firstName.$error.required && !customerForm.firstName.$pristine" class="form-validation-msg">This field is required.</span>
-                            </div>
-                            <div class="form-group">
-                                <label for="lastName" class="input-label">Last Name</label>
-                                <input name="lastName" type="text" class="form-control form-control-sm" 
-                                ng-model="customersCtrl.SelectedCustomer.LastName" required id="lastname">
-                                <span ng-if="customerForm.lastName.$error.required && !customerForm.lastName.$pristine" class="form-validation-msg">This field is required.</span>
-                            </div>
-                            <div class="form-group">
-                                <label for="mobileNo" class="input-label">Mobile No.</label>
-                                <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" 
-                                       name="mobileNo" 
-                                       type="text"
-                                       class="form-control form-control-sm" required id="mobileNo" 
-                                       maxlength="11" 
-                                ng-model="customersCtrl.SelectedCustomer.MobileNumber">
-                                <span ng-if="customerForm.mobileNumber.$error.required && !customerForm.mobileNumber.$pristine" class="form-validation-msg">This field is required.</span>
-                            </div>
-                            <div class="form-group">
-                                <label for="address" class="input-label">Address</label>
-                                <textarea name="address" type="text" class="form-control form-control-sm" ng-model="customersCtrl.SelectedCustomer.FullAddress" required id="address"></textarea>
-                                <span ng-if="customerForm.address.$error.required && !customerForm.address.$pristine" class="form-validation-msg">This field is required.</span>
-                            </div>
-                            <div class="form-group">
-                                <label for="category" class="input-label">{{ inventoryCtrl.IsCategoryNew ? 'New Category Name' : 'Category' }}</label>
-                                <select name="category" class="custom-select" ng-model="customersCtrl.SelectedCustomer.CustomerStatusId" ng-options="status.CustomerStatusId as status.CustomerStatusName for status in customersCtrl.CustomerStatusList" required>
-                                </select>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="bar-footer">
-                        <button class="btn btn-primary btn-sm" ng-if="customerForm.$valid" ng-click="customersCtrl.SaveCustomer();" id="btn-is-save">
-                            <span>{{ customersCtrl.SelectedCustomer.CustomerId === 0 ? 'Save' : 'Update' }}</span>
-                        </button>
-                        <button class="btn btn-sm btn-default" ng-if="customersCtrl.SelectedCustomer.CustomerId === 0" ng-click="customersCtrl.ResetFields(); customerForm.$setPristine();" id="btn-is-clear">
-                        <span>Clear</span>
+                <div class="bar-footer">
+                    <button class="btn btn-primary btn-sm" ng-if="customerForm.$valid" ng-click="customersCtrl.SaveCustomer();" id="btn-is-save">
+                        <span>{{ customersCtrl.SelectedCustomer.CustomerId === 0 ? 'Save' : 'Update' }}</span>
                     </button>
-                        <button class="btn btn-sm btn-default" ng-if="customersCtrl.SelectedCustomer.CustomerId !== 0" ng-click="customersCtrl.ResetFields(); customerForm.$setPristine();" id="btn-is-cancel">
-                        <span>Cancel</span>
-                    </button>
-                    </div>
+                    <button class="btn btn-sm btn-default" ng-if="customersCtrl.SelectedCustomer.CustomerId === 0" ng-click="customersCtrl.ResetFields(); customerForm.$setPristine();" id="btn-is-clear">
+                    <span>Clear</span>
+                </button>
+                    <button class="btn btn-sm btn-default" ng-if="customersCtrl.SelectedCustomer.CustomerId !== 0" ng-click="customersCtrl.ResetFields(); customerForm.$setPristine();" id="btn-is-cancel">
+                    <span>Cancel</span>
+                </button>
+                <button class="btn btn-sm btn-danger" ng-click="customersCtrl.ResetFields(); customerForm.$setPristine(); customersCtrl.ManageBarShown = false" id="btn-is-cancel">
+                    <span>Close</span>
+                </button>
                 </div>
             </div>
         </div>
@@ -77,6 +78,15 @@
                     </div>
                     <input ng-model="customersCtrl.SearchCustomerInput" type="text" class="form-control inline" aria-label="searchCustomers" placeholder="Search Customers...">
                 </div>
+                <button class="btn btn-sm btn-primary" ng-if="customersCtrl.ManageBarShown === false" ng-click="customerForm.$setPristine(); customersCtrl.ManageBarShown = true">
+                    <div class="d-flex">
+                        <span>New Customer</span>
+                        <svg width="1em " height="1em " viewBox="0 0 16 16 " class="bi bi-file-earmark-plus-fill " fill="currentColor " xmlns="http://www.w3.org/2000/svg ">
+                            <path fill-rule="evenodd " d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM8.5 7a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V11a.5.5
+                                            0 0 0 1 0V9.5H10a.5.5 0 0 0 0-1H8.5V7z "/>
+                        </svg>
+                    </div>
+                </button>
             </div>
             <div class="content-body">
                 <loading showme="customersCtrl.CustomerListLoading" showerror="false" errormessage=""></loading>

@@ -8,62 +8,56 @@
                 <div class="sidebar-main">
                     <div class="user-info">
                         <span><i class="icon-person avatar-icon"></i></span>
-                        <div class="user-info__labels">
-                            <div class="user-info__name">
+                        <div class="labels">
+                            <div class="name">
                                 {{ $root.FullName }}
                             </div>
-                            <span class="user-info__role">{{ $root.RoleName }}</span>
+                            <span class="role">{{ $root.RoleName }}</span>
                         </div>
                     </div>
-                    <div class="sidebar-main__nav">
-                        <ul class="sidebar-main__nav-list">
-                            @*<li class="sidebar-main__nav-item">
-                            <span class="nav-item__img">    
-                                <img src="~/Content/assets/svg/home.svg" class="img-invert" />
-                            </span>
-                            <span class="nav-item__label">Home</span>
-                            </li>*@
-                            <li class="sidebar-main__nav-item"
+                    <div class="nav">
+                        <ul class="nav-list">
+                            <li class="nav-item"
                                 ng-class="{'active-item': $root.navItem == 'Inventory'} "
                                 ng-click="loginCtrl.ChangeRoute('Inventory');">
-                                <span class="nav-item__img">
+                                <span class="img">
                                     <img src="~/Content/assets/svg/payments.svg" class="img-invert" />
                                 </span>
-                                <span class="nav-item__label">Products</span>
+                                <span class="label">Products</span>
                             </li>
-                            <li class="sidebar-main__nav-item"
+                            <li class="nav-item"
                                 ng-class="{'active-item': $root.navItem == 'SalesOrder'} "
                                 ng-click="loginCtrl.ChangeRoute('SalesOrder');">
-                                <span class="nav-item__img">
+                                <span class="img">
                                     <img src="~/Content/assets/svg/local_shipping.svg" class="img-invert" />
                                 </span>
-                                <span class="nav-item__label">Sales Orders</span>
+                                <span class="label">Sales Orders</span>
                             </li>
-                            <li class="sidebar-main__nav-item"
+                            <li class="nav-item"
                                 ng-class="{'active-item': $root.navItem == 'Customers'} "
                                 ng-click="loginCtrl.ChangeRoute('Customers');">
-                                <span class="nav-item__img">
+                                <span class="img">
                                     <img src="~/Content/assets/svg/customers.svg" class="img-invert" />
                                 </span>
-                                <span class="nav-item__label">Customers</span>
+                                <span class="label">Customers</span>
                             </li>
-                            <li class="sidebar-main__nav-item"
+                            <li class="nav-item"
                                 ng-class=" {'active-item': $root.navItem == 'Users'}"
                                 ng-click="loginCtrl.ChangeRoute('Users');"
                                 ng-if="$root.RoleName === 'Admin'">
-                                <span class="nav-item__img">
+                                <span class="img">
                                     <img src="~/Content/assets/svg/users.svg" class="img-invert" />
                                 </span>
-                                <span class="nav-item__label">Users</span>
+                                <span class="label">Users</span>
                             </li>
-                            <li class="sidebar-main__nav-item"
+                            <li class="nav-item"
                                 ng-class=" {'active-item': $root.navItem == 'Reports'}"
                                 ng-click="loginCtrl.ChangeRoute('Reports');"
                                 ng-if="$root.RoleName === 'Admin'">
-                                <span class="nav-item__img">
+                                <span class="img">
                                     <img src="~/Content/assets/svg/chart.svg" class="img-invert" />
                                 </span>
-                                <span class="nav-item__label">Reports</span>
+                                <span class="label">Reports</span>
                             </li>
                         </ul>
                     </div>
@@ -76,7 +70,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex-grow-1" style="height: inherit">
+        <div class="flex-grow-1">
             <div>
                 <nav class="d-flex justify-content-between navbar navbar-inverse navbar-fixed-top" ng-if="showNavbar">
                     <div>

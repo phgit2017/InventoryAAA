@@ -32,6 +32,7 @@ function CustomersController($filter, $scope, $rootScope, CustomerService, Commo
     vm.maxSize = 5;
 
     vm.ShowConfirmAlert = false;
+    vm.ManageBarShown = false;
 
     vm.Initialize = _initialize;
 
@@ -81,6 +82,8 @@ function CustomersController($filter, $scope, $rootScope, CustomerService, Commo
             CreatedTime: data.CreatedTime,
             CustomerStatusId: data.CustomerStatusId
         };
+
+        vm.ManageBarShown = true;
     }
 
     vm.SaveCustomer = function() {
@@ -97,6 +100,7 @@ function CustomersController($filter, $scope, $rootScope, CustomerService, Commo
                         getCustomerList();
                         $scope.customerForm.$setPristine();
                         vm.ResetFields();
+                        vm.ManageBarShown = false;
                     } else {
                         QuickAlert.Show({
                             type: 'error',
@@ -121,6 +125,7 @@ function CustomersController($filter, $scope, $rootScope, CustomerService, Commo
     }
 
     validCustomerDetails = function() {
+        debugger;
         if (isNullOrEmpty(vm.SelectedCustomer.FirstName) ||
             isNullOrEmpty(vm.SelectedCustomer.LastName) ||
             isNullOrEmpty(vm.SelectedCustomer.CustomerCode) ||

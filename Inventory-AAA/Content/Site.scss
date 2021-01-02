@@ -1,3 +1,7 @@
+@import './scss/sidebar';
+@import './scss/report';
+@import './scss/bar';
+
 /**Root Properties**/
 
 :root {
@@ -6,6 +10,9 @@
 
 body {
     font-family: 'Roboto-Regular' !important;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 }
 
 
@@ -152,12 +159,7 @@ $bg-primary: #23967F;
         height: calc(100vh - 3rem) !important;
         width: 100%;
     }
-    .report-screen {
-        margin: 10vh 60vh 10vh 60vh;
-        .card-body {
-            padding: 2rem !important;
-        }
-    }
+    
 }
 
 .card {
@@ -202,91 +204,6 @@ $bg-primary: #23967F;
             &.wiped {
                 left: calc(-50% - 1rem);
             }
-        }
-    }
-}
-
-.bar {
-    flex-direction: column;
-    -moz-box-shadow: inset 0 0 0.25rem #aaa;
-    -webkit-box-shadow: inset 0 0 0.25rem #aaa;
-    box-shadow: inset 0 0 0.25rem #aaa;
-    background: #ddd;
-    height: 100%;
-    color: #333 !important;
-    border: none;
-    z-index: 3;
-    flex: 0;
-    display: none;
-    transition: 2s ease;
-    overflow-y: scroll;
-    &.shown {
-        display: flex;
-        flex: 1;
-    }
-    .bar-header {
-        display: flex;
-        border-bottom: 2px solid var(--bg-primary);
-        .bar-tab {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            padding: 1rem;
-            font-size: 0.8rem;
-            background: #bbb !important;
-            cursor: pointer;
-            font-weight: bold;
-            letter-spacing: 1px;
-            &.active {
-                background: #ddd !important;
-                box-shadow: none;
-                &:last-child {
-                    -moz-box-shadow: inset -7px 0 9px 0.25rem #aaa;
-                    -webkit-box-shadow: inset -7px 0 9px 0.25rem #aaa;
-                    box-shadow: inset -7px 0 9px -8px #aaa;
-                }
-            }
-        }
-    }
-    .bar-body {
-        padding: 1rem;
-        display: flex;
-        .bar-content-header {
-            .icon {
-                margin-right: 0.5rem;
-                display: flex;
-                align-items: center;
-                svg {
-                    width: 1rem;
-                    height: 1rem;
-                }
-            }
-            font-weight: bold;
-            padding: 0;
-            padding-left: 0.5rem;
-            display: flex;
-            align-items: center;
-        }
-        .card {
-            padding: 1rem 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 1rem 0.5rem;
-            
-        }
-    }
-    .bar-footer {
-        padding: 0.5rem;
-        display: flex;
-        flex-direction: row-reverse;
-        .btn-sm {
-            font-size: 0.8rem;
-            min-width: 2rem;
-            padding: 0.5rem;
-        }
-        .btn+.btn {
-            margin-right: 0.5rem;
         }
     }
 }
@@ -1364,29 +1281,6 @@ i.login-logo {
     box-shadow: 4px 6px 4px rgba(0, 0, 0, 0.25);
 }
 
-.sidebar {
-    min-width: 300px;
-    max-width: 300px;
-    height: 100vh;
-    background: var(--bg-primary-dark);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 6px 0px 4px rgba(0, 0, 0, 0.25);
-    >div {
-        >.navbar {
-            background: var(--bg-dark);
-            max-height: 3rem;
-        }
-    }
-    .navbar {
-        background: #333 !important;
-        .btn-sm {
-            margin: 10px 0;
-        }
-    }
-}
-
 .img-invert {
     filter: invert(100%);
 }
@@ -1405,61 +1299,6 @@ i.login-logo {
     }
 }
 
-.sidebar-main {
-    display: flex;
-    flex-direction: column;
-    color: white;
-}
-
-.user-info {
-    display: flex;
-    padding: 1.5em;
-    border-bottom-color: rgba(0, 0, 0, 0.3);
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-}
-
-.user-info__labels {
-    margin-left: 15px;
-    padding-top: 4px;
-}
-
-.user-info__name {
-    font-family: 'Roboto-Regular' !important;
-    font-size: 1.3em;
-    line-height: 1.3em;
-}
-
-.user-info__role {
-    font-family: 'Roboto-Light' !important;
-    font-size: 0.9em;
-    padding-top: 10px;
-}
-
-.user-info__img {
-    min-width: 80px;
-    min-height: 80px;
-    background: white;
-}
-
-.sidebar-main__nav-list {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.sidebar-main__nav-item {
-    font-size: 1.1em;
-    font-family: 'Roboto-Regular';
-    vertical-align: middle;
-    padding: 15px 30px;
-    cursor: pointer;
-    &:hover {
-        background: #26816f;
-    }
-}
-
 .action-col {
     max-width: 12rem;
     .btn:first-child {
@@ -1470,15 +1309,7 @@ i.login-logo {
     }
 }
 
-.nav-item__img {
-    margin-right: 10px;
-}
 
-.sidebar-main__nav-item.active-item {
-    background: var(--bg-primary);
-    font-family: 'Roboto-Bold';
-    letter-spacing: 1px;
-}
 
 .cell-no-wrap {
     white-space: nowrap;
@@ -1563,11 +1394,6 @@ i.login-logo {
     color: red;
 }
 
-.avatar-icon {
-    line-height: 0 !important;
-    font-size: 5rem;
-}
-
 .unauthorized-icon {
     line-height: 0 !important;
     font-size: 3rem;
@@ -1615,6 +1441,12 @@ i.login-logo {
     position: absolute;
     white-space: nowrap;
     left: -40px;
+}
+
+@media (max-width: 1024px) {
+    :root {
+        font-size: 12px;
+    }
 }
 
 @media (max-width: 576px) {
