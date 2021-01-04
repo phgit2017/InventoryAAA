@@ -250,6 +250,15 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
         }
     }
 
+
+    vm.printDiv = function(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var popupWin = window.open('', '_blank', 'width=300,height=300');
+        popupWin.document.open();
+        popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="../../../Content/Site.css" medi /></head><body onload="window.print()">' + printContents + '</body></html>');
+        popupWin.document.close();
+    } 
+
     computeTotalAmount = function(){
         vm.TotalAmount = 0;
         vm.ProductsInOrder.forEach(function
@@ -419,4 +428,6 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
             return false;
         }
     }
+
+    
 }

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,cAAc,CAAC;EACX,MAAM,EAAE,oBAAoB;CAI/B;;AALD,AAEI,cAFU,CAEV,UAAU,CAAC;EACP,OAAO,EAAE,eAAe;CAC3B;;AAGL,MAAM,EAAE,SAAS,EAAE,MAAM;EACrB,AAAA,cAAc,CAAC;IACX,MAAM,EAAE,oBAAoB;GAI/B;EALD,AAEI,cAFU,CAEV,UAAU,CAAC;IACP,SAAS,EAAE,eAAe;GAC7B",
+    "sources": [
+        "report.scss"
+    ],
+    "names": [],
+    "file": "report.css"
+}

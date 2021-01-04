@@ -1,0 +1,17 @@
+.report-screen {
+  margin: 10vh 60vh !important;
+}
+
+.report-screen .card-body {
+  padding: 2rem !important;
+}
+
+@media (max-width: 1024px) {
+  .report-screen {
+    margin: 10vh 20vh !important;
+  }
+  .report-screen .card-body {
+    font-size: 1rem !important;
+  }
+}
+/*# sourceMappingURL=report.css.map */

@@ -1,0 +1,121 @@
+.sidebar {
+  width: 15vw;
+  height: 100vh;
+  background: var(--bg-primary-dark);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-shadow: 6px 0px 4px rgba(0, 0, 0, 0.25);
+          box-shadow: 6px 0px 4px rgba(0, 0, 0, 0.25);
+  z-index: 5;
+}
+
+.sidebar > div > .navbar {
+  background: var(--bg-dark);
+  max-height: 3rem;
+}
+
+.sidebar .navbar {
+  background: #333 !important;
+}
+
+.sidebar .navbar .btn-sm {
+  margin: 10px 0;
+}
+
+.sidebar .avatar-icon {
+  line-height: 0 !important;
+  font-size: 4rem;
+}
+
+.sidebar .sidebar-main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  color: white;
+}
+
+.sidebar .sidebar-main .user-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 1.5em;
+  border-bottom-color: rgba(0, 0, 0, 0.3);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+}
+
+.sidebar .sidebar-main .user-info .labels {
+  margin-left: 15px;
+  padding-top: 4px;
+}
+
+.sidebar .sidebar-main .user-info .name {
+  font-family: 'Roboto-Regular' !important;
+  font-size: 1.3em;
+  line-height: 1.3em;
+}
+
+.sidebar .sidebar-main .user-info .role {
+  font-family: 'Roboto-Light' !important;
+  font-size: 0.9em;
+  padding-top: 10px;
+}
+
+.sidebar .sidebar-main .user-info .img {
+  min-width: 80px;
+  min-height: 80px;
+  background: white;
+}
+
+.sidebar .sidebar-main .nav-list {
+  list-style: none;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+}
+
+.sidebar .sidebar-main .nav-list .nav-item {
+  font-size: 1.1em;
+  font-family: 'Roboto-Regular';
+  vertical-align: middle;
+  padding: 15px 30px;
+  cursor: pointer;
+}
+
+.sidebar .sidebar-main .nav-list .nav-item:hover {
+  background: #26816f;
+}
+
+.sidebar .sidebar-main .nav-list .nav-item .img {
+  margin-right: 10px;
+}
+
+.sidebar .sidebar-main .nav-list .nav-item.active-item {
+  background: var(--bg-primary);
+  font-weight: 800;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    min-width: 200px;
+  }
+}
+/*# sourceMappingURL=sidebar.css.map */

@@ -436,9 +436,6 @@ form {
             .product-container {
                 height: 100%;
                 overflow-y: auto;
-                &::-webkit-scrollbar {
-                    display: none;
-                }
             }
             .product-list,
             .total,
@@ -1261,13 +1258,17 @@ i.login-logo {
     top: -15px;
 }
 
+.logo-container {
+    height: 230px !important;
+    padding-right: 2rem;
+}
+
 .login-banner {
-    position: absolute;
+    position: relative;
     font-size: 1.6rem;
     color: var(--bg-primary);
     text-align: center;
-    left: 52px;
-    top: 200px;
+    top: -6vh;
 }
 
 .login-input-section {
@@ -1451,6 +1452,11 @@ i.login-logo {
     :root {
         font-size: 12px;
     }
+
+    .logo-container {
+        height: 180px !important;
+        padding-right: 2rem;
+    }
 }
 
 @media (max-width: 576px) {
@@ -1471,5 +1477,85 @@ i.login-logo {
         text-align: center;
         left: 45px;
         top: 200px;
+    }
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 15mm 7.5mm;  
+    }
+
+    body {
+        height: 99%;
+        .receipt-body {
+            font-size: 1.5rem;
+            color: #555;
+            background: #fff;
+            padding: 2rem 3rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            .receipt-section {
+                display: flex;
+                flex-direction: column;
+                color: #fff;
+                margin-bottom: 1rem;
+                font-size: 1.5rem;
+                align-items: center;
+                border-bottom: solid 1px #aaa;
+                background: #555;
+                -webkit-print-color-adjust: exact; 
+                &:not(:first-child) {
+                    margin-top: 1rem;
+                }
+            }
+            .sales-details {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 1.75rem;
+                .label {
+                    margin-right: 1rem;
+                }
+            }
+            .product-container {
+                height: 100%;
+                .product-list {
+                    page-break-inside: auto;
+                }
+            }
+            .product-list,
+            .total,
+            .shipping-fee,
+            .header {
+                display: grid;
+                grid-template-columns: 3fr 1fr 1fr 1fr;
+                grid-auto-rows: 4rem;
+                padding: 0 1rem;
+                .label {
+                    margin-right: 1rem;
+                }
+                .price {
+                    text-align: right;
+                }
+                .center {
+                    text-align: center;
+                }
+            }
+            .shipping-fee, .total {
+                page-break-before: always;
+                position: relative !important;
+                bottom: 0;
+            }
+            .total {
+                padding-top: 0.5rem;
+                border-top: 3px solid #555;
+            }
+        }
+        
+
+        .receipt-footer {
+            display: none;
+        }
     }
 }

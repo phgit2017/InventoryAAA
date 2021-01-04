@@ -851,10 +851,6 @@ form label {
   overflow-y: auto;
 }
 
-.content .receipt .receipt-body .product-container::-webkit-scrollbar {
-  display: none;
-}
-
 .content .receipt .receipt-body .product-list,
 .content .receipt .receipt-body .total,
 .content .receipt .receipt-body .shipping-fee,
@@ -1853,13 +1849,17 @@ i.login-logo {
   top: -15px;
 }
 
+.logo-container {
+  height: 230px !important;
+  padding-right: 2rem;
+}
+
 .login-banner {
-  position: absolute;
+  position: relative;
   font-size: 1.6rem;
   color: var(--bg-primary);
   text-align: center;
-  left: 52px;
-  top: 200px;
+  top: -6vh;
 }
 
 .login-input-section {
@@ -2044,6 +2044,10 @@ i.login-logo {
   :root {
     font-size: 12px;
   }
+  .logo-container {
+    height: 180px !important;
+    padding-right: 2rem;
+  }
 }
 
 @media (max-width: 576px) {
@@ -2064,6 +2068,108 @@ i.login-logo {
     text-align: center;
     left: 45px;
     top: 200px;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 15mm 7.5mm;
+  }
+  body {
+    height: 99%;
+  }
+  body .receipt-body {
+    font-size: 1.5rem;
+    color: #555;
+    background: #fff;
+    padding: 2rem 3rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    position: relative;
+  }
+  body .receipt-body .receipt-section {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    color: #fff;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    border-bottom: solid 1px #aaa;
+    background: #555;
+    -webkit-print-color-adjust: exact;
+  }
+  body .receipt-body .receipt-section:not(:first-child) {
+    margin-top: 1rem;
+  }
+  body .receipt-body .sales-details {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: (1fr)[2];
+        grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1.75rem;
+  }
+  body .receipt-body .sales-details .label {
+    margin-right: 1rem;
+  }
+  body .receipt-body .product-container {
+    height: 100%;
+  }
+  body .receipt-body .product-container .product-list {
+    page-break-inside: auto;
+  }
+  body .receipt-body .product-list,
+  body .receipt-body .total,
+  body .receipt-body .shipping-fee,
+  body .receipt-body .header {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 3fr 1fr 1fr 1fr;
+        grid-template-columns: 3fr 1fr 1fr 1fr;
+    grid-auto-rows: 4rem;
+    padding: 0 1rem;
+  }
+  body .receipt-body .product-list .label,
+  body .receipt-body .total .label,
+  body .receipt-body .shipping-fee .label,
+  body .receipt-body .header .label {
+    margin-right: 1rem;
+  }
+  body .receipt-body .product-list .price,
+  body .receipt-body .total .price,
+  body .receipt-body .shipping-fee .price,
+  body .receipt-body .header .price {
+    text-align: right;
+  }
+  body .receipt-body .product-list .center,
+  body .receipt-body .total .center,
+  body .receipt-body .shipping-fee .center,
+  body .receipt-body .header .center {
+    text-align: center;
+  }
+  body .receipt-body .shipping-fee, body .receipt-body .total {
+    page-break-before: always;
+    position: relative !important;
+    bottom: 0;
+  }
+  body .receipt-body .total {
+    padding-top: 0.5rem;
+    border-top: 3px solid #555;
+  }
+  body .receipt-footer {
+    display: none;
   }
 }
 /*# sourceMappingURL=Site.css.map */

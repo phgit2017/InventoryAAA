@@ -198,7 +198,7 @@
 
 
     </div>
-    <div class="receipt" ng-if="orderDetailsCtrl.ReceiptShown">
+    <div class="receipt" id="receipt" ng-if="orderDetailsCtrl.ReceiptShown">
         <div class="receipt-body">
             <div class="receipt-section">
                 ORDER DETAILS
@@ -258,6 +258,7 @@
         <div class="receipt-footer">
             <button class="btn btn-sm btn-primary-inverse" ng-click="orderDetailsCtrl.ReceiptShown = false">Back</button>
             <button class="btn btn-sm btn-primary" ng-click="orderDetailsCtrl.SubmitOrder();" ng-if="orderDetailsCtrl.SalesOrderStatusId === 3">Checkout</button>
+            <button class="btn btn-sm btn-secondary" ng-click="orderDetailsCtrl.printDiv('receipt')">Print</button>
         </div>
     </div>
 
