@@ -137,7 +137,12 @@
                 </div>
             </div>
             <div class="content-footer">
-                <pagination total-items="userCtrl.UserList.length" ng-model="userCtrl.currentPage" max-size="userCtrl.maxSize" class="pagination" boundary-links="false" items-per-page="userCtrl.numPerPage"></pagination>
+                <pagination total-items="userCtrl.filteredUsers.length" 
+                ng-model="userCtrl.currentPage" 
+                max-size="userCtrl.maxSize" 
+                class="pagination" 
+                boundary-links="false" 
+                items-per-page="userCtrl.numPerPage"></pagination>
             </div>
         </div>
     </div>

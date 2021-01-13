@@ -59,7 +59,7 @@ function UserController($filter, UserService, DTOptionsBuilder, DTColumnDefBuild
         UserService.GetUserList().then(
             function(data) {
                 vm.UserList = data.UserDetailsResult;
-                vm.FilterUsers();
+                vm.filteredUsers = data.UserDetailsResult;
                 vm.UserListLoading = false;
             },
             function(error) {
@@ -193,13 +193,6 @@ function UserController($filter, UserService, DTOptionsBuilder, DTColumnDefBuild
         } else {
             return false;
         }
-    }
-
-    vm.FilterUsers = function() {
-        var begin = ((vm.currentPage - 1) * vm.numPerPage),
-            end = begin + vm.numPerPage;
-
-        vm.filteredUsers = vm.UserList.slice(begin, end);
     }
 
     vm.ResetFields = function() {
