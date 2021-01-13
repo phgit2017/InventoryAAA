@@ -284,6 +284,9 @@
     <Content Include="Content\fonts\Roboto-MediumItalic.ttf" />
     <Content Include="Content\fonts\Roboto-Regular.ttf" />
     <Content Include="Content\fonts\Roboto-Thin.ttf" />
+    <Content Include="Content\fonts\Lato-Bold.ttf" />
+    <Content Include="Content\fonts\Lato-Light.ttf" />
+    <Content Include="Content\fonts\Lato-Regular.ttf" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\datatables.js" />
