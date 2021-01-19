@@ -13,6 +13,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     vm.OrderDetails = {};
     vm.SalesDetails = '';
     vm.ProductList = [];
+    vm.FilteredProductList = [];
     vm.ProductsInOrder = [];
     vm.OrderDetailsLoading = true;
     vm.ProductListLoading = true;
@@ -50,6 +51,28 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     };
     vm.TotalAmount = 0;
 
+    $scope.$watch(
+        function() {
+            return vm.FilterCategoryId;
+        },
+        function(oldValue, newValue) {
+            if (oldValue !== newValue) {
+                vm.FilterProducts();
+            }
+        }
+    );
+
+    $scope.$watch(
+        function() {
+            return vm.SearchProductList;
+        },
+        function(oldValue, newValue) {
+            if (oldValue !== newValue) {
+                vm.FilterProducts();
+            }
+        }
+    );
+
 
     vm.Initialize = function() {
         getCustomerList();
@@ -61,6 +84,25 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
             getProductList();
         }
     }
+
+    vm.FilterProducts = function() {
+        if (!isNullOrEmpty(vm.FilterCategoryId)) {
+            vm.FilteredProductList = vm.ProductList.filter((data) => {return data.CategoryId === vm.FilterCategoryId});
+        } else {
+            vm.FilteredProductList = vm.ProductList;
+        }
+
+        if (!isNullOrEmpty(vm.SearchProductList)) {
+            vm.FilteredProductList = vm.FilteredProductList.filter((data) => 
+                data.ProductDescription.toLowerCase().indexOf(vm.SearchProductList) !== -1 ||
+                data.ProductCode.toLowerCase().indexOf(vm.SearchProductList) !== -1 
+                );
+        }
+
+        
+    }
+
+
 
 
 
@@ -158,8 +200,8 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
                 break;
         }
         vm.ProductsInOrder.push(product);
-        selectedProductIndex = vm.ProductList.indexOf(product);
-        vm.ProductList.splice(selectedProductIndex, 1);
+        selectedProductIndex = vm.FilteredProductList.indexOf(product);
+        vm.FilteredProductList.splice(selectedProductIndex, 1);
     }
 
     vm.RemoveProductFromOrder = function(product) {
@@ -389,6 +431,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
             function(data) {
                 getCategoryList();
                 vm.ProductList = data.result;
+                vm.FilteredProductList = data.result;
                 let _productsInOrder = vm.ProductsInOrder.map(x => x.ProductId);
                 vm.ProductList = vm.ProductList.filter(x => {
                     return _productsInOrder.includes(x.ProductId) ? false : true;
