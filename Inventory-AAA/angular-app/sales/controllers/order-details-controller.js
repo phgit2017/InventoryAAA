@@ -29,7 +29,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     vm.PriceTypes = ['Big Buyer', 'Reseller', 'Retailer']
     vm.PriceTypesShown = false;
     vm.SelectedPriceType = '';
-    vm.ModeOfPayment = 'N/A';
+    vm.ModeOfPayment = '';
     vm.ShippingFee = 0;
     vm.SalesOrderStatusId = 0;
     vm.FilterCategoryId = '';
@@ -269,24 +269,25 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     }
 
     vm.SetQuantity = function(i) {
-        let tempQuantity = i.Quantity;
+        let tempQuantity = i.Quantity,
+            tempUnfinishedQuantity = parseInt(i.UnfinishedQuantity);
 
         if (i.Quantity) {
             i.Quantity = null
         } else {
-            if (i.UnfinishedQuantity < 0) {
+            if (tempUnfinishedQuantity <= 0) {
                 QuickAlert.Show({
                     type: 'error',
                     message: 'Please input a valid quantity.'
                 });
-            } else if (i.UnfinishedQuantity > i.StocksAvailable) {
+            } else if (tempUnfinishedQuantity > i.CurrentStocks) {
                 QuickAlert.Show({
                     type: 'error',
-                    message: 'Insufficient available stocks.'
+                    message: 'Insufficient current stocks.'
                 });
             }
             else {
-                i.Quantity = parseInt(i.UnfinishedQuantity);
+                i.Quantity = tempUnfinishedQuantity;
                 computeTotalAmount();
             }
         }
@@ -344,6 +345,14 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
             return;
         }
 
+        if (isNullOrEmpty(vm.ModeOfPayment)) {
+            QuickAlert.Show({
+                type: 'error',
+                message: "Please input a Mode of Payment"
+            });
+            return;
+        }
+
         var salesOrderRequest = {
             OrderTransactionType: 1,
             CustomerId: vm.SelectedCustomer.CustomerId,
@@ -382,7 +391,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
             function(data) {
                 vm.OrderDetails = data.result
                 vm.SalesDetails = vm.OrderDetails.SalesDetails;
-                vm.ModeOfPayment = vm.SalesDetails.ModeOfPayment ? vm.SalesDetails.ModeOfPayment : 'N/A';
+                vm.ModeOfPayment = vm.SalesDetails.ModeOfPayment ? vm.SalesDetails.ModeOfPayment : '';
                 vm.ShippingFee = vm.SalesDetails.ShippingFee ? vm.SalesDetails.ShippingFee : 0;
                 vm.SalesOrderStatusId = vm.SalesDetails.SalesOrderStatusId
                 vm.SelectCustomer(vm.OrderDetails.CustomerDetails);
