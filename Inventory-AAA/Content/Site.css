@@ -1735,6 +1735,16 @@ small {
   left: 50px;
 }
 
+.confirm-modal-container .modal-box {
+  max-width: 30rem !important;
+}
+
+.confirm-modal-container .modal-box .card .card-body {
+  padding: 3rem;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
 .card-sm .card-body {
   padding: 0.3rem !important;
 }

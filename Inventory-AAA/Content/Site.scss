@@ -1146,6 +1146,16 @@ small {
     justify-content: center;
     align-content: center;
     left: 50px;
+
+    .modal-box {
+        max-width: 30rem !important;
+
+        .card .card-body {
+            padding: 3rem;
+            font-size: 1.25rem;
+            text-align: center;
+        }
+    }
 }
 
 .card-sm {
