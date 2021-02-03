@@ -273,6 +273,62 @@ namespace Inventory_AAA.Controllers
                 orderTransactionRequest.ModeOfPayment = request.ModeOfPayment;
                 orderTransactionRequest.ShippingFee = request.ShippingFee;
 
+                #region Validation for CurrentStocks
+                List<long> productIdCollections = new List<long>();
+                List<string> productCodeWithCorrections = new List<string>();
+                foreach (var salesOrderDetails in request.SalesOrderProductDetailRequest)
+                {
+                    productIdCollections.Add(salesOrderDetails.ProductId);
+                }
+
+                var currentStockInventory =  _productServices.GetAll().Where(m => productIdCollections.Contains(m.ProductId)).ToList();
+
+                foreach (var salesDetails in request.SalesOrderProductDetailRequest)
+                {
+                    var currentStocks = currentStockInventory.Where(m => m.ProductId == salesDetails.ProductId).FirstOrDefault();
+                    if (currentStocks.Quantity < salesDetails.Quantity)
+                    {
+                        productCodeWithCorrections.Add(currentStocks.ProductCode);
+                    }
+
+
+                    
+                    
+                }
+
+                if (productCodeWithCorrections.Count > 0)
+                {
+                    var currentStockMessage = "";
+                    if (productCodeWithCorrections.Count == 1)
+                    {
+                        currentStockMessage = productCodeWithCorrections.FirstOrDefault().ToString();
+                    }
+                    else
+                    {
+                        for (int i = 0; i < productCodeWithCorrections.Count; i++)
+                        {
+                            if (i== 0)
+                            {
+                                currentStockMessage = productCodeWithCorrections[i].ToString();
+                            }
+                            else
+                            {
+                                currentStockMessage += ", " + productCodeWithCorrections[i].ToString();
+                            }
+
+                        }
+                    }
+                    var x = string.Format(Messages.CurrentStockValidation, currentStockMessage);
+                    return Json(new
+                    {
+                        isSuccess = isSucess,
+                        messageAlert = string.Format(Messages.CurrentStockValidation, currentStockMessage),
+                        salesOrderIdResult = salesOrderIdResult
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                #endregion
+
+
 
                 foreach (var salesOrderDetails in request.SalesOrderProductDetailRequest)
                 {
@@ -330,7 +386,9 @@ namespace Inventory_AAA.Controllers
         public JsonResult SalesOrders()
         {
             List<SalesOrders> result = new List<SalesOrders>();
-
+            List<int> pendingOrderStatus = new List<int>();
+            pendingOrderStatus.Add(LookupKey.SalesOrderStatus.DeliveredId);
+            pendingOrderStatus.Add(LookupKey.SalesOrderStatus.CancelledId);
             #region Authorize
             var authorizeMenuAccessResult = AuthorizeMenuAccess(LookupKey.Menu.SalesOrderMenuId);
             if (!authorizeMenuAccessResult.IsSuccess)
@@ -345,7 +403,7 @@ namespace Inventory_AAA.Controllers
             }
             #endregion
 
-            result = this._orderServices.GetAllSalesOrders().Where(m => m.SalesOrderStatusId != LookupKey.SalesOrderStatus.DeliveredId).ToList();
+            result = this._orderServices.GetAllSalesOrders().Where(m => !pendingOrderStatus.Contains(m.SalesOrderStatusId)).ToList();
 
             var response = new
             {

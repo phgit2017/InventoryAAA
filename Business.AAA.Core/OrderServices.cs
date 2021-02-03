@@ -292,7 +292,9 @@ namespace Business.AAA.Core
                 var stocksAvailablePerProduct = 0.0m;
 
                 var currentProduct = _productServices.GetAll().Where(m => m.ProductId == saleProduct.ProductId).FirstOrDefault();
-                var pendingSalesOrders = GetAllSalesOrders().Where(m => pendingSalesOrderStatus.Contains(m.SalesOrderStatusId)).ToList();
+                var pendingSalesOrders = GetAllSalesOrders().Where(m => pendingSalesOrderStatus.Contains(m.SalesOrderStatusId)
+                    //&& m.SalesOrderId != salesOrderId
+                    ).ToList();
                 List<long> xx = new List<long>();
 
                 foreach (var pendingOrders in pendingSalesOrders)
@@ -302,7 +304,8 @@ namespace Business.AAA.Core
 
                 var listOfPendingSalesOrders = GetAllSalesOrderDetails().Where(m =>
                                                                                 xx.Contains(m.SalesOrderId)
-                                                                                && m.ProductId == currentProduct.ProductId).ToList();
+                                                                                && 
+                                                                                m.ProductId == currentProduct.ProductId).ToList();
 
                 var summationOfPendingSalesOrders = 0.0m;
                 if (listOfPendingSalesOrders.Count > 0)

@@ -70,5 +70,6 @@ namespace Business.AAA.Core.Dto
         public const string ServerError = "Server Error";
         public const string SessionUnavailable = "Session is unavailable";
         public const string UnauthorizeAccess = "Unauthorized access";
+        public const string CurrentStockValidation = "{0} has insufficient stocks.";
     }
 }
