@@ -369,16 +369,25 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
         }
         SalesOrderService.SubmitOrder(salesOrderRequest).then(
             function(data) {
-                if (vm.SalesOrderId === 0) {
-                    $location.url('/OrderDetails/' + data.salesOrderIdResult);
+                debugger;
+                if (data.isSuccess) {
+                    if (vm.SalesOrderId === 0) {
+                        $location.url('/OrderDetails/' + data.salesOrderIdResult);
+                    } else {
+                        $route.reload();
+                    }
+    
+                    QuickAlert.Show({
+                        type: 'success',
+                        message: 'Order has been ' + alertMessage
+                    });
                 } else {
-                    $route.reload();
+                    QuickAlert.Show({
+                        type: 'error',
+                        message: data.messageAlert
+                    });
                 }
-
-                QuickAlert.Show({
-                    type: 'success',
-                    message: 'Order has been ' + alertMessage
-                });
+                
             },
             function(error) {
                 QuickAlert.Show({
