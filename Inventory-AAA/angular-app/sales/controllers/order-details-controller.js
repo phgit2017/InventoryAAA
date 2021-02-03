@@ -34,6 +34,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     vm.SalesOrderStatusId = 0;
     vm.FilterCategoryId = '';
     vm.ShowConfirmAlert = false;
+    vm.ShowRefreshAlert = false;
     vm.AlertMessage = '';
     vm.ReceiptShown = false;
     vm.ReceiptDetails;
@@ -228,7 +229,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
         });
 
         if (errorMsg === '') {
-            saveOrder();
+            vm.saveOrder();
         } else {
             QuickAlert.Show({
                 type: 'error',
@@ -238,7 +239,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
     }
 
     vm.CancelOrder = function() {
-        saveOrder('Cancel');
+        vm.saveOrder('Cancel');
     }
 
     vm.CancelAction = function() {
@@ -311,7 +312,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
         );
     }
 
-    saveOrder = function(status = null) {
+    vm.saveOrder = function(status = null) {
         let statusId, alertMessage, priceTypeId;
         if (isNullOrEmpty(status)) {
             switch (vm.SalesOrderStatusId) {
@@ -332,9 +333,12 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
                     alertMessage = "Delivered";
                     break;
             }
-        } else {
+        } else if (status === 'Cancel') {
             statusId = 5; // Cancelled
             alertMessage = "Cancelled";
+        } else {
+            statusId = 1; // Cancelled
+            alertMessage = "Saved";
         }
 
         if (vm.ShippingFee < 0) {
@@ -389,7 +393,7 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
         vm.OrderDetailsLoading = true;
         SalesOrderService.SalesOrderDetails(vm.SalesOrderId).then(
             function(data) {
-                vm.OrderDetails = data.result
+                vm.OrderDetails = data.result;
                 vm.SalesDetails = vm.OrderDetails.SalesDetails;
                 vm.ModeOfPayment = vm.SalesDetails.ModeOfPayment ? vm.SalesDetails.ModeOfPayment : '';
                 vm.ShippingFee = vm.SalesDetails.ShippingFee ? vm.SalesDetails.ShippingFee : 0;
@@ -408,6 +412,23 @@ function OrderDetailsController($scope, $route, $location, $routeParams, Mainten
                         vm.SelectedPriceType = 'Retailer';
                         break;
                 }
+                getProductList();
+            },
+            function(error) {
+                QuickAlert.Show({
+                    type: 'error',
+                    message: error
+                });
+            }
+        );
+    }
+
+    vm.RefreshOrderDetails = function() {
+        vm.OrderDetailsLoading = true;
+        SalesOrderService.SalesOrderDetails(vm.SalesOrderId).then(
+            function(data) {
+                vm.ProductsInOrder = data.result.ProductList;
+                vm.OrderDetailsLoading = false;
                 getProductList();
             },
             function(error) {

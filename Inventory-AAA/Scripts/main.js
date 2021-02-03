@@ -210,7 +210,6 @@ app.directive('confirmAlert', function($rootScope) {
             }
 
             scope.okClicked = function() {
-                $rootScope.IsLoading = true;
                 scope.hideModal();
                 scope.okFunction({ result: true });
             }
@@ -222,7 +221,7 @@ app.directive('confirmAlert', function($rootScope) {
               <div class='card p-2'>
                   <div class='card-body' style='color: black;'>
                       <p>{{ alertMsg }}</p>
-                      <div class='d-flex justify-content-end mt-4'>
+                      <div class='d-flex justify-content-center mt-5'>
                           <button class='btn btn-alert btn-sm btn-primary mr-2' ng-click='okClicked()'>Yes</button>
                           <button class='btn btn-alert btn-sm btn-danger' ng-click='cancelClicked();'>No</button>
                       </div>

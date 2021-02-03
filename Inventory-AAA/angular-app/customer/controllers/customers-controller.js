@@ -125,7 +125,6 @@ function CustomersController($filter, $scope, $rootScope, CustomerService, Commo
     }
 
     validCustomerDetails = function() {
-        debugger;
         if (isNullOrEmpty(vm.SelectedCustomer.FirstName) ||
             isNullOrEmpty(vm.SelectedCustomer.LastName) ||
             isNullOrEmpty(vm.SelectedCustomer.CustomerCode) ||

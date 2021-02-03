@@ -1,5 +1,6 @@
 ﻿<div class="content" ng-init="orderDetailsCtrl.Initialize();">
     <confirm-alert show="orderDetailsCtrl.ShowConfirmAlert" alert-msg="orderDetailsCtrl.AlertMessage" ok-function="orderDetailsCtrl.CancelOrder(result)" cancel-function="orderDetailsCtrl.CancelAction();"></confirm-alert>
+    <confirm-alert show="orderDetailsCtrl.ShowRefreshAlert" alert-msg="orderDetailsCtrl.AlertMessage" ok-function="orderDetailsCtrl.RefreshOrderDetails()" cancel-function="orderDetailsCtrl.CancelAction();"></confirm-alert>
     <div class="content-header customer-details" ng-if="!orderDetailsCtrl.ReceiptShown">
         <div>
             <div class="btn-group">
@@ -40,7 +41,11 @@
                     </div>
                 </div>
             </form>
-            <div class="btn-group">
+            <button class="btn btn-primary-inverse" style="width: 7rem" 
+                    ng-click="orderDetailsCtrl.AlertMessage = 'Are you sure you want to refresh the order details? All unsaved changes will be lost.'; orderDetailsCtrl.ShowRefreshAlert = true;">
+                <span>Refresh</span>
+            </button>
+            <div class="btn-group ml-3">
                 <button ng-click="orderDetailsCtrl.PriceTypesShown = !orderDetailsCtrl.PriceTypesShown;" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 style="display: inline-block !important">
                         {{ orderDetailsCtrl.SelectedPriceType !== '' ? orderDetailsCtrl.SelectedPriceType : 'Price Type'}}
@@ -49,6 +54,7 @@
                     <button class="dropdown-item" type="button" ng-repeat="pt in orderDetailsCtrl.PriceTypes" ng-click="orderDetailsCtrl.SelectPriceType(pt)">{{ pt }}</button>
                 </div>
             </div>
+            
         </div>
     </div>
     <div class="content-body orders-grid" ng-class="{ 'new-order' : orderDetailsCtrl.SalesOrderId === 0 || orderDetailsCtrl.SalesOrderStatusId === 1 }" ng-if="!orderDetailsCtrl.ReceiptShown">
@@ -190,6 +196,10 @@
                             <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 0">Place Order</span>
                             <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 1">Order Paid</span>
                             <span ng-if="orderDetailsCtrl.SalesOrderStatusId === 2">Order Shipped</span>
+                        </button>
+                        <button class="btn btn-sm btn-primary-inverse" ng-if="orderDetailsCtrl.SalesOrderStatusId === 1"
+                            ng-click="orderDetailsCtrl.saveOrder('Save')">
+                            Save Order
                         </button>
                     </div>
                 </div>
